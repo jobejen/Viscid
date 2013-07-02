@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.xdmf &mdash; Viscid 0.01 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Viscid 0.01 documentation" href="../../../index.html" />
+    <link rel="up" title="viscid.readers" href="../readers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../readers.html" accesskey="U">viscid.readers</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for viscid.readers.xdmf</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># FIXME: the timetype=list does not work for the amr sample, goto line 177</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+    <span class="n">HAS_LXML</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_LXML</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;lxml library not found, no xdmf support.&quot;</span><span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vfile</span>
+<span class="kn">from</span> <span class="nn">.vfile_bucket</span> <span class="kn">import</span> <span class="n">VFileBucket</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">dataset</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
+
+<span class="c"># class XDMFDataItem(data_item.DataItem):</span>
+<span class="c">#     def set_precision():</span>
+<span class="c">#         nptype = np.dtype({&#39;Float&#39;: &#39;float&#39;, &#39;Int&#39;: &#39;int&#39;, &#39;UInt&#39;: &#39;unit&#39;,</span>
+<span class="c">#                &#39;Char&#39;: &#39;int&#39;, &#39;UChar&#39;: &#39;int&#39;}[numbertype] + str(8*precision))</span>
+
+
+<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; on init, parse an xdmf file into datasets, grids, and fields &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(xmf|xdmf)\s*$&quot;</span>
+    <span class="n">_xdmf_defaults</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&quot;Attribute&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;AttributeType&quot;</span><span class="p">:</span> <span class="s">&quot;Scalar&quot;</span><span class="p">,</span>  <span class="c"># Vector,Tensor,Tensor6,Matrix,GlobalID</span>
+            <span class="s">&quot;Center&quot;</span><span class="p">:</span> <span class="s">&quot;Node&quot;</span>  <span class="c"># Cell,Grid,Face,Edge</span>
+            <span class="p">},</span>
+        <span class="s">&quot;DataItem&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;ItemType&quot;</span><span class="p">:</span> <span class="s">&quot;Uniform&quot;</span><span class="p">,</span>  <span class="c"># Collection, tree,</span>
+                                    <span class="c"># HyperSlab, coordinates, Funciton</span>
+            <span class="s">&quot;Dimensions&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  <span class="c"># KJI order</span>
+            <span class="s">&quot;NumberType&quot;</span><span class="p">:</span> <span class="s">&quot;Float&quot;</span><span class="p">,</span>  <span class="c"># Int, UInt, Char, UChar</span>
+            <span class="s">&quot;Precision&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>  <span class="c"># 1, 4, 8</span>
+            <span class="s">&quot;Format&quot;</span><span class="p">:</span> <span class="s">&quot;XML&quot;</span><span class="p">,</span>  <span class="c"># HDF, Binary</span>
+            <span class="s">&quot;Endian&quot;</span><span class="p">:</span> <span class="s">&quot;Native&quot;</span><span class="p">,</span>  <span class="c"># Big, Little</span>
+            <span class="s">&quot;Compression&quot;</span><span class="p">:</span> <span class="s">&quot;Raw&quot;</span><span class="p">,</span>  <span class="c"># Zlib, Bzip2</span>
+            <span class="s">&quot;Seek&quot;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Domain&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;GeometryType&quot;</span><span class="p">:</span> <span class="s">&quot;XYZ&quot;</span>  <span class="c"># XY, X_Y_Z, VxVyVz, Origin_DxDyDz</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Grid&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;GridType&quot;</span><span class="p">:</span> <span class="s">&quot;Uniform&quot;</span><span class="p">,</span>  <span class="c"># Collection,Tree,Subset</span>
+            <span class="s">&quot;CollectionType&quot;</span><span class="p">:</span> <span class="s">&quot;Spatial&quot;</span><span class="p">,</span>  <span class="c"># Temporal</span>
+            <span class="s">&quot;Section&quot;</span><span class="p">:</span> <span class="s">&quot;DataItem&quot;</span>  <span class="c"># All</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Information&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;Value&quot;</span><span class="p">:</span> <span class="bp">None</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Xdmf&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Version&quot;</span><span class="p">:</span> <span class="bp">None</span>
+            <span class="p">},</span>
+        <span class="s">&quot;Topology&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Name&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;TopologyType&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  <span class="c"># Polyvertex | Polyline | Polygon |</span>
+                                   <span class="c"># Triangle | Quadrilateral | Tetrahedron |</span>
+                                   <span class="c"># Pyramid| Wedge | Hexahedron | Edge_3 |</span>
+                                   <span class="c"># Triagle_6 | Quadrilateral_8 |</span>
+                                   <span class="c"># Tetrahedron_10 | Pyramid_13 | Wedge_15 |</span>
+                                   <span class="c"># Hexahedron_20 | Mixed |</span>
+                                   <span class="c"># 2DSMesh | 2DRectMesh | 2DCoRectMesh |</span>
+                                   <span class="c"># 3DSMesh | 3DRectMesh | 3DCoRectMesh</span>
+            <span class="s">&quot;NodesPerElement&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;NumberOfElement&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;Dimensions&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;Order&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&quot;BaseOffset&quot;</span><span class="p">:</span> <span class="mi">0</span>
+             <span class="p">},</span>
+        <span class="s">&quot;Time&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;Type&quot;</span><span class="p">:</span> <span class="s">&quot;Single&quot;</span><span class="p">,</span>
+            <span class="s">&quot;Value&quot;</span><span class="p">:</span> <span class="bp">None</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; vfilebucket is a bucket for loading any hdf5 files. it can be</span>
+<span class="sd">        None if you want the bucket to be local to this Dataset, but if you&#39;re</span>
+<span class="sd">        loading a bunch of files, you should really be using a global bucket,</span>
+<span class="sd">        as something like in readers.load(file) &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">vfilebucket</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># gen an empty bucket on the fly if the calling script</span>
+            <span class="c"># doesnt want a global bucket for all files</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">VFileBucket</span><span class="p">()</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="c">#print(self.tree)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">xinclude</span><span class="p">()</span>  <span class="c"># TODO: implement with built in xml stuff</span>
+                              <span class="c"># and do xpointer by hand?</span>
+        <span class="c">#print(self.tree)</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+        <span class="c"># search for all root grids, and parse them</span>
+        <span class="n">domain_grids</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./Domain/Grid&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dg</span> <span class="ow">in</span> <span class="n">domain_grids</span><span class="p">:</span>
+            <span class="n">grd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_grid</span><span class="p">(</span><span class="n">dg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">grd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fill_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">):</span>
+        <span class="n">defs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xdmf_defaults</span><span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">tag</span><span class="p">]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">opt</span><span class="p">,</span> <span class="n">defval</span> <span class="ow">in</span> <span class="n">defs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">defval</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">ret</span><span class="p">[</span><span class="n">opt</span><span class="p">]</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ret</span><span class="p">[</span><span class="n">opt</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">defval</span><span class="p">)(</span><span class="n">el</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">defval</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span> <span class="nf">_parse_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">el</span><span class="p">,</span> <span class="n">parent_grid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+        <span class="n">grd</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># parse topology, or cascade parent grid&#39;s topology</span>
+        <span class="n">topology</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./Topology&quot;</span><span class="p">)</span>
+        <span class="n">topoattrs</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">topology</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">topoattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">topology</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parent_grid</span> <span class="ow">and</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">topology_info</span><span class="p">:</span>
+            <span class="n">topoattrs</span> <span class="o">=</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">topology_info</span>
+
+        <span class="c"># parse geometry, or cascade parent grid&#39;s geometry</span>
+        <span class="n">geometry</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./Geometry&quot;</span><span class="p">)</span>
+        <span class="n">geoattrs</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">geometry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">crds</span><span class="p">,</span> <span class="n">geoattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_geometry</span><span class="p">(</span><span class="n">geometry</span><span class="p">,</span> <span class="n">topoattrs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">parent_grid</span> <span class="ow">and</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">geometry_info</span><span class="p">:</span>
+            <span class="n">geoattrs</span> <span class="o">=</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">geometry_info</span>
+            <span class="n">crds</span> <span class="o">=</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">crds</span>  <span class="c"># this can be None and that&#39;s ok</span>
+
+        <span class="c"># parse time</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./Time&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">pt</span><span class="p">,</span> <span class="n">tattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_time</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tattrs</span><span class="p">[</span><span class="s">&quot;Type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Single&quot;</span><span class="p">:</span>
+                    <span class="n">time</span> <span class="o">=</span> <span class="n">pt</span>
+        <span class="c"># cascade a parent grid&#39;s time</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">parent_grid</span> <span class="ow">and</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">parent_grid</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="n">gt</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;GridType&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">gt</span> <span class="o">==</span> <span class="s">&quot;Collection&quot;</span><span class="p">:</span>
+            <span class="n">times</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;CollectionType&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">ct</span> <span class="o">==</span> <span class="s">&quot;Temporal&quot;</span><span class="p">:</span>
+                <span class="n">grd</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">DatasetTemporal</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="p">])</span>
+                <span class="n">ttag</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./Time&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ttag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">times</span><span class="p">,</span> <span class="n">tattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_time</span><span class="p">(</span><span class="n">ttag</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">ct</span> <span class="o">==</span> <span class="s">&quot;Spatial&quot;</span><span class="p">:</span>
+                <span class="n">grd</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Unknown collection type {0}, ignoring &quot;</span>
+                             <span class="s">&quot;grid&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ct</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subgrid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./Grid&quot;</span><span class="p">)):</span>
+
+                <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">times</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span> <span class="k">else</span> <span class="n">time</span>
+                <span class="c"># print(subgrid, grd, t)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parse_grid</span><span class="p">(</span><span class="n">subgrid</span><span class="p">,</span> <span class="n">parent_grid</span><span class="o">=</span><span class="n">grd</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">grd</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">gt</span> <span class="o">==</span> <span class="s">&quot;Uniform&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">topoattrs</span> <span class="ow">and</span> <span class="n">geoattrs</span><span class="p">):</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Xdmf Uniform grids must have &quot;</span>
+                             <span class="s">&quot;topology / geometry.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">grd</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">el</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./Attribute&quot;</span><span class="p">):</span>
+                    <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_attribute</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">topoattrs</span><span class="p">,</span>
+                                                <span class="n">time</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">time</span><span class="p">:</span>
+                        <span class="n">fld</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+                    <span class="n">grd</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">gt</span> <span class="o">==</span> <span class="s">&quot;Tree&quot;</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Xdmf Tree Grids not implemented, ignoring &quot;</span>
+                         <span class="s">&quot;this grid&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gt</span> <span class="o">==</span> <span class="s">&quot;Subset&quot;</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Xdmf Subset Grids not implemented, ignoring &quot;</span>
+                         <span class="s">&quot;this grid&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Unknown grid type {0}, ignoring this grid&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gt</span><span class="p">))</span>
+
+        <span class="c"># fill attributes / data items</span>
+        <span class="c"># if grid and gt == &quot;Uniform&quot;:</span>
+        <span class="c">#     for a in el.findall(&quot;./Attribute&quot;):</span>
+        <span class="c">#         fld = self._parse_attribute(a)</span>
+        <span class="c">#         grid.add_field(fld)</span>
+
+        <span class="k">if</span> <span class="n">grd</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">grd</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+            <span class="k">if</span> <span class="n">topoattrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">grd</span><span class="o">.</span><span class="n">topology_info</span> <span class="o">=</span> <span class="n">topoattrs</span>
+            <span class="k">if</span> <span class="n">geoattrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">grd</span><span class="o">.</span><span class="n">geometry_info</span> <span class="o">=</span> <span class="n">geoattrs</span>
+            <span class="k">if</span> <span class="n">coords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">grd</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">parent_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">parent_grid</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">grd</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">grd</span>  <span class="c"># can be None</span>
+
+    <span class="k">def</span> <span class="nf">_parse_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo</span><span class="p">,</span> <span class="n">topoattrs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; geo is the element tree item, returns Coordinate object and</span>
+<span class="sd">            xml attributes &quot;&quot;&quot;</span>
+        <span class="n">geoattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
+        <span class="c"># coords = None</span>
+        <span class="n">crdlist</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">crdtype</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">topotype</span> <span class="o">=</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;TopologyType&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;3DRectMesh&#39;</span><span class="p">,</span> <span class="s">&#39;3DCoRectMesh&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;2DRectMesh&#39;</span><span class="p">,</span> <span class="s">&#39;2DCoRectMesh&#39;</span><span class="p">]:</span>
+            <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;Rectilinear&quot;</span>
+        <span class="k">elif</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;2DSMesh&#39;</span><span class="p">,</span> <span class="s">&#39;3DSMesh&#39;</span><span class="p">]:</span>
+            <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;Spherical&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Unstructured grids not yet supported&quot;</span><span class="p">)</span>
+
+        <span class="c"># parse geometry into coords</span>
+        <span class="n">geotype</span> <span class="o">=</span> <span class="n">geoattrs</span><span class="p">[</span><span class="s">&quot;GeometryType&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">geotype</span> <span class="o">==</span> <span class="s">&quot;XYZ&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./DataItem&quot;</span><span class="p">),</span>
+                                               <span class="n">keep_flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">::</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">crdlist</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">geotype</span> <span class="o">==</span> <span class="s">&quot;XY&quot;</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./DataItem&quot;</span><span class="p">),</span>
+                                               <span class="n">keep_flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">crdlist</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">geotype</span> <span class="o">==</span> <span class="s">&quot;X_Y_Z&quot;</span><span class="p">:</span>
+            <span class="n">crdlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">crd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;Z&#39;</span><span class="p">,</span> <span class="s">&#39;Y&#39;</span><span class="p">,</span> <span class="s">&#39;X&#39;</span><span class="p">]):</span>
+                <span class="n">di</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./dataitem[@name=&#39;{0}&#39;]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">crd</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">di</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;expected a V{0} element&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">crd</span><span class="p">))</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="n">keep_flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">crdlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">crd</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">geotype</span> <span class="o">==</span> <span class="s">&quot;VXVYVZ&quot;</span><span class="p">:</span>
+            <span class="n">crdlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">crd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;Z&#39;</span><span class="p">,</span> <span class="s">&#39;Y&#39;</span><span class="p">,</span> <span class="s">&#39;X&#39;</span><span class="p">]):</span>
+                <span class="n">di</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./DataItem[@Name=&#39;V{0}&#39;]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">crd</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">di</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;expected a V{0} element&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">crd</span><span class="p">))</span>
+                <span class="n">data</span><span class="p">,</span> <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="n">keep_flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">crdlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">crd</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">geotype</span> <span class="o">==</span> <span class="s">&quot;ORIGIN_DXDYDZ&quot;</span><span class="p">:</span>
+            <span class="c"># this is for rectilinear grids with uniform spacing</span>
+            <span class="n">dataitems</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./DataItem&quot;</span><span class="p">)</span>
+            <span class="n">data_o</span><span class="p">,</span> <span class="n">attrs_o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">data_dx</span><span class="p">,</span> <span class="n">attrs_dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">nstr</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;Dimensions&quot;</span><span class="p">]:</span>
+                <span class="n">nstr</span> <span class="o">=</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;Dimensions&quot;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;NumberOfElements&quot;</span><span class="p">]:</span>
+                <span class="n">nstr</span> <span class="o">=</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;NumberOfElements&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;ORIGIN_DXDYDZ has no number of elements...&quot;</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nstr</span><span class="p">)</span>
+            <span class="n">crdlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">crd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">]):</span>
+                <span class="n">crdlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">crd</span><span class="p">,</span> <span class="n">data_dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="n">data_o</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Invalid GeometryType: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geotype</span><span class="p">))</span>
+
+        <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="n">crdtype</span><span class="p">,</span> <span class="n">crdlist</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">crds</span><span class="p">,</span> <span class="n">geoattrs</span>
+
+    <span class="k">def</span> <span class="nf">_parse_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">topoattrs</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">dataattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;./DataItem&quot;</span><span class="p">))</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="p">]</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Center&quot;</span><span class="p">]</span>
+        <span class="n">typ</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;AttributeType&quot;</span><span class="p">]</span>
+        <span class="n">fld</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fld</span>
+
+    <span class="k">def</span> <span class="nf">_parse_dataitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">keep_flat</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns the data as a numpy array, or HDF data item &quot;&quot;&quot;</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Dimensions&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">dimensions</span><span class="p">:</span>
+            <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dimensions</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)]</span>
+
+        <span class="n">numbertype</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;NumberType&quot;</span><span class="p">]</span>
+        <span class="n">precision</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Precision&quot;</span><span class="p">]</span>
+        <span class="n">nptype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">({</span><span class="s">&#39;Float&#39;</span><span class="p">:</span> <span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;Int&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="s">&#39;UInt&#39;</span><span class="p">:</span> <span class="s">&#39;unit&#39;</span><span class="p">,</span>
+               <span class="s">&#39;Char&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="s">&#39;UChar&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">}[</span><span class="n">numbertype</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">precision</span><span class="p">))</span>
+
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Format&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s">&quot;XML&quot;</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">nptype</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dimensions</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">keep_flat</span><span class="p">:</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">dimensions</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">attrs</span>
+
+        <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s">&quot;HDF&quot;</span><span class="p">:</span>
+            <span class="n">fname</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fname</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+                <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">h5file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">h5file</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">attrs</span>
+
+        <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s">&quot;Binary&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;binary xdmf data not implemented&quot;</span><span class="p">)</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Invalid DataItem Format.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timetag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns the time(s) as float, or numpy array, time attributes&quot;&quot;&quot;</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_attrs</span><span class="p">(</span><span class="n">timetag</span><span class="p">)</span>
+        <span class="n">timetype</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Type&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">timetype</span> <span class="o">==</span> <span class="s">&#39;Single&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">timetag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;Value&#39;</span><span class="p">)),</span> <span class="n">attrs</span>
+        <span class="k">elif</span> <span class="n">timetype</span> <span class="o">==</span> <span class="s">&#39;List&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">timetag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;.//DataItem&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">],</span> <span class="n">attrs</span>
+        <span class="k">elif</span> <span class="n">timetype</span> <span class="o">==</span> <span class="s">&#39;Range&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Time Range not yet implemented&quot;</span><span class="p">)</span>
+            <span class="c">#dat, dattrs = self._parse_dataitem(timetag.find(&#39;.//DataItem&#39;))</span>
+            <span class="c"># TODO: this is not the most general, but I think it&#39;ll work</span>
+            <span class="c"># as a first stab, plus I will probably not need Range ever</span>
+            <span class="c">#tgridtag = timetag.find(&quot;ancestor::Grid[@GridType=&#39;Collection&#39;]&quot;</span>
+            <span class="c">#                             &quot;[@CollectionType=&#39;Temporal&#39;][1]&quot;))</span>
+            <span class="c">#n = len(tgridtag.find(.//Grid[@GridType=&#39;Collection&#39;]</span>
+            <span class="c">#        [CollectionType=[&#39;Spatial&#39;]]))</span>
+            <span class="c">#return np.linspace(dat[0], dat[1], n)</span>
+            <span class="c">#return np.arange(dat[0], dat[1])</span>
+        <span class="k">elif</span> <span class="n">timetype</span> <span class="o">==</span> <span class="s">&#39;HyperSlab&#39;</span><span class="p">:</span>
+            <span class="n">dat</span><span class="p">,</span> <span class="n">dattrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">timetag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;.//DataItem&#39;</span><span class="p">))</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">dat</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="mi">2</span><span class="p">]))])</span>
+            <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">attrs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;invalid TimeType.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="c"># class FileGgcm2dXdmf(FileXDMF):</span>
+<span class="c">#     _detector = r&#39;.*\.p[xyz]_[0-9]+(\..*)?\.(xmf|xdmf)\s*$&#39;</span>
+
+<span class="c">#     def __init__(self, fname=None):</span>
+<span class="c">#         super(FileGgcm2dXdmf, self).__init__(fname=fname)</span>
+
+
+<span class="c"># class FileGgcm3dXdmf(FileXDMF):</span>
+<span class="c">#     _detector = r&#39;.*\.3df(\..*)?\.(xmf|xdmf)\s*$&#39;</span>
+
+<span class="c">#     def __init__(self, fname=None):</span>
+<span class="c">#         super(FileGgcm3dXdmf, self).__init__(fname=fname)</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="c"># import os</span>
+    <span class="kn">import</span> <span class="nn">viscid</span>
+
+    <span class="n">_viscid_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">viscid</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">FileXDMF</span><span class="p">(</span><span class="n">_viscid_root</span> <span class="o">+</span> <span class="s">&#39;/../../sample/local_0001.py_0.xdmf&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;{0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../readers.html" >viscid.readers</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Kristofor Maynard.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

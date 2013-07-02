@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.plot.mvi &mdash; Viscid 0.01 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Viscid 0.01 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for viscid.plot.mvi</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">mayavi.sources.vtk_data_source</span> <span class="kn">import</span> <span class="n">VTKDataSource</span>
+<span class="kn">from</span> <span class="nn">tvtk.api</span> <span class="kn">import</span> <span class="n">tvtk</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
+
+<span class="c"># def data_source(fld):</span>
+<span class="c">#     &quot;&quot;&quot; get a data source from a scalar field &quot;&quot;&quot;</span>
+<span class="c">#     dat = tvtk.RectilinearGrid()</span>
+<span class="c">#</span>
+<span class="c">#     suffix = &quot;cc&quot; if fld.center == &quot;Cell&quot; else &quot;&quot;</span>
+<span class="c">#     dat.x_coordinates = fld.crds[&#39;x&#39; + suffix]</span>
+<span class="c">#     dat.y_coordinates = fld.crds[&#39;y&#39; + suffix]</span>
+<span class="c">#     dat.z_coordinates = fld.crds[&#39;z&#39; + suffix]</span>
+<span class="c">#</span>
+<span class="c">#     if isinstance(fld, field.ScalarField):</span>
+<span class="c">#         dat.point_data.scalars = np.ravel(fld.dat)</span>
+<span class="c">#         dat.point_data.scalars.name = fld.name</span>
+<span class="c">#     elif isinstance(fld, field.VectorField):</span>
+<span class="c">#         pass</span>
+<span class="c">#</span>
+<span class="c">#     return VTKDataSource(data=dat)</span>
+<span class="c">#</span>
+<span class="c">#     rr = tvtk.RectilinearGrid()</span>
+<span class="c">#</span>
+<span class="c">#     rr.point_data.scalars.name = &#39;rr&#39;</span>
+<span class="c">#     rr.dimensions = collection[0][&#39;rr&#39;].shape[::-1]</span>
+<span class="c">#     #print(collection[0][&#39;coords&#39;][:])</span>
+<span class="c">#     rr_src = VTKDataSource(data=rr)</span>
+<span class="c">#</span>
+<span class="c">#     b = tvtk.RectilinearGrid()</span>
+<span class="c">#     bdata = np.empty((np.prod(collection[0][&#39;bx&#39;].shape), 3))</span>
+<span class="c">#     for i in range(3):</span>
+<span class="c">#         bdata[:,i] = np.asarray(collection[0][&#39;b&#39;][:,:,:,i],</span>
+<span class="c">#                                 dtype=&#39;f&#39;).ravel()</span>
+<span class="c">#     b.point_data.vectors = bdata</span>
+<span class="c">#     b.dimensions = collection[0][&#39;b&#39;].shape[:-1][::-1]</span>
+<span class="c">#</span>
+<span class="c">#     b_src = VTKDataSource(data=b)</span>
+<span class="c">#     collection.unload()</span>
+
+<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">tvtk</span><span class="o">.</span><span class="n">RectilinearGrid</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unexpected fld type: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fld</span><span class="p">)))</span>
+
+
+    <span class="c"># swap endian if needed</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">()</span>
+
+    <span class="c"># at the moment, everything is point data</span>
+    <span class="c"># TODO: fix up for cell data</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Cell&quot;</span><span class="p">:</span>
+        <span class="n">dat_center</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">point_data</span>
+        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_cc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;xcc&#39;</span><span class="p">]</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;ycc&#39;</span><span class="p">]</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;zcc&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Node&quot;</span><span class="p">:</span>
+        <span class="n">dat_center</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">point_data</span>
+        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Cell or Node only please&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+        <span class="n">dat_center</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="n">arr</span>
+        <span class="n">dat_center</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
+        <span class="n">dat_center</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">arr</span>
+        <span class="n">dat_center</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="n">src</span> <span class="o">=</span> <span class="n">VTKDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">src</span>
+</div>
+<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a><span class="k">def</span> <span class="nf">mlab_earth</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">daycol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nightcol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">res</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">mayavi.sources.builtin_surface</span> <span class="kn">import</span> <span class="n">BuiltinSurface</span>
+
+    <span class="n">night</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;night&#39;</span><span class="p">)</span>
+    <span class="n">night</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span>
+                          <span class="n">end_theta</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
+                          <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">night</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">nightcol</span><span class="p">)</span>
+
+    <span class="n">day</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;day&#39;</span><span class="p">)</span>
+    <span class="n">day</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+                        <span class="n">end_theta</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">daycol</span><span class="p">)</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Kristofor Maynard.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

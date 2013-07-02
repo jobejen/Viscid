@@ -1,0 +1,974 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid Package &mdash; Viscid 0.01 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Viscid 0.01 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="viscid-package">
+<h1>viscid Package<a class="headerlink" href="#viscid-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2><a class="reference internal" href="index.html#module-viscid" title="viscid"><tt class="xref py py-mod docutils literal"><span class="pre">viscid</span></tt></a> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-viscid.__init__"></span><p>A set of pure python modules that aid in plotting gridded scientific data.
+Plotting depends on matplotlib and/or mayavi and file reading uses h5py and
+to read hdf5 / xdmf files.</p>
+</div>
+<div class="section" id="module-viscid.bucket">
+<span id="bucket-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">bucket</span></tt> Module<a class="headerlink" href="#module-viscid.bucket" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.bucket.Bucket">
+<em class="property">class </em><tt class="descclassname">viscid.bucket.</tt><tt class="descname">Bucket</tt><a class="reference internal" href="_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>This is an interface where</p>
+<dl class="method">
+<dt id="viscid.bucket.Bucket.get_item">
+<tt class="descname">get_item</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.get_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>look up the file using the handle dictionary, raises KeyError
+if handle not found</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.handle_string">
+<tt class="descname">handle_string</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.handle_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.handle_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>return string representation of handles and items</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.index">
+<tt class="descname">index</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>find index of item, comparison is made using object id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.items_as_list">
+<tt class="descname">items_as_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.items_as_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.items_as_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.remove_all_items">
+<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>unload all items</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.remove_item">
+<tt class="descname">remove_item</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove item, raises ValueError if item is not found</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.remove_item_handle">
+<tt class="descname">remove_item_handle</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove item by handle, raises KeyError if handle is not found</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.remove_item_onum">
+<tt class="descname">remove_item_onum</tt><big>(</big><em>onum</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item_onum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_onum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.set_item">
+<tt class="descname">set_item</tt><big>(</big><em>handles</em>, <em>item</em>, <em>index_handle=True</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.set_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.set_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>if index_handle is true then the index of item will be included as
+a handle making the bucket indexable like a list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.bucket.Bucket.spill">
+<tt class="descname">spill</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.spill" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.coordinate">
+<span id="coordinate-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">coordinate</span></tt> Module<a class="headerlink" href="#module-viscid.coordinate" title="Permalink to this headline">¶</a></h2>
+<p>Coordinates get put into fields
+The order of coords in the clist should mirror the data layout, as in
+if data[iz, iy, ix] (C-order, ix is fastest varying index) then list
+should go z, y, x... this is the default order</p>
+<dl class="docutils">
+<dt>types:</dt>
+<dd><dl class="first last docutils">
+<dt>&#8220;Structured&#8221;:</dt>
+<dd>&#8220;Rectilinear&#8221;
+&#8220;Cylindrical&#8221;
+&#8220;Spherical&#8221;</dd>
+<dt>&#8220;Unstructured&#8221;:</dt>
+<dd>-&gt; Not Implemented &lt;-</dd>
+</dl>
+</dd>
+</dl>
+<dl class="class">
+<dt id="viscid.coordinate.Coordinates">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">Coordinates</tt><a class="reference internal" href="_modules/viscid/coordinate.html#Coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.Coordinates.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'None'</em><a class="headerlink" href="#viscid.coordinate.Coordinates.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.Coordinates.as_coordinates">
+<tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#Coordinates.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.as_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.coordinate.CylindricalCrds">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">CylindricalCrds</tt><big>(</big><em>init_clist=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#CylindricalCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.CylindricalCrds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.CylindricalCrds.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Cylindrical'</em><a class="headerlink" href="#viscid.coordinate.CylindricalCrds.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.coordinate.RectilinearCrds">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">RectilinearCrds</tt><big>(</big><em>init_clist=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#RectilinearCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.RectilinearCrds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.RectilinearCrds.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Rectilinear'</em><a class="headerlink" href="#viscid.coordinate.RectilinearCrds.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.coordinate.SphericalCrds">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">SphericalCrds</tt><big>(</big><em>init_clist=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#SphericalCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.SphericalCrds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.SphericalCrds.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Spherical'</em><a class="headerlink" href="#viscid.coordinate.SphericalCrds.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.coordinate.StructuredCrds">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">StructuredCrds</tt><big>(</big><em>init_clist=None</em>, <em>has_cc=True</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.CENTER">
+<tt class="descname">CENTER</tt><em class="property"> = {'Node': '', 'Cell': 'cc', 'Edge': 'ec', None: '', 'Face': 'fc'}</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.CENTER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.SUFFIXES">
+<tt class="descname">SUFFIXES</tt><em class="property"> = ['', 'cc', 'ec', '', 'fc']</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.SUFFIXES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Structured'</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.axes">
+<tt class="descname">axes</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.axes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.axis_name">
+<tt class="descname">axis_name</tt><big>(</big><em>axis</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.axis_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.axis_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.clear_crds">
+<tt class="descname">clear_crds</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.clear_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.clear_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.dim">
+<tt class="descname">dim</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.get_clist">
+<tt class="descname">get_clist</tt><big>(</big><em>slce=None</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_clist" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a clist of the coordinates sliced if you wish
+I recommend using <a href="#id4"><span class="problematic" id="id5">numpy.s_</span></a> for making the slice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.get_crd">
+<tt class="descname">get_crd</tt><big>(</big><em>axis=None</em>, <em>shaped=False</em>, <em>center=None</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_crd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_crd" title="Permalink to this definition">¶</a></dt>
+<dd><p>if axis is not specified, return all coords,
+shaped makes axis capitalized and returns ogrid like crds
+shaped is only used if axis == None
+sfx can be None, Node, Cell, Face, Edge</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.get_culled_axes">
+<tt class="descname">get_culled_axes</tt><big>(</big><em>ignore=2</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_culled_axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_culled_axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>return list of axes names, but discard axes whose coords have
+length &lt;= ignore... useful for 2d fields that only have 1 cell
+center in the 3rd direction</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.has_cc">
+<tt class="descname">has_cc</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.has_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.ind">
+<tt class="descname">ind</tt><big>(</big><em>axis</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.ind" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.iter_points">
+<tt class="descname">iter_points</tt><big>(</big><em>center=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.iter_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.make_slice">
+<tt class="descname">make_slice</tt><big>(</big><em>selection</em>, <em>use_cc=False</em>, <em>rm_len1_dims=False</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.make_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.make_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>use a selection dict that looks like:
+{&#8216;x&#8217;: (0,12), &#8216;y&#8217;: 0.0, &#8216;z&#8217;: (-13.0, 13.0)}
+to get a list of slices and crds that one
+could use to wrap a new field...
+return example for &#8220;y=3i:6i:2,z=0&#8221;:
+([slice(None), slice(3, 5, 2), 32],  # list of data slices</p>
+<blockquote>
+<div>[[&#8216;x&#8217;, array(1, 2, 3)], [&#8216;y&#8217;, array(0, 1)]],  # new clist
+[[&#8216;z&#8217;, 0.0]],  # list of coords that are taken out by the slices</div></blockquote>
+<p>)
+rm_len1_dims will automatically add directions with only
+one coord value to the selection dict. the idea is to auto reduce
+3d to 2d if the data is naturally 2d (one dicection has no depth)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.n_points">
+<tt class="descname">n_points</tt><big>(</big><em>center=None</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.n_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.n_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.ogrid_single">
+<tt class="descname">ogrid_single</tt><big>(</big><em>axis</em>, <em>arr</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.ogrid_single"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.ogrid_single" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns (flat array, open array)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.parse_slice_str">
+<tt class="descname">parse_slice_str</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.parse_slice_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.parse_slice_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse a selection string or dict. a trailing i means the number is
+an index, else numbers are interpreted as coordinates... ex:
+selection = &#8216;y=12.32,z-1.0&#8217; is line of data
+closest to (x, y=12.32, z=-1.0)
+selection = {&#8216;y=12i:14i,z=1i is the slice [:,12:14,1]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.points">
+<tt class="descname">points</tt><big>(</big><em>center=None</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.set_crds">
+<tt class="descname">set_crds</tt><big>(</big><em>clist</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.set_crds" title="Permalink to this definition">¶</a></dt>
+<dd><p>called with a list of lists:
+((&#8216;x&#8217;, ndarray), (&#8216;y&#8217;,ndarray), (&#8216;z&#8217;,ndarray))
+Note: input crds are assumed to be node centered</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.shape_cc">
+<tt class="descname">shape_cc</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.shape_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.shape_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.shape_nc">
+<tt class="descname">shape_nc</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.shape_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.shape_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.slice">
+<tt class="descname">slice</tt><big>(</big><em>selection</em>, <em>use_cc=False</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.coordinate.UnstructuredCrds">
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">UnstructuredCrds</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#UnstructuredCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UnstructuredCrds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.coordinate.UnstructuredCrds.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Unstructured'</em><a class="headerlink" href="#viscid.coordinate.UnstructuredCrds.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.coordinate.wrap_crds">
+<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">wrap_crds</tt><big>(</big><em>typ</em>, <em>clist</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#wrap_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.wrap_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-viscid.dataset">
+<span id="dataset-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">dataset</span></tt> Module<a class="headerlink" href="#module-viscid.dataset" title="Permalink to this headline">¶</a></h2>
+<p>test docstring</p>
+<dl class="class">
+<dt id="viscid.dataset.Dataset">
+<em class="property">class </em><tt class="descclassname">viscid.dataset.</tt><tt class="descname">Dataset</tt><big>(</big><em>name</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>datasets contain grids or other datasets
+(GridCollection derrives from Dataset)
+It is the programmer&#8217;s responsibility to ensure objects added to a AOEUIDH
+dataset have __getitem__ and get_fields methods, this is not
+enforced</p>
+<dl class="method">
+<dt id="viscid.dataset.Dataset.activate">
+<tt class="descname">activate</tt><big>(</big><em>child_handle</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.activate" title="Permalink to this definition">¶</a></dt>
+<dd><p>it may not look like it, but this will recursively look
+in my active child for the handle because it uses getitem</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.activate_time">
+<tt class="descname">activate_time</tt><big>(</big><em>time</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.activate_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.activate_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>this is basically &#8216;activate&#8217; except it specifically picks out
+temporal datasets, and does all children, not just the active child</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.active_child">
+<tt class="descname">active_child</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.active_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.add">
+<tt class="descname">add</tt><big>(</big><em>child</em>, <em>set_active=True</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.children">
+<tt class="descname">children</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.crds">
+<tt class="descname">crds</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.geometry_info">
+<tt class="descname">geometry_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.geometry_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.get_child">
+<tt class="descname">get_child</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.get_child"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.get_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>get a child from this Dataset,</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.get_field">
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>recurse down active children to get a field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.iter_times">
+<tt class="descname">iter_times</tt><big>(</big><em>slice_str=':'</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.iter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.iter_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.n_times">
+<tt class="descname">n_times</tt><big>(</big><em>slice_str=':'</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.n_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.n_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.spill">
+<tt class="descname">spill</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.spill" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.time">
+<tt class="descname">time</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.dataset.Dataset.topology_info">
+<tt class="descname">topology_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.topology_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.Dataset.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>unload is meant to give children a chance to free caches, the idea
+being that an unload will free memory, but all the functionality is
+preserved, so data is accessable without an explicit reload</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.dataset.DatasetTemporal">
+<em class="property">class </em><tt class="descclassname">viscid.dataset.</tt><tt class="descname">DatasetTemporal</tt><big>(</big><em>name</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a></p>
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.activate">
+<tt class="descname">activate</tt><big>(</big><em>time</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.activate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.activate_time">
+<tt class="descname">activate_time</tt><big>(</big><em>time</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.activate_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.activate_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>this is basically &#8216;activate&#8217; except it specifically picks out
+temporal datasets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.add">
+<tt class="descname">add</tt><big>(</big><em>child</em>, <em>set_active=True</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.get_child">
+<tt class="descname">get_child</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.get_child"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.get_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>if item is an int and &lt; len(children), it is an index in a list,
+else I will find the cloest time to float(item)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.get_field">
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>recurse down active children to get a field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.iter_times">
+<tt class="descname">iter_times</tt><big>(</big><em>slice_str=':'</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.iter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.iter_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.n_times">
+<tt class="descname">n_times</tt><big>(</big><em>slice_str=':'</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.n_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.n_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.spill">
+<tt class="descname">spill</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.spill" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>unload is meant to give children a chance to free caches, the idea
+being that an unload will free memory, but all the functionality is
+preserved, so data is accessable without an explicit reload</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.field">
+<span id="field-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">field</span></tt> Module<a class="headerlink" href="#module-viscid.field" title="Permalink to this headline">¶</a></h2>
+<p>Fields belong in grids, or by themselves as a result of a calculation.
+Important: The field must be able to reshape itself to the shape of its
+coordinates, else there will be blood. Also, the order of the coords
+matters, it is assumed that if the coords are z, y, x then the data
+is iz, iy, ix. This can be permuted any which way, but order matters.</p>
+<dl class="class">
+<dt id="viscid.field.Field">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">Field</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="viscid.field.Field.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = ['Node', 'Cell', 'Grid', 'Face', 'Edge']</em><a class="headerlink" href="#viscid.field.Field.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'None'</em><a class="headerlink" href="#viscid.field.Field.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.center">
+<tt class="descname">center</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.center" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.crds">
+<tt class="descname">crds</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.data">
+<tt class="descname">data</tt><a class="reference internal" href="_modules/viscid/field.html#Field.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>if you want to fill the cache, this will do it, note that
+to empty the cache later you can always use unload</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.dim">
+<tt class="descname">dim</tt><a class="reference internal" href="_modules/viscid/field.html#Field.dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="_modules/viscid/field.html#Field.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.info">
+<tt class="descname">info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.iter_points">
+<tt class="descname">iter_points</tt><big>(</big><em>center=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.iter_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.n_points">
+<tt class="descname">n_points</tt><big>(</big><em>center=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.n_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.n_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/field.html#Field.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.slice">
+<tt class="descname">slice</tt><big>(</big><em>selection</em>, <em>rm_len1_dims=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a slice of the data using selection dictionary.
+Returns a new field.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.source_data">
+<tt class="descname">source_data</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.source_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.time">
+<tt class="descname">time</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>does not guarentee that the memory will be freed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.wrap">
+<tt class="descname">wrap</tt><big>(</big><em>arr</em>, <em>context=None</em>, <em>typ=None</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.wrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>arr is the data to wrap... context is exta info to pass
+to the constructor</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.MatrixField">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">MatrixField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#MatrixField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.MatrixField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.MatrixField.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Matrix'</em><a class="headerlink" href="#viscid.field.MatrixField.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.ScalarField">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#ScalarField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.ScalarField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.ScalarField.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Scalar'</em><a class="headerlink" href="#viscid.field.ScalarField.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.TensorField">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">TensorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#TensorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.TensorField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.TensorField.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Tensor'</em><a class="headerlink" href="#viscid.field.TensorField.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.VectorField">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorField.TYPE">
+<tt class="descname">TYPE</tt><em class="property"> = 'Vector'</em><a class="headerlink" href="#viscid.field.VectorField.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorField.component_fields">
+<tt class="descname">component_fields</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField.component_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.component_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorField.component_views">
+<tt class="descname">component_views</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField.component_views"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.component_views" title="Permalink to this definition">¶</a></dt>
+<dd><p>return numpy views to components individually, memory layout
+of the original field is maintained</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorField.detect_layout">
+<tt class="descname">detect_layout</tt><big>(</big><em>dat</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField.detect_layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.detect_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns LAYOUT_XXX</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.VectorField.layout">
+<tt class="descname">layout</tt><a class="reference internal" href="_modules/viscid/field.html#VectorField.layout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.layout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.VectorField.ncomp">
+<tt class="descname">ncomp</tt><a class="reference internal" href="_modules/viscid/field.html#VectorField.ncomp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.ncomp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.field.field_type_from_str">
+<tt class="descclassname">viscid.field.</tt><tt class="descname">field_type_from_str</tt><big>(</big><em>typ_str</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#field_type_from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.field_type_from_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.field.scalar_fields_to_vector">
+<tt class="descclassname">viscid.field.</tt><tt class="descname">scalar_fields_to_vector</tt><big>(</big><em>name</em>, <em>fldlist</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#scalar_fields_to_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.scalar_fields_to_vector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.field.wrap_field">
+<tt class="descclassname">viscid.field.</tt><tt class="descname">wrap_field</tt><big>(</big><em>typ</em>, <em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#wrap_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.wrap_field" title="Permalink to this definition">¶</a></dt>
+<dd><p><a href="#id2"><span class="problematic" id="id3">**</span></a>kwargs passed to field constructor</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.grid">
+<span id="grid-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">grid</span></tt> Module<a class="headerlink" href="#module-viscid.grid" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.grid.Grid">
+<em class="property">class </em><tt class="descclassname">viscid.grid.</tt><tt class="descname">Grid</tt><big>(</big><em>name=None</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Grids contain fields... Datasets recurse to grids using __getitem__
+and get_field in order to find fields</p>
+<dl class="method">
+<dt id="viscid.grid.Grid.add_field">
+<tt class="descname">add_field</tt><big>(</big><em>field</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.add_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.crds">
+<tt class="descname">crds</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.fields">
+<tt class="descname">fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.geometry_info">
+<tt class="descname">geometry_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.geometry_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crd">
+<tt class="descname">get_crd</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.get_crd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_field">
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.iter_times">
+<tt class="descname">iter_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.iter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.iter_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.n_times">
+<tt class="descname">n_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.n_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.n_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.set_crds">
+<tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.set_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.spill">
+<tt class="descname">spill</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.spill" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.topology_info">
+<tt class="descname">topology_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.topology_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>unload is meant to give children a chance to free caches, the idea
+being that an unload will free memory, but all the functionality is
+preserved, so data is accessable without an explicit reload</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.verror">
+<span id="verror-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">verror</span></tt> Module<a class="headerlink" href="#module-viscid.verror" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="viscid.verror.BackendNotFound">
+<em class="property">exception </em><tt class="descclassname">viscid.verror.</tt><tt class="descname">BackendNotFound</tt><a class="reference internal" href="_modules/viscid/verror.html#BackendNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.verror.BackendNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.RuntimeError</span></tt></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="viscid.verror.FieldNotFound">
+<em class="property">exception </em><tt class="descclassname">viscid.verror.</tt><tt class="descname">FieldNotFound</tt><a class="reference internal" href="_modules/viscid/verror.html#FieldNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.verror.FieldNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.RuntimeError</span></tt></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="viscid.verror.FileNotFound">
+<em class="property">exception </em><tt class="descclassname">viscid.verror.</tt><tt class="descname">FileNotFound</tt><a class="reference internal" href="_modules/viscid/verror.html#FileNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.verror.FileNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.RuntimeError</span></tt></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="viscid.verror.KeyboardInterruptError">
+<em class="property">exception </em><tt class="descclassname">viscid.verror.</tt><tt class="descname">KeyboardInterruptError</tt><a class="reference internal" href="_modules/viscid/verror.html#KeyboardInterruptError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.verror.KeyboardInterruptError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.vlab">
+<span id="vlab-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">vlab</span></tt> Module<a class="headerlink" href="#module-viscid.vlab" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="viscid.vlab.load_vfile">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">load_vfile</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#load_vfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.load_vfile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vlab.multiplot">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">multiplot</tt><big>(</big><em>files</em>, <em>plot_vars</em>, <em>np=1</em>, <em>time_slice=':'</em>, <em>global_popts=None</em>, <em>share_axes=False</em>, <em>show=False</em>, <em>kwopts=None</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#multiplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.multiplot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-viscid.vutil">
+<span id="vutil-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">vutil</span></tt> Module<a class="headerlink" href="#module-viscid.vutil" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="viscid.vutil.common_argparse">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">common_argparse</tt><big>(</big><em>parser</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#common_argparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.common_argparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>add some common verbosity stuff to argparse, parse the
+command line args, and setup the logging levels
+parser should be an ArgumentParser instance, and kwargs
+should be options that get passed to logging.basicConfig
+returns the args namespace</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.find_field">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">find_field</tt><big>(</big><em>vfile</em>, <em>fld_name_lst</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#find_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.find_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>convenience function to get a field that could be called many things
+returns the first fld_name in the list that is in the file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.subclass_spider">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">subclass_spider</tt><big>(</big><em>cls</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#subclass_spider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.subclass_spider" title="Permalink to this definition">¶</a></dt>
+<dd><p>return recursive list of subclasses of cls</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.timereps">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">timereps</tt><big>(</big><em>reps</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#timereps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timereps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="viscid.calculator.html">calculator Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.calculator.html#id1"><tt class="docutils literal"><span class="pre">calculator</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.calc"><tt class="docutils literal"><span class="pre">calc</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.necalc"><tt class="docutils literal"><span class="pre">necalc</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.seed"><tt class="docutils literal"><span class="pre">seed</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.plot.html">plot Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.plot.html#id1"><tt class="docutils literal"><span class="pre">plot</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mpl"><tt class="docutils literal"><span class="pre">mpl</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mvi"><tt class="docutils literal"><span class="pre">mvi</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.readers.html">readers Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#id1"><tt class="docutils literal"><span class="pre">readers</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.csv"><tt class="docutils literal"><span class="pre">csv</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.hdf5"><tt class="docutils literal"><span class="pre">hdf5</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile"><tt class="docutils literal"><span class="pre">vfile</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile_bucket"><tt class="docutils literal"><span class="pre">vfile_bucket</span></tt> Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.xdmf"><tt class="docutils literal"><span class="pre">xdmf</span></tt> Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.tools.html">tools Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.tools.html#id1"><tt class="docutils literal"><span class="pre">tools</span></tt> Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.tools.html#module-viscid.tools.topology"><tt class="docutils literal"><span class="pre">topology</span></tt> Module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">viscid Package</a><ul>
+<li><a class="reference internal" href="#id1"><tt class="docutils literal"><span class="pre">viscid</span></tt> Package</a></li>
+<li><a class="reference internal" href="#module-viscid.bucket"><tt class="docutils literal"><span class="pre">bucket</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.coordinate"><tt class="docutils literal"><span class="pre">coordinate</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.dataset"><tt class="docutils literal"><span class="pre">dataset</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.field"><tt class="docutils literal"><span class="pre">field</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.grid"><tt class="docutils literal"><span class="pre">grid</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.verror"><tt class="docutils literal"><span class="pre">verror</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.vlab"><tt class="docutils literal"><span class="pre">vlab</span></tt> Module</a></li>
+<li><a class="reference internal" href="#module-viscid.vutil"><tt class="docutils literal"><span class="pre">vutil</span></tt> Module</a></li>
+<li><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/viscid.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Kristofor Maynard.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

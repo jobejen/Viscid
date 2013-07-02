@@ -1,0 +1,162 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.vutil &mdash; Viscid 0.01 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Viscid 0.01 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for viscid.vutil</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">default_timer</span> <span class="k">as</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">verror</span>
+
+<span class="n">spill_prefix</span> <span class="o">=</span> <span class="s">&quot;. &quot;</span>
+
+<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; convenience function to get a field that could be called many things</span>
+<span class="sd">    returns the first fld_name in the list that is in the file &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">fld_name_lst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">vfile</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vfile</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="n">verror</span><span class="o">.</span><span class="n">FieldNotFound</span><span class="p">(</span><span class="s">&quot;file {0} contains none of &quot;</span>
+                               <span class="s">&quot;{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add some common verbosity stuff to argparse, parse the</span>
+<span class="sd">    command line args, and setup the logging levels</span>
+<span class="sd">    parser should be an ArgumentParser instance, and kwargs</span>
+<span class="sd">    should be options that get passed to logging.basicConfig</span>
+<span class="sd">    returns the args namespace  &quot;&quot;&quot;</span>
+    <span class="n">general</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Viscid general options&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--log&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;Logging level (overrides verbosity)&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;increase verbosity&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-q&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;decrease verbosity&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c"># setup the logging level</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;level&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># default = 30 WARNING</span>
+            <span class="n">verb</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">v</span> <span class="o">-</span> <span class="n">args</span><span class="o">.</span><span class="n">q</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">30</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">verb</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;format&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%(levelname)s</span><span class="s">: </span><span class="si">%(message)s</span><span class="s">&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">args</span>
+</div>
+<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return recursive list of subclasses of cls &quot;&quot;&quot;</span>
+    <span class="n">sub_classes</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sub_classes</span><span class="p">:</span>
+        <span class="n">lst</span> <span class="o">+=</span> <span class="n">subclass_spider</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lst</span>
+</div>
+<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">reps</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">reps</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Kristofor Maynard.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.tools.topology &mdash; Viscid 0.01 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Viscid 0.01 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for viscid.tools.topology</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">..calculator</span> <span class="kn">import</span> <span class="n">calc</span>
+
+<div class="viewcode-block" id="load_topo"><a class="viewcode-back" href="../../../viscid.tools.html#viscid.tools.topology.load_topo">[docs]</a><span class="k">def</span> <span class="nf">load_topo</span><span class="p">(</span><span class="n">itop_name</span><span class="p">,</span> <span class="n">ihem_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; 0 = closed; 1 = south open; 2 = north open; 3 = sw &quot;&quot;&quot;</span>
+    <span class="c">#x, y, z, itop = np.loadtxt(fname, unpack=True, usecols=(0,1,2,6))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">itop_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">(),</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">(),</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">(),</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span>
+        <span class="n">itop</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">(),</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span>
+    <span class="c">#itop = np.where(itop == 3, np.nan, itop) # this should already be?</span>
+    <span class="n">topo_arr</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">itop</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">itop</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">itop</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">topo_arr</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">topo_arr</span><span class="p">))</span>
+    <span class="c"># print(&quot;!!!!&quot;, np.min(topo_arr), np.max(topo_arr))</span>
+
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">ihem_name</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ihem_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">ihem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">(),</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span>
+            <span class="c">#print(&quot;HHHH&quot;, np.min(ihem), np.max(ihem))</span>
+            <span class="c">#ihem = np.where(itop == 1, ihem, 0) # this should already be?</span>
+            <span class="n">topo_arr</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">ihem</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;ihem file {0} not found, hem &quot;</span>
+                     <span class="s">&quot;will be ignored&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ihem_name</span><span class="p">))</span>
+    <span class="c">#print(&quot;!!!!&quot;, np.min(topo_arr), np.max(topo_arr))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">topo_arr</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">topo_arr</span><span class="p">))</span>
+
+    <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">([(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)],</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;Rectilinear&quot;</span><span class="p">)</span>
+    <span class="n">fld</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Topology&quot;</span><span class="p">,</span> <span class="s">&quot;Node&quot;</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">topo_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nz</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">)),</span>
+                           <span class="mf">0.0</span><span class="p">,</span> <span class="s">&quot;Scalar&quot;</span><span class="p">)</span>
+
+    <span class="c"># rr = tvtk.RectilinearGrid()</span>
+    <span class="c"># rr.point_data.scalars = topo_arr</span>
+    <span class="c"># rr.dimensions = (nx, ny, nz)</span>
+    <span class="c"># rr.point_data.scalars.name = &#39;Topology&#39;</span>
+    <span class="c"># rr.x_coordinates = x</span>
+    <span class="c"># rr.y_coordinates = y</span>
+    <span class="c"># rr.z_coordinates = z</span>
+    <span class="c"># rr_src = VTKDataSource(data=rr)</span>
+    <span class="k">return</span> <span class="n">fld</span>
+</div>
+<div class="viewcode-block" id="shear_angle"><a class="viewcode-back" href="../../../viscid.tools.html#viscid.tools.topology.shear_angle">[docs]</a><span class="k">def</span> <span class="nf">shear_angle</span><span class="p">(</span><span class="n">topo_fld</span><span class="p">,</span> <span class="n">b_fld</span><span class="p">,</span> <span class="n">safety</span><span class="p">):</span>
+    <span class="n">mpx_lst</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># magnetopause x position</span>
+    <span class="n">msx_lst</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># magnetosheath x position</span>
+    <span class="n">y_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">z_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">shear_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ixlst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iylst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">izlst</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">rad_to_deg</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="n">topo_x</span><span class="p">,</span> <span class="n">topo_y</span><span class="p">,</span> <span class="n">topo_z</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)]</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_shape</span><span class="p">([</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">])</span>
+    <span class="n">shear_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">nz</span><span class="p">,</span> <span class="n">ny</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="c">#shear_array = np.zeros((nz, ny), dtype=&#39;f&#39;)</span>
+
+    <span class="c"># 2d array for 2d plotting</span>
+
+    <span class="c">#print(topo_x[nz/2], topo_y[ny/2], topo_x[nx-1])</span>
+    <span class="c">#print(topo_fld[nz/2,ny/2,nx-1])</span>
+
+    <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nz</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+            <span class="n">arm</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">impause</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">imsheath</span> <span class="o">=</span> <span class="bp">None</span>
+
+            <span class="k">if</span> <span class="n">topo_fld</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="c">#print(topo_fld[iz,iy,nx-1])</span>
+                <span class="n">arm</span><span class="o">=</span><span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+                <span class="c"># continue # uncomment to ignore above/below the cusps</span>
+
+
+            <span class="c"># do x backward, closed -&gt; open</span>
+            <span class="c"># we already know ix-1 is a closed line</span>
+            <span class="c"># in russia, backward is foreward</span>
+            <span class="c"># (coord_x &amp; coord_y monotonically decrease due to JimmyCrd -&gt; GSE)</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nx</span><span class="p">):</span>
+                <span class="n">itop</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span><span class="n">ix</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">arm</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">itop</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                        <span class="n">arm</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">continue</span>
+
+                <span class="c">#print(ix, iy, iz, topo_fld[iz, iy, ix])</span>
+                <span class="k">if</span> <span class="n">impause</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c"># finding magnetopause</span>
+                    <span class="c"># print(itop)</span>
+                    <span class="k">if</span> <span class="n">itop</span> <span class="o">!=</span> <span class="mf">0.0</span> <span class="ow">and</span> <span class="n">itop</span> <span class="o">!=</span> <span class="mf">4.5</span><span class="p">:</span> <span class="c"># 4.5 is unknown topo</span>
+                        <span class="n">impause</span> <span class="o">=</span> <span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="c"># print(&quot;AAA&quot;)</span>
+                <span class="k">elif</span> <span class="n">imsheath</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="c"># finding magnetosheath</span>
+                    <span class="k">if</span> <span class="n">itop</span> <span class="o">==</span> <span class="mf">3.0</span><span class="p">:</span>
+                        <span class="n">imsheath</span> <span class="o">=</span> <span class="n">ix</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="c"># print(&quot;BBB&quot;)</span>
+                        <span class="k">break</span>
+
+            <span class="c"># if we did not see sw field lines along this line</span>
+            <span class="k">if</span> <span class="n">imsheath</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">pt_mpause</span> <span class="o">=</span> <span class="p">(</span><span class="n">topo_x</span><span class="p">[</span><span class="n">impause</span><span class="p">]</span> <span class="o">+</span> <span class="n">safety</span><span class="p">,</span> <span class="n">topo_y</span><span class="p">[</span><span class="n">iy</span><span class="p">],</span> <span class="n">topo_z</span><span class="p">[</span><span class="n">iz</span><span class="p">])</span>
+            <span class="n">pt_msheath</span> <span class="o">=</span> <span class="p">(</span><span class="n">topo_x</span><span class="p">[</span><span class="n">imsheath</span><span class="p">]</span> <span class="o">-</span> <span class="n">safety</span><span class="p">,</span> <span class="n">topo_y</span><span class="p">[</span><span class="n">iy</span><span class="p">],</span> <span class="n">topo_z</span><span class="p">[</span><span class="n">iz</span><span class="p">])</span>
+
+            <span class="n">b_mpause</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">nearest_val</span><span class="p">(</span><span class="n">b_fld</span><span class="p">,</span> <span class="n">pt_mpause</span><span class="p">)</span>
+            <span class="n">b_msheath</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">nearest_val</span><span class="p">(</span><span class="n">b_fld</span><span class="p">,</span> <span class="n">pt_msheath</span><span class="p">)</span>
+            <span class="n">maga</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_mpause</span><span class="p">)</span>
+            <span class="n">magb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b_msheath</span><span class="p">)</span>
+            <span class="n">cosangle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">b_mpause</span><span class="p">,</span> <span class="n">b_msheath</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">maga</span> <span class="o">*</span> <span class="n">magb</span><span class="p">)</span>
+            <span class="n">sinangle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b_mpause</span><span class="p">,</span> <span class="n">b_msheath</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">maga</span> <span class="o">*</span> <span class="n">magb</span><span class="p">)</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">cosangle</span><span class="p">)</span> <span class="o">*</span> <span class="n">rad_to_deg</span>
+            <span class="c">#angle = np.arctan()</span>
+
+            <span class="c"># if (iy==64 or iy==96) and iz==64:</span>
+            <span class="c">#     print(&quot;pt mpause: &quot;, pt_mpause, &quot;   pt msheath: &quot;, pt_msheath)</span>
+            <span class="c">#     print(&quot;b mpause: &quot;, b_mpause, &quot;   b msheath: &quot;, b_msheath)</span>
+            <span class="c">#     print(maga, magb)</span>
+            <span class="c">#     print(cosangle, &quot;angle = &quot;, angle)</span>
+            <span class="n">mpx_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt_mpause</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">safety</span><span class="p">)</span>  <span class="c"># recorrect out the safety distance</span>
+            <span class="n">msx_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt_msheath</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">safety</span><span class="p">)</span>  <span class="c"># recorrect out the safety distance</span>
+            <span class="n">y_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt_mpause</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">z_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt_mpause</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">shear_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="n">shear_array</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
+            <span class="n">ixlst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">impause</span><span class="p">)</span>
+            <span class="n">iylst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iy</span><span class="p">)</span>
+            <span class="n">izlst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iz</span><span class="p">)</span>
+
+    <span class="n">shear_crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">([(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">])],</span>
+                                      <span class="s">&quot;Rectilinear&quot;</span><span class="p">)</span>
+    <span class="n">shear_fld</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Shear Angle&quot;</span><span class="p">,</span> <span class="s">&quot;Node&quot;</span><span class="p">,</span> <span class="n">shear_crds</span><span class="p">,</span>
+                                <span class="n">shear_array</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">topo_fld</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s">&quot;Scalar&quot;</span><span class="p">)</span>
+    <span class="c">#print(min(shear_lst), max(shear_lst))</span>
+    <span class="k">return</span> <span class="n">mpx_lst</span><span class="p">,</span> <span class="n">msx_lst</span><span class="p">,</span> <span class="n">y_lst</span><span class="p">,</span> <span class="n">z_lst</span><span class="p">,</span> <span class="n">shear_lst</span><span class="p">,</span> <span class="n">shear_fld</span><span class="p">,</span> <span class="n">ixlst</span><span class="p">,</span> <span class="n">iylst</span><span class="p">,</span> <span class="n">izlst</span>
+</div>
+<div class="viewcode-block" id="find_xpoint"><a class="viewcode-back" href="../../../viscid.tools.html#viscid.tools.topology.find_xpoint">[docs]</a><span class="k">def</span> <span class="nf">find_xpoint</span><span class="p">(</span><span class="n">topo_fld</span><span class="p">):</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)]</span>
+    <span class="n">nz</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">list_x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">list_y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">list_z</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nz</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ny</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nx</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">itopo</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">itopo</span> <span class="o">==</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">itopo</span> <span class="o">==</span> <span class="mf">2.0</span><span class="p">:</span>
+                    <span class="n">nfound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,))</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">itopo</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c">## search all neighbors 1 node away</span>
+                    <span class="c"># scan neighbors for matches (faces)</span>
+                    <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="o">+</span><span class="n">L</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c"># scan neighbors for matches (corners)</span>
+                    <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                        <span class="c">#print(ix, iy, iz, L, dat[ix+L, iy+1, iz+1])</span>
+
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c"># scan neighbors for matches (edges)</span>
+                    <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]:</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="o">+</span><span class="n">L</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c"># remaining edges</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">iz</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="o">+</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="c">#if (nfound[0]*nfound[1]*nfound[3]) != 0.0 or (nfound[0]*nfound[2]*nfound[3]) != 0:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">nfound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                        <span class="n">list_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+                        <span class="n">list_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">iy</span><span class="p">])</span>
+                        <span class="n">list_z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">list_x</span><span class="p">,</span> <span class="n">list_y</span><span class="p">,</span> <span class="n">list_z</span>
+
+</div>
+<div class="viewcode-block" id="find_xpoint_fast"><a class="viewcode-back" href="../../../viscid.tools.html#viscid.tools.topology.find_xpoint_fast">[docs]</a><span class="k">def</span> <span class="nf">find_xpoint_fast</span><span class="p">(</span><span class="n">topo_fld</span><span class="p">,</span> <span class="n">mpause_ix</span><span class="p">,</span> <span class="n">mpause_iy</span><span class="p">,</span> <span class="n">mpause_iz</span><span class="p">):</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">topo_fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)]</span>
+    <span class="n">nz</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">list_x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">list_y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">list_z</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mpause_ix</span><span class="p">,</span> <span class="n">mpause_iy</span><span class="p">,</span> <span class="n">mpause_iz</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ix</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">==</span> <span class="n">nx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">iy</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">iy</span> <span class="o">==</span> <span class="n">ny</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">iz</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">iz</span> <span class="o">==</span> <span class="n">nz</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">nfound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,))</span>
+
+        <span class="n">itopo</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">iz</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">]</span>
+
+        <span class="c"># scan neighbors for topology</span>
+        <span class="k">for</span> <span class="n">niz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">niy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">nix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="n">nfound</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">iz</span><span class="o">+</span><span class="n">niz</span><span class="p">,</span> <span class="n">iy</span><span class="o">+</span><span class="n">niy</span><span class="p">,</span> <span class="n">ix</span><span class="o">+</span><span class="n">nix</span><span class="p">])]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c">#if (nfound[0]*nfound[1]*nfound[3]) &gt; 0.0 or (nfound[0]*nfound[2]*nfound[3]) &gt; 0:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nfound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">nfound</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;isect: &#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">iy</span><span class="p">],</span> <span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">],</span> <span class="n">nfound</span><span class="p">)</span>
+            <span class="n">list_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+            <span class="n">list_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">iy</span><span class="p">])</span>
+            <span class="n">list_z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">list_x</span><span class="p">,</span> <span class="n">list_y</span><span class="p">,</span> <span class="n">list_z</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Kristofor Maynard.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
