@@ -25,7 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.01 documentation" href="index.html" /> 
+    <link rel="top" title="Viscid 0.01 documentation" href="index.html" />
+    <link rel="up" title="viscid" href="modules.html" />
+    <link rel="next" title="calculator Package" href="viscid.calculator.html" />
+    <link rel="prev" title="viscid" href="modules.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +40,14 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="viscid.calculator.html" title="calculator Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="viscid"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="modules.html" accesskey="U">viscid</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -49,7 +59,7 @@
   <div class="section" id="viscid-package">
 <h1>viscid Package<a class="headerlink" href="#viscid-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2><a class="reference internal" href="index.html#module-viscid" title="viscid"><tt class="xref py py-mod docutils literal"><span class="pre">viscid</span></tt></a> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><tt class="xref py py-mod docutils literal"><span class="pre">viscid</span></tt> Package<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-viscid.__init__"></span><p>A set of pure python modules that aid in plotting gridded scientific data.
 Plotting depends on matplotlib and/or mayavi and file reading uses h5py and
 to read hdf5 / xdmf files.</p>
@@ -540,7 +550,7 @@ is iz, iy, ix. This can be permuted any which way, but order matters.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="attribute">
 <dt id="viscid.field.Field.CENTERING">
-<tt class="descname">CENTERING</tt><em class="property"> = ['Node', 'Cell', 'Grid', 'Face', 'Edge']</em><a class="headerlink" href="#viscid.field.Field.CENTERING" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">CENTERING</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.CENTERING" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -648,8 +658,45 @@ to the constructor</p>
 <em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#ScalarField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.ScalarField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
 <dl class="attribute">
+<dt id="viscid.field.ScalarField.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.ScalarField.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="viscid.field.ScalarField.TYPE">
 <tt class="descname">TYPE</tt><em class="property"> = 'Scalar'</em><a class="headerlink" href="#viscid.field.ScalarField.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.ScalarFieldCC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarFieldCC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="headerlink" href="#viscid.field.ScalarFieldCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.ScalarField" title="viscid.field.ScalarField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.ScalarField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.ScalarFieldCC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Cell'</em><a class="headerlink" href="#viscid.field.ScalarFieldCC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.ScalarFieldCC.to_nc">
+<tt class="descname">to_nc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.ScalarFieldCC.to_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.ScalarFieldNC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarFieldNC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>forget_source=False</em><big>)</big><a class="headerlink" href="#viscid.field.ScalarFieldNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.ScalarField" title="viscid.field.ScalarField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.ScalarField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.ScalarFieldNC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Node'</em><a class="headerlink" href="#viscid.field.ScalarFieldNC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.ScalarFieldNC.to_cc">
+<tt class="descname">to_cc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.ScalarFieldNC.to_cc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -669,6 +716,11 @@ to the constructor</p>
 <dt id="viscid.field.VectorField">
 <em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorField.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.VectorField.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.VectorField.TYPE">
 <tt class="descname">TYPE</tt><em class="property"> = 'Vector'</em><a class="headerlink" href="#viscid.field.VectorField.TYPE" title="Permalink to this definition">¶</a></dt>
@@ -704,9 +756,113 @@ of the original field is maintained</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="viscid.field.VectorFieldCC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorFieldCC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.VectorField" title="viscid.field.VectorField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.VectorField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorFieldCC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Cell'</em><a class="headerlink" href="#viscid.field.VectorFieldCC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldCC.to_ec">
+<tt class="descname">to_ec</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldCC.to_ec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldCC.to_fc">
+<tt class="descname">to_fc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldCC.to_fc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldCC.to_nc">
+<tt class="descname">to_nc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldCC.to_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.VectorFieldEC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorFieldEC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldEC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.VectorField" title="viscid.field.VectorField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.VectorField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorFieldEC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Edge'</em><a class="headerlink" href="#viscid.field.VectorFieldEC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldEC.to_cc">
+<tt class="descname">to_cc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldEC.to_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldEC.to_fc">
+<tt class="descname">to_fc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldEC.to_fc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldEC.to_nc">
+<tt class="descname">to_nc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldEC.to_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.VectorFieldFC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorFieldFC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldFC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.VectorField" title="viscid.field.VectorField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.VectorField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorFieldFC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Face'</em><a class="headerlink" href="#viscid.field.VectorFieldFC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldFC.to_cc">
+<tt class="descname">to_cc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldFC.to_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldFC.to_ec">
+<tt class="descname">to_ec</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldFC.to_ec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldFC.to_nc">
+<tt class="descname">to_nc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldFC.to_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.field.VectorFieldNC">
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorFieldNC</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.field.VectorField" title="viscid.field.VectorField"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.VectorField</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.field.VectorFieldNC.CENTERING">
+<tt class="descname">CENTERING</tt><em class="property"> = 'Node'</em><a class="headerlink" href="#viscid.field.VectorFieldNC.CENTERING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldNC.to_cc">
+<tt class="descname">to_cc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldNC.to_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldNC.to_ec">
+<tt class="descname">to_ec</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldNC.to_ec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.VectorFieldNC.to_fc">
+<tt class="descname">to_fc</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.VectorFieldNC.to_fc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="viscid.field.field_type_from_str">
-<tt class="descclassname">viscid.field.</tt><tt class="descname">field_type_from_str</tt><big>(</big><em>typ_str</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#field_type_from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.field_type_from_str" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.field.</tt><tt class="descname">field_type_from_str</tt><big>(</big><em>typ_str</em>, <em>centering=None</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#field_type_from_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.field_type_from_str" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -932,6 +1088,12 @@ returns the first fld_name in the list that is in the file</p>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">viscid</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="viscid.calculator.html"
+                        title="next chapter">calculator Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/viscid.txt"
@@ -963,7 +1125,14 @@ returns the first fld_name in the list that is in the file</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="viscid.calculator.html" title="calculator Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="viscid"
+             >previous</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >viscid</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

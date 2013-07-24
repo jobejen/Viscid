@@ -25,7 +25,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.01 documentation" href="index.html" /> 
+    <link rel="top" title="Viscid 0.01 documentation" href="index.html" />
+    <link rel="up" title="viscid Package" href="viscid.html" />
+    <link rel="next" title="plot Package" href="viscid.plot.html" />
+    <link rel="prev" title="viscid Package" href="viscid.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +40,15 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="viscid.plot.html" title="plot Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="viscid.html" title="viscid Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >viscid</a> &raquo;</li>
+          <li><a href="viscid.html" accesskey="U">viscid Package</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,88 +69,84 @@
 order of preference of the backend by changing default_backends.
 TODO: this dispatch mechanism is very simple, maybe something a little more
 flexable would be useful down the line?</p>
-<dl class="function">
-<dt id="viscid.calculator.calc.abs_diff">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">abs_diff</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>sla=slice(None</em>, <em>None</em>, <em>None)</em>, <em>slb=slice(None</em>, <em>None</em>, <em>None)</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#abs_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.abs_diff" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="viscid.calculator.calc.BinaryOperation">
+<em class="property">class </em><tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">BinaryOperation</tt><big>(</big><em>name</em>, <em>short_name</em>, <em>implementations=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#viscid.calculator.calc.BinaryOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.calculator.calc.Operation" title="viscid.calculator.calc.Operation"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.calc.Operation</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.calculator.calc.Operation">
+<em class="property">class </em><tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">Operation</tt><big>(</big><em>name</em>, <em>short_name</em>, <em>implementations=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#viscid.calculator.calc.Operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="method">
+<dt id="viscid.calculator.calc.Operation.add_implementation">
+<tt class="descname">add_implementation</tt><big>(</big><em>name</em>, <em>func</em><big>)</big><a class="headerlink" href="#viscid.calculator.calc.Operation.add_implementation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="viscid.calculator.calc.abs_max">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">abs_max</tt><big>(</big><em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#abs_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.abs_max" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="viscid.calculator.calc.Operation.add_implementations">
+<tt class="descname">add_implementations</tt><big>(</big><em>implementations</em><big>)</big><a class="headerlink" href="#viscid.calculator.calc.Operation.add_implementations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="viscid.calculator.calc.abs_min">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">abs_min</tt><big>(</big><em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#abs_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.abs_min" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="viscid.calculator.calc.Operation.default_backends">
+<tt class="descname">default_backends</tt><em class="property"> = ['numexpr', 'cython', 'numpy']</em><a class="headerlink" href="#viscid.calculator.calc.Operation.default_backends" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="viscid.calculator.calc.abs_val">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">abs_val</tt><big>(</big><em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#abs_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.abs_val" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="viscid.calculator.calc.Operation.opname">
+<tt class="descname">opname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.calc.Operation.opname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
-<dt id="viscid.calculator.calc.add">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">add</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.add" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="viscid.calculator.calc.Operation.short_name">
+<tt class="descname">short_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.calc.Operation.short_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.calculator.calc.UnaryOperation">
+<em class="property">class </em><tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">UnaryOperation</tt><big>(</big><em>name</em>, <em>short_name</em>, <em>implementations=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#viscid.calculator.calc.UnaryOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.calculator.calc.Operation" title="viscid.calculator.calc.Operation"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.calc.Operation</span></tt></a></p>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.closest1d_ind">
 <tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">closest1d_ind</tt><big>(</big><em>arr</em>, <em>val</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#closest1d_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.closest1d_ind" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>DEPRECATED</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.closest1d_val">
 <tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">closest1d_val</tt><big>(</big><em>arr</em>, <em>val</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#closest1d_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.closest1d_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>DEPRECATED</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.calculator.calc.magnitude_native">
+<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">magnitude_native</tt><big>(</big><em>fld</em><big>)</big><a class="headerlink" href="#viscid.calculator.calc.magnitude_native" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="viscid.calculator.calc.cross">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">cross</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.cross" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.difference">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">difference</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>sla=slice(None</em>, <em>None</em>, <em>None)</em>, <em>slb=slice(None</em>, <em>None</em>, <em>None)</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#difference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.difference" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.div">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">div</tt><big>(</big><em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#div"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.div" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.dot">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">dot</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.dot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.magnitude">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">magnitude</tt><big>(</big><em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#magnitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.magnitude" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.calculator.calc.magnitude_np">
+<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">magnitude_np</tt><big>(</big><em>fld</em><big>)</big><a class="headerlink" href="#viscid.calculator.calc.magnitude_np" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.nearest_val">
 <tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">nearest_val</tt><big>(</big><em>fld</em>, <em>point</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#nearest_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.nearest_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>find value of field closest to point</p>
+<dd><p>DEPRECATED
+find value of field closest to point</p>
 </dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.relative_diff">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">relative_diff</tt><big>(</big><em>fld_a</em>, <em>fld_b</em>, <em>sla=slice(None</em>, <em>None</em>, <em>None)</em>, <em>slb=slice(None</em>, <em>None</em>, <em>None)</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#relative_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.relative_diff" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.scalar_mul">
-<tt class="descclassname">viscid.calculator.calc.</tt><tt class="descname">scalar_mul</tt><big>(</big><em>s</em>, <em>fld</em>, <em>backends=None</em>, <em>only=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/calc.html#scalar_mul"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.scalar_mul" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-viscid.calculator.necalc">
 <span id="necalc-module"></span><h2><tt class="xref py py-mod docutils literal"><span class="pre">necalc</span></tt> Module<a class="headerlink" href="#module-viscid.calculator.necalc" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="viscid.calculator.necalc.VneCalc">
-<em class="property">class </em><tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">VneCalc</tt><big>(</big><em>expr</em>, <em>local_dict</em>, <em>slice_dict=None</em>, <em>ret_type=None</em>, <em>ret_context=None</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#VneCalc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.VneCalc" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">VneCalc</tt><big>(</big><em>expr</em>, <em>local_dict</em>, <em>ret_type=None</em>, <em>ret_context=None</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#VneCalc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.VneCalc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.expr">
@@ -170,23 +177,19 @@ flexable would be useful down the line?</p>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.abs_max">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_max</tt><big>(</big><em>fld</em>, <em>sl=slice(None</em>, <em>None</em>, <em>None)</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#abs_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_max" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_max</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#abs_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_max" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.abs_min">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_min</tt><big>(</big><em>fld</em>, <em>sl=slice(None</em>, <em>None</em>, <em>None)</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#abs_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_min" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.necalc.add">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">add</tt><big>(</big><em>a</em>, <em>b</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.add" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_min</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#abs_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_min" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.cross">
 <tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">cross</tt><big>(</big><em>fld_a</em>, <em>fld_b</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.cross" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>cross product of two vector fields</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.div">
@@ -197,16 +200,12 @@ flexable would be useful down the line?</p>
 <dl class="function">
 <dt id="viscid.calculator.necalc.dot">
 <tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">dot</tt><big>(</big><em>fld_a</em>, <em>fld_b</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.dot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>3d dot product of two vector fields</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.magnitude">
 <tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">magnitude</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#magnitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.magnitude" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.necalc.scalar_mul">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">scalar_mul</tt><big>(</big><em>s</em>, <em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/necalc.html#scalar_mul"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.scalar_mul" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -383,6 +382,12 @@ over indices of an array, but only if the array already exists</p>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="viscid.html"
+                        title="previous chapter">viscid Package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="viscid.plot.html"
+                        title="next chapter">plot Package</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/viscid.calculator.txt"
@@ -414,7 +419,15 @@ over indices of an array, but only if the array already exists</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="viscid.plot.html" title="plot Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="viscid.html" title="viscid Package"
+             >previous</a> |</li>
+        <li><a href="index.html">Viscid 0.01 documentation</a> &raquo;</li>
+          <li><a href="modules.html" >viscid</a> &raquo;</li>
+          <li><a href="viscid.html" >viscid Package</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
