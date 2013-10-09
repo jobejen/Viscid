@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid Package &mdash; Viscid 0.46.0 documentation</title>
+    <title>viscid Package &mdash; Viscid 0.50.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.46.0',
+        VERSION:     '0.50.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.46.0 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.50.0 documentation" href="index.html" />
     <link rel="up" title="viscid" href="modules.html" />
     <link rel="next" title="calculator Package" href="viscid.calculator.html" />
     <link rel="prev" title="viscid" href="modules.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="modules.html" title="viscid"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Viscid 0.46.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
           <li><a href="modules.html" accesskey="U">viscid</a> &raquo;</li> 
       </ul>
     </div>  
@@ -96,6 +96,11 @@ if handle not found</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.bucket.Bucket.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><em>prefix=''</em><big>)</big><a class="headerlink" href="#viscid.bucket.Bucket.print_tree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.bucket.Bucket.remove_all_items">
 <tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>unload all items</p>
@@ -124,11 +129,6 @@ if handle not found</p>
 <dd><p>if index_handle is true then the index of item will be included as
 a handle making the bucket indexable like a list</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="viscid.bucket.Bucket.spill">
-<tt class="descname">spill</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.spill" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -206,12 +206,12 @@ should go z, y, x... this is the default order</p>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a></p>
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.CENTER">
-<tt class="descname">CENTER</tt><em class="property"> = {None: '', 'Node': '', 'Edge': 'ec', 'Cell': 'cc', 'Face': 'fc'}</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.CENTER" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">CENTER</tt><em class="property"> = {None: '', 'Node': 'nc', 'Edge': 'ec', 'Cell': 'cc', 'Face': 'fc'}</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.CENTER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.SUFFIXES">
-<tt class="descname">SUFFIXES</tt><em class="property"> = ['', '', 'ec', 'cc', 'fc']</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.SUFFIXES" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">SUFFIXES</tt><em class="property"> = ['', 'nc', 'ec', 'cc', 'fc']</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.SUFFIXES" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -328,6 +328,11 @@ selection = {&#8216;y=12i:14i,z=1i is the slice [:,12:14,1]</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.coordinate.StructuredCrds.print_tree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.set_crds">
 <tt class="descname">set_crds</tt><big>(</big><em>clist</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.set_crds" title="Permalink to this definition">¶</a></dt>
 <dd><p>called with a list of lists:
@@ -348,6 +353,21 @@ Note: input crds are assumed to be node centered</p>
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.shape_nc">
 <tt class="descname">shape_nc</tt><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.shape_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.shape_nc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.size">
+<tt class="descname">size</tt><a class="headerlink" href="#viscid.coordinate.StructuredCrds.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.size_cc">
+<tt class="descname">size_cc</tt><a class="headerlink" href="#viscid.coordinate.StructuredCrds.size_cc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.size_nc">
+<tt class="descname">size_nc</tt><a class="headerlink" href="#viscid.coordinate.StructuredCrds.size_nc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -460,8 +480,8 @@ this will recurse down to a grid</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.dataset.Dataset.spill">
-<tt class="descname">spill</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.spill" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.dataset.Dataset.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#viscid.dataset.Dataset.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -536,8 +556,8 @@ this will recurse down to a grid</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.dataset.DatasetTemporal.spill">
-<tt class="descname">spill</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.spill" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.dataset.DatasetTemporal.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#viscid.dataset.DatasetTemporal.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -587,6 +607,12 @@ is iz, iy, ix. This can be permuted any which way, but order matters.</p>
 <tt class="descname">center</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.center" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.consolidate_dims">
+<tt class="descname">consolidate_dims</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.field.Field.consolidate_dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>consolidate dimensions with length 1 in place</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.crds">
 <tt class="descname">crds</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.crds" title="Permalink to this definition">¶</a></dt>
@@ -634,6 +660,11 @@ to empty the cache later you can always use unload</p>
 <tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/field.html#Field.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="viscid.field.Field.size">
+<tt class="descname">size</tt><a class="headerlink" href="#viscid.field.Field.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="viscid.field.Field.slice">
 <tt class="descname">slice</tt><big>(</big><em>selection</em>, <em>consolidate=False</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.slice" title="Permalink to this definition">¶</a></dt>
@@ -661,7 +692,8 @@ Returns a new field.</p>
 <dt id="viscid.field.Field.wrap">
 <tt class="descname">wrap</tt><big>(</big><em>arr</em>, <em>context=None</em>, <em>typ=None</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.wrap" title="Permalink to this definition">¶</a></dt>
 <dd><p>arr is the data to wrap... context is exta info to pass
-to the constructor</p>
+to the constructor. The return is just a number if arr is a
+1 element ndarray, this is for ufuncs that reduce to a scalar</p>
 </dd></dl>
 
 </dd></dl>
@@ -820,13 +852,13 @@ and get_field in order to find fields</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.grid.Grid.set_crds">
-<tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.set_crds" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.grid.Grid.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="headerlink" href="#viscid.grid.Grid.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.grid.Grid.spill">
-<tt class="descname">spill</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.spill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.spill" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.grid.Grid.set_crds">
+<tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.set_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -894,7 +926,7 @@ preserved, so data is accessable without an explicit reload</p>
 <dt>iter_list: list of independant iterators (not pointers to the</dt>
 <dd>same iterator a la [it]*nchunks), one for each chunk
 you want. They should all contain the same data... the
-returned iterators will be these iterators isliced to the 
+returned iterators will be these iterators isliced to the
 right location / length</dd>
 </dl>
 <p>nel: how many elements are in one pass of the original iterators
@@ -912,7 +944,7 @@ Returns: a list of nchunks iterators with N or N-1 elements</p>
 <tt class="descclassname">viscid.vutil.</tt><tt class="descname">chunk_list</tt><big>(</big><em>seq</em>, <em>nchunks</em><big>)</big><a class="headerlink" href="#viscid.vutil.chunk_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>slice seq into chunks if nchunks size, seq can be a anything sliceable
 such as lists, numpy arrays, etc.
-Note: Use chunk_iterator to chunk up iterators 
+Note: Use chunk_iterator to chunk up iterators
 Returns: nchunks slices of length N = (len(lst) // nchunks) or N - 1</p>
 <p>ex: it1, it2, it3 = chunk_list(range(8), 3)
 it1 == range(0, 2)  # 2 vals
@@ -1053,7 +1085,7 @@ returns the first fld_name in the list that is in the file</p>
         <li class="right" >
           <a href="modules.html" title="viscid"
              >previous</a> |</li>
-        <li><a href="index.html">Viscid 0.46.0 documentation</a> &raquo;</li>
+        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
           <li><a href="modules.html" >viscid</a> &raquo;</li> 
       </ul>
     </div>

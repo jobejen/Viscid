@@ -10,7 +10,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; Viscid 0.46.0 documentation</title>
+    <title>Index &mdash; Viscid 0.50.0 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,7 +18,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.46.0',
+        VERSION:     '0.50.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.46.0 documentation" href="index.html" /> 
+    <link rel="top" title="Viscid 0.50.0 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.46.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -242,12 +242,12 @@
   <dt><a href="viscid.calculator.html#viscid.calculator.calc.closest1d_val">closest1d_val() (in module viscid.calculator.calc)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.vutil.common_argparse">common_argparse() (in module viscid.vutil)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.field.VectorField.compdim">compdim (viscid.field.VectorField attribute)</a>
   </dt>
@@ -258,6 +258,10 @@
 
       
   <dt><a href="viscid.html#viscid.field.VectorField.component_views">component_views() (viscid.field.VectorField method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.field.Field.consolidate_dims">consolidate_dims() (viscid.field.Field method)</a>
   </dt>
 
       
@@ -898,12 +902,12 @@
   <dt><a href="viscid.plot.html#viscid.plot.mpl.plot2d_field">plot2d_field() (in module viscid.plot.mpl)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.plot.html#viscid.plot.mpl.plot_earth">plot_earth() (in module viscid.plot.mpl)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.plot.html#viscid.plot.mvi.plot_lines">plot_lines() (in module viscid.plot.mvi)</a>
   </dt>
@@ -927,6 +931,28 @@
       <dd><dl>
         
   <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.points">(viscid.coordinate.StructuredCrds method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="viscid.html#viscid.bucket.Bucket.print_tree">print_tree() (viscid.bucket.Bucket method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.print_tree">(viscid.coordinate.StructuredCrds method)</a>
+  </dt>
+
+        
+  <dt><a href="viscid.html#viscid.dataset.Dataset.print_tree">(viscid.dataset.Dataset method)</a>
+  </dt>
+
+        
+  <dt><a href="viscid.html#viscid.dataset.DatasetTemporal.print_tree">(viscid.dataset.DatasetTemporal method)</a>
+  </dt>
+
+        
+  <dt><a href="viscid.html#viscid.grid.Grid.print_tree">(viscid.grid.Grid method)</a>
   </dt>
 
       </dl></dd>
@@ -1046,10 +1072,28 @@
   <dt><a href="viscid.tools.html#viscid.tools.topology.shear_angle">shear_angle() (in module viscid.tools.topology)</a>
   </dt>
 
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.Operation.short_name">short_name (viscid.calculator.calc.Operation attribute)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="viscid.calculator.html#viscid.calculator.calc.Operation.short_name">short_name (viscid.calculator.calc.Operation attribute)</a>
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.size">size (viscid.coordinate.StructuredCrds attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="viscid.html#viscid.field.Field.size">(viscid.field.Field attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.size_cc">size_cc (viscid.coordinate.StructuredCrds attribute)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.size_nc">size_nc (viscid.coordinate.StructuredCrds attribute)</a>
   </dt>
 
       
@@ -1078,24 +1122,6 @@
   <dt><a href="viscid.html#viscid.coordinate.SphericalCrds">SphericalCrds (class in viscid.coordinate)</a>
   </dt>
 
-      
-  <dt><a href="viscid.html#viscid.bucket.Bucket.spill">spill() (viscid.bucket.Bucket method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.dataset.Dataset.spill">(viscid.dataset.Dataset method)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.html#viscid.dataset.DatasetTemporal.spill">(viscid.dataset.DatasetTemporal method)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.html#viscid.grid.Grid.spill">(viscid.grid.Grid method)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="viscid.html#viscid.coordinate.StructuredCrds">StructuredCrds (class in viscid.coordinate)</a>
   </dt>
@@ -1152,10 +1178,6 @@
   </dt>
 
       </dl></dd>
-      
-  <dt><a href="viscid.readers.html#viscid.readers.xdmf.FileXDMF.tree">tree (viscid.readers.xdmf.FileXDMF attribute)</a>
-  </dt>
-
       
   <dt><a href="viscid.html#viscid.coordinate.Coordinates.TYPE">TYPE (viscid.coordinate.Coordinates attribute)</a>
   </dt>
@@ -1437,7 +1459,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">Viscid 0.46.0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
