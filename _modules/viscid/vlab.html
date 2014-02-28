@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.vlab &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.vlab &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,122 +46,196 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.vlab</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+  <h1>Source code for viscid.vlab</h1><pre>
+from __future__ import print_function
+import logging
+import itertools
+try:
+    from itertools import izip
+except ImportError:
+    izip = zip
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">readers</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">verror</span>
+import numpy as np
+try:
+    import numexpr as ne
+except ImportError:
+    pass
 
-<div class="viewcode-block" id="load_vfile"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.load_vfile">[docs]</a><span class="k">def</span> <span class="nf">load_vfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-    <span class="n">readers</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+from . import parallel
+from . import field
+from . import coordinate
+
+<div class="viewcode-block" id="get_dipole"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_dipole">[docs]</a>def get_dipole(m=None, l=None, h=None, n=None, twod=False):
+    dtype = 'float64'
+    if l is None:
+        l = [-5] * 3
+    if h is None:
+        h = [5] * 3
+    if n is None:
+        n = [256] * 3
+    x = np.array(np.linspace(l[0], h[0], n[0]), dtype=dtype)
+    y = np.array(np.linspace(l[1], h[1], n[1]), dtype=dtype)
+    z = np.array(np.linspace(l[2], h[2], n[2]), dtype=dtype)
+    if twod:
+        y = np.array(np.linspace(-0.1, 0.1, 2), dtype=dtype)
+    crds = coordinate.wrap_crds("nonuniform_cartesian", (('z', z), ('y', y), ('x', x)))
+
+    one = np.array([1.0], dtype=dtype) #pylint: disable=W0612
+    three = np.array([3.0], dtype=dtype) #pylint: disable=W0612
+    if m is None:
+        m = [0.0, 0.0, -1.0]
+    m = np.array(m, dtype=dtype)
+    mx, my, mz = m #pylint: disable=W0612
+
+    Zcc, Ycc, Xcc = crds.get_crds_cc(shaped=True) #pylint: disable=W0612
+
+    rsq = ne.evaluate("Xcc**2 + Ycc**2 + Zcc**2") #pylint: disable=W0612
+    mdotr = ne.evaluate("mx * Xcc + my * Ycc + mz * Zcc") #pylint: disable=W0612
+    Bx = ne.evaluate("((three * Xcc * mdotr / rsq) - mx) / rsq**1.5")
+    By = ne.evaluate("((three * Ycc * mdotr / rsq) - my) / rsq**1.5")
+    Bz = ne.evaluate("((three * Zcc * mdotr / rsq) - mz) / rsq**1.5")
+
+    fld = field.VectorField("B_cc", crds, [Bx, By, Bz],
+                            center="Cell", forget_source=True,
+                            _force_layout=field.LAYOUT_INTERLACED,
+                           )
+    # fld_rsq = field.ScalarField("r", crds, hmm,
+    #                             center="Cell", forget_source=True)
+    return fld  # , fld_rsq
 </div>
-<span class="k">def</span> <span class="nf">_do_multiplot</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">plot_vars</span><span class="p">,</span> <span class="n">global_popts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">share_axes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                  <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">kwopts</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-    <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
+<div class="viewcode-block" id="get_trilinear_field"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_trilinear_field">[docs]</a>def get_trilinear_field():
+    xl, xh, nx = -1.0, 1.0, 41
+    yl, yh, ny = -1.5, 1.5, 41
+    zl, zh, nz = -2.0, 2.0, 41
+    x = np.linspace(xl, xh, nx)
+    y = np.linspace(yl, yh, ny)
+    z = np.linspace(zl, zh, nz)
+    crds = coordinate.wrap_crds("nonuniform_cartesian",
+                                [('z', z), ('y', y), ('x', x)])
+    b = field.empty("Vector", "f", crds, 3, center="Cell",
+                      layout="interlaced")
+    Z, Y, X = b.get_crds(shaped=True)
 
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Plotting timestep: {0}, {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+    x01, y01, z01 = 0.5, 0.5, 0.5
+    x02, y02, z02 = 0.5, 0.5, 0.5
+    x03, y03, z03 = 0.5, 0.5, 0.5
 
-    <span class="k">if</span> <span class="n">kwopts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">kwopts</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">transpose</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;transpose&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-    <span class="n">plot_size</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;plot_size&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    <span class="n">dpi</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;dpi&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    <span class="n">out_prefix</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;out_prefix&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    <span class="n">out_format</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;out_format&quot;</span><span class="p">,</span> <span class="s">&quot;png&quot;</span><span class="p">)</span>
-    <span class="n">selection</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;selection&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
- 
-    <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_vars</span><span class="p">)</span>
-    <span class="n">ncols</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
-        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">nrows</span>
+    b['x'][:] = 0.0 + 1.0 * (X - x01) + 1.0 * (Y - y01) + 1.0 * (Z - z01) + \
+                1.0 * (X - x01) * (Y - y01) + 1.0 * (Y - y01) * (Z - z01) + \
+                1.0 * (X - x01) * (Y - y01) * (Z - z01)
+    b['y'][:] = 0.0 + 1.0 * (X - x02) - 1.0 * (Y - y02) + 1.0 * (Z - z02) + \
+                1.0 * (X - x02) * (Y - y02) + 1.0 * (Y - y02) * (Z - z02) - \
+                1.0 * (X - x02) * (Y - y02) * (Z - z02)
+    b['z'][:] = 0.0 + 1.0 * (X - x03) + 1.0 * (Y - y03) - 1.0 * (Z - z03) + \
+                1.0 * (X - x03) * (Y - y03) + 1.0 * (Y - y03) * (Z - z03) + \
+                1.0 * (X - x03) * (Y - y03) * (Z - z03)
+    return b
+</div>
+def _do_multiplot(tind, grid, plot_vars, global_popts=None, share_axes=False,
+                  show=False, kwopts=None):
+    import matplotlib.pyplot as plt
+    from viscid.plot import mpl
 
-    <span class="k">if</span> <span class="n">nrows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;I have no variables to plot&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
+    logging.info("Plotting timestep: {0}, {1}".format(tind, grid.time))
 
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">plot_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="o">*</span><span class="n">plot_size</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">dpi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="n">dpi</span><span class="p">)</span>
+    if kwopts is None:
+        kwopts = {}
+    transpose = kwopts.get("transpose", False)
+    plot_size = kwopts.get("plot_size", None)
+    dpi = kwopts.get("dpi", None)
+    out_prefix = kwopts.get("out_prefix", None)
+    out_format = kwopts.get("out_format", "png")
+    selection = kwopts.get("selection", None)
 
-    <span class="n">shareax</span> <span class="o">=</span> <span class="bp">None</span>
+    nrows = len(plot_vars)
+    ncols = 1
+    if transpose:
+        nrows, ncols = ncols, nrows
 
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fld_meta</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plot_vars</span><span class="p">):</span>
-        <span class="n">fld_name_split</span> <span class="o">=</span> <span class="n">fld_meta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
-        <span class="n">fld_name</span> <span class="o">=</span> <span class="n">fld_name_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">fld_slc</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fld_name_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-        <span class="k">if</span> <span class="n">selection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="c"># fld_slc += &quot;,{0}&quot;.format(selection)</span>
-            <span class="k">if</span> <span class="n">fld_slc</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
-                <span class="n">fld_slc</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fld_slc</span><span class="p">,</span> <span class="n">selection</span><span class="p">])</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">fld_slc</span> <span class="o">=</span> <span class="n">selection</span>
-        <span class="k">with</span> <span class="n">grid</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span> <span class="k">as</span> <span class="n">fld</span><span class="p">:</span>
-            <span class="c"># print(&quot;fld_time:&quot;, fld.time)</span>
-            <span class="n">row</span> <span class="o">=</span> <span class="n">i</span>
-            <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
-                <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">((</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">),</span> <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span>
-                                  <span class="n">sharex</span><span class="o">=</span><span class="n">shareax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">shareax</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">share_axes</span><span class="p">:</span>
-                <span class="n">shareax</span> <span class="o">=</span> <span class="n">ax</span>
-            
-            <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;plot_opts&quot;</span> <span class="ow">in</span> <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">global_popts</span>
-            <span class="k">elif</span> <span class="n">global_popts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{0},{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                                    <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">],</span> <span class="n">global_popts</span><span class="p">)</span>
-            <span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">fld_slc</span><span class="p">,</span> <span class="o">**</span><span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="c"># print(&quot;fld cache&quot;, grid[fld_meta[0]]._cache)</span>
-    <span class="n">hrs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="o">/</span> <span class="mi">3600</span><span class="p">)</span>
-    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="o">/</span> <span class="mi">60</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
-    <span class="n">secs</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="o">%</span> <span class="mi">60</span>
-    <span class="c"># plt.suptitle(&quot;t = {0:.2f}&quot;.format(grid.time))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;t = {0}:{1:02}:{2:05.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hrs</span><span class="p">,</span> <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span><span class="p">))</span>
-    <span class="n">mpl</span><span class="o">.</span><span class="n">tighten</span><span class="p">()</span>
+    if nrows == 0:
+        logging.warn("I have no variables to plot")
+        return
 
-    <span class="k">if</span> <span class="n">out_prefix</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;{0}_{1:06d}.{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_prefix</span><span class="p">,</span> <span class="n">tind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out_format</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    fig = plt.gcf()
+    if plot_size is not None:
+        fig.set_size_inches(*plot_size, forward=True)
+    if dpi is not None:
+        fig.set_dpi(dpi)
 
-<span class="k">def</span> <span class="nf">_do_multiplot_star</span><span class="p">(</span><span class="n">all_args</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_do_multiplot</span><span class="p">(</span><span class="o">*</span><span class="n">all_args</span><span class="p">)</span> <span class="c">#pylint: disable=W0142</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">verror</span><span class="o">.</span><span class="n">KeyboardInterruptError</span><span class="p">()</span>
+    shareax = None
 
-<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.multiplot">[docs]</a><span class="k">def</span> <span class="nf">multiplot</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">plot_vars</span><span class="p">,</span> <span class="n">np</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">,</span> <span class="n">global_popts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-              <span class="n">share_axes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">kwopts</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="n">grid_iter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">izip</span><span class="p">(</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
-                               <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">),</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">plot_vars</span><span class="p">),</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">global_popts</span><span class="p">),</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">share_axes</span><span class="p">),</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">show</span><span class="p">),</span>
-                               <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">kwopts</span><span class="p">),</span>
-                              <span class="p">)</span>
-    <span class="k">if</span> <span class="n">np</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">grid_iter</span><span class="p">:</span>
-            <span class="n">_do_multiplot_star</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pool</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">np</span><span class="p">)</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_do_multiplot_star</span><span class="p">,</span> <span class="n">grid_iter</span><span class="p">)</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    for i, fld_meta in enumerate(plot_vars):
+        fld_name_split = fld_meta[0].split(',')
+        fld_name = fld_name_split[0]
+        fld_slc = ",".join(fld_name_split[1:])
+        if selection is not None:
+            # fld_slc += ",{0}".format(selection)
+            if fld_slc != "":
+                fld_slc = ",".join([fld_slc, selection])
+            else:
+                fld_slc = selection
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+        # print("fld_time:", fld.time)
+        row = i
+        col = 0
+        if transpose:
+            row, col = col, row
+        ax = plt.subplot2grid((nrows, ncols), (row, col),
+                              sharex=shareax, sharey=shareax)
+        if i == 0 and share_axes:
+            shareax = ax
+
+        if not "plot_opts" in fld_meta[1]:
+            fld_meta[1]["plot_opts"] = global_popts
+        elif global_popts is not None:
+            fld_meta[1]["plot_opts"] = "{0},{1}".format(
+                fld_meta[1]["plot_opts"], global_popts)
+
+        # FIXME: this method of plotting T, beta, etc. really sucks
+        # also... do i really need with statements here?
+        if fld_name == "T":
+            with grid["pp"] as pp, grid["rr"] as rr:
+                mpl.plot(pp / rr, selection=fld_slc, **fld_meta[1])
+        elif fld_name == "beta":
+            with grid["bx"] as bx, grid["by"] as by, \
+                 grid["bz"] as bz, grid["pp"] as pp:
+                beta = pp / (bx**2 + by**2 + bz**2)
+                mpl.plot(beta, selection=fld_slc, **fld_meta[1])
+        else:
+            with grid[fld_name] as fld:
+                mpl.plot(fld, selection=fld_slc, **fld_meta[1])
+        # print("fld cache", grid[fld_meta[0]]._cache)
+
+    hrs = int(grid.time / 3600)
+    mins = int((grid.time / 60) % 60)
+    secs = grid.time % 60
+    # plt.suptitle("t = {0:.2f}".format(grid.time))
+    plt.suptitle("\nt = {0}:{1:02}:{2:05.2f}".format(hrs, mins, secs))
+    mpl.tighten()
+
+    if out_prefix:
+        plt.savefig("{0}_{1:06d}.{2}".format(out_prefix, tind + 1, out_format))
+    if show:
+        plt.show()
+    plt.clf()
+
+<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.multiplot">[docs]</a>def multiplot(file_, plot_vars, np=1, time_slice=":", global_popts=None,
+              share_axes=False, show=False, kwopts=None):
+    grid_iter = izip(
+                     itertools.count(),
+                     file_.iter_times(time_slice),
+                     itertools.repeat(plot_vars),
+                     itertools.repeat(global_popts),
+                     itertools.repeat(share_axes),
+                     itertools.repeat(show),
+                     itertools.repeat(kwopts),
+                    )
+    parallel.map(np, _do_multiplot, grid_iter)
+
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -196,13 +268,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

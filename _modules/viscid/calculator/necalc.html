@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.necalc &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.calculator.necalc &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,151 +46,172 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.calculator.necalc</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
+  <h1>Source code for viscid.calculator.necalc</h1><pre>
+#!/usr/bin/env python
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+from __future__ import print_function
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">numexpr</span> <span class="kn">as</span> <span class="nn">ne</span>
+import numpy as np
+import numexpr as ne
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">coordinate</span>
+from .. import field
+from .. import coordinate
 
-<span class="c"># ne.set_num_threads(1)  # for performance checking</span>
+# ne.set_num_threads(1)  # for performance checking
 
-<div class="viewcode-block" id="VneCalc"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.VneCalc">[docs]</a><span class="k">class</span> <span class="nc">VneCalc</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="n">expr</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">local_dict</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">slice_dict</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">ret_type</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">ret_context</span> <span class="o">=</span> <span class="bp">None</span>
+<div class="viewcode-block" id="VneCalc"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.VneCalc">[docs]</a>class VneCalc(object):
+    expr = None
+    local_dict = None
+    slice_dict = None
+    ret_type = None
+    ret_context = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">local_dict</span><span class="p">,</span> <span class="n">slice_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">ret_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ret_context</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">expr</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">local_dict</span> <span class="o">=</span> <span class="n">local_dict</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">slice_dict</span> <span class="o">=</span> <span class="n">slice_dict</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ret_type</span> <span class="o">=</span> <span class="n">ret_type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ret_context</span> <span class="o">=</span> <span class="n">ret_context</span>
+    def __init__(self, expr, local_dict,
+                 ret_type=None, ret_context=None):
+        self.expr = expr
+        self.local_dict = local_dict
+        # self.slice_dict = slice_dict
+        self.ret_type = ret_type
+        self.ret_context = ret_context
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">ldict</span> <span class="o">=</span> <span class="p">{}</span>
+    def __call__(self, *args):
+        ldict = {}
 
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">local_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-                <span class="n">ldict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="n">val</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
-                <span class="n">ldict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">data</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ldict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        for name, val in self.local_dict.items():
+            if isinstance(val, int):
+                ldict[name] = args[val]
+            else:
+                ldict[name] = val
 
-        <span class="c"># apply slices if given</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">ldict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ldict</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">slc</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+        # apply slices if given
+        # if self.slice_dict is not None:
+        #     for name, slc in self.slice_dict.items():
+        #         ldict[name] = ldict[name][slc].data
 
-        <span class="c"># print(ldict)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expr</span><span class="p">,</span> <span class="n">local_dict</span><span class="o">=</span><span class="n">ldict</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ret_context</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ret_type</span><span class="p">)</span>
+        # print(ldict)
+        result = ne.evaluate(self.expr, local_dict=ldict)
+        return args[0].wrap(result, context=self.ret_context, typ=self.ret_type)
 </div>
-<span class="n">difference</span> <span class="o">=</span> <span class="n">VneCalc</span><span class="p">(</span><span class="s">&quot;a - b&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="n">add</span> <span class="o">=</span> <span class="n">VneCalc</span><span class="p">(</span><span class="s">&quot;a + b&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="n">relative_diff</span> <span class="o">=</span> <span class="n">VneCalc</span><span class="p">(</span><span class="s">&quot;(a - b) / a&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="n">abs_diff</span> <span class="o">=</span> <span class="n">VneCalc</span><span class="p">(</span><span class="s">&quot;abs(a - b)&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="n">abs_val</span> <span class="o">=</span> <span class="n">VneCalc</span><span class="p">(</span><span class="s">&quot;abs(a)&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+add = VneCalc("a + b", {'a': 0, 'b': 1})
+diff = VneCalc("a - b", {'a': 0, 'b': 1})
+mul = VneCalc("a * b", {'a': 0, 'b': 1})
+relative_diff = VneCalc("(a - b) / a", {'a': 0, 'b': 1})
+abs_diff = VneCalc("abs(a - b)", {'a': 0, 'b': 1})
+abs_val = VneCalc("abs(a)", {'a': 0})
 
-<div class="viewcode-block" id="magnitude"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.magnitude">[docs]</a><span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
-    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">mag</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;sqrt((vx**2) + (vy**2) + (vz**2))&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mag</span>
+<div class="viewcode-block" id="abs_max"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.abs_max">[docs]</a>def abs_max(fld):
+    a = fld.data #pylint: disable=W0612
+    return np.max(ne.evaluate("abs(a)"))
 </div>
-<div class="viewcode-block" id="abs_max"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.abs_max">[docs]</a><span class="k">def</span> <span class="nf">abs_max</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">sl</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)):</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sl</span><span class="p">]</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;abs(a)&quot;</span><span class="p">))</span>
+<div class="viewcode-block" id="abs_min"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.abs_min">[docs]</a>def abs_min(fld):
+    a = fld.data #pylint: disable=W0612
+    return np.min(ne.evaluate("abs(a)"))
+
+# def scalar_mul(s, fld):
+#     sarr = np.array([s], dtype=fld.dtype) #pylint: disable=W0612
+#     fldarr = fld.data #pylint: disable=W0612
+#     result = ne.evaluate("sarr * fldarr")
+#     return fld.wrap(result)
 </div>
-<div class="viewcode-block" id="abs_min"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.abs_min">[docs]</a><span class="k">def</span> <span class="nf">abs_min</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">sl</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)):</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sl</span><span class="p">]</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;abs(a)&quot;</span><span class="p">))</span>
+<div class="viewcode-block" id="magnitude"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.magnitude">[docs]</a>def magnitude(fld):
+    vx, vy, vz = fld.component_views() #pylint: disable=W0612
+    mag = ne.evaluate("sqrt((vx**2) + (vy**2) + (vz**2))")
+    return fld.wrap(mag, typ="Scalar")
 </div>
-<div class="viewcode-block" id="add"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.add">[docs]</a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="n">adat</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">data</span>
-    <span class="n">bdat</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
-    <span class="k">return</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;adat + bdat&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.dot">[docs]</a>def dot(fld_a, fld_b):
+    """ 3d dot product of two vector fields """
+    ax, ay, az = fld_a.component_views() #pylint: disable=W0612
+    bx, by, bz = fld_b.component_views() #pylint: disable=W0612
+    prod = ne.evaluate("(ax * bx) + (ay * by) + (az * bz)")
+    return fld_a.wrap(prod, typ="Scalar")
 </div>
-<div class="viewcode-block" id="scalar_mul"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.scalar_mul">[docs]</a><span class="k">def</span> <span class="nf">scalar_mul</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">fld</span><span class="p">):</span>
-    <span class="n">sarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">s</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">fldarr</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="k">return</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;sarr * fldarr&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="cross"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.cross">[docs]</a>def cross(fld_a, fld_b):
+    """ cross product of two vector fields """
+    ax, ay, az = fld_a.component_views() #pylint: disable=W0612
+    bx, by, bz = fld_b.component_views() #pylint: disable=W0612
+    prodx = ne.evaluate("ay * bz - az * by")
+    prody = ne.evaluate("-ax * bz + az * bx")
+    prodz = ne.evaluate("ax * by - ay * bx")
+    return fld_a.wrap([prodx, prody, prodz])
 </div>
-<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
-    <span class="n">ax</span><span class="p">,</span> <span class="n">ay</span><span class="p">,</span> <span class="n">az</span> <span class="o">=</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">bz</span> <span class="o">=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">prod</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;ax * bx + ay * by + az * bz&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">prod</span>
+<div class="viewcode-block" id="div"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.div">[docs]</a>def div(fld):
+    """ first order """
+    vx, vy, vz = fld.component_views()
+
+    if fld.iscentered("Cell"):
+        crdz, crdy, crdx = fld.get_crds_cc(shaped=True)
+        divcenter = "Cell"
+        # divcrds = coordinate.NonuniformCartesianCrds(fld.crds.get_clist(np.s_[1:-1]))
+        divcrds = fld.crds.slice_keep(np.s_[1:-1, 1:-1, 1:-1])
+    elif fld.iscentered("Node"):
+        crdz, crdy, crdx = fld.get_crds_nc(shaped=True)
+        divcenter = "Node"
+        # divcrds = coordinate.NonuniformCartesianCrds(fld.crds.get_clist(np.s_[1:-1]))
+        divcrds = fld.crds.slice_keep(np.s_[1:-1, 1:-1, 1:-1])
+    else:
+        raise NotImplementedError("Can only do cell and node centered divs")
+
+    xp = crdx[:,:,2:]; xm = crdx[:,:,:-2] #pylint: disable=W0612,C0321,C0324
+    yp = crdy[:,2:,:]; ym = crdy[:,:-2,:] #pylint: disable=W0612,C0321,C0324
+    zp = crdz[2:,:,:]; zm = crdz[:-2,:,:] #pylint: disable=W0612,C0321,C0324
+
+    vxp = vx[1:-1,1:-1,2:]; vxm = vx[1:-1,1:-1,:-2] #pylint: disable=W0612,C0321,C0324,C0301
+    vyp = vy[1:-1,2:,1:-1]; vym = vy[1:-1,:-2,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
+    vzp = vz[2:,1:-1,1:-1]; vzm = vz[:-2,1:-1,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
+
+    # print(vxp.shape, vyp.shape, vzp.shape)
+    # print(vxm.shape, vym.shape, vzm.shape)
+    # print(xp.shape, yp.shape, zp.shape)
+    # print(xm.shape, ym.shape, zm.shape)
+
+    div_arr = ne.evaluate("(vxp-vxm)/(xp-xm) + (vyp-vym)/(yp-ym) + "
+                          "(vzp-vzm)/(zp-zm)")
+    return field.wrap_field("Scalar", "div " + fld.name, divcrds, div_arr,
+                            center=divcenter, time=fld.time)
 </div>
-<div class="viewcode-block" id="cross"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.cross">[docs]</a><span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">):</span>
-    <span class="n">ax</span><span class="p">,</span> <span class="n">ay</span><span class="p">,</span> <span class="n">az</span> <span class="o">=</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">bz</span> <span class="o">=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
-    <span class="n">prodx</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;ay * bz - az * by&quot;</span><span class="p">)</span>
-    <span class="n">prody</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;-ax * bz + az * bx&quot;</span><span class="p">)</span>
-    <span class="n">prodz</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;ax * by - ay * bx&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">prodx</span><span class="p">,</span> <span class="n">prody</span><span class="p">,</span> <span class="n">prodz</span>
-</div>
-<div class="viewcode-block" id="div"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.div">[docs]</a><span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; first order  &quot;&quot;&quot;</span>
-    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
+<div class="viewcode-block" id="curl"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.necalc.curl">[docs]</a>def curl(fld):
+    """ first order """
+    vx, vy, vz = fld.component_views()
 
-    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Cell&quot;</span><span class="p">:</span>
-        <span class="n">crdz</span><span class="p">,</span> <span class="n">crdy</span><span class="p">,</span> <span class="n">crdx</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">)</span>
-        <span class="n">divcenter</span> <span class="o">=</span> <span class="s">&quot;Cell&quot;</span>
-        <span class="n">divcrds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">RectilinearCrds</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Node&quot;</span><span class="p">:</span>
-        <span class="n">crdz</span><span class="p">,</span> <span class="n">crdy</span><span class="p">,</span> <span class="n">crdx</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">divcenter</span> <span class="o">=</span> <span class="s">&quot;Node&quot;</span>
-        <span class="n">divcrds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">RectilinearCrds</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Can only do cell and node centered divs&quot;</span><span class="p">)</span>
+    if fld.iscentered("Cell"):
+        crdz, crdy, crdx = fld.get_crds_cc(shaped=True)
+        curlcenter = "cell"
+        curlcrds = coordinate.NonuniformCartesianCrds(fld.crds.get_clist(np.s_[1:-1]))
+    elif fld.iscentered("Node"):
+        crdz, crdy, crdx = fld.get_crds_nc(shaped=True)
+        curlcenter = "node"
+        curlcrds = coordinate.NonuniformCartesianCrds(fld.crds.get_clist(np.s_[1:-1]))
+    else:
+        raise NotImplementedError("Can only do cell and node centered divs")
 
-    <span class="n">xp</span> <span class="o">=</span> <span class="n">crdx</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">:];</span> <span class="n">xm</span> <span class="o">=</span> <span class="n">crdx</span><span class="p">[:,:,:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c">#pylint: disable=W0612,C0321,C0324</span>
-    <span class="n">yp</span> <span class="o">=</span> <span class="n">crdy</span><span class="p">[:,</span><span class="mi">2</span><span class="p">:,:];</span> <span class="n">ym</span> <span class="o">=</span> <span class="n">crdy</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">2</span><span class="p">,:]</span> <span class="c">#pylint: disable=W0612,C0321,C0324</span>
-    <span class="n">zp</span> <span class="o">=</span> <span class="n">crdz</span><span class="p">[</span><span class="mi">2</span><span class="p">:,:,:];</span> <span class="n">zm</span> <span class="o">=</span> <span class="n">crdz</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,:,:]</span> <span class="c">#pylint: disable=W0612,C0321,C0324</span>
+    xp = crdx[:,:,2:]; xm = crdx[:,:,:-2] #pylint: disable=W0612,C0321,C0324
+    yp = crdy[:,2:,:]; ym = crdy[:,:-2,:] #pylint: disable=W0612,C0321,C0324
+    zp = crdz[2:,:,:]; zm = crdz[:-2,:,:] #pylint: disable=W0612,C0321,C0324
 
-    <span class="n">vxp</span> <span class="o">=</span> <span class="n">vx</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:];</span> <span class="n">vxm</span> <span class="o">=</span> <span class="n">vx</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c">#pylint: disable=W0612,C0321,C0324,C0301</span>
-    <span class="n">vyp</span> <span class="o">=</span> <span class="n">vy</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="n">vym</span> <span class="o">=</span> <span class="n">vy</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c">#pylint: disable=W0612,C0321,C0324,C0301</span>
-    <span class="n">vzp</span> <span class="o">=</span> <span class="n">vz</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span> <span class="n">vzm</span> <span class="o">=</span> <span class="n">vz</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c">#pylint: disable=W0612,C0321,C0324,C0301</span>
+    # vxpx = vx[1:-1,1:-1,2:]; vxmx = vx[1:-1,1:-1,:-2] #pylint: disable=W0612,C0321,C0324,C0301
+    vxpy = vx[1:-1,2:,1:-1]; vxmy = vx[1:-1,:-2,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
+    vxpz = vx[2:,1:-1,1:-1]; vxmz = vx[:-2,1:-1,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
 
-    <span class="c"># print(vxp.shape, vyp.shape, vzp.shape)</span>
-    <span class="c"># print(vxm.shape, vym.shape, vzm.shape)</span>
-    <span class="c"># print(xp.shape, yp.shape, zp.shape)</span>
-    <span class="c"># print(xm.shape, ym.shape, zm.shape)</span>
+    vypx = vy[1:-1,1:-1,2:]; vymx = vy[1:-1,1:-1,:-2] #pylint: disable=W0612,C0321,C0324,C0301
+    # vypy = vy[1:-1,2:,1:-1]; vymy = vy[1:-1,:-2,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
+    vypz = vy[2:,1:-1,1:-1]; vymz = vy[:-2,1:-1,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
 
-    <span class="n">div_arr</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;(vxp-vxm)/(xp-xm) + (vyp-vym)/(yp-ym) + &quot;</span>
-                          <span class="s">&quot;(vzp-vzm)/(zp-zm)&quot;</span><span class="p">)</span>
+    vzpx = vz[1:-1,1:-1,2:]; vzmx = vz[1:-1,1:-1,:-2] #pylint: disable=W0612,C0321,C0324,C0301
+    vzpy = vz[1:-1,2:,1:-1]; vzmy = vz[1:-1,:-2,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
+    # vzpz = vz[2:,1:-1,1:-1]; vzmz = vz[:-2,1:-1,1:-1] #pylint: disable=W0612,C0321,C0324,C0301
 
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="s">&quot;div &quot;</span> <span class="o">+</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">divcrds</span><span class="p">,</span> <span class="n">div_arr</span><span class="p">,</span>
-                            <span class="n">center</span><span class="o">=</span><span class="n">divcenter</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+    curl_x = ne.evaluate("(vzpy-vzmy)/(yp-ym) - (vypz-vymz)/(zp-zm)")
+    curl_y = ne.evaluate("-(vzpx-vzmx)/(xp-xm) + (vxpz-vxmz)/(zp-zm)")
+    curl_z = ne.evaluate("(vypx-vymx)/(xp-xm) - (vxpy-vxmy)/(yp-ym)")
 
-<span class="c"># This is not correct</span>
-<span class="c"># div = VneCalc(&quot;(vxp-vxm)/(xp-xm) + (vyp-vym)/(yp-ym) + (vzp-vzm)/(zp-zm)&quot;,</span>
-<span class="c">#               {&quot;vxp&quot;: 0, &quot;vxm&quot;: 0, &quot;vyp&quot;: 1, &quot;vym&quot;: 1, &quot;vzp&quot;: 2, &quot;vzm&quot;: 2,</span>
-<span class="c">#                &quot;xp&quot;: 0, &quot;xm&quot;: 0, &quot;yp&quot;: 1, &quot;ym&quot;: 1, &quot;zp&quot;: 2, &quot;zm&quot;: 2,</span>
-<span class="c">#               },</span>
-<span class="c">#               {&quot;vxp&quot;: np.s_[1:-1,1:-1,2:], &quot;vxm&quot;: np.s_[1:-1,1:-1,:-2],</span>
-<span class="c">#                &quot;vyp&quot;: np.s_[1:-1,2:,1:-1], &quot;vym&quot;: np.s_[1:-1,:-2,1:-1],</span>
-<span class="c">#                &quot;vzp&quot;: np.s_[2:,1:-1,1:-1], &quot;vzm&quot;: np.s_[:-2,1:-1,1:-1],</span>
-<span class="c">#                &quot;xp&quot;: np.s_[:,:,2:], &quot;xm&quot;: np.s_[:,:,:-2],</span>
-<span class="c">#                &quot;yp&quot;: np.s_[:,2:,:], &quot;ym&quot;: np.s_[:,:-2,:],</span>
-<span class="c">#                &quot;zp&quot;: np.s_[2:,:,:], &quot;zm&quot;: np.s_[:-2,:,:],</span>
-<span class="c">#               },</span>
-<span class="c">#               ret_type=field.ScalarField,</span>
-<span class="c">#              )</span>
+    return field.wrap_field("Vector", "curl " + fld.name, curlcrds,
+                            [curl_x, curl_y, curl_z],
+                            center=curlcenter, time=fld.time)
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -225,13 +244,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

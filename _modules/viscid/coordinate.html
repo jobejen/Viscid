@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.coordinate &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,435 +46,786 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.coordinate</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="sd">&quot;&quot;&quot; Coordinates get put into fields</span>
-<span class="sd">The order of coords in the clist should mirror the data layout, as in</span>
-<span class="sd">if data[iz, iy, ix] (C-order, ix is fastest varying index) then list</span>
-<span class="sd">should go z, y, x... this is the default order</span>
+  <h1>Source code for viscid.coordinate</h1><pre>
+#!/usr/bin/env python
+""" Coordinates get put into fields
+The order of coords in the clist should mirror the data layout, as in
+if data[iz, iy, ix] (C-order, ix is fastest varying index) then list
+should go z, y, x... this is the default order
 
-<span class="sd">types:</span>
-<span class="sd">     &quot;Structured&quot;:</span>
-<span class="sd">         &quot;Rectilinear&quot;</span>
-<span class="sd">         &quot;Cylindrical&quot;</span>
-<span class="sd">         &quot;Spherical&quot;</span>
-<span class="sd">     &quot;Unstructured&quot;:</span>
-<span class="sd">         -&gt; Not Implemented &lt;- &quot;&quot;&quot;</span>
+types:
+     "Structured":
+         "nonuniform_cartesian"
+         "Cylindrical"
+         "Spherical"
+     "Unstructured":
+         -&gt; Not Implemented &lt;- """
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="c"># from timeit import default_timer as time</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+from __future__ import print_function
+# from timeit import default_timer as time
+import itertools
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+import numpy as np
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vutil</span>
+from . import vutil
 
 
-<div class="viewcode-block" id="wrap_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.wrap_crds">[docs]</a><span class="k">def</span> <span class="nf">wrap_crds</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
-    <span class="c"># print(len(clist), clist[0][0], len(clist[0][1]), typ)</span>
-    <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">vutil</span><span class="o">.</span><span class="n">subclass_spider</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="n">typ</span><span class="p">:</span>
-            <span class="c"># return an instance</span>
-            <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">clist</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can not decipher crds&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="wrap_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.wrap_crds">[docs]</a>def wrap_crds(typ, clist):
+    """  """
+    # print(len(clist), clist[0][0], len(clist[0][1]), typ)
+    for cls in vutil.subclass_spider(Coordinates):
+        if cls.istype(typ):
+            # return an instance
+            return cls(clist)
+    raise NotImplementedError("can not decipher crds")
 
 </div>
-<div class="viewcode-block" id="Coordinates"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates">[docs]</a><span class="k">class</span> <span class="nc">Coordinates</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;None&quot;</span>
+<div class="viewcode-block" id="Coordinates"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates">[docs]</a>class Coordinates(object):
+    _TYPE = "none"
 
-    <span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
+    __crds = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+    @property
+<div class="viewcode-block" id="Coordinates.type"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.type">[docs]</a>    def type(self):
+        return self._TYPE
+</div>
+    @classmethod
+<div class="viewcode-block" id="Coordinates.istype"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.istype">[docs]</a>    def istype(cls, type_str):
+        return cls._TYPE == type_str.lower()
+</div>
+    def __init__(self):
+        pass
 
-<div class="viewcode-block" id="Coordinates.as_coordinates"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
+<div class="viewcode-block" id="Coordinates.as_coordinates"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.as_coordinates">[docs]</a>    def as_coordinates(self):
+        return self
 
 </div></div>
-<div class="viewcode-block" id="StructuredCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds">[docs]</a><span class="k">class</span> <span class="nc">StructuredCrds</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Structured&quot;</span>
-    <span class="n">CENTER</span> <span class="o">=</span> <span class="p">{</span><span class="bp">None</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Node&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;Cell&quot;</span><span class="p">:</span> <span class="s">&quot;cc&quot;</span><span class="p">,</span> <span class="s">&quot;Face&quot;</span><span class="p">:</span> <span class="s">&quot;fc&quot;</span><span class="p">,</span> <span class="s">&quot;Edge&quot;</span><span class="p">:</span> <span class="s">&quot;ec&quot;</span><span class="p">}</span>
-    <span class="n">SUFFIXES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">CENTER</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<div class="viewcode-block" id="StructuredCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds">[docs]</a>class StructuredCrds(Coordinates):
+    _TYPE = "structured"
+    _CENTER = {"none": "", "node": "nc", "cell": "cc",
+              "face": "fc", "edge": "ec"}
+    SUFFIXES = list(_CENTER.values())
 
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
-    <span class="n">_dim</span> <span class="o">=</span> <span class="mi">3</span>
+    _axes = ["z", "y", "x"]
 
-    <span class="n">has_cc</span> <span class="o">=</span> <span class="bp">None</span>
+    _src_crds_nc = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_clist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">has_cc</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if caled with an init_clist, then the coordinate names</span>
-<span class="sd">        are taken from this list &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">StructuredCrds</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">has_cc</span> <span class="o">=</span> <span class="n">has_cc</span>
-        <span class="k">if</span> <span class="n">init_clist</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">init_clist</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clear_crds</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">init_clist</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">init_clist</span><span class="p">)</span>
+    transform_funcs = None
+    has_cc = None
 
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.dim"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.dim">[docs]</a>    <span class="k">def</span> <span class="nf">dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">)</span>
+    def __init__(self, init_clist, has_cc=True, transform_funcs=None,
+                 **kwargs):
+        """ if caled with an init_clist, then the coordinate names
+        are taken from this list """
+        super(StructuredCrds, self).__init__(**kwargs)
+        self.has_cc = has_cc
+
+        if transform_funcs is not None:
+            self.transform_funcs = transform_funcs
+
+        if init_clist:
+            self._axes = [d[0].lower() for d in init_clist]
+        self.clear_crds()
+        if init_clist:
+            self.set_crds(init_clist)
+
+    @property
+<div class="viewcode-block" id="StructuredCrds.nr_dims"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.nr_dims">[docs]</a>    def nr_dims(self):
+        """ number of spatial dimensions """
+        return len(self._axes)
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.axes"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.axes">[docs]</a>    <span class="k">def</span> <span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.axes"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.axes">[docs]</a>    def axes(self):
+        return self._axes
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.shape"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_nc</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.dtype"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.dtype">[docs]</a>    def dtype(self):
+        return self[self.axes[0]].dtype
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.dtype"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">dtype</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.shape"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape">[docs]</a>    def shape(self):
+        return self.shape_nc
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.shape_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape_nc">[docs]</a>    <span class="k">def</span> <span class="nf">shape_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">ax</span><span class="p">])</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">]</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.shape_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape_nc">[docs]</a>    def shape_nc(self):
+        return [len(self[ax]) for ax in self.axes]
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="StructuredCrds.shape_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape_cc">[docs]</a>    <span class="k">def</span> <span class="nf">shape_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">ax</span> <span class="o">+</span> <span class="s">&quot;cc&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">]</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.shape_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.shape_cc">[docs]</a>    def shape_cc(self):
+        return [len(self[ax + "cc"]) for ax in self.axes]
 </div>
-<div class="viewcode-block" id="StructuredCrds.clear_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.clear_crds">[docs]</a>    <span class="k">def</span> <span class="nf">clear_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">sfx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SUFFIXES</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.size"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.size">[docs]</a>    def size(self):
+        return self.size_nc
 </div>
-<div class="viewcode-block" id="StructuredCrds.set_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.set_crds">[docs]</a>    <span class="k">def</span> <span class="nf">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; called with a list of lists:</span>
-<span class="sd">        ((&#39;x&#39;, ndarray), (&#39;y&#39;,ndarray), (&#39;z&#39;,ndarray))</span>
-<span class="sd">        Note: input crds are assumed to be node centered</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># print(clist)</span>
-        <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">:</span>
-            <span class="c"># make axis into string representation</span>
-            <span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="n">flatarr</span><span class="p">,</span> <span class="n">openarr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogrid_single</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">axis</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">flatarr</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">axis</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span> <span class="o">=</span> <span class="n">openarr</span>
-
-        <span class="c"># recalculate all cell centers, and refresh face / edges</span>
-        <span class="n">sfx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTER</span><span class="p">[</span><span class="s">&quot;Cell&quot;</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c"># validate input</span>
-            <span class="n">ccarr</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">flatarr</span><span class="p">,</span> <span class="n">openarr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ogrid_single</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ccarr</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="n">flatarr</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="n">openarr</span>
-
-        <span class="n">crds_nc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">()</span>
-        <span class="n">crds_nc_shaped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">crds_cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">)</span>
-        <span class="n">crds_cc_shaped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">)</span>
-
-        <span class="c"># store references to face and edge centers while we&#39;re here</span>
-        <span class="n">sfx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTER</span><span class="p">[</span><span class="s">&quot;Face&quot;</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span> <span class="c">#pylint: disable=W0612</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_nc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_nc_shaped</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_cc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_cc_shaped</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="c"># same as face, but swap nc with cc</span>
-        <span class="n">sfx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTER</span><span class="p">[</span><span class="s">&quot;Face&quot;</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_cc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_cc_shaped</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_nc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">crds_nc_shaped</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.size_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.size_nc">[docs]</a>    def size_nc(self):
+        return np.product(self.shape_nc)
 </div>
-<div class="viewcode-block" id="StructuredCrds.ogrid_single"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.ogrid_single">[docs]</a>    <span class="k">def</span> <span class="nf">ogrid_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns (flat array, open array) &quot;&quot;&quot;</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
-        <span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-
-        <span class="c"># print(arr.shape)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">arr</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    @property
+<div class="viewcode-block" id="StructuredCrds.size_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.size_cc">[docs]</a>    def size_cc(self):
+        return np.product(self.shape_cc)
 </div>
-<div class="viewcode-block" id="StructuredCrds.ind"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.ind">[docs]</a>    <span class="k">def</span> <span class="nf">ind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">axis</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">axis</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+    @property
+    def _crds(self):
+        "!!! BIG NOTE: THIS PROPERTY IS STILL PRIVATE !!!"
+        if self.__crds is None:
+            self._fill_crds_dict()
+        return self.__crds
+
+<div class="viewcode-block" id="StructuredCrds.clear_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.clear_crds">[docs]</a>    def clear_crds(self):
+        self._src_crds_nc = {}
+        self._purge_cache()
+        # for d in self.axes:
+        #     for sfx in self.SUFFIXES:
+        #         self.__crds[d + sfx] = None
+        #         self.__crds[d.upper() + sfx] = None
 </div>
-<div class="viewcode-block" id="StructuredCrds.axis_name"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.axis_name">[docs]</a>    <span class="k">def</span> <span class="nf">axis_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">axis</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+    def _purge_cache(self):
+        self.__crds = None
+
+<div class="viewcode-block" id="StructuredCrds.unload"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.unload">[docs]</a>    def unload(self):
+        """ does not guarentee that the memory will be freed """
+        self._purge_cache()
 </div>
-<div class="viewcode-block" id="StructuredCrds.parse_slice_str"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.parse_slice_str">[docs]</a>    <span class="k">def</span> <span class="nf">parse_slice_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; parse a selection string or dict. a trailing i means the number is</span>
-<span class="sd">        an index, else numbers are interpreted as coordinates... ex:</span>
-<span class="sd">        selection = &#39;y=12.32,z-1.0&#39; is line of data</span>
-<span class="sd">        closest to (x, y=12.32, z=-1.0)</span>
-<span class="sd">        selection = {&#39;y=12i:14i,z=1i is the slice [:,12:14,1]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># parse string to dict if necessary</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">selection</span>
-        <span class="k">elif</span> <span class="n">selection</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{}</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">sel</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)):</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)</span>
-
-                <span class="c"># this extra : split is for asking for a subset in one</span>
-                <span class="c"># dimension</span>
-                <span class="n">dim</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="n">slclst</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
-
-                <span class="c"># if number ends in i or j, cast to int as index, else leave</span>
-                <span class="c"># as float to denote a crd... also, if it&#39;s the 3rd value then</span>
-                <span class="c"># it&#39;s a stride... cant really have a float stride can we</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slclst</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="k">elif</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="s">&#39;j&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                        <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;ij&#39;</span><span class="p">))</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                <span class="n">sel</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">slclst</span>
-            <span class="k">return</span> <span class="n">sel</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">selection</span><span class="p">}</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">sel</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">):</span>
-                <span class="n">ret</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">sel</span>
-            <span class="k">return</span> <span class="n">ret</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
+<div class="viewcode-block" id="StructuredCrds.set_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.set_crds">[docs]</a>    def set_crds(self, clist):
+        """ called with a list of lists:
+        (('x', ndarray), ('y',ndarray), ('z',ndarray))
+        Note: input crds are assumed to be node centered
+        """
+        for axis, data in clist:
+            # axis = self.axis_name(axis)
+            if not axis in self._axes:
+                raise KeyError()
+            # ind = self.ind(axis)
+            self._src_crds_nc[axis.lower()] = data
 </div>
-<div class="viewcode-block" id="StructuredCrds.make_slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice">[docs]</a>    <span class="k">def</span> <span class="nf">make_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">use_cc</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">rm_len1_dims</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; use a selection dict that looks like:</span>
-<span class="sd">        {&#39;x&#39;: (0,12), &#39;y&#39;: 0.0, &#39;z&#39;: (-13.0, 13.0)}</span>
-<span class="sd">        to get a list of slices and crds that one</span>
-<span class="sd">        could use to wrap a new field...</span>
-<span class="sd">        return example for &quot;y=3i:6i:2,z=0&quot;:</span>
-<span class="sd">        ([slice(None), slice(3, 5, 2), 32],  # list of data slices</span>
-<span class="sd">         [[&#39;x&#39;, array(1, 2, 3)], [&#39;y&#39;, array(0, 1)]],  # new clist</span>
-<span class="sd">         [[&#39;z&#39;, 0.0]],  # list of coords that are taken out by the slices</span>
-<span class="sd">        )</span>
-<span class="sd">        rm_len1_dims will automatically add directions with only</span>
-<span class="sd">        one coord value to the selection dict. the idea is to auto reduce</span>
-<span class="sd">        3d to 2d if the data is naturally 2d (one dicection has no depth)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># TODO: see if np.s_ could clean this up a bit</span>
-        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_slice_str</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-        <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
-        <span class="c"># colapse = [None] * self.dim</span>
-        <span class="n">slcrds</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
-        <span class="n">reduced</span> <span class="o">=</span> <span class="p">[]</span>
+    def _fill_crds_dict(self):
+        """ do the math to calc node, cell, face, edge crds from
+        the src crds """
+        self.__crds = {}
 
-        <span class="c"># go through all axes and see if they are selected</span>
-        <span class="k">for</span> <span class="n">dind</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
-                <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">axis</span> <span class="o">+</span> <span class="s">&quot;cc&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="n">use_cc</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">rm_len1_dims</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="n">crdval</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span> <span class="o">+</span> <span class="s">&quot;cc&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">use_cc</span> <span class="k">else</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">reduced</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span> <span class="n">crdval</span><span class="p">])</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-                    <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">]]</span>
-                <span class="k">continue</span>
+        # get node centered crds from the src crds
+        sfx = self._CENTER["node"]
+        for axis, arr in self._src_crds_nc.items():
+            # make axis into string representation
+            # axis = self.axis_name(axis)
+            ind = self.ind(axis)
+            arr = np.array(arr, dtype=arr.dtype.name)
 
-            <span class="n">sel</span> <span class="o">=</span> <span class="n">selection</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+            if self.transform_funcs is not None:
+                if axis in self.transform_funcs:
+                    arr = self.transform_funcs[axis](self, arr)
+                elif ind in self.transform_funcs:
+                    arr = self.transform_funcs[ind](self, arr)
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                <span class="n">slc</span> <span class="o">=</span> <span class="n">sel</span>
+            flatarr, openarr = self._ogrid_single(ind, arr)
+            self.__crds[axis.lower()] = flatarr
+            self.__crds[axis.upper()] = openarr
+            # now with suffix
+            self.__crds[axis.lower() + sfx] = flatarr
+            self.__crds[axis.upper() + sfx] = openarr
 
-            <span class="c"># expect val to be a list to describe start, stop, stride</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-                <span class="n">sel</span> <span class="o">=</span> <span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+        # recalculate all cell centers, and refresh face / edges
+        sfx = self._CENTER["cell"]
+        for a in self.axes:
+            # a = self.axis_name(a)  # validate input
+            ccarr = 0.5 * (self.__crds[a][1:] + self.__crds[a][:-1])
+            flatarr, openarr = self._ogrid_single(a, ccarr)
+            self.__crds[a + sfx] = flatarr
+            self.__crds[a.upper() + sfx] = openarr
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                <span class="c"># do plane finding if vals are floats for the first two</span>
-                <span class="c"># elements only, the third would be a stride, no lookup</span>
-                <span class="c"># necessary</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sel</span><span class="p">[:</span><span class="mi">2</span><span class="p">]):</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-                        <span class="c"># in truth, i have no idea if this would work with</span>
-                        <span class="c"># decreasing coords</span>
-                        <span class="c"># if self[axis][-1] &lt; self[axis][0]:</span>
-                        <span class="c">#     raise ValueError(&quot;I will not slice decreasing &quot;</span>
-                        <span class="c">#                      &quot;coords.&quot;)</span>
+        # ok, so this is a little recursive, but it's ok since we set
+        # __crds above, note however that now we only have nc and cc
+        # crds in __crds
+        crds_nc = self.get_crds_nc()
+        crds_nc_shaped = self.get_crds_nc(shaped=True)
+        crds_cc = self.get_crds_cc()
+        crds_cc_shaped = self.get_crds_cc(shaped=True)
 
-                        <span class="c"># find index of closest node</span>
-                        <span class="k">if</span> <span class="n">use_cc</span><span class="p">:</span>
-                            <span class="n">diff</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span> <span class="o">+</span> <span class="s">&quot;cc&quot;</span><span class="p">]</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">diff</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
-                        <span class="n">closest_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">))</span>
+        # store references to face and edge centers while we're here
+        sfx = self._CENTER["face"]
+        for i, a in enumerate(self.axes):
+            self.__crds[a + sfx] = [None] * len(self.axes)
+            self.__crds[a.upper() + sfx] = [None] * len(self.axes)
+            for j, d in enumerate(self.axes): #pylint: disable=W0612
+                if i == j:
+                    self.__crds[a + sfx][j] = crds_nc[i]
+                    self.__crds[a.upper() + sfx][j] = crds_nc_shaped[i]
+                else:
+                    self.__crds[a + sfx][j] = crds_cc[i]
+                    self.__crds[a.upper() + sfx][j] = crds_cc_shaped[i]
 
-                        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                            <span class="n">sel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">closest_ind</span>  <span class="c"># always a node</span>
-                        <span class="k">else</span><span class="p">:</span>  <span class="c"># i == 1 due to slice sel[:2]</span>
-                            <span class="n">sel</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">closest_ind</span> <span class="o">+</span> <span class="mi">1</span>
+        # same as face, but swap nc with cc
+        sfx = self._CENTER["edge"]
+        for i, a in enumerate(self.axes):
+            self.__crds[a + sfx] = [None] * len(self.axes)
+            self.__crds[a.upper() + sfx] = [None] * len(self.axes)
+            for j, d in enumerate(self.axes):
+                if i == j:
+                    self.__crds[a + sfx][j] = crds_cc[i]
+                    self.__crds[a.upper() + sfx][j] = crds_cc_shaped[i]
+                else:
+                    self.__crds[a + sfx][j] = crds_nc[i]
+                    self.__crds[a.upper() + sfx][j] = crds_nc_shaped[i]
 
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">ind</span> <span class="o">=</span> <span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">rm_len1_dims</span><span class="p">:</span>
-                        <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-                        <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span> <span class="o">+</span> <span class="s">&quot;cc&quot;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="k">if</span> <span class="n">use_cc</span> <span class="k">else</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span>
-                        <span class="n">reduced</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span> <span class="n">loc</span><span class="p">])</span>
-                        <span class="k">continue</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">ind</span><span class="p">:</span><span class="n">ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    def _ogrid_single(self, axis, arr):
+        """ returns (flat array, open array) """
+        i = self.ind(axis)
+        shape = [1] * self.nr_dims
+        shape[i] = -1
 
-            <span class="k">if</span> <span class="n">use_cc</span> <span class="ow">and</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">crd_slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">crd_slc</span> <span class="o">=</span> <span class="n">slc</span>
-            <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">slc</span>
-            <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">crd_slc</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+        # print(arr.shape)
 
-        <span class="c"># print(slices, slcrds)</span>
+        if len(arr.shape) == 1:
+            return arr, np.reshape(arr, shape)
+        elif len(arr.shape) == self.nr_dims:
+            return np.ravel(arr), arr
+        else:
+            raise ValueError()
 
-        <span class="c"># remove len1_dims</span>
-        <span class="n">slcrds</span> <span class="o">=</span> <span class="p">[</span><span class="n">crd</span> <span class="k">for</span> <span class="n">crd</span> <span class="ow">in</span> <span class="n">slcrds</span> <span class="k">if</span> <span class="n">crd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
-
-        <span class="c"># print(slices)</span>
-        <span class="c"># print(&quot;*** slices: &quot;, slices)</span>
-        <span class="c"># print(&quot;*** crds: &quot;, slcrds)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">slices</span><span class="p">),</span> <span class="n">slcrds</span><span class="p">,</span> <span class="n">reduced</span>
+<div class="viewcode-block" id="StructuredCrds.ind"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.ind">[docs]</a>    def ind(self, axis):
+        if isinstance(axis, int):
+            if axis &lt; len(self.axes):
+                return axis
+            else:
+                raise ValueError()
+        else:
+            return self.axes.index(axis)
 </div>
-<div class="viewcode-block" id="StructuredCrds.slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">use_cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">use_cc</span><span class="o">=</span><span class="n">use_cc</span><span class="p">,</span>
-                                                  <span class="n">rm_len1_dims</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="c"># no slice necessary, just pass the field through</span>
-        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
+<div class="viewcode-block" id="StructuredCrds.axis_name"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.axis_name">[docs]</a>    def axis_name(self, axis):
+        if isinstance(axis, str):
+            if axis in self._crds:
+                return axis
+            else:
+                raise KeyError(axis)
+        else:
+            return self.axes[axis]
 </div>
-<div class="viewcode-block" id="StructuredCrds.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crd">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if axis is not specified, return all coords,</span>
-<span class="sd">        shaped makes axis capitalized and returns ogrid like crds</span>
-<span class="sd">        shaped is only used if axis == None</span>
-<span class="sd">        sfx can be None, Node, Cell, Face, Edge &quot;&quot;&quot;</span>
-        
-        <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">axis</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">if</span> <span class="n">shaped</span> <span class="k">else</span> <span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">]</span>
+    def _parse_slice(self, selection):
+        """ parse a selection string or dict. a trailing i means the number is
+        an index, else numbers are interpreted as coordinates... ex:
+        selection = 'y=12.32,z-1.0' is line of data
+        closest to (x, y=12.32, z=-1.0)
+        selection = {'y=12i:14i,z=1i is the slice [:,12:14,1]
+        """
+        # parse string to dict if necessary
+        if isinstance(selection, dict):
+            return selection
+        elif isinstance(selection, (slice, int, float)):
+            return {self._axes[0]: selection}
+        elif selection is None or len(selection) == 0:
+            return {}
+        elif isinstance(selection, str):
+            sel = {}
+            for i, s in enumerate(selection.replace('_', ',').split(',')):
+                swhole = s
+                s = s.split('=')
+                if not len(s) == 2:
+                    raise IndexError("There must be exactly 1 '=' per dim, "
+                                     "I see '{0}'".format(swhole))
+                # this extra : split is for asking for a subset in one
+                # dimension
+                dim = s[0].strip()
+                slclst = s[1].strip().split(':')
 
-        <span class="n">sfx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CENTER</span><span class="p">[</span><span class="n">center</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">axis</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis_name</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span> <span class="o">+</span> <span class="n">sfx</span><span class="p">]</span>
+                # if number ends in i or j, cast to int as index, else leave
+                # as float to denote a crd... also, if it's the 3rd value then
+                # it's a stride... cant really have a float stride can we
+                for i, val in enumerate(slclst):
+                    if len(val) == 0:
+                        slclst[i] = None
+                    elif val[-1] in ['i', 'j'] or i == 2:
+                        slclst[i] = int(val.rstrip('ij'))
+                    else:
+                        slclst[i] = float(val)
+                sel[dim] = slclst
+            return sel
+        elif isinstance(selection, (tuple, list)):
+            ret = {}
+            try:
+                i = selection.index(Ellipsis)
+                sln = [slice(None)] * (self.nr_dims - (len(selection) - 1))
+                selection = selection[:i] + sln + selection[i + 1:]
+                for i in range(selection):
+                    if selection[i] == Ellipsis:
+                        selection[i] = slice(None)
+            except ValueError:
+                pass
+
+            for sel, axis in zip(selection, self._axes):
+                ret[axis] = sel
+            return ret
+        else:
+            raise TypeError()
+
+<div class="viewcode-block" id="StructuredCrds.make_slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice">[docs]</a>    def make_slice(self, selection, cc=False):
+        """ In practice, selection can be a string like "y=3i:6i:2,z=0"
+        where i indicates slice by index as opposed to bare numbers which
+        slice by crd value. The example slice would be the 3rd and 5th crds
+        in y, and the z = 0.0 plane. Selection can also be the usual tuple
+        of slice objects / integers like one would give to numpy.
+        Returns slices, slcrds, reduced
+        slices: list of slice objects, one for each axis in self
+        slcrds: a clist for what the coords will be after the slice
+        reduced: a list of (axis, location) pairs of which axes are sliced out
+        The previous example would return (if z[32] is closest to z=0.0):
+        ([slice(None), slice(3, 6, 2), 32],  # list of data slices
+         [['x', ndarray(all nc x crds)], ['y', array(y[3], y[5])]], # new clist
+         [['z', 0.0]],  # list of coords that are taken out by the slices
+        )
+        Note: cc is necessary for finding the closest plane, otherwise it
+              might be off by half a grid cell
+        """
+        # this turns all types of selection input styles into a selection dict
+        # which looks like {'axis': (start,stop?,step?), ...}
+        # where start /step are optional and start / stop can be floats which
+        # indicate that we need to lookup the index
+        selection = self._parse_slice(selection)
+        slices = [None] * self.nr_dims
+        slcrds = [None] * self.nr_dims
+        reduced = []
+
+        # go through all axes and see if they are selected
+        for dind, axis in enumerate(self.axes):
+            if not axis in selection:
+                slices[dind] = slice(None)
+                slcrds[dind] = [axis, self.get_nc(axis)]
+                continue
+
+            sel = selection[axis]
+
+            if isinstance(sel, slice):
+                slc = sel
+
+            # expect val to be a list to describe start, stop, stride
+            if isinstance(sel, (int, float)):
+                sel = [sel]
+
+            if isinstance(sel, (list, tuple)):
+                # do plane finding if vals are floats for the first two
+                # elements only, the third would be a stride, no lookup
+                # necessary
+                for i, v in enumerate(sel[:2]):
+                    if isinstance(v, float):
+                        # find index of closest node
+                        if cc:
+                            diff = v - self.get_cc(axis)
+                        else:
+                            diff = v - self.get_nc(axis)
+                        closest_ind = np.argmin(np.abs(diff))
+
+                        if i == 0:
+                            sel[i] = closest_ind  # always a node
+                        else:  # i == 1 due to slice sel[:2]
+                            sel[i] = closest_ind + 1  # + 1 to be inclusive
+
+                # ok, if one value specified, numpy semantics say reduce that
+                # dimension out
+                if len(sel) == 1:
+                    ind = sel[0]
+
+                    slices[dind] = ind
+                    slcrds[dind] = None
+                    if cc:
+                        loc = self.get_cc(axis)[ind]
+                    else:
+                        loc = self.get_nc(axis)[ind]
+                    reduced.append([axis, loc])
+
+                    # we set slices, slcrds, and reduced and there needs be no
+                    # extra cc logic to extend the slice stop since there are
+                    # no more coords in this dimension
+                    continue
+
+                elif len(sel) == 2:
+                    slc = np.s_[sel[0]:sel[1]]
+                elif len(sel) == 3:
+                    slc = np.s_[sel[0]:sel[1]:sel[2]]
+                else:
+                    raise ValueError()
+
+            # if we're doing a cc slice, there needs to be one more node
+            # than data element, so add an extra node to slc.stop
+            if cc and slc.stop is not None:
+                if slc.stop &gt;= 0:
+                    newstop = slc.stop + 1
+                else:  # slc.stop &lt; 0
+                    # this will slice crds nc, so if we're going backward, the
+                    # extra crd will be included
+                    newstop = slc.stop
+                crd_slc = slice(slc.start, newstop, slc.step)
+            else:
+                crd_slc = slc
+            slices[dind] = slc
+            slcrds[dind] = [axis, self[axis][crd_slc].reshape(-1)]
+
+        # remove dimensions that were sliced out
+        slcrds = [crd for crd in slcrds if crd is not None]
+
+        # print("MAKE SLICE : slices", slices, "crdlst", slcrds,
+        #       "reduced", reduced)
+        return slices, slcrds, reduced
 </div>
-<div class="viewcode-block" id="StructuredCrds.get_culled_axes"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_culled_axes">[docs]</a>    <span class="k">def</span> <span class="nf">get_culled_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return list of axes names, but discard axes whose coords have</span>
-<span class="sd">        length &lt;= ignore... useful for 2d fields that only have 1 cell</span>
-<span class="sd">        center in the 3rd direction &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">ignore</span><span class="p">]</span>
+<div class="viewcode-block" id="StructuredCrds.make_slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice_reduce">[docs]</a>    def make_slice_reduce(self, selection, cc=False):
+        """ make slice, and reduce dims that were not explicitly sliced """
+        slices, crdlst, reduced = self.make_slice(selection, cc=cc)
+        # augment slices / reduced
+        for i, axis in enumerate(self.axes):
+            reduce_axis = False
+            if slices[i] == slice(None):
+                if cc and self.shape_cc[i] == 1:
+                    slices[i] = 0
+                    reduced.insert(i, [axis, self.get_cc(axis)[0]])
+                    reduce_axis = True
+                elif not cc and self.shape_nc[i] == 1:
+                    slices[i] = 0
+                    reduced.insert(i, [axis, self.get_nc(axis)[0]])
+                    reduce_axis = True
+                # go find which element of crdlst to take out since there
+                # may already be elements missing
+                if reduce_axis:
+                    for j, crd in enumerate(crdlst):
+                        if crd is not None and crd[0] == axis:
+                            crdlst[j] = None
+                            break
+        # remove the newly reduced crds
+        crdlst = [crd for crd in crdlst if crd is not None]
+        # print("MAKE SLICE REDUCE : slices", slices, "crdlst", crdlst,
+        #       "reduced", reduced)
+        return slices, crdlst, reduced
 </div>
-<div class="viewcode-block" id="StructuredCrds.get_clist"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_clist">[docs]</a>    <span class="k">def</span> <span class="nf">get_clist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slce</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return a clist of the coordinates sliced if you wish</span>
-<span class="sd">        I recommend using numpy.s_ for making the slice &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">slce</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">slce</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="n">slce</span><span class="p">]]</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">]</span>
+<div class="viewcode-block" id="StructuredCrds.make_slice_keep"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice_keep">[docs]</a>    def make_slice_keep(self, selection, cc=False):
+        """ make slice, but put back dims that were explicitly reduced """
+        slices, crdlst, reduced = self.make_slice(selection, cc=cc)
+        # put reduced dims back, reduced will be in the same order as self.axes
+        # since make_slice loops over self.axes to do the slices; this enables
+        # us to call insert in the loop
+        for axis, loc in reduced: #pylint: disable=W0612
+            axis_ind = self.ind(axis)
+            # slices[axis_ind] will be an int not a slice since it was reduced
+            loc_ind = slices[axis_ind]
+            crd_nc = self.get_nc(axis)
+
+            if cc:
+                if loc_ind == -1:
+                    crd = crd_nc[-2:]
+                    slc = slice(-1, None)
+                if loc_ind == -2:
+                    crd = crd_nc[-2:]
+                    slc = slice(axis_ind, axis_ind + 1)
+                else:
+                    crd = crd_nc[loc_ind:loc_ind + 2]
+                    slc = slice(axis_ind, axis_ind + 1)
+            else:
+                if loc_ind == -1:
+                    crd = crd_nc[-1:]
+                    slc = slice(-1, None)
+                else:
+                    crd = crd_nc[loc_ind:loc_ind + 1]
+                    slc = slice(loc_ind, loc_ind + 1)
+
+            slices[axis_ind] = slc
+            crdlst.insert(axis_ind, [axis, crd])
+
+        # should be no more reduced crds
+        reduced = []
+        # print("MAKE SLICE KEEP : slices", slices, "crdlst", crdlst,
+        #       "reduced", reduced)
+        return slices, crdlst, reduced
 </div>
-<div class="viewcode-block" id="StructuredCrds.points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.points">[docs]</a>    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">crds</span><span class="p">]</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">)])</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">crds</span><span class="p">):</span>
-            <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">[:</span><span class="n">i</span><span class="p">])),</span>
-                                <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]))</span>
-        <span class="k">return</span> <span class="n">arr</span>
+<div class="viewcode-block" id="StructuredCrds.slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice">[docs]</a>    def slice(self, selection, cc=False):
+        """ Get crds that describe a slice (subset) of this grid. Reduces dims
+        the same way numpy / fields do. Chances are you want either slice_reduce
+        or slice_keep """
+        slices, crdlst, reduced = self.make_slice(selection, cc=cc)
+        # pass through if nothing happened
+        if slices == [slice(None)] * len(slices):
+            return self
+        return wrap_crds(self._TYPE, crdlst)
 </div>
-<div class="viewcode-block" id="StructuredCrds.n_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.n_points">[docs]</a>    <span class="k">def</span> <span class="nf">n_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">crd</span><span class="p">)</span> <span class="k">for</span> <span class="n">crd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)])</span>
+<div class="viewcode-block" id="StructuredCrds.slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice_reduce">[docs]</a>    def slice_reduce(self, selection, cc=False):
+        """ Get crds that describe a slice (subset) of this grid. Go through,
+        and if the slice didn't touch a dim with only one crd, reduce it """
+        slices, crdlst, reduced = self.make_slice_reduce(selection,
+                                                         cc=cc)
+        # pass through if nothing happened
+        if slices == [slice(None)] * len(slices):
+            return self
+        return wrap_crds(self._TYPE, crdlst)
 </div>
-<div class="viewcode-block" id="StructuredCrds.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">))</span>
+<div class="viewcode-block" id="StructuredCrds.slice_keep"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice_keep">[docs]</a>    def slice_keep(self, selection, cc=False):
+        slices, crdlst, reduced = self.make_slice_keep(selection,
+                                                       cc=cc)
+        # pass through if nothing happened
+        if slices == [slice(None)] * len(slices):
+            return self
+        return wrap_crds(self._TYPE, crdlst)
 </div>
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns coord identified by axis &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+<div class="viewcode-block" id="StructuredCrds.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crd">[docs]</a>    def get_crd(self, axis, shaped=False, center="none"):
+        """ if axis is not specified, return all coords,
+        shaped makes axis capitalized and returns ogrid like crds
+        shaped is only used if axis == None
+        sfx can be none, node, cell, face, edge
+        raises KeyError if axis not found """
+        return self.get_crds([axis], shaped, center)[0]
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds">[docs]</a>    def get_crds(self, axes=None, shaped=False, center="none"):
+        """ axes: should be a list of names or integer indices, or None
+                  to return all axes
+        shaped: boolean if you want a shaped or flat ndarray
+                (True is the same as capitalizing axis)
+        center: 'node' 'cell' 'edge' 'face', same as adding a suffix to axes
+        returns list of coords as ndarrays """
+        if axes == None:
+            axes = [a.upper() if shaped else a for a in self.axes]
+        if not isinstance(axes, (list, tuple)):
+            try:
+                axes = [a.upper() if shaped else a for a in axes]
+            except TypeError:
+                axes = [axes]
+        sfx = self._CENTER[center.lower()]
+        return [self._crds[self.axis_name(a) + sfx] for a in axes]
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_crds</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="n">arr</span><span class="p">))</span>
+    # def get_dcrd(self, axis, shaped=False, center="none"):
+    #     """ if axis is not specified, return all coords,
+    #     shaped makes axis capitalized and returns ogrid like crds
+    #     shaped is only used if axis == None
+    #     sfx can be none, node, cell, face, edge
+    #     raises KeyError if axis not found """
+    #     return self.get_dcrds([axis], shaped, center)[0]
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span>
+    # def get_dcrds(self, axes=None, shaped=False, center="none"):
+    #     """ axes: should be a list of names or integer indices, or None
+    #               to return all axes
+    #     shaped: boolean if you want a shaped or flat ndarray
+    #             (True is the same as capitalizing axis)
+    #     center: 'node' 'cell' 'edge' 'face', same as adding a suffix to axes
+    #     returns list of coords as ndarrays """
+    #     if axes == None:
+    #         axes = [a.upper() if shaped else a for a in self.axes]
+    #     if not isinstance(axes, (list, tuple)):
+    #         try:
+    #             axes = [a.upper() if shaped else a for a in axes]
+    #         except TypeError:
+    #             axes = [axes]
+    #     sfx = self._CENTER[center.lower()]
+    #     return [(self._crds[self.axis_name(a) + sfx][1:] -
+    #              self._crds[self.axis_name(a) + sfx][:-1]) for a in axes]
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_culled_axes"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_culled_axes">[docs]</a>    def get_culled_axes(self, ignore=2):
+        """ return list of axes names, but discard axes whose coords have
+        length &lt;= ignore... useful for 2d fields that only have 1 cell
+        center in the 3rd direction """
+        return [name for name in self.axes if len(self[name]) &gt; ignore]
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_clist"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_clist">[docs]</a>    def get_clist(self, axes=None, slc=None):
+        """ return a clist of the coordinates sliced if you wish
+        I recommend using numpy.s_ for making the slice """
+        if slc is None:
+            slc = slice(None)
+        if axes is None:
+            axes = self.axes
+        return [[axis, self.get_crd(axis)[slc]] for axis in axes]
+
+    ## These methods just return one crd axis</div>
+<div class="viewcode-block" id="StructuredCrds.get_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_nc">[docs]</a>    def get_nc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.get_crd(axis, shaped=shaped, center="node")
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_cc">[docs]</a>    def get_cc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.get_crd(axis, shaped=shaped, center="cell")
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_fc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_fc">[docs]</a>    def get_fc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.get_crd(axis, shaped=shaped, center="face")
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_ec"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_ec">[docs]</a>    def get_ec(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.get_crd(axis, shaped=shaped, center="edge")
+
+    ## These methods return all crd axes</div>
+<div class="viewcode-block" id="StructuredCrds.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_nc">[docs]</a>    def get_crds_nc(self, axes=None, shaped=False):
+        """ returns all node centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.get_crds(axes=axes, center="node", shaped=shaped)
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_cc">[docs]</a>    def get_crds_cc(self, axes=None, shaped=False):
+        """ returns all cell centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.get_crds(axes=axes, center="cell", shaped=shaped)
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_ec">[docs]</a>    def get_crds_ec(self, axes=None, shaped=False):
+        """ return all edge centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.get_crds(axes=axes, center="edge", shaped=shaped)
+</div>
+<div class="viewcode-block" id="StructuredCrds.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_fc">[docs]</a>    def get_crds_fc(self, axes=None, shaped=False):
+        """ returns all face centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.get_crds(axes=axes, center="face", shaped=shaped)
+</div>
+<div class="viewcode-block" id="StructuredCrds.points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.points">[docs]</a>    def points(self, center="none"):
+        """ returns all points in a grid defined by crds as a
+        nr_dims x nr_points ndarray """
+        crds = self.get_crds(shaped=False, center=center)
+        shape = [len(c) for c in crds]
+        arr = np.empty([len(shape)] + [np.prod(shape)])
+        for i, c in enumerate(crds):
+            arr[i, :] = np.tile(np.repeat(c, np.prod(shape[:i])),
+                                np.prod(shape[i + 1:]))
+        return arr
+</div>
+<div class="viewcode-block" id="StructuredCrds.nr_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.nr_points">[docs]</a>    def nr_points(self, center="none"):
+        """ returns the number of points in a grid defined by these crds """
+        return np.prod([len(crd) for crd in self.get_crds(center=center)])
+</div>
+<div class="viewcode-block" id="StructuredCrds.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.iter_points">[docs]</a>    def iter_points(self, center="none", **kwargs): #pylint: disable=W0613
+        """ returns an iterator over all the points in a grid, each nextitem
+        will be a list of nr_dims numbers """
+        return itertools.product(*self.get_crds(shaped=False, center=center))
+</div>
+<div class="viewcode-block" id="StructuredCrds.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.print_tree">[docs]</a>    def print_tree(self):
+        c = self.get_clist()
+        for l in c:
+            print(l[0])
+</div>
+    def __len__(self):
+        return self.nr_dims
+
+    def __getitem__(self, axis):
+        """ returns coord identified by axis (shaped / centering encoded
+        through capitalization of crd, and suffix), ex: 'Xcc' is shaped cell
+        centered, 'znc' is flat node centered, 'x' is flat node centered,
+        2 is self._axes[2]
+        """
+        return self.get_crd(axis)
+
+    def __setitem__(self, axis, arr):
+        """ I recommend against doing this since there may be unintended
+        side effects """
+        return self.set_crds((axis, arr))
+
+    def __delitem__(self, item):
+        raise ValueError("can not delete crd this way")
+
+    def __contains__(self, item):
+        if item[-2:] in list(self._CENTER.values()):
+            item = item[:-2].lower()
+        return item in self._crds
+
+
+#FIXME: really, __init__ should be rewritten for uniform crds, since you
+#       don't need a full clist, just an origin + d[xyz], but this hack
+#       will kinda work for now</div>
+<div class="viewcode-block" id="UniformCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.UniformCrds">[docs]</a>class UniformCrds(StructuredCrds):
+    _TYPE = "uniform"
+
+    # def get_dcrd(self, axis, shaped=False, center="none"):
+    #     """ if axis is not specified, return all coords,
+    #     shaped makes axis capitalized and returns ogrid like crds
+    #     shaped is only used if axis == None
+    #     sfx can be none, node, cell, face, edge
+    #     raises KeyError if axis not found """
+    #     return self.get_dcrds([axis], shaped, center)[0]
+
+    # def get_dcrds(self, axes=None, shaped=False, center="none"):
+    #     """ axes: should be a list of names or integer indices, or None
+    #               to return all axes
+    #     shaped: boolean if you want a shaped or flat ndarray
+    #             (True is the same as capitalizing axis)
+    #     center: 'node' 'cell' 'edge' 'face', same as adding a suffix to axes
+    #     returns list of coords as ndarrays """
+    #     if axes == None:
+    #         axes = [a.upper() if shaped else a for a in self.axes]
+    #     if not isinstance(axes, (list, tuple)):
+    #         try:
+    #             axes = [a.upper() if shaped else a for a in axes]
+    #         except TypeError:
+    #             axes = [axes]
+    #     sfx = self._CENTER[center.lower()]
+    #     return [(self._crds[self.axis_name(a) + sfx][1] -
+    #              self._crds[self.axis_name(a) + sfx][0]) for a in axes]
 
 </div>
-<div class="viewcode-block" id="RectilinearCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.RectilinearCrds">[docs]</a><span class="k">class</span> <span class="nc">RectilinearCrds</span><span class="p">(</span><span class="n">StructuredCrds</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Rectilinear&quot;</span>
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_clist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">RectilinearCrds</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">init_clist</span><span class="o">=</span><span class="n">init_clist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="NonuniformCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.NonuniformCrds">[docs]</a>class NonuniformCrds(StructuredCrds):
+    _TYPE = "nonuniform"
 
 </div>
-<div class="viewcode-block" id="CylindricalCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.CylindricalCrds">[docs]</a><span class="k">class</span> <span class="nc">CylindricalCrds</span><span class="p">(</span><span class="n">StructuredCrds</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Cylindrical&quot;</span>
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;theta&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">]</span>
+<div class="viewcode-block" id="UniformCartesianCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.UniformCartesianCrds">[docs]</a>class UniformCartesianCrds(UniformCrds):
+    _TYPE = "uniform_cartesian"
+    _axes = ["z", "y", "x"]
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_clist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">CylindricalCrds</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">init_clist</span><span class="o">=</span><span class="n">init_clist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-</div>
-<div class="viewcode-block" id="SphericalCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.SphericalCrds">[docs]</a><span class="k">class</span> <span class="nc">SphericalCrds</span><span class="p">(</span><span class="n">StructuredCrds</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Spherical&quot;</span>
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;phi&quot;</span><span class="p">,</span> <span class="s">&quot;theta&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">]</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_clist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SphericalCrds</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">init_clist</span><span class="o">=</span><span class="n">init_clist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    def __init__(self, init_clist, **kwargs):
+        super(UniformCartesianCrds, self).__init__(init_clist, **kwargs)
 
 </div>
-<div class="viewcode-block" id="UnstructuredCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.UnstructuredCrds">[docs]</a><span class="k">class</span> <span class="nc">UnstructuredCrds</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Unstructured&quot;</span>
+<div class="viewcode-block" id="NonuniformCartesianCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.NonuniformCartesianCrds">[docs]</a>class NonuniformCartesianCrds(NonuniformCrds):
+    _TYPE = "nonuniform_cartesian"
+    _axes = ["z", "y", "x"]
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">UnstructuredCrds</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+    def __init__(self, init_clist, **kwargs):
+        super(NonuniformCartesianCrds, self).__init__(init_clist, **kwargs)
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+
+# class UniformSphericalCrds(UniformCrds):
+#     _TYPE = "uniform_spherical"
+#     _axes = ["phi", "theta", "r"]
+
+#     def __init__(self, init_clist=None, **kwargs):
+#         super(UniformSphericalCrds, self).__init__(init_clist, **kwargs)
+
+</div>
+<div class="viewcode-block" id="NonuniformSphericalCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.NonuniformSphericalCrds">[docs]</a>class NonuniformSphericalCrds(NonuniformCrds):
+    _TYPE = "nonuniform_spherical"
+    _axes = ["phi", "theta", "r"]
+
+    _target_nc_params = None
+
+    def __init__(self, init_clist, **kwargs):
+        """ This subclass is hackilly different from other crd types...
+        init_clist MUST be list of the form:
+        [
+            ['phi', [0.0, 360.0, 181]],
+            ['theta', [0.0, 180.0, 61]],
+            ['r', [0.95, 1.05, 2]],
+        ]
+        where the list is the first, last, num given to
+        numpy.linspace
+        """
+        self._axes = [d[0].lower() for d in init_clist]
+        self._target_nc_params = [d[1] for d in init_clist]
+        super(NonuniformSphericalCrds, self).__init__(None, **kwargs)
+
+    def _fill_crds_dict(self):
+        """ do the math to calc node, cell, face, edge crds from
+        the src crds """
+        # SUPERHACKY! ok, so we're ignoring the cordinates in the file, and
+        # just assuming they span the sphere... that way all we actually need
+        # is nphi, ntheta, so when we need the crds, fill _src_crds_nc as
+        # though we had them
+        self._src_crds_nc = {}
+        for ax, p in zip(self._axes, self._target_nc_params):
+            self._src_crds_nc[ax] = np.linspace(p[0], p[1], p[2])
+        return super(NonuniformSphericalCrds, self)._fill_crds_dict()
+
+</div>
+<div class="viewcode-block" id="UnstructuredCrds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.UnstructuredCrds">[docs]</a>class UnstructuredCrds(Coordinates):
+    _TYPE = "unstructured"
+
+    def __init__(self, **kwargs):
+        super(UnstructuredCrds, self).__init__(**kwargs)
+        raise NotImplementedError()
+
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -509,13 +858,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

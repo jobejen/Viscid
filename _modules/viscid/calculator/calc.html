@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.calc &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.calculator.calc &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,265 +46,184 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.calculator.calc</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="sd">&quot;&quot;&quot; This has a mechanism to dispatch to different backends. You can change the</span>
-<span class="sd">order of preference of the backend by changing default_backends.</span>
-<span class="sd">TODO: this dispatch mechanism is very simple, maybe something a little more</span>
-<span class="sd">flexable would be useful down the line? &quot;&quot;&quot;</span>
+  <h1>Source code for viscid.calculator.calc</h1><pre>
+#!/usr/bin/env python
+""" This has a mechanism to dispatch to different backends. You can change the
+order of preference of the backend by changing default_backends.
+TODO: this dispatch mechanism is very simple, maybe something a little more
+flexable would be useful down the line? """
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+from __future__ import print_function
+import logging
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ..compat import OrderedDict
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+import numpy as np
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">vutil</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">verror</span>
+# from .. import field
+# from .. import vutil
+from .. import verror
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cycalc</span>
-    <span class="n">has_cython</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">has_cython</span> <span class="o">=</span> <span class="bp">False</span>
+try:
+    from . import cycalc
+    has_cython = True
+except ImportError:
+    has_cython = False
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">necalc</span>
-    <span class="n">has_numexpr</span> <span class="o">=</span> <span class="bp">True</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">has_numexpr</span> <span class="o">=</span> <span class="bp">False</span>
+try:
+    from . import necalc
+    has_numexpr = True
+except ImportError as e:
+    has_numexpr = False
 
-<span class="n">_installed_backends</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;cython&quot;</span><span class="p">:</span> <span class="n">has_cython</span><span class="p">,</span>
-                       <span class="s">&quot;numexpr&quot;</span><span class="p">:</span> <span class="n">has_numexpr</span><span class="p">,</span>
-                       <span class="s">&quot;numpy&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
-                       <span class="s">&quot;native&quot;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c"># now this is a silly one</span>
-                      <span class="p">}</span>
+<div class="viewcode-block" id="Operation"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.Operation">[docs]</a>class Operation(object):
+    default_backends = ["numexpr", "cython", "numpy"]
 
-<span class="c"># list of default backends to use in order of preference</span>
-<span class="c"># this can be changed, with the warning that it will all users of this module</span>
-<span class="n">default_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;cython&quot;</span><span class="p">,</span> <span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
+    _imps = None  # implementations
+    opname = None
+    short_name = None
 
-<span class="c"># TODO: this is kind of a silly mechanism</span>
-<span class="k">def</span> <span class="nf">_check_backend</span><span class="p">(</span><span class="n">preferred</span><span class="p">,</span> <span class="n">implemented</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; preferred should be a list of backends in order of preference, &quot;default&quot;</span>
-<span class="sd">    to use the default list, or None to just go down the implemented list and</span>
-<span class="sd">    use the first one that works. The first preferred backend that is in</span>
-<span class="sd">    implemented AND is installed is returned. If none of the preferred are</span>
-<span class="sd">    usable, the list of implemented backends is checked in order... so the</span>
-<span class="sd">    calling function should think about the order of the implemented list</span>
-<span class="sd">    too... for instance, try numexpr before numpy</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">preferred</span> <span class="o">==</span> <span class="s">&quot;default&quot;</span><span class="p">:</span>
-        <span class="n">preferred</span> <span class="o">=</span> <span class="n">default_backends</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preferred</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">preferred</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">preferred</span> <span class="o">=</span> <span class="n">implemented</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">preferred</span> <span class="o">=</span> <span class="p">[</span><span class="n">preferred</span><span class="p">]</span>
+    def __init__(self, name, short_name, implementations=[]):
+        self.opname = name
+        self.short_name = short_name
+        self._imps = OrderedDict()
+        self.add_implementations(implementations)
 
-    <span class="c"># go through preferred backends</span>
-    <span class="k">for</span> <span class="n">backend</span> <span class="ow">in</span> <span class="n">preferred</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">backend</span> <span class="ow">in</span> <span class="n">implemented</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">_installed_backends</span><span class="p">[</span><span class="n">backend</span><span class="p">]:</span>
-                    <span class="k">return</span> <span class="n">backend</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Unknown backend: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">only</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">verror</span><span class="o">.</span><span class="n">BackendNotFound</span><span class="p">(</span><span class="s">&quot;No preferred backend &quot;</span>
-                                     <span class="s">&quot;usable: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">preferred</span><span class="p">))</span>
-
-    <span class="k">for</span> <span class="n">backend</span> <span class="ow">in</span> <span class="n">implemented</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">_installed_backends</span><span class="p">[</span><span class="n">backend</span><span class="p">]:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Preferred backends {0} not available, using {1} &quot;</span>
-                             <span class="s">&quot;instead.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">preferred</span><span class="p">,</span> <span class="n">backend</span><span class="p">))</span>
-                <span class="k">return</span> <span class="n">backend</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Unknown backend (Should not be &quot;</span>
-                          <span class="s">&quot;implemented?): {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">backend</span><span class="p">))</span>
-
-    <span class="k">raise</span> <span class="n">verror</span><span class="o">.</span><span class="n">BackendNotFound</span><span class="p">(</span><span class="s">&quot;No implemented backends are installed &quot;</span>
-                                 <span class="s">&quot;for this function.&quot;</span><span class="p">)</span>
-
-<div class="viewcode-block" id="add"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.add">[docs]</a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="c"># tmp = fld_b[slb]</span>
-        <span class="n">summ</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld_a</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; sum&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">summ</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="Operation.add_implementation"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.Operation.add_implementation">[docs]</a>    def add_implementation(self, name, func):
+        self._imps[name] = func
 </div>
-<div class="viewcode-block" id="difference"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.difference">[docs]</a><span class="k">def</span> <span class="nf">difference</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">sla</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">slb</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="c"># tmp = fld_b[slb]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">fld_a</span><span class="p">[</span><span class="n">sla</span><span class="p">],</span> <span class="n">fld_b</span><span class="p">[</span><span class="n">slb</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fld_a</span><span class="p">[</span><span class="n">sla</span><span class="p">]</span> <span class="o">-</span> <span class="n">fld_b</span><span class="p">[</span><span class="n">slb</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld_a</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; difference&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">diff</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="Operation.add_implementations"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.Operation.add_implementations">[docs]</a>    def add_implementations(self, implementations):
+        for name, func in implementations:
+            self.add_implementation(name, func)
 </div>
-<div class="viewcode-block" id="relative_diff"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.relative_diff">[docs]</a><span class="k">def</span> <span class="nf">relative_diff</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">sla</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">slb</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span>
-                  <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
+    def _get_imp(self, preferred, only=False):
+        if not isinstance(preferred, (list, tuple)):
+            if preferred is None:
+                preferred = list(self._imps.keys())
+            else:
+                preferred = [preferred]
 
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">relative_diff</span><span class="p">(</span><span class="n">fld_a</span><span class="p">[</span><span class="n">sla</span><span class="p">],</span> <span class="n">fld_b</span><span class="p">[</span><span class="n">slb</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sla</span><span class="p">]</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slb</span><span class="p">]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">a</span>
+        for name in preferred:
+            if name in self._imps:
+                return self._imps[name]
 
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld_a</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; difference&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">diff</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+        msg = "{0} :: {1}".format(self.opname, preferred)
+        if only:
+            raise verror.BackendNotFound(msg)
+        logging.info("No preferred backends available: " + msg)
+
+        for name in self.default_backends:
+            if name in self._imps:
+                return self._imps[name]
+
+        if len(self._imps) == 0:
+            raise verror.BackendNotFound("No backends available")
+        return list(self._imps.values())[0]
+
+    def __call__(self, *args, **kwargs):
+        preferred = kwargs.pop("preferred", None)
+        only = kwargs.pop("only", False)
+        func = self._get_imp(preferred, only)
+        return func(*args, **kwargs)
+
 </div>
-<div class="viewcode-block" id="abs_diff"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.abs_diff">[docs]</a><span class="k">def</span> <span class="nf">abs_diff</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">sla</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="n">slb</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span>
-             <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">abs_diff</span><span class="p">(</span><span class="n">fld_a</span><span class="p">[</span><span class="n">sla</span><span class="p">],</span> <span class="n">fld_b</span><span class="p">[</span><span class="n">slb</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">sla</span><span class="p">]</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slb</span><span class="p">]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld_a</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; difference&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">diff</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="UnaryOperation"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.UnaryOperation">[docs]</a>class UnaryOperation(Operation):
+    def __call__(self, a, **kwargs):
+        ret = super(UnaryOperation, self).__call__(a, **kwargs)
+        ret.name = "{0} {1}".format(self.short_name, a.name)
+        return ret
 </div>
-<div class="viewcode-block" id="abs_val"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.abs_val">[docs]</a><span class="k">def</span> <span class="nf">abs_val</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">absarr</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">abs_val</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">absarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="s">&quot;abs &quot;</span> <span class="o">+</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">absarr</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="BinaryOperation"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.BinaryOperation">[docs]</a>class BinaryOperation(Operation):
+    def __call__(self, a, b, **kwargs):
+        ret = super(BinaryOperation, self).__call__(a, b, **kwargs)
+        ret.name = "{0} {1} {2}".format(a.name, self.short_name, b.name)
+        return ret
 </div>
-<div class="viewcode-block" id="abs_min"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.abs_min">[docs]</a><span class="k">def</span> <span class="nf">abs_min</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
+add = BinaryOperation("add", "+")
+diff = BinaryOperation("diff", "-")
+mul = BinaryOperation("mul", "*")
+relative_diff = BinaryOperation("relative diff", "%-")
+abs_diff = BinaryOperation("abs diff", "|-|")
+abs_val = UnaryOperation("abs val", "absval")
+abs_max = Operation("abs max", "absmax")
+abs_min = Operation("abs min", "absmin")
+magnitude = UnaryOperation("magnitude", "magnitude")
+dot = BinaryOperation("dot", "dot")
+cross = BinaryOperation("cross", "x")
+div = UnaryOperation("div", "div")
+curl = UnaryOperation("curl", "curl")
 
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">absmin</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">abs_min</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">absmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+if has_numexpr:
+    add.add_implementation("numexpr", necalc.add)
+    diff.add_implementation("numexpr", necalc.diff)
+    mul.add_implementation("numexpr", necalc.mul)
+    relative_diff.add_implementation("numexpr", necalc.relative_diff)
+    abs_diff.add_implementation("numexpr", necalc.abs_diff)
+    abs_val.add_implementation("numexpr", necalc.abs_val)
+    abs_max.add_implementation("numexpr", necalc.abs_max)
+    abs_min.add_implementation("numexpr", necalc.abs_min)
+    magnitude.add_implementation("numexpr", necalc.magnitude)
+    dot.add_implementation("numexpr", necalc.dot)
+    cross.add_implementation("numexpr", necalc.cross)
+    div.add_implementation("numexpr", necalc.div)
+    curl.add_implementation("numexpr", necalc.curl)
 
-    <span class="k">return</span> <span class="n">absmin</span>
+# numpy versions
+add.add_implementation("numpy", lambda a, b: a + b)
+diff.add_implementation("numpy", lambda a, b: a - b)
+mul.add_implementation("numpy", lambda a, b: a * b)
+relative_diff.add_implementation("numpy", lambda a, b: (a -b) / a)
+abs_diff.add_implementation("numpy", lambda a, b: np.abs(a - b))
+abs_val.add_implementation("numpy", np.abs)
+abs_max.add_implementation("numpy", lambda a: np.max(np.abs(a)))
+abs_min.add_implementation("numpy", lambda a: np.min(np.abs(a)))
+
+<div class="viewcode-block" id="magnitude_np"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.magnitude_np">[docs]</a>def magnitude_np(fld):
+    vx, vy, vz = fld.component_views()
+    return np.sqrt((vx**2) + (vy**2) + (vz**2))
 </div>
-<div class="viewcode-block" id="abs_max"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.abs_max">[docs]</a><span class="k">def</span> <span class="nf">abs_max</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
+magnitude.add_implementation("numpy", magnitude_np)
 
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">absmax</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">abs_max</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">absmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">absmax</span>
+# native versions
+<div class="viewcode-block" id="magnitude_native"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.magnitude_native">[docs]</a>def magnitude_native(fld):
+    vx, vy, vz = fld.component_views()
+    mag = np.empty_like(vx)
+    for i in range(mag.shape[0]):
+        for j in range(mag.shape[1]):
+            for k in range(mag.shape[2]):
+                mag[i, j, k] = np.sqrt(vx[i, j, k]**2 + vy[i, j, k]**2 + \
+                                       vz[i, j, k]**2)
+    return vx.wrap(mag, context={"name": "{0} magnitude".format(fld.name)})
 </div>
-<div class="viewcode-block" id="magnitude"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.magnitude">[docs]</a><span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;cython&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="s">&quot;native&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
+magnitude.add_implementation("native", magnitude_native)
 
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;cython&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cycalc</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">mag</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numpy&quot;</span><span class="p">:</span>
-        <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
-        <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">vx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vz</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;native&quot;</span><span class="p">:</span>
-        <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
-        <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">vx</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
-                    <span class="n">mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> \
-                                           <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="c">#print(&quot;MMM &quot;, np.max(mag - np.sqrt((vx**2) + (vy**2) + (vz**2))))</span>
-    <span class="c">#print(mag[:,128,128])</span>
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; magnitude&quot;</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span>
-                            <span class="n">mag</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="closest1d_ind"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.closest1d_ind">[docs]</a>def closest1d_ind(arr, val):
+    """ DEPRECATED """
+    #i = np.argmin(ne.evaluate("abs(arr - val)"))
+    return np.argmin(np.abs(arr - val))
 </div>
-<div class="viewcode-block" id="scalar_mul"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.scalar_mul">[docs]</a><span class="k">def</span> <span class="nf">scalar_mul</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">prod</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">scalar_mul</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">fld</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                            <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
-                            <span class="n">time</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>    
+<div class="viewcode-block" id="closest1d_val"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.closest1d_val">[docs]</a>def closest1d_val(arr, val):
+    """ DEPRECATED """
+    #i = np.argmin(ne.evaluate("abs(arr - val)"))
+    i = np.argmin(np.abs(arr - val))
+    return arr[i]
 </div>
-<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
+<div class="viewcode-block" id="nearest_val"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.nearest_val">[docs]</a>def nearest_val(fld, point):
+    """ DEPRECATED
+    find value of field closest to point
+    """
+    x, y, z = point
+    xind = closest1d_ind(fld.crds['x'], x)
+    yind = closest1d_ind(fld.crds['y'], y)
+    zind = closest1d_ind(fld.crds['z'], z)
+    return fld[zind, yind, xind]
 
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">prod</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; dot &quot;</span> <span class="o">+</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                            <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
-                            <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="cross"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.cross">[docs]</a><span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="n">prod</span> <span class="o">=</span> <span class="n">necalc</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="s">&quot;Vector&quot;</span><span class="p">,</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot; cross &quot;</span> <span class="o">+</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                            <span class="n">fld_a</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">prod</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
-                            <span class="n">time</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="div"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.div">[docs]</a><span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">backends</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-    <span class="n">implemented_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;cython&quot;</span><span class="p">]</span>
-    <span class="n">use_backend</span> <span class="o">=</span> <span class="n">_check_backend</span><span class="p">(</span><span class="n">backends</span><span class="p">,</span> <span class="n">implemented_backends</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;cython&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cycalc</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">use_backend</span> <span class="o">==</span> <span class="s">&quot;numexpr&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">necalc</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="closest1d_ind"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.closest1d_ind">[docs]</a><span class="k">def</span> <span class="nf">closest1d_ind</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="c">#i = np.argmin(ne.evaluate(&quot;abs(arr - val)&quot;))</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">val</span><span class="p">))</span>
-</div>
-<div class="viewcode-block" id="closest1d_val"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.closest1d_val">[docs]</a><span class="k">def</span> <span class="nf">closest1d_val</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="c">#i = np.argmin(ne.evaluate(&quot;abs(arr - val)&quot;))</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">val</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</div>
-<div class="viewcode-block" id="nearest_val"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.calc.nearest_val">[docs]</a><span class="k">def</span> <span class="nf">nearest_val</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; find value of field closest to point &quot;&quot;&quot;</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">point</span>
-    <span class="n">xind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">yind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">zind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">],</span> <span class="n">z</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fld</span><span class="p">[</span><span class="n">zind</span><span class="p">,</span> <span class="n">yind</span><span class="p">,</span> <span class="n">xind</span><span class="p">]</span>
-
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -339,13 +256,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

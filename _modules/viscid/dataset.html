@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.dataset &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.dataset &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,361 +46,427 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.dataset</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="sd">&quot;&quot;&quot; test docstring &quot;&quot;&quot;</span>
+  <h1>Source code for viscid.dataset</h1><pre>
+#!/usr/bin/env python
+""" test docstring """
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="c"># import bisect</span>
+from __future__ import print_function
+import logging
+# import bisect
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+import numpy as np
 
-<span class="kn">from</span> <span class="nn">.bucket</span> <span class="kn">import</span> <span class="n">Bucket</span>
-<span class="kn">from</span> <span class="nn">.vutil</span> <span class="kn">import</span> <span class="n">spill_prefix</span>
+from .bucket import Bucket
+from .vutil import tree_prefix
 
-<div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset">[docs]</a><span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; datasets contain grids or other datasets</span>
-<span class="sd">    (GridCollection derrives from Dataset)</span>
-<span class="sd">    It is the programmer&#39;s responsibility to ensure objects added to a AOEUIDH</span>
-<span class="sd">    dataset have __getitem__ and get_fields methods, this is not</span>
-<span class="sd">    enforced</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">children</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Bucket or (time, grid)</span>
-    <span class="n">active_child</span> <span class="o">=</span> <span class="bp">None</span>
+<div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset">[docs]</a>class Dataset(object):
+    """ datasets contain grids or other datasets
+    (GridCollection derrives from Dataset)
+    It is the programmer's responsibility to ensure objects added to a AOEUIDH
+    dataset have __getitem__ and get_fields methods, this is not
+    enforced
+    """
+    name = None
+    time = None
+    children = None  # Bucket or (time, grid)
+    active_child = None
 
-    <span class="n">topology_info</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">geometry_info</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">crds</span> <span class="o">=</span> <span class="bp">None</span>
+    topology_info = None
+    geometry_info = None
+    crds = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">Bucket</span><span class="p">()</span>
+    def __init__(self, name, time=None):
+        self.name = name
+        self.children = Bucket()
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        self.active_child = None
+        self.time = time
 
-<div class="viewcode-block" id="Dataset.add"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
-        <span class="k">if</span> <span class="n">set_active</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="n">child</span>
+<div class="viewcode-block" id="Dataset.add"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.add">[docs]</a>    def add(self, child, set_active=True):
+        self.children[child.name] = child
+        if set_active:
+            self.active_child = child
 </div>
-<div class="viewcode-block" id="Dataset.unload"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
-<span class="sd">        being that an unload will free memory, but all the functionality is</span>
-<span class="sd">        preserved, so data is accessable without an explicit reload</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="n">child</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
-        <span class="c"># TODO: does anything else need to be unloaded in here?</span>
+<div class="viewcode-block" id="Dataset.unload"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.unload">[docs]</a>    def unload(self):
+        """ unload is meant to give children a chance to free caches, the idea
+        being that an unload will free memory, but all the functionality is
+        preserved, so data is accessable without an explicit reload
+        """
+        for child in self.children:
+            child.unload()
+        # TODO: does anything else need to be unloaded in here?
 
-    <span class="c"># def remove_all_items(self):</span>
-    <span class="c">#     raise NotImplementedError()</span>
+    # def remove_all_items(self):
+    #     raise NotImplementedError()
 </div>
-<div class="viewcode-block" id="Dataset.activate"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_handle</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; it may not look like it, but this will recursively look</span>
-<span class="sd">        in my active child for the handle because it uses getitem &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span>
+<div class="viewcode-block" id="Dataset.activate"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.activate">[docs]</a>    def activate(self, child_handle):
+        """ it may not look like it, but this will recursively look
+        in my active child for the handle because it uses getitem """
+        self.active_child = self.children[child_handle]
 </div>
-<div class="viewcode-block" id="Dataset.activate_time"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; this is basically &#39;activate&#39; except it specifically picks out</span>
-<span class="sd">        temporal datasets, and does all children, not just the active child &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">child</span><span class="o">.</span><span class="n">activate_time</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span>
+<div class="viewcode-block" id="Dataset.activate_time"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.activate_time">[docs]</a>    def activate_time(self, time):
+        """ this is basically 'activate' except it specifically picks out
+        temporal datasets, and does all children, not just the active child """
+        for child in self.children:
+            try:
+                child.activate_time(time)
+            except AttributeError:
+                pass
 </div>
-<div class="viewcode-block" id="Dataset.n_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.n_times">[docs]</a>    <span class="k">def</span> <span class="nf">n_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">n_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I find no temporal datasets&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="Dataset.nr_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.nr_times">[docs]</a>    def nr_times(self, slice_str=":"):
+        for child in self.children:
+            try:
+                return child.nr_times(slice_str)
+            except AttributeError:
+                pass
+        raise RuntimeError("I find no temporal datasets")
 </div>
-<div class="viewcode-block" id="Dataset.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="k">pass</span>
-        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I find no temporal datasets&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="Dataset.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.iter_times">[docs]</a>    def iter_times(self, slice_str=":"):
+        for child in self.children:
+            try:
+                return child.iter_times(slice_str)
+            except AttributeError:
+                pass
+        raise RuntimeError("I find no temporal datasets")
 </div>
-<div class="viewcode-block" id="Dataset.spill"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.spill">[docs]</a>    <span class="k">def</span> <span class="nf">spill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span><span class="p">:</span>
-                <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot; &lt;-- active&quot;</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}{1}{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
-                <span class="n">child</span><span class="o">.</span><span class="n">spill</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">spill_prefix</span><span class="p">)</span>
+<div class="viewcode-block" id="Dataset.iter_fields"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.iter_fields">[docs]</a>    def iter_fields(self, time=None, named=None):
+        """ generator for fields in the active dataset,
+        this will recurse down to a grid """
+        child = self.active_child
 
-    <span class="c"># def get_non_dataset(self):</span>
-    <span class="c">#     &quot;&quot;&quot; recurse down datasets until active_grid is not a subclass</span>
-    <span class="c">#         of Dataset &quot;&quot;&quot;</span>
-    <span class="c">#     if isinstance(self.activate_grid, Dataset):</span>
-    <span class="c">#         return self.active_grid.get_non_dataset()</span>
-    <span class="c">#     else:</span>
-    <span class="c">#         return self.active_grid</span>
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.iter_fields(time=time, named=named)
 </div>
-<div class="viewcode-block" id="Dataset.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
-        <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
+<div class="viewcode-block" id="Dataset.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.print_tree">[docs]</a>    def print_tree(self, recursive=True, prefix=""):
+        if prefix == "":
+            print(self)
+            prefix += tree_prefix
 
-        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Could not get appropriate child...&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+        for child in self.children:
+            suffix = ""
+            if child is self.active_child:
+                suffix = " &lt;-- active"
+            print("{0}{1}{2}".format(prefix, child, suffix))
+            if recursive:
+                child.print_tree(recursive=True, prefix=prefix + tree_prefix)
+
+    # def get_non_dataset(self):
+    #     """ recurse down datasets until active_grid is not a subclass
+    #         of Dataset """
+    #     if isinstance(self.activate_grid, Dataset):
+    #         return self.active_grid.get_non_dataset()
+    #     else:
+    #         return self.active_grid
 </div>
-<div class="viewcode-block" id="Dataset.get_child"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; get a child from this Dataset,  &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+<div class="viewcode-block" id="Dataset.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.get_field">[docs]</a>    def get_field(self, fldname, time=None):
+        """ recurse down active children to get a field """
+        child = self.active_child
+
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.get_field(fldname, time=time)
 </div>
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if a child exists with handle, return it, else ask</span>
-<span class="sd">        the active child if it knows what you want &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">()</span>
+<div class="viewcode-block" id="Dataset.get_grid"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.get_grid">[docs]</a>    def get_grid(self, time=None):
+        """ recurse down active children to get a field """
+        child = self.active_child
 
-    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="n">child</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove_item</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.get_grid(time=time)
+</div>
+<div class="viewcode-block" id="Dataset.get_child"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.get_child">[docs]</a>    def get_child(self, item):
+        """ get a child from this Dataset,  """
+        return self.children[item]
+</div>
+    def __getitem__(self, item):
+        """ if a child exists with handle, return it, else ask
+        the active child if it knows what you want """
+        if item in self.children:
+            return self.get_child(item)
+        elif self.active_child is not None:
+            return self.active_child[item]
+        else:
+            raise KeyError()
 
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
+    def __delitem__(self, item):
+        child = self.get_child(item)
+        child.unload()
+        self.children.remove_item(child)
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
-        <span class="c"># um... is this kosher??</span>
-        <span class="n">child</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+    def __len__(self):
+        return self.children.__len__()
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="c"># FIXME: this might cause a bug somewhere someday</span>
-        <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+    def __setitem__(self, name, child):
+        # um... is this kosher??
+        child.name = name
+        self.add(child)
 
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
+    def __contains__(self, item):
+        if item in self.children:
+            return True
+        # FIXME: this might cause a bug somewhere someday
+        if item in self.active_child:
+            return True
+        return False
 
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">None</span>
+    def __enter__(self):
+        return self
 
-    <span class="c"># def __iter__(self):</span>
-    <span class="c">#     for child in self.children:</span>
-    <span class="c">#         yield child</span>
+    def __exit__(self, typ, value, traceback):
+        self.unload()
+        return None
 
-    <span class="c"># def __next__(self):</span>
-    <span class="c">#     raise NotImplementedError()</span>
+    # def __iter__(self):
+    #     for child in self.children:
+    #         yield child
+
+    # def __next__(self):
+    #     raise NotImplementedError()
 
 </div>
-<div class="viewcode-block" id="DatasetTemporal"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal">[docs]</a><span class="k">class</span> <span class="nc">DatasetTemporal</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-    <span class="n">_last_ind</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c"># _all_times = None</span>
+<div class="viewcode-block" id="DatasetTemporal"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal">[docs]</a>class DatasetTemporal(Dataset):
+    _last_ind = 0
+    # _all_times = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">DatasetTemporal</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
-        <span class="c"># ok, i want more control over my childen than a bucket can give</span>
-        <span class="c"># TODO: it&#39;s kind of a kludge to create a bucket then destroy it</span>
-        <span class="c"># so soon, but it&#39;s not a big deal</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c"># self._all_times = []</span>
+    def __init__(self, name, time=None):
+        super(DatasetTemporal, self).__init__(name, time=time)
+        # ok, i want more control over my childen than a bucket can give
+        # TODO: it's kind of a kludge to create a bucket then destroy it
+        # so soon, but it's not a big deal
+        self.children = []
+        # self._all_times = []
 
-<div class="viewcode-block" id="DatasetTemporal.add"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">time</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">child</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;A child with no time? Something is strange...&quot;</span><span class="p">)</span>
-        <span class="c"># this keeps the children in time order</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">child</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-        <span class="c"># binary in sorting... maybe more efficient?</span>
-        <span class="c">#bisect.insort(self.children, (child.time, child))</span>
-        <span class="k">if</span> <span class="n">set_active</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="n">child</span>
+<div class="viewcode-block" id="DatasetTemporal.add"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.add">[docs]</a>    def add(self, child, set_active=True):
+        if child is None:
+            raise RuntimeError()
+        if child.time is None:
+            child.time = 0.0
+            logging.warn("A child with no time? Something is strange...")
+        # this keeps the children in time order
+        self.children.append((child.time, child))
+        self.children.sort()
+        # binary in sorting... maybe more efficient?
+        #bisect.insort(self.children, (child.time, child))
+        if set_active:
+            self.active_child = child
 </div>
-<div class="viewcode-block" id="DatasetTemporal.unload"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
-<span class="sd">        being that an unload will free memory, but all the functionality is</span>
-<span class="sd">        preserved, so data is accessable without an explicit reload</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
-        <span class="c"># TODO: does anything else need to be unloaded in here?</span>
+<div class="viewcode-block" id="DatasetTemporal.unload"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.unload">[docs]</a>    def unload(self):
+        """ unload is meant to give children a chance to free caches, the idea
+        being that an unload will free memory, but all the functionality is
+        preserved, so data is accessable without an explicit reload
+        """
+        for child in self.children:
+            child[1].unload()
+        # TODO: does anything else need to be unloaded in here?
 </div>
-<div class="viewcode-block" id="DatasetTemporal.activate"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="DatasetTemporal.activate"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.activate">[docs]</a>    def activate(self, time):
+        self.active_child = self.get_child(time)
 </div>
-<div class="viewcode-block" id="DatasetTemporal.activate_time"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; this is basically &#39;activate&#39; except it specifically picks out</span>
-<span class="sd">        temporal datasets &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+<div class="viewcode-block" id="DatasetTemporal.activate_time"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.activate_time">[docs]</a>    def activate_time(self, time):
+        """ this is basically 'activate' except it specifically picks out
+        temporal datasets """
+        self.activate(time)
 </div>
-    <span class="k">def</span> <span class="nf">_slice_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
-        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">child</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">])</span>
-        <span class="n">slc_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">slice_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">)]</span>
-        <span class="c"># slc_lst[:2] = [float(t) if t != &quot;&quot; else None for t in slc_lst[:2]]</span>
-        <span class="n">slc_lst</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">times</span><span class="p">))</span> <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="k">else</span> <span class="bp">None</span>
-                       <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">slc_lst</span><span class="p">[:</span><span class="mi">2</span><span class="p">]]</span>
-        <span class="n">slc_lst</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="k">else</span> <span class="bp">None</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">slc_lst</span><span class="p">[</span><span class="mi">2</span><span class="p">:]]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slc_lst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">slc_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">slc_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">slc_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="n">slc_lst</span><span class="p">)</span> <span class="c">#pylint: disable=W0142</span>
-        <span class="k">return</span> <span class="n">slc</span>
+    def _slice_time(self, slice_str=":"):
+        times = np.array([child[0] for child in self.children])
+        slc_lst = [s.strip() for s in slice_str.split(":")]
+        # slc_lst[:2] = [float(t) if t != "" else None for t in slc_lst[:2]]
+        slc_lst[:2] = [np.argmin(np.abs(float(t) - times)) if t != "" else None
+                       for t in slc_lst[:2]]
+        # make the slice inclusive, no matter what
+        if len(slc_lst) &gt; 1 and slc_lst[1] is not None:
+            if slc_lst[0] &lt;= slc_lst[1]:
+                slc_lst[1] += 1
+            else:
+                slc_lst[1] -= 1
+        slc_lst[2:] = [int(s) if s != "" else None for s in slc_lst[2:]]
+        if len(slc_lst) == 1:
+            slc_lst = [slc_lst[0], slc_lst[0] + 1]
+        slc = slice(*slc_lst) #pylint: disable=W0142
+        return slc
 
-<div class="viewcode-block" id="DatasetTemporal.n_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.n_times">[docs]</a>    <span class="k">def</span> <span class="nf">n_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
-        <span class="n">slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slice_time</span><span class="p">(</span><span class="n">slice_str</span><span class="o">=</span><span class="n">slice_str</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">slc</span><span class="p">])</span>
+<div class="viewcode-block" id="DatasetTemporal.nr_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.nr_times">[docs]</a>    def nr_times(self, slice_str=":"):
+        slc = self._slice_time(slice_str=slice_str)
+        return len(self.children[slc])
 </div>
-<div class="viewcode-block" id="DatasetTemporal.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
-        <span class="n">slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slice_time</span><span class="p">(</span><span class="n">slice_str</span><span class="o">=</span><span class="n">slice_str</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">slc</span><span class="p">])</span>
+<div class="viewcode-block" id="DatasetTemporal.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.iter_times">[docs]</a>    def iter_times(self, slice_str=":"):
+        slc = self._slice_time(slice_str=slice_str)
+        for child in self.children[slc]:
+            with child[1] as target:
+                yield target
+        # this old way lead to a 'memory leak' of sorts
+        # return (child[1] for child in self.children[slc])
 </div>
-<div class="viewcode-block" id="DatasetTemporal.spill"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.spill">[docs]</a>    <span class="k">def</span> <span class="nf">spill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-            <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span><span class="p">:</span>
-                <span class="n">suffix</span> <span class="o">=</span> <span class="s">&quot; &lt;-- active&quot;</span>
-            <span class="c"># print(&quot;{0}{1}{2}&quot;.format(prefix, child, suffix))</span>
-            <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
-                <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">spill</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">spill_prefix</span><span class="p">)</span>
+<div class="viewcode-block" id="DatasetTemporal.iter_fields"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.iter_fields">[docs]</a>    def iter_fields(self, time=None, named=None):
+        """ generator for fields in the active dataset,
+        this will recurse down to a grid """
+        if time is not None:
+            child = self.get_child(time)
+        else:
+            child = self.active_child
+
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.iter_fields(time=time, named=named)
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
+<div class="viewcode-block" id="DatasetTemporal.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.print_tree">[docs]</a>    def print_tree(self, recursive=True, prefix=""):
+        if prefix == "":
+            print(self)
+            prefix += tree_prefix
 
-        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Could not get appropriate child...&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+        for child in self.children:
+            suffix = ""
+            if child[1] is self.active_child:
+                suffix = " &lt;-- active"
+            print("{0}{1} (t={2}){3}".format(prefix, child, child[0], suffix))
+            if recursive:
+                child[1].print_tree(recursive=True, prefix=prefix + tree_prefix)
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_child"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if item is an int and &lt; len(children), it is an index in a list,</span>
-<span class="sd">        else I will find the cloest time to float(item) &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c"># it&#39;s appropriate to get an index error if len == 0</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_last_ind</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">):</span>
-            <span class="c">#print(&#39;integering&#39;)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_last_ind</span> <span class="o">=</span> <span class="n">item</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">item</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># NOTE: this has gone too far</span>
-            <span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-            <span class="n">last_ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_ind</span>
-            <span class="n">closest_ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-            <span class="c"># print(time, last_ind)</span>
-            <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">last_ind</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="c"># print(&quot;forward&quot;)</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">last_ind</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">):</span>
-                    <span class="n">this_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="c"># print(i, this_time)</span>
-                    <span class="k">if</span> <span class="n">time</span> <span class="o">&lt;=</span> <span class="n">this_time</span><span class="p">:</span>
-                        <span class="n">avg</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">this_time</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">avg</span><span class="p">:</span>
-                            <span class="c"># print(&quot;&gt;= &quot;, avg)</span>
-                            <span class="n">closest_ind</span> <span class="o">=</span> <span class="n">i</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="c"># print(&quot;&lt; &quot;, avg)</span>
-                            <span class="n">closest_ind</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
-                        <span class="k">break</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">closest_ind</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">closest_ind</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c"># print(&quot;backward&quot;)</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">last_ind</span> <span class="o">-</span> <span class="mi">1</span>
-                <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">this_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="c"># print(i, this_time)</span>
-                    <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
-                        <span class="n">avg</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">this_time</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">avg</span><span class="p">:</span>
-                            <span class="c"># print(&quot;&gt;= &quot;, avg)</span>
-                            <span class="n">closest_ind</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="c"># print(&quot;&lt; &quot;, avg)</span>
-                            <span class="n">closest_ind</span> <span class="o">=</span> <span class="n">i</span>
-                        <span class="k">break</span>
-                    <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">closest_ind</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">closest_ind</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="c"># print(&quot;closest_ind: &quot;, closest_ind)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_last_ind</span> <span class="o">=</span> <span class="n">closest_ind</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">closest_ind</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<div class="viewcode-block" id="DatasetTemporal.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_field">[docs]</a>    def get_field(self, fldname, time=None):
+        """ recurse down active children to get a field """
+        if time is not None:
+            child = self.get_child(time)
+        else:
+            child = self.active_child
+
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.get_field(fldname, time=time)
 </div>
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
+<div class="viewcode-block" id="DatasetTemporal.get_grid"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_grid">[docs]</a>    def get_grid(self, time=None):
+        """ recurse down active children to get a field """
+        if time is not None:
+            child = self.get_child(time)
+        else:
+            child = self.active_child
 
-    <span class="c"># def __getitem__(self, item):</span>
-    <span class="c">#     &quot;&quot;&quot; Get a dataitem or list of dataitems based on time, grid, and</span>
-    <span class="c">#         varname. the &#39;active&#39; components are given by default, but varname</span>
-    <span class="c">#         is manditory, else how am i supposed to know what to serve up for</span>
-    <span class="c">#         you. Examples:</span>
-    <span class="c">#         dataset[time, &#39;gridhandle&#39;, &#39;varname&#39;] == DataItem</span>
-    <span class="c">#         dataset[&#39;time&#39;, &#39;gridhandle&#39;, &#39;varname&#39;] == DataItem</span>
-    <span class="c">#         dataset[timeslice, &#39;gridhandle&#39;, &#39;varname&#39;] == list of DataItems</span>
-    <span class="c">#         dataset[time, &#39;varname&#39;] == DataItem using active grid</span>
-    <span class="c">#         dataset[&#39;varname&#39;] == DataItem using active time / active grid</span>
-    <span class="c">#         &quot;&quot;&quot;</span>
-    <span class="c">#     req_grid = None</span>
+        if child is None:
+            logging.warn("Could not get appropriate child...")
+            return None
+        else:
+            return child.get_grid(time=time)
+</div>
+<div class="viewcode-block" id="DatasetTemporal.get_child"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_child">[docs]</a>    def get_child(self, item):
+        """ if item is an int and &lt; len(children), it is an index in a list,
+        else I will find the cloest time to float(item) """
+        if len(self.children) &lt;= 1:
+            # it's appropriate to get an index error if len == 0
+            self._last_ind = 0
+            return self.children[0][1]
+        elif isinstance(item, int) and item &lt; len(self.children):
+            #print('integering')
+            self._last_ind = item
+            return self.children[item][1]
+        else:
+            # NOTE: this has gone too far
+            time = float(item)
+            last_ind = self._last_ind
+            closest_ind = -1
+            # print(time, last_ind)
+            if time &gt;= self.children[last_ind][0]:
+                # print("forward")
+                i = last_ind + 1
+                while i &lt; len(self.children):
+                    this_time = self.children[i][0]
+                    # print(i, this_time)
+                    if time &lt;= this_time:
+                        avg = 0.5 * (self.children[i - 1][0] + this_time)
+                        if time &gt;= avg:
+                            # print("&gt;= ", avg)
+                            closest_ind = i
+                        else:
+                            # print("&lt; ", avg)
+                            closest_ind = i - 1
+                        break
+                    i += 1
+                if closest_ind &lt; 0:
+                    closest_ind = len(self.children) - 1
+            else:
+                # print("backward")
+                i = last_ind - 1
+                while i &gt;= 0:
+                    this_time = self.children[i][0]
+                    # print(i, this_time)
+                    if time &gt;= self.children[i][0]:
+                        avg = 0.5 * (self.children[i + 1][0] + this_time)
+                        if time &gt;= avg:
+                            # print("&gt;= ", avg)
+                            closest_ind = i + 1
+                        else:
+                            # print("&lt; ", avg)
+                            closest_ind = i
+                        break
+                    i -= 1
+                if closest_ind &lt; 0:
+                    closest_ind = 0
+            # print("closest_ind: ", closest_ind)
+            self._last_ind = closest_ind
+            return self.children[closest_ind][1]
+</div>
+    def __contains__(self, item):
+        if isinstance(item, int) and item &lt; len(self.children):
+            return True
+        try:
+            float(item)
+            return True
+        except ValueError:
+            return item in self.active_child
 
-    <span class="c">#     if not isinstance(item, tuple):</span>
-    <span class="c">#         item = (item,)</span>
+    # def __getitem__(self, item):
+    #     """ Get a dataitem or list of dataitems based on time, grid, and
+    #         varname. the 'active' components are given by default, but varname
+    #         is manditory, else how am i supposed to know what to serve up for
+    #         you. Examples:
+    #         dataset[time, 'gridhandle', 'varname'] == DataItem
+    #         dataset['time', 'gridhandle', 'varname'] == DataItem
+    #         dataset[timeslice, 'gridhandle', 'varname'] == list of DataItems
+    #         dataset[time, 'varname'] == DataItem using active grid
+    #         dataset['varname'] == DataItem using active time / active grid
+    #         """
+    #     req_grid = None
 
-    <span class="c">#     varname = item[-1]</span>
-    <span class="c">#     ntimes = len(item) - 1 # -1 for varname</span>
-    <span class="c">#     try:</span>
-    <span class="c">#         if len(item) &gt; 1:</span>
-    <span class="c">#             req_grid = self.grids[item[-2]]</span>
-    <span class="c">#     except KeyError:</span>
-    <span class="c">#         pass</span>
-    <span class="c">#     if not req_grid:</span>
-    <span class="c">#         req_grid = self.active_grid</span>
-    <span class="c">#         ntimes -= 1</span>
+    #     if not isinstance(item, tuple):
+    #         item = (item,)
 
-    <span class="c">#     if ntimes == 0:</span>
-    <span class="c">#         grids = [self.grid_by_time(self.active_time)]</span>
-    <span class="c">#     else:</span>
-    <span class="c">#         grids = [self.grid_by_time(t) for t in item[:ntimes]]</span>
+    #     varname = item[-1]
+    #     nr_times = len(item) - 1 # -1 for varname
+    #     try:
+    #         if len(item) &gt; 1:
+    #             req_grid = self.grids[item[-2]]
+    #     except KeyError:
+    #         pass
+    #     if not req_grid:
+    #         req_grid = self.active_grid
+    #         nr_times -= 1
 
-    <span class="c">#     if len(grids) == 1:</span>
-    <span class="c">#         return grids[0][varname]</span>
-    <span class="c">#     else:</span>
-    <span class="c">#         return [g[varname] for g in grids]</span>
+    #     if nr_times == 0:
+    #         grids = [self.grid_by_time(self.active_time)]
+    #     else:
+    #         grids = [self.grid_by_time(t) for t in item[:nr_times]]
 
-    <span class="c"># def grid_by_time(self, time):</span>
-    <span class="c">#     &quot;&quot;&quot; returns grid for this specific time, time can also be a slice &quot;&quot;&quot;</span>
-    <span class="c">#     if isinstance(time, slice):</span>
-    <span class="c">#         pass</span>
-    <span class="c">#     else:</span>
-    <span class="c">#         pass</span></div>
-</pre></div>
+    #     if len(grids) == 1:
+    #         return grids[0][varname]
+    #     else:
+    #         return [g[varname] for g in grids]
+
+    # def grid_by_time(self, time):
+    #     """ returns grid for this specific time, time can also be a slice """
+    #     if isinstance(time, slice):
+    #         pass
+    #     else:
+    #         pass</div>
+</pre>
 
           </div>
         </div>
@@ -435,13 +499,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

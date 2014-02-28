@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.vutil &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.vutil &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,76 +46,135 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.vutil</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
+  <h1>Source code for viscid.vutil</h1><pre>
+#!/usr/bin/env python
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">default_timer</span> <span class="k">as</span> <span class="n">time</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+from __future__ import print_function
+# from itertools import islice
+from timeit import default_timer as time
+import logging
+import subprocess as sub
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">verror</span>
+tree_prefix = ".   "
 
-<span class="n">spill_prefix</span> <span class="o">=</span> <span class="s">&quot;. &quot;</span>
-
-<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; convenience function to get a field that could be called many things</span>
-<span class="sd">    returns the first fld_name in the list that is in the file &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">fld_name_lst</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">vfile</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">vfile</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
-    <span class="k">raise</span> <span class="n">verror</span><span class="o">.</span><span class="n">FieldNotFound</span><span class="p">(</span><span class="s">&quot;file {0} contains none of &quot;</span>
-                               <span class="s">&quot;{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">))</span>
+<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a>def find_field(vfile, fld_name_lst):
+    """ convenience function to get a field that could be called many things
+    returns the first fld_name in the list that is in the file """
+    for fld_name in fld_name_lst:
+        if fld_name in vfile:
+            return vfile[fld_name]
+    raise KeyError("file {0} contains none of {1}".format(vfile, fld_name_lst))
 </div>
-<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; add some common verbosity stuff to argparse, parse the</span>
-<span class="sd">    command line args, and setup the logging levels</span>
-<span class="sd">    parser should be an ArgumentParser instance, and kwargs</span>
-<span class="sd">    should be options that get passed to logging.basicConfig</span>
-<span class="sd">    returns the args namespace  &quot;&quot;&quot;</span>
-    <span class="n">general</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Viscid general options&quot;</span><span class="p">)</span>
-    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--log&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;Logging level (overrides verbosity)&quot;</span><span class="p">)</span>
-    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;increase verbosity&quot;</span><span class="p">)</span>
-    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-q&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;decrease verbosity&quot;</span><span class="p">)</span>
-    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-
-    <span class="c"># setup the logging level</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;level&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># default = 30 WARNING</span>
-            <span class="n">verb</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">v</span> <span class="o">-</span> <span class="n">args</span><span class="o">.</span><span class="n">q</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">30</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">verb</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;format&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%(levelname)s</span><span class="s">: </span><span class="si">%(message)s</span><span class="s">&quot;</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">args</span>
+<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.split_floats">[docs]</a>def split_floats(arg_str):
+    return [float(s) for s in arg_str.split(',')]
 </div>
-<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; return recursive list of subclasses of cls &quot;&quot;&quot;</span>
-    <span class="n">sub_classes</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
-    <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sub_classes</span><span class="p">:</span>
-        <span class="n">lst</span> <span class="o">+=</span> <span class="n">subclass_spider</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">lst</span>
+<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_animate_arguments">[docs]</a>def add_animate_arguments(parser):
+    """ add common options for animating, you may want to make sure parser was
+    constructed with conflict_handler='resolve' """
+    anim = parser.add_argument_group("Options for creating animations")
+    anim.add_argument("-a", "--animate", default=None,
+                      help="animate results")
+    anim.add_argument("--prefix", default=None,
+                        help="Prefix of the output image filenames")
+    anim.add_argument('-r', '--rate', dest='framerate', type=int, default=5,
+                      help="animation frame rate (default 5).")
+    anim.add_argument('--qscale', dest='qscale', default='2',
+                      help="animation quality flag (default 2).")
+    anim.add_argument('-k', dest='keep', action='store_true',
+                      help="keep temporary files.")
+    return parser
 </div>
-<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">reps</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
-    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">reps</span>
+<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_mpl_output_arguments">[docs]</a>def add_mpl_output_arguments(parser):
+    """ add common options for tuning matplotlib output, you may want to make
+    sure parser was constructed with conflict_handler='resolve' """
+    mplargs = parser.add_argument_group("Options for tuning matplotlib")
+    mplargs.add_argument("-s", "--size", dest="plot_size", type=split_floats,
+                         default=None, help="size of mpl plot (inches)")
+    mplargs.add_argument("--dpi", dest="dpi", type=float, default=None,
+                         help="dpi of plot")
+    parser.add_argument("--prefix", default=None,
+                        help="Prefix of the output image filenames")
+    parser.add_argument("--format", "-f", default="png",
+                        help="output format, as in 'png'|'pdf'|...")
+    parser.add_argument('-w', '--show', dest='show', action="store_true",
+                        help="show plots with plt.show()")
+    return parser
+</div>
+<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a>def common_argparse(parser, **kwargs):
+    """ add some common verbosity stuff to argparse, parse the
+    command line args, and setup the logging levels
+    parser should be an ArgumentParser instance, and kwargs
+    should be options that get passed to logging.basicConfig
+    returns the args namespace  """
+    general = parser.add_argument_group("Viscid general options")
+    general.add_argument("--log", action="store", type=str, default=None,
+                         help="Logging level (overrides verbosity)")
+    general.add_argument("-v", action="count", default=0,
+                         help="increase verbosity")
+    general.add_argument("-q", action="count", default=0,
+                         help="decrease verbosity")
+    args = parser.parse_args()
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+    # setup the logging level
+    if not "level" in kwargs:
+        if args.log is not None:
+            kwargs["level"] = getattr(logging, args.log.upper())
+        else:
+            # default = 30 WARNING
+            verb = args.v - args.q
+            kwargs["level"] = int(30 - 10 * verb)
+    if not "format" in kwargs:
+        kwargs["format"] = "%(levelname)s: %(message)s"
+    logging.basicConfig(**kwargs)
+
+    return args
+</div>
+<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_animation">[docs]</a>def make_animation(args, program="ffmpeg"):
+    """ make animation by calling program (only ffmpeg works for now) using
+    args, which is a namespace filled by the argparse options from
+    add_animate_arguments. Plots are expected to be named
+    ${args.prefix}_000001.png where the number is in order from 1 up """
+    if args.animate:
+        if program == "ffmpeg":
+            sub.Popen("ffmpeg -r {0} -i {2}_%06d.png -pix_fmt yuv420p "
+                      "-qscale {1} {3}".format(args.framerate, args.qscale,
+                      args.prefix, args.animate), shell=True).communicate()
+    if args.animate is None and args.prefix is not None:
+        args.keep = True
+    if not args.keep:
+        sub.Popen("rm -f {0}_*.png".format(args.prefix),
+                  shell=True).communicate()
+    return None
+</div>
+<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a>def subclass_spider(cls):
+    """ return recursive list of subclasses of cls (depth first) """
+    lst = [cls]
+    # reversed gives precedence to the more recently declared classes
+    for c in reversed(cls.__subclasses__()):
+        lst += subclass_spider(c)
+    return lst
+</div>
+<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a>def timereps(reps, func, *args, **kwargs):
+    arr = [None] * reps
+    for i in range(reps):
+        start = time()
+        func(*args, **kwargs)
+        end = time()
+        arr[i] = end - start
+    return min(arr), max(arr), sum(arr) / reps
+</div>
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timeit">[docs]</a>def timeit(f, *args, **kwargs):
+    t0 = time()
+    ret = f(*args, **kwargs)
+    t1 = time()
+
+    print("Took {0:.03g} secs.".format(t1 - t0))
+    return ret
+
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -150,13 +207,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

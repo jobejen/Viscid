@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.bucket &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.bucket &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,167 +46,167 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.bucket</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
+  <h1>Source code for viscid.bucket</h1><pre>
+#!/usr/bin/env python
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">from</span> <span class="nn">.vutil</span> <span class="kn">import</span> <span class="n">spill_prefix</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+from __future__ import print_function
+from .vutil import tree_prefix
+import logging
 
-<div class="viewcode-block" id="Bucket"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket">[docs]</a><span class="k">class</span> <span class="nc">Bucket</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This is an interface where  &quot;&quot;&quot;</span>
-    <span class="n">_items</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">_handles</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="c"># if index handle, set_item adds this number as a handle and increments it</span>
-    <span class="c"># this is useful for hiding loads that are not user initiated, such as</span>
-    <span class="c"># an xdmf file loading an h5 file under the covers</span>
-    <span class="n">_int_counter</span> <span class="o">=</span> <span class="bp">None</span>
+<div class="viewcode-block" id="Bucket"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket">[docs]</a>class Bucket(object):
+    """ This is an interface where  """
+    _items = None
+    _handles = None
+    # if index handle, set_item adds this number as a handle and increments it
+    # this is useful for hiding loads that are not user initiated, such as
+    # an xdmf file loading an h5 file under the covers
+    _int_counter = None
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_int_counter</span> <span class="o">=</span> <span class="mi">0</span>
+    def __init__(self):
+        self._items = []
+        self._handles = {}
+        self._int_counter = 0
 
-<div class="viewcode-block" id="Bucket.set_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.set_item">[docs]</a>    <span class="k">def</span> <span class="nf">set_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handles</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if index_handle is true then the index of item will be included as</span>
-<span class="sd">            a handle making the bucket indexable like a list &quot;&quot;&quot;</span>
-        <span class="c"># found = False</span>
-        <span class="k">if</span> <span class="n">handles</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">handles</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;handle must by of list type&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="Bucket.set_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.set_item">[docs]</a>    def set_item(self, handles, item, index_handle=True):
+        """ if index_handle is true then the index of item will be included as
+            a handle making the bucket indexable like a list """
+        # found = False
+        if handles is None:
+            handles = []
+        if not isinstance(handles, list):
+            raise TypeError("handle must by of list type")
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">index_handle</span><span class="p">:</span>
-                <span class="n">handles</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_int_counter</span><span class="p">]</span> <span class="c"># handles += [onum]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_int_counter</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        try:
+            self.index(item)
+        except ValueError:
+            if index_handle:
+                handles += [self._int_counter] # handles += [onum]
+                self._int_counter += 1
+            self._items.append(item)
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_set_handles</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">None</span>
+        self._set_handles(handles, item)
+        return None
 </div>
-<div class="viewcode-block" id="Bucket.remove_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; remove item, raises ValueError if item is not found &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remove_item_onum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">))</span></div>
-<div class="viewcode-block" id="Bucket.remove_item_handle"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_handle">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item_handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; remove item by handle, raises KeyError if handle is not found &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remove_item_onum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">[</span><span class="n">handle</span><span class="p">])</span></div>
-<div class="viewcode-block" id="Bucket.remove_item_onum"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_onum">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item_onum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onum</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">onum</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">onum</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+<div class="viewcode-block" id="Bucket.remove_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item">[docs]</a>    def remove_item(self, item):
+        """ remove item, raises ValueError if item is not found """
+        self.remove_item_onum(self.index(item))</div>
+<div class="viewcode-block" id="Bucket.remove_item_handle"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_handle">[docs]</a>    def remove_item_handle(self, handle):
+        """ remove item by handle, raises KeyError if handle is not found """
+        self.remove_item_onum(self._handles[handle])</div>
+<div class="viewcode-block" id="Bucket.remove_item_onum"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_onum">[docs]</a>    def remove_item_onum(self, onum):
+        for k in self._handles.keys():
+            if self._handles[k] == onum:
+                self._handles.pop(k)
+        self._items[onum] = None
 </div>
-<div class="viewcode-block" id="Bucket.remove_all_items"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_all_items">[docs]</a>    <span class="k">def</span> <span class="nf">remove_all_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; unload all items &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">remove_item_onum</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<div class="viewcode-block" id="Bucket.remove_all_items"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_all_items">[docs]</a>    def remove_all_items(self):
+        """ unload all items """
+        for i in range(len(self._items)):
+            self.remove_item_onum(i)
 </div>
-<div class="viewcode-block" id="Bucket.get_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.get_item">[docs]</a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; look up the file using the handle dictionary, raises KeyError</span>
-<span class="sd">            if handle not found &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">[</span><span class="n">handle</span><span class="p">]]</span>
+<div class="viewcode-block" id="Bucket.get_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.get_item">[docs]</a>    def get_item(self, handle):
+        """ look up the file using the handle dictionary, raises KeyError
+            if handle not found """
+        return self._items[self._handles[handle]]
 </div>
-<div class="viewcode-block" id="Bucket.items_as_list"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.items_as_list">[docs]</a>    <span class="k">def</span> <span class="nf">items_as_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
+<div class="viewcode-block" id="Bucket.items_as_list"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.items_as_list">[docs]</a>    def items_as_list(self):
+        return self._items
 </div>
-<div class="viewcode-block" id="Bucket.index"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; find index of item, comparison is made using object id &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="n">it</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">i</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;item&#39;s object id not in list&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="Bucket.index"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.index">[docs]</a>    def index(self, item):
+        """ find index of item, comparison is made using object id """
+        for i, it in enumerate(self._items):
+            if item is it:
+                return i
+        raise ValueError("item's object id not in list")
 </div>
-<div class="viewcode-block" id="Bucket.handle_string"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.handle_string">[docs]</a>    <span class="k">def</span> <span class="nf">handle_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return string representation of handles and items &quot;&quot;&quot;</span>
-        <span class="c"># this is inefficient, but probably doesn&#39;t matter</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">):</span>
-            <span class="n">hands</span> <span class="o">=</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">h</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">onum</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">onum</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;{0}handles: {1}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hands</span><span class="p">))</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;{0}  item: {1}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">s</span>
+<div class="viewcode-block" id="Bucket.handle_string"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.handle_string">[docs]</a>    def handle_string(self, prefix=""):
+        """ return string representation of handles and items """
+        # this is inefficient, but probably doesn't matter
+        s = ""
+        for i, item in enumerate(self._items):
+            hands = [repr(h) for h, onum in self._handles.items() if onum == i]
+            s += "{0}handles: {1}\n".format(prefix, ", ".join(hands))
+            s += "{0}  item: {1}\n".format(prefix, str(item))
+        return s
 </div>
-<div class="viewcode-block" id="Bucket.spill"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.spill">[docs]</a>    <span class="k">def</span> <span class="nf">spill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handle_string</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Bucket.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.print_tree">[docs]</a>    def print_tree(self, prefix=""):
+        print(self.handle_string(prefix=prefix), end='')
 </div>
-    <span class="k">def</span> <span class="nf">_set_handles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handles</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; this should only be called for items that are in _items...</span>
-<span class="sd">            a ValueError will result otherwise &quot;&quot;&quot;</span>
-        <span class="n">onum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">handles</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">item</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">onum</span><span class="p">]):</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The handle {0} is being hijacked!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">=</span> <span class="n">onum</span>
-        <span class="k">return</span> <span class="bp">None</span>
+    def _set_handles(self, handles, item):
+        """ this should only be called for items that are in _items...
+            a ValueError will result otherwise """
+        onum = self.index(item)
+        for h in handles:
+            if (h in self._handles) and (not item is self._items[onum]):
+                logging.warn("The handle {0} is being hijacked!".format(h))
+            self._handles[h] = onum
+        return None
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+    def __getitem__(self, handle):
+        return self.get_item(handle)
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    def __setitem__(self, key, value):
+        if isinstance(key, (list, tuple)):
+            key = list(key)
+        elif key is not None:
+            key = [key]
+        self.set_item(key, value)
 
-    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">remove_item_handle</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+    def __delitem__(self, handle):
+        self.remove_item_handle(handle)
 
-    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">__iter__</span><span class="p">()</span>
+    def __iter__(self):
+        return self._items.__iter__()
 
-    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">handle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span>
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_string</span><span class="p">()</span>
+    def __contains__(self, handle):
+        return handle in self._handles
+    def __len__(self):
+        return len(self._items)
+    def __str__(self):
+        return self.handle_string()
 </div>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">import</span> <span class="nn">code</span>
-    <span class="kn">import</span> <span class="nn">viscid</span>
+if __name__ == '__main__':
+    import os
+    import code
+    import viscid
 
-    <span class="n">_viscid_root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">viscid</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
-    <span class="n">sample_dir</span> <span class="o">=</span> <span class="n">_viscid_root</span> <span class="o">+</span> <span class="s">&quot;/../../sample/&quot;</span>
-    <span class="n">sample_prefix</span> <span class="o">=</span> <span class="n">sample_dir</span> <span class="o">+</span> <span class="s">&quot;local_0001&quot;</span>
-    <span class="n">fnpy0</span> <span class="o">=</span> <span class="n">sample_prefix</span> <span class="o">+</span> <span class="s">&quot;.py_0.xdmf&quot;</span>
-    <span class="n">fn3dfa</span> <span class="o">=</span> <span class="n">sample_prefix</span> <span class="o">+</span> <span class="s">&quot;.3df.xdmf&quot;</span>
-    <span class="n">fn3df</span> <span class="o">=</span> <span class="n">sample_prefix</span> <span class="o">+</span> <span class="s">&quot;.3df.004200.xdmf&quot;</span>
-    <span class="n">fniof</span> <span class="o">=</span> <span class="n">sample_prefix</span> <span class="o">+</span> <span class="s">&quot;.iof.004200.xdmf&quot;</span>
-    <span class="n">fnasc</span> <span class="o">=</span> <span class="n">sample_dir</span> <span class="o">+</span> <span class="s">&quot;test.asc&quot;</span>
-    <span class="n">fnascts</span> <span class="o">=</span> <span class="n">sample_dir</span> <span class="o">+</span> <span class="s">&quot;test_time.asc&quot;</span>
+    _viscid_root = os.path.dirname(viscid.__file__)
+    sample_dir = _viscid_root + "/../../sample/"
+    sample_prefix = sample_dir + "local_0001"
+    fnpy0 = sample_prefix + ".py_0.xdmf"
+    fn3dfa = sample_prefix + ".3df.xdmf"
+    fn3df = sample_prefix + ".3df.004200.xdmf"
+    fniof = sample_prefix + ".iof.004200.xdmf"
+    fnasc = sample_dir + "test.asc"
+    fnascts = sample_dir + "test_time.asc"
 
-    <span class="c"># fm = get_file_bucket()</span>
+    # fm = get_file_bucket()
 
-    <span class="c"># print(&quot;load {0}&quot;.format(fnasc))</span>
-    <span class="c"># fasc = fm.add(fnasc)</span>
-    <span class="c"># print(&quot;load {0}&quot;.format(fnascts))</span>
-    <span class="c"># fasc_time = fm.add(fnascts)</span>
+    # print("load {0}".format(fnasc))
+    # fasc = fm.add(fnasc)
+    # print("load {0}".format(fnascts))
+    # fasc_time = fm.add(fnascts)
 
-    <span class="c"># print(&quot;load 3df.xdmf&quot;)</span>
-    <span class="c"># d3da = fm.load(fn3dfa)</span>
-    <span class="c"># print(&quot;load 3df.004200.xdmf&quot;)</span>
-    <span class="c"># f3d = load_file(fn3df)</span>
-    <span class="c"># print(&quot;load py_0.xdmf&quot;)</span>
-    <span class="c"># fpy0 = load_file(fnpy0)</span>
-    <span class="c"># print(&quot;load test.xdmf&quot;)</span>
-    <span class="c"># ftest = fm.load(&#39;../sample/test.xdmf&#39;)</span>
+    # print("load 3df.xdmf")
+    # d3da = fm.load(fn3dfa)
+    # print("load 3df.004200.xdmf")
+    # f3d = load_file(fn3df)
+    # print("load py_0.xdmf")
+    # fpy0 = load_file(fnpy0)
+    # print("load test.xdmf")
+    # ftest = fm.load('../sample/test.xdmf')
 
-    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="nb">locals</span><span class="p">())</span>
+    code.interact(local=locals())
 
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span>
+    print("done")
 
-<span class="c"># a=re.findall(&#39;(\S+)\s*=\s*(?:[\&#39;&quot;](.*?)[\&#39;&quot;]|(.*?))(?:\s|$)&#39;,</span>
-<span class="c">#    &#39;key=&quot;value&quot; delim=&quot; &quot; socrates k=v&#39;, flags=0); print(a)</span>
+# a=re.findall('(\S+)\s*=\s*(?:[\'"](.*?)[\'"]|(.*?))(?:\s|$)',
+#    'key="value" delim=" " socrates k=v', flags=0); print(a)
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span>
-</pre></div>
+##
+## EOF
+##
+</pre>
 
           </div>
         </div>
@@ -241,13 +239,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

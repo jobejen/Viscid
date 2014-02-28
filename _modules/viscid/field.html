@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.field &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.field &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,531 +46,954 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.field</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="sd">&quot;&quot;&quot; Fields belong in grids, or by themselves as a result of a calculation.</span>
-<span class="sd">Important: The field must be able to reshape itself to the shape of its</span>
-<span class="sd">coordinates, else there will be blood. Also, the order of the coords</span>
-<span class="sd">matters, it is assumed that if the coords are z, y, x then the data</span>
-<span class="sd">is iz, iy, ix. This can be permuted any which way, but order matters. &quot;&quot;&quot;</span>
+  <h1>Source code for viscid.field</h1><pre>
+#!/usr/bin/env python
+""" Fields belong in grids, or by themselves as a result of a calculation.
+Important: The field must be able to reshape itself to the shape of its
+coordinates, else there will be blood. Also, the order of the coords
+matters, it is assumed that if the coords are z, y, x then the data
+is iz, iy, ix. This can be permuted any which way, but order matters. """
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+from __future__ import print_function
+import warnings
+import logging
+from inspect import isclass
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+import numpy as np
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">coordinate</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">vutil</span>
+from . import coordinate
+from . import vutil
 
-<span class="n">LAYOUT_DEFAULT</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># do not translate</span>
-<span class="n">LAYOUT_INTERLACED</span> <span class="o">=</span> <span class="s">&quot;Interlaced&quot;</span>
-<span class="n">LAYOUT_FLAT</span> <span class="o">=</span> <span class="s">&quot;Flat&quot;</span>
-<span class="n">LAYOUT_OTHER</span> <span class="o">=</span> <span class="s">&quot;Other&quot;</span>
+LAYOUT_DEFAULT = "none"  # do not translate
+LAYOUT_INTERLACED = "interlaced"
+LAYOUT_FLAT = "flat"
+LAYOUT_SCALAR = "scalar"
+LAYOUT_OTHER = "other"
 
-<div class="viewcode-block" id="field_type_from_str"><a class="viewcode-back" href="../../viscid.html#viscid.field.field_type_from_str">[docs]</a><span class="k">def</span> <span class="nf">field_type_from_str</span><span class="p">(</span><span class="n">typ_str</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">vutil</span><span class="o">.</span><span class="n">subclass_spider</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">TYPE</span> <span class="o">==</span> <span class="n">typ_str</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cls</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Field type {0} not understood&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">typ_str</span><span class="p">))</span>
-    <span class="k">return</span> <span class="bp">None</span>
+<div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty">[docs]</a>def empty(typ, name, crds, nr_comps=0, layout=LAYOUT_FLAT, center="Cell",
+          dtype="float64", **kwargs):
+    """ creates an empty field of type typ with the same shape as crds,
+    dtype is just something that can be understood by np.array() and
+    kwargs get passed to the field constructor """
+    if center.lower() == "cell":
+        sshape = crds.shape_cc
+    elif center.lower() == "node":
+        sshape = crds.shape_nc
+    else:
+        sshape = crds.shape_nc
+
+    if ScalarField.istype(typ):
+        shape = sshape
+    else:
+        if layout.lower() == LAYOUT_INTERLACED:
+            shape = sshape + [nr_comps]
+        else:
+            shape = [nr_comps] + sshape
+
+    dat = np.empty(shape, dtype=dtype)
+
+    return wrap_field(typ, name, crds, dat, center=center, **kwargs)
 </div>
-<div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.wrap_field">[docs]</a><span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; **kwargs passed to field constructor &quot;&quot;&quot;</span>
-    <span class="c">#</span>
-    <span class="c">#len(clist), clist[0][0], len(clist[0][1]), type)</span>
-    <span class="n">cls</span> <span class="o">=</span> <span class="n">field_type_from_str</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can not decipher field&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="empty_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty_like">[docs]</a>def empty_like(name, fld, **kwargs):
+    """ create empty field with 'name' whose shape / meta data match fld """
+    dat = np.empty(fld.shape, dtype=fld.dtype)
+    c = fld.center
+    t = fld.time
+    return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
 </div>
-<div class="viewcode-block" id="scalar_fields_to_vector"><a class="viewcode-back" href="../../viscid.html#viscid.field.scalar_fields_to_vector">[docs]</a><span class="k">def</span> <span class="nf">scalar_fields_to_vector</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fldlist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">fldlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">fldlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">center</span>
-    <span class="n">crds</span> <span class="o">=</span> <span class="n">fldlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">crds</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">fldlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span>
-    <span class="c"># shape = fldlist[0].data.shape</span>
+<div class="viewcode-block" id="zeros_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.zeros_like">[docs]</a>def zeros_like(name, fld, **kwargs):
+    """ create field of zeros with 'name' whose shape / meta data match fld """
+    dat = np.zeros(fld.shape, dtype=fld.dtype)
+    c = fld.center
+    t = fld.time
+    return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
+</div>
+<div class="viewcode-block" id="ones_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.ones_like">[docs]</a>def ones_like(name, fld, **kwargs):
+    """ create field of ones with 'name' whose shape / meta data match fld """
+    dat = np.ones(fld.shape, dtype=fld.dtype)
+    c = fld.center
+    t = fld.time
+    return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
+</div>
+<div class="viewcode-block" id="scalar_fields_to_vector"><a class="viewcode-back" href="../../viscid.html#viscid.field.scalar_fields_to_vector">[docs]</a>def scalar_fields_to_vector(name, fldlist, **kwargs):
+    if not name:
+        name = fldlist[0].name
+    center = fldlist[0].center
+    crds = fldlist[0].crds
+    time = fldlist[0].time
+    # shape = fldlist[0].data.shape
 
-    <span class="n">vfield</span> <span class="o">=</span> <span class="n">VectorField</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">fldlist</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
-                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">vfield</span>
+    vfield = VectorField(name, crds, fldlist, center=center, time=time,
+                         info=fldlist[0].info, **kwargs)
+    return vfield
+</div>
+<div class="viewcode-block" id="field_type"><a class="viewcode-back" href="../../viscid.html#viscid.field.field_type">[docs]</a>def field_type(typ):
+    """ @returns: a class where class.type matches typ
+    the magic lookup happens when typ is a string, if typ is a class
+    then just return the class for convenience """
+    if isclass(typ) and issubclass(typ, Field):
+        return typ
+    else:
+        for cls in vutil.subclass_spider(Field):
+            if cls.istype(typ):
+                return cls
+    logging.warn("Field type {0} not understood".format(typ))
+    return None
+</div>
+<div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.wrap_field">[docs]</a>def wrap_field(typ, name, crds, data, **kwargs):
+    """ **kwargs passed to field constructor """
+    #
+    #len(clist), clist[0][0], len(clist[0][1]), type)
+    cls = field_type(typ)
+    if cls is not None:
+        return cls(name, crds, data, **kwargs)
+    else:
+        raise NotImplementedError("can not decipher field")
+</div>
+<div class="viewcode-block" id="rewrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.rewrap_field">[docs]</a>def rewrap_field(fld):
+    return type(fld)(fld.name, fld.crds, fld.data, center=fld.center,
+                     forget_source=True, _copy=True)
+</div>
+<div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field">[docs]</a>class Field(object):
+    _TYPE = "none"
+    _CENTERING = ['node', 'cell', 'grid', 'face', 'edge']
+
+    # set on __init__
+    # NOTE: _src_data is allowed by be a list to support creating vectors from
+    # some scalar fields without necessarilly loading the data
+    _center = "none"  # String in CENTERING
+    _src_data = None  # numpy-like object (h5py too), or list of these objects
+    name = None  # String
+    crds = None  # Coordinate object
+    time = None  # float
+    # dict, this stuff will be copied by self.wrap
+    info = None  #
+    # dict, used for stuff that won't be blindly copied by self.wrap
+    deep_meta = None
+    pretty_name = None  # String
+
+    pre_reshape_transform_func = None
+    post_reshape_transform_func = None
+
+    # these get reset when data is set
+    _layout = None
+    _nr_comps = None
+    _nr_comp = None
+    _dtype = None
+
+    # set when data is retrieved
+    _cache = None  # this will always be a numpy array
+
+    def __init__(self, name, crds, data, center="Node", time=0.0, info=None,
+                 deep_meta=None, forget_source=False, pretty_name=None,
+                 pre_reshape_transform_func=None,
+                 post_reshape_transform_func=None,
+                 **kwargs):
+        self.name = name
+        self.center = center
+        self.time = time
+        self.crds = crds
+        self.data = data
+
+        if pretty_name is None:
+            self.pretty_name = self.name
+        else:
+            self.pretty_name = pretty_name
+
+        if pre_reshape_transform_func is not None:
+            self.pre_reshape_transform_func = pre_reshape_transform_func
+        if post_reshape_transform_func is not None:
+            self.post_reshape_transform_func = post_reshape_transform_func
+
+        self.info = {} if info is None else info
+        self.deep_meta = {} if deep_meta is None else deep_meta
+        for k, v in kwargs.items():
+            if k.startswith("_"):
+                self.deep_meta[k[1:]] = v
+            else:
+                self.info[k] = v
+
+        if not "force_layout" in self.deep_meta:
+            if "force_layout" in self.info:
+                warnings.warn("deprecated force_layout syntax: kwarg should "
+                              "be given as _force_layout")
+                self.deep_meta["force_layout"] = self.info["force_layout"]
+            else:
+                self.deep_meta["force_layout"] = LAYOUT_DEFAULT
+        self.deep_meta["force_layout"] = self.deep_meta["force_layout"].lower()
+
+        if not "copy" in self.deep_meta:
+            self.deep_meta["copy"] = False
+
+        if forget_source:
+            self.forget_source()
+
+    @property
+<div class="viewcode-block" id="Field.type"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.type">[docs]</a>    def type(self):
+        return self._TYPE
+</div>
+    @property
+    def center(self):
+        return self._center
+    @center.setter
+<div class="viewcode-block" id="Field.center"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.center">[docs]</a>    def center(self, new_center):
+        new_center = new_center.lower()
+        assert new_center in self._CENTERING
+        self._center = new_center
+</div>
+    @property
+    def layout(self):
+        """ get the layout type, 'interlaced' (AOS) | 'flat (SOA)'. This at most
+        calls _detect_layout(_src_data) which tries to be lazy """
+        if self._layout is None:
+            if self.deep_meta["force_layout"] != LAYOUT_DEFAULT:
+                self._layout = self.deep_meta["force_layout"]
+            else:
+                self._layout = self._detect_layout(self._src_data)
+        return self._layout
+
+    @layout.setter
+<div class="viewcode-block" id="Field.layout"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.layout">[docs]</a>    def layout(self, new_layout):
+        """ UNTESTED, unload data if layout changes """
+        new_layout = new_layout.lower()
+        if self.is_loaded():
+            current_layout = self.layout
+            if new_layout != current_layout:
+                self.unload()
+        self.deep_meta["force_layout"] = new_layout
+        self._layout = None
+</div>
+    @property
+<div class="viewcode-block" id="Field.nr_dims"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_dims">[docs]</a>    def nr_dims(self):
+        """ returns number of dims, this should be the number of dims of
+        the underlying data, but is assumed a priori so no data load is
+        done here """
+        return self.nr_sdims + 1
+</div>
+    @property
+<div class="viewcode-block" id="Field.nr_sdims"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_sdims">[docs]</a>    def nr_sdims(self):
+        """ number of spatial dims, same as crds.nr_dims, does not
+        explicitly load the data """
+        return self.crds.nr_dims
+</div>
+    @property
+<div class="viewcode-block" id="Field.nr_comps"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_comps">[docs]</a>    def nr_comps(self):
+        """ how many components are there? Only inspects _src_data """
+        # this gets # of comps from src_data, so layout is given as layout
+        # of src_data since it might not be loaded yet
+        if self._nr_comps is None:
+            layout = self._detect_layout(self._src_data)
+            if layout == LAYOUT_INTERLACED:
+                if isinstance(self._src_data, (list, tuple)):
+                    # this is an awkward way to get the data in here...
+                    self._nr_comps = self._src_data[0].shape[-1]
+                else:
+                    self._nr_comps = self._src_data.shape[-1]
+            elif layout == LAYOUT_FLAT:
+                # length of 1st dim... this works for ndarrays &amp;&amp; lists
+                self._nr_comps = len(self._src_data)
+            elif layout == LAYOUT_SCALAR:
+                self._nr_comps = 1
+            else:
+                raise RuntimeError("Could not detect data layout; "
+                                   "can't give nr_comps")
+                # return self._src_data.shape[-1]
+        return self._nr_comps
+</div>
+    @property
+<div class="viewcode-block" id="Field.nr_comp"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_comp">[docs]</a>    def nr_comp(self):
+        """ dimension of the components of the vector, loads the data if
+        self.layout does """
+        if self._nr_comp is None:
+            layout = self.layout
+            if layout == LAYOUT_FLAT:
+                self._nr_comp = 0
+            elif layout == LAYOUT_INTERLACED:
+                self._nr_comp = self.crds.nr_dims
+            elif layout == LAYOUT_SCALAR:
+                # use same as interlaced for slicing convenience, note
+                # this is only for a one component vector, for scalars
+                # nr_comp is None
+                self._nr_comp = self.crds.nr_dims
+            else:
+                raise RuntimeError("Could not detect data layout; "
+                                   "can't give nr_comp")
+        return self._nr_comp
+</div>
+    @property
+<div class="viewcode-block" id="Field.shape"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.shape">[docs]</a>    def shape(self):
+        """ returns the shape of the underlying data, does not explicitly load
+        the data """
+        s = self.sshape
+        try:
+            s.insert(self.nr_comp, self.nr_comps)
+        except TypeError:
+            pass
+
+        return s
+</div>
+    @property
+<div class="viewcode-block" id="Field.sshape"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.sshape">[docs]</a>    def sshape(self):
+        """ shape of spatial dimensions, does not include comps, and is not
+        the same shape as underlying array, does not load the data """
+        # it is enforced that the cached data has a shape that agrees with
+        # the coords by _reshape_ndarray_to_crds... actually, that method
+        # requires this method to depend on the crd shape
+        if self.iscentered("node"):
+            return list(self.crds.shape_nc)
+        elif self.iscentered("cell"):
+            return list(self.crds.shape_cc)
+        else:
+            logging.warn("edge/face vectors not implemented, assuming "
+                         "node shape")
+            return self.crds.shape
+</div>
+    @property
+<div class="viewcode-block" id="Field.size"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.size">[docs]</a>    def size(self):
+        """ how many values are in underlying data """
+        return np.product(self.shape)
+</div>
+    @property
+<div class="viewcode-block" id="Field.ssize"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.ssize">[docs]</a>    def ssize(self):
+        """ how many values make up one component of the underlying data """
+        return np.product(self.sshape)
+</div>
+    @property
+<div class="viewcode-block" id="Field.dtype"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.dtype">[docs]</a>    def dtype(self):
+        # print(type(self._src_data))
+        # dtype.name is for pruning endianness out of dtype
+        if self._dtype is None:
+            if isinstance(self._src_data, (list, tuple)):
+                dt = self._src_data[0].dtype
+            else:
+                dt = self._src_data.dtype
+
+            if isinstance(dt, np.dtype):
+                self._dtype = np.dtype(dt.name)
+            else:
+                self._dtype = np.dtype(dt)
+        return self._dtype
+</div>
+    @property
+    def data(self):
+        """ if you want to fill the cache, this will do it, note that
+        to empty the cache later you can always use unload """
+        if self._cache is None:
+            self._fill_cache()
+        return self._cache
+    @data.setter
+<div class="viewcode-block" id="Field.data"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.data">[docs]</a>    def data(self, dat):
+        # clean up
+        self._purge_cache()
+        self._layout = None
+        self._nr_comp = None
+        self._nr_comps = None
+        self._dtype = None
+        self._src_data = dat
+        self._translate_src_data()
+        # do some sort of lazy pre-setup _src_data inspection?
+</div>
+<div class="viewcode-block" id="Field.is_loaded"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_loaded">[docs]</a>    def is_loaded(self):
+        return self._cache is not None
+</div>
+    def _purge_cache(self):
+        """ does not guarentee that the memory will be freed """
+        self._cache = None
+
+    def _fill_cache(self):
+        """ actually load data into the cache """
+        self._cache = self._src_data_to_ndarray()
+
+    def _translate_src_data(self):
+        pass
+
+    def _src_data_to_ndarray(self):
+        """ prep the src data into something usable and enforce a layout """
+        # some magic may need to happen here to accept more than np/h5 data
+        # override if a type does something fancy (eg, interlacing)
+        # and dat.flags["OWNDATA"]  # might i want this?
+        src_data_layout = self._detect_layout(self._src_data)
+        force_layout = self.deep_meta["force_layout"]
+
+        # we will preserve layout or we already have the correct layout,
+        # do no translation
+        if force_layout == LAYOUT_DEFAULT or \
+           force_layout == src_data_layout:
+            return self._dat_to_ndarray(self._src_data)
+
+        # if layout is found to be other, i cant do anything with that
+        elif src_data_layout == LAYOUT_OTHER:
+            logging.warn("Cannot auto-detect layout; not translating; "
+                         "performance may suffer")
+            return self._dat_to_ndarray(self._src_data)
+
+        # ok, we demand FLAT arrays, make it so
+        elif force_layout == LAYOUT_FLAT:
+            if src_data_layout != LAYOUT_INTERLACED:
+                raise RuntimeError("I should not be here")
+
+            nr_comps = self.nr_comps
+            data_dest = np.empty(self.shape, dtype=self.dtype)
+            for i in range(nr_comps):
+                # NOTE: I wonder if this is the fastest way to reorder
+                data_dest[i, ...] = self._src_data[..., i]
+                # NOTE: no special case for lists, they are not
+                # interpreted this way
+            return self._dat_to_ndarray(data_dest)
+
+        # ok, we demand INTERLACED arrays, make it so
+        elif force_layout == LAYOUT_INTERLACED:
+            if src_data_layout != LAYOUT_FLAT:
+                raise RuntimeError("I should not be here")
+
+            nr_comps = self.nr_comps
+            dtype = self.dtype
+            data_dest = np.empty(self.shape, dtype=dtype)
+            for i in range(nr_comps):
+                data_dest[..., i] = self._src_data[i]
+
+            self._layout = LAYOUT_INTERLACED
+            return self._dat_to_ndarray(data_dest)
+
+        # catch the remaining cases
+        elif self.deep_meta["force_layout"] == LAYOUT_OTHER:
+            raise ValueError("How should I know how to force other layout?")
+        else:
+            raise ValueError("Bad argument for layout forcing")
+
+        raise RuntimeError("I should not be here")
+
+    def _dat_to_ndarray(self, dat):
+        """ This should be the last thing called for all data that gets put
+        into the cache. It makes dimensions jive correctly. This will translate
+        non-ndarray data structures to a flat ndarray. Also, this function
+        makes damn sure that the dimensionality of the coords matches the
+        dimensionality of the array, which is to say, if the array is only 2d,
+        but the coords have a 3rd dimension with length 1, reshape the array
+        to include that extra dimension.
+        """
+        # dtype.name is for pruning endianness out of dtype
+        if isinstance(dat, np.ndarray):
+            arr = np.array(dat, dtype=dat.dtype.name, copy=self.deep_meta["copy"])
+        elif isinstance(dat, (list, tuple)):
+            dt = dat[0].dtype.name
+            arr = np.array([np.array(d, dtype=dt, copy=self.deep_meta["copy"])
+                            for d in dat], dtype=dt)
+        # elif isinstance(dat, Field):
+        #     arr = dat.data  # not the way
+        else:
+            arr = np.array(dat, dtype=dat.dtype.name, copy=self.deep_meta["copy"])
+
+        if self.pre_reshape_transform_func is not None:
+            arr = self.pre_reshape_transform_func(self, arr)
+
+        arr = self._reshape_ndarray_to_crds(arr)
+
+        if self.post_reshape_transform_func is not None:
+            arr = self.post_reshape_transform_func(self, arr)
+
+        return arr
+
+    def _reshape_ndarray_to_crds(self, arr):
+        """ enforce same dimensionality as coords here!
+        self.shape better still be using the crds shape corrected for
+        node / cell centering
+        """
+        if list(arr.shape) == self.shape:
+            return arr
+        else:
+            ret = arr.reshape(self.shape)
+            return ret
+
+    def _detect_layout(self, dat):
+        """ returns LAYOUT_XXX, this just looks at len(dat) or dat.shape """
+        # if i receive a list, then i suppose i have a list of
+        # arrays, one for each component... this is a flat layout
+        sshape = list(self.sshape)
+        if isinstance(dat, (list, tuple)):
+            # Make sure the list makes sense... this strictly speaking
+            # doesn't need to happen, but it's a bad habbit to allow
+            # shapes through that I don't explicitly plan for, since
+            # this is just the door to the rabbit hole
+            # BUT, this has the side effect that one can't create vector
+            # fields with vx = Xcc, one has to use
+            # vx = Xcc + 0 * Ycc + 0 * Zcc, which is rather cumbersome
+            # for d in dat:
+            #     assert(list(d.shape) == list(sshape))
+            return LAYOUT_FLAT
+
+        if list(dat.shape) == sshape:
+            return LAYOUT_SCALAR
+
+        # if the crds shape has more values than the dat.shape
+        # then try trimming the directions that have 1 element
+        # this can happen when crds are 3d, but field is only 2d
+        ## I'm not sure why this needs to happen... but tests fail
+        ## without it
+        while len(sshape) &gt; len(dat.shape) - 1:
+            try:
+                sshape.remove(1)
+            except ValueError:
+                break
+
+        # check which dims match the shape of the crds
+        if list(dat.shape) == sshape:
+            layout = LAYOUT_SCALAR
+        elif list(dat.shape[1:]) == sshape:
+            layout = LAYOUT_FLAT
+        elif list(dat.shape[:-1]) == sshape:
+            layout = LAYOUT_INTERLACED
+        elif dat.shape[0] == np.prod(sshape):
+            layout = LAYOUT_INTERLACED
+        elif dat.shape[-1] == np.prod(sshape):
+            layout = LAYOUT_FLAT
+        else:
+            # if this happens, don't ignore it even if it happens to work
+            logging.warn("could not detect layout for '{0}': shape = {1} "
+                         "target shape = {2}"
+                         "".format(self.name, dat.shape, sshape))
+            layout = LAYOUT_OTHER
+
+        return layout
+
+    def _prepare_slice(self, selection):
+        """ if selection has a slice for component dimension, set it aside """
+        comp_slc = slice(None)
+        if isinstance(selection, tuple):
+            selection = list(selection)
+        if isinstance(selection, list):
+            if self.nr_comps &gt; 0 and len(selection) == self.nr_dims:
+                comp_slc = selection.pop[self.nr_comp]
+        return selection, comp_slc
+
+    def _finalize_slice(self, slices, crdlst, reduced, comp_slc):
+        # no slice necessary, just pass the field through
+        if list(slices) == [slice(None)] * len(slices):
+            return self
+
+        # coord transforms are not copied on purpose
+        crds = coordinate.wrap_crds(self.crds.type, crdlst)
+
+        try:
+            slices.insert(self.nr_comp, comp_slc)
+        except TypeError:
+            pass
+
+        # if we sliced the hell out of the array, just
+        # return the value that's left, ndarrays have the same behavior
+        slced_dat = self.data[tuple(slices)]
+        if len(reduced) == len(slices) or slced_dat.size == 1:
+            return slced_dat
+        else:
+            fld = self.wrap(slced_dat,
+                            {"name": self.name,
+                             "crds": crds,
+                            })
+            # if there are reduced dims, put them into the deep_meta dict
+            if len(reduced) &gt; 0:
+                fld.deep_meta["reduced"] = reduced
+            return fld
+
+<div class="viewcode-block" id="Field.forget_source"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.forget_source">[docs]</a>    def forget_source(self):
+        self._src_data = self.data
+</div>
+<div class="viewcode-block" id="Field.slice"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice">[docs]</a>    def slice(self, selection):
+        """ Slice the field using a string like "y=3i:6i:2,z=0" or a standard
+        list of slice objects like one would give to numpy. In a string, i
+        means by index, and bare numbers mean by the index closest to that
+        value; see Coordinate.make_slice docs for an example. The semantics
+        for keeping / droping dimensions are the same as for numpy arrays.
+        This means selections that leave one crd in a given dimension reduce
+        that dimension out. For other behavior see
+        slice_reduce and slice_keep
+        """
+        cc = self.iscentered("Cell")
+        selection, comp_slc = self._prepare_slice(selection)
+        slices, crdlst, reduced = self.crds.make_slice(selection, cc=cc)
+        return self._finalize_slice(slices, crdlst, reduced, comp_slc)
+</div>
+<div class="viewcode-block" id="Field.slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice_reduce">[docs]</a>    def slice_reduce(self, selection):
+        """ Slice the field, then go through all dims and look for dimensions
+        with only one coordinate. Reduce those dimensions out of the new
+        field """
+        cc = self.iscentered("Cell")
+        selection, comp_slc = self._prepare_slice(selection)
+        slices, crdlst, reduced = self.crds.make_slice_reduce(selection,
+                                                              cc=cc)
+        return self._finalize_slice(slices, crdlst, reduced, comp_slc)
+</div>
+<div class="viewcode-block" id="Field.slice_and_keep"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice_and_keep">[docs]</a>    def slice_and_keep(self, selection):
+        """ Slice the field, then go through dimensions that would be reduced
+        by a normal numpy slice (like saying 'z=0') and keep those dimensions
+        in the new field """
+        cc = self.iscentered("Cell")
+        selection, comp_slc = self._prepare_slice(selection)
+        slices, crdlst, reduced = self.crds.make_slice_keep(selection,
+                                                            cc=cc)
+        return self._finalize_slice(slices, crdlst, reduced, comp_slc)
+</div>
+<div class="viewcode-block" id="Field.set_slice"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.set_slice">[docs]</a>    def set_slice(self, selection, value):
+        cc = self.iscentered("Cell")
+        selection = self._prepare_slice(selection)[0]
+        slices, _ = self.crds.make_slice(selection, cc=cc)[:2]
+        self.data[tuple(slices)] = value
+        return None
+</div>
+<div class="viewcode-block" id="Field.unload"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.unload">[docs]</a>    def unload(self):
+        """ does not guarentee that the memory will be freed """
+        self._purge_cache()
+</div>
+    @classmethod
+<div class="viewcode-block" id="Field.istype"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.istype">[docs]</a>    def istype(cls, type_str):
+        return cls._TYPE == type_str.lower()
+</div>
+<div class="viewcode-block" id="Field.iscentered"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.iscentered">[docs]</a>    def iscentered(self, center_str):
+        return self.center == center_str.lower()
+</div>
+<div class="viewcode-block" id="Field.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.iter_points">[docs]</a>    def iter_points(self, center=None, **kwargs): #pylint: disable=W0613
+        if center is None:
+            center = self.center
+        return self.crds.iter_points(center=center)
+</div>
+    def __enter__(self):
+        return self
+
+    def __exit__(self, typ, value, traceback):
+        """ unload the data """
+        self.unload()
+        return None
+
+    def __iter__(self):
+        """ iterate though all values in the data, raveled """
+        for val in self.data.ravel():
+            yield val
+
+    ##################################
+    ## Utility methods to get at crds
+    # these are the same as something like self.crds['xnc']
+    # or self.crds.get_crd()
+<div class="viewcode-block" id="Field.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd">[docs]</a>    def get_crd(self, axis, shaped=False):
+        """ return crd along axis with same centering as field
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.crds.get_crd(axis, center=self.center, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crd_nc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_nc">[docs]</a>    def get_crd_nc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.crds.get_nc(axis, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crd_cc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_cc">[docs]</a>    def get_crd_cc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.crds.get_cc(axis, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crd_ec"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_ec">[docs]</a>    def get_crd_ec(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.crds.get_ec(axis, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crd_fc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_fc">[docs]</a>    def get_crd_fc(self, axis, shaped=False):
+        """ returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        return self.crds.get_fc(axis, shaped=shaped)
+
+    ## these return all crd dimensions
+    # these are the same as something like self.crds.get_crds()</div>
+<div class="viewcode-block" id="Field.get_crds"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds">[docs]</a>    def get_crds(self, axes=None, shaped=False):
+        """ return all crds as list of ndarrays with same centering as field """
+        return self.crds.get_crds(axes=axes, center=self.center, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_nc">[docs]</a>    def get_crds_nc(self, axes=None, shaped=False):
+        """ returns all node centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.crds.get_crds_nc(axes=axes, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_cc">[docs]</a>    def get_crds_cc(self, axes=None, shaped=False):
+        """ returns all cell centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.crds.get_crds_cc(axes=axes, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_fc">[docs]</a>    def get_crds_fc(self, axes=None, shaped=False):
+        """ returns all face centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.crds.get_crds_fc(axes=axes, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_ec">[docs]</a>    def get_crds_ec(self, axes=None, shaped=False):
+        """ returns all edge centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True """
+        return self.crds.get_crds_ec(axes=axes, shaped=shaped)
+
+    #######################
+    ## emulate a container
+</div>
+    def __len__(self):
+        return self.shape[0]
+
+    def __getitem__(self, item):
+        return self.slice(item)
+
+    def __setitem__(self, key, value):
+        """ just act as if you setitem on underlying data """
+        self.data.__setitem__(key, value)
+
+    def __delitem__(self, item):
+        """ just act as if you delitem on underlying data, probably raises a
+        ValueError """
+        self.data.__delitem__(item)
+
+    ##########################
+    ## emulate a numeric type
+
+    def __array__(self, dtype=None):
+        # dtype = None is ok, datatype won't change
+        return np.array(self.data, dtype=dtype, copy=False)
+
+<div class="viewcode-block" id="Field.wrap"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.wrap">[docs]</a>    def wrap(self, arr, context=None, typ=None):
+        """ arr is the data to wrap... context is exta deep_meta to pass
+        to the constructor. The return is just a number if arr is a
+        1 element ndarray, this is for ufuncs that reduce to a scalar """
+        if arr is NotImplemented:
+            return NotImplemented
+        # if just 1 number wrappen in an array, unpack the value and
+        # return it... this is more ufuncy behavior
+        if isinstance(arr, np.ndarray) and arr.size == 1:
+            return np.ravel(arr)[0]
+        if context is None:
+            context = {}
+        name = context.pop("name", self.name)
+        crds = context.pop("crds", self.crds)
+        center = context.pop("center", self.center)
+        time = context.pop("time", self.time)
+        # should it always return the same type as self?
+        if typ is None:
+            typ = type(self)
+        else:
+            typ = field_type(typ)
+        return typ(name, crds, arr, time=time, center=center,
+                   info=self.info, deep_meta=context)
+</div>
+    def __array_wrap__(self, out_arr, context=None): #pylint: disable=W0613
+        # print("wrapping")
+        return self.wrap(out_arr)
+
+    # def __array_finalize__(self, *args, **kwargs):
+    #     print("attempted call to field.__array_finalize__")
+
+    def __add__(self, other):
+        return self.wrap(self.data.__add__(other))
+    def __sub__(self, other):
+        return self.wrap(self.data.__sub__(other))
+    def __mul__(self, other):
+        return self.wrap(self.data.__mul__(other))
+    def __div__(self, other):
+        return self.wrap(self.data.__div__(other))
+    def __truediv__(self, other):
+        return self.wrap(self.data.__truediv__(other))
+    def __floordiv__(self, other):
+        return self.wrap(self.data.__floordiv__(other))
+    def __mod__(self, other):
+        return self.wrap(self.data.__mod__(other))
+    def __divmod__(self, other):
+        return self.wrap(self.data.__divmod__(other))
+    def __pow__(self, other):
+        return self.wrap(self.data.__pow__(other))
+    def __lshift__(self, other):
+        return self.wrap(self.data.__lshift__(other))
+    def __rshift__(self, other):
+        return self.wrap(self.data.__rshift__(other))
+    def __and__(self, other):
+        return self.wrap(self.data.__rshift__(other))
+    def __xor__(self, other):
+        return self.wrap(self.data.__rshift__(other))
+    def __or__(self, other):
+        return self.wrap(self.data.__rshift__(other))
+
+    def __radd__(self, other):
+        return self.wrap(self.data.__radd__(other))
+    def __rsub__(self, other):
+        return self.wrap(self.data.__rsub__(other))
+    def __rmul__(self, other):
+        return self.wrap(self.data.__rmul__(other))
+    def __rdiv__(self, other):
+        return self.wrap(self.data.__rdiv__(other))
+    def __rtruediv__(self, other):
+        return self.wrap(self.data.__rtruediv__(other))
+    def __rfloordiv__(self, other):
+        return self.wrap(self.data.__rfloordiv__(other))
+    def __rmod__(self, other):
+        return self.wrap(self.data.__rmod__(other))
+    def __rdivmod__(self, other):
+        return self.wrap(self.data.__rdivmod__(other))
+    def __rpow__(self, other):
+        return self.wrap(self.data.__rpow__(other))
+
+    # inplace operations are not implemented since the data
+    # can up and disappear (due to unload)... this could cause
+    # confusion
+    def __iadd__(self, other):
+        return NotImplemented
+    def __isub__(self, other):
+        return NotImplemented
+    def __imul__(self, other):
+        return NotImplemented
+    def __idiv__(self, other):
+        return NotImplemented
+    def __itruediv__(self, other): #pylint: disable=R0201,W0613
+        return NotImplemented
+    def __ifloordiv__(self, other): #pylint: disable=R0201,W0613
+        return NotImplemented
+    def __imod__(self, other):
+        return NotImplemented
+    def __ipow__(self, other):
+        return NotImplemented
+
+    def __neg__(self):
+        return self.wrap(self.data.__neg__())
+    def __pos__(self):
+        return self.wrap(self.data.__pos__())
+    def __abs__(self):
+        return self.wrap(self.data.__abs__())
+    def __invert__(self):
+        return self.wrap(self.data.__invert__())
+
+<div class="viewcode-block" id="Field.any"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.any">[docs]</a>    def any(self):
+        return self.data.any()</div>
+<div class="viewcode-block" id="Field.all"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.all">[docs]</a>    def all(self):
+        return self.data.all()
+</div>
+    def __lt__(self, other):
+        return self.wrap(self.data.__lt__(other))
+    def __le__(self, other):
+        return self.wrap(self.data.__le__(other))
+    def __eq__(self, other):
+        return self.wrap(self.data.__eq__(other))
+    def __ne__(self, other):
+        return self.wrap(self.data.__ne__(other))
+    def __gt__(self, other):
+        return self.wrap(self.data.__gt__(other))
+    def __ge__(self, other):
+        return self.wrap(self.data.__ge__(other))
 
 </div>
-<div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;None&quot;</span>
-    <span class="n">CENTERING</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Node&#39;</span><span class="p">,</span> <span class="s">&#39;Cell&#39;</span><span class="p">,</span> <span class="s">&#39;Grid&#39;</span><span class="p">,</span> <span class="s">&#39;Face&#39;</span><span class="p">,</span> <span class="s">&#39;Edge&#39;</span><span class="p">]</span>
+<div class="viewcode-block" id="ScalarField"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField">[docs]</a>class ScalarField(Field):
+    _TYPE = "scalar"
 
-    <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># String</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># String in CENTERING</span>
-    <span class="n">crds</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Coordinate object</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># float</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># dict</span>
+    @property
+<div class="viewcode-block" id="ScalarField.nr_dims"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_dims">[docs]</a>    def nr_dims(self):
+        return self.nr_sdims
 
-    <span class="n">source_data</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># numpy-like object (h5py too)</span>
-    <span class="n">_cache</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># this will always be a numpy array</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Node&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                 <span class="n">info</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">forget_source</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">center</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">crds</span> <span class="o">=</span> <span class="n">crds</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">info</span>
-
-        <span class="k">if</span> <span class="n">forget_source</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">source_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
-
-<div class="viewcode-block" id="Field.unload"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; does not guarentee that the memory will be freed &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
+    # FIXME: there is probably a better way to deal with scalars not
+    # having a component dimension</div>
+    @property
+<div class="viewcode-block" id="ScalarField.nr_comp"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_comp">[docs]</a>    def nr_comp(self):
+        raise TypeError("Scalars have no components")
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.dim"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.dim">[docs]</a>    <span class="k">def</span> <span class="nf">dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">dim</span>
-        <span class="c"># try:</span>
-        <span class="c">#     return len(self.source_data.shape)</span>
-        <span class="c"># except AttributeError:</span>
-        <span class="c">#     # FIXME</span>
-        <span class="c">#     return len(self.source_data[0].shape) + 1</span>
+    @property
+<div class="viewcode-block" id="ScalarField.nr_comps"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_comps">[docs]</a>    def nr_comps(self):
+        return 0
+
+    # no downsample / transpose / swap axes for vectors yet since that would
+    # have the added layer of checking the layout</div>
+<div class="viewcode-block" id="ScalarField.downsample"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.downsample">[docs]</a>    def downsample(self):
+        """ downsample the spatial dimensions by a factor of 2 """
+        # FIXME: this implementation assumes a lot about the field
+        end = np.array(self.sshape) // 2
+        dat = self.data
+
+        if self.nr_sdims == 1:
+            downdat = 0.5 * (dat[:end[0]:2] + dat[1:end[0]:2])
+        elif self.nr_sdims == 2:
+            downdat = 0.25 * (dat[:end[0]:2, :end[1]:2] +
+                              dat[1:end[0]:2, :end[1]:2] +
+                              dat[:end[0]:2, 1:end[1]:2] +
+                              dat[1:end[0]:2, 1:end[1]:2])
+        elif self.nr_sdims == 3:
+            downdat = 0.125 * (dat[:end[0]:2, :end[1]:2, :end[2]:2] +
+                               dat[1:end[0]:2, :end[1]:2, :end[2]:2] +
+                               dat[:end[0]:2, 1:end[1]:2, :end[2]:2] +
+                               dat[:end[0]:2, :end[1]:2, 1:end[2]:2] +
+                               dat[1:end[0]:2, 1:end[1]:2, :end[2]:2] +
+                               dat[1:end[0]:2, :end[1]:2, 1:end[2]:2] +
+                               dat[:end[0]:2, 1:end[1]:2, 1:end[2]:2] +
+                               dat[1:end[0]:2, 1:end[1]:2, 1:end[2]:2])
+
+        downclist = self.crds.get_clist(np.s_[::2])
+        downcrds = coordinate.wrap_crds("nonuniform_cartesian", downclist)
+        return self.wrap(downdat, {"crds": downcrds})
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.shape"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># it is enforced that the cached data has a shape that agrees with</span>
-        <span class="c"># the coords by _reshape_ndarray_to_crds... actually, that method</span>
-        <span class="c"># requires this method to depend on the crd shape</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Node&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Cell&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_cc</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Edge/Face vectors not implemented, assuming &quot;</span>
-                         <span class="s">&quot;node shape&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape</span>
+<div class="viewcode-block" id="ScalarField.transpose"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.transpose">[docs]</a>    def transpose(self, *axes):
+        """ same behavior as numpy transpose, alse accessable
+        using np.transpose(fld) """
+        if axes == (None, ) or len(axes) == 0:
+            axes = range(self.nr_dims - 1, -1, -1)
+        if len(axes) != self.nr_dims:
+            raise ValueError("transpose can not change number of axes")
+        clist = self.crds.get_clist()
+        new_clist = [clist[ax] for ax in axes]
+        t_crds = coordinate.wrap_crds(self.crds.type, new_clist)
+        t_data = self.data.transpose(axes)
+        return self.wrap(t_data, {"crds": t_crds})
 </div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.dtype"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># print(type(self.source_data))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">dtype</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># dtype.name is for pruning endianness out of dtype</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
-</div>
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; if you want to fill the cache, this will do it, note that</span>
-<span class="sd">        to empty the cache later you can always use unload &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_fill_cache</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span>
+<div class="viewcode-block" id="ScalarField.swap_axes"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.swap_axes">[docs]</a>    def swap_axes(self, a, b):
+        new_clist = self.crds.get_clist()
+        new_clist[a], new_clist[b] = new_clist[b], new_clist[a]
+        new_crds = coordinate.wrap_crds(self.crds.type, new_clist)
+        new_data = self.data.swap_axes(a, b)
+        return self.wrap(new_data, {"crds": new_crds})
 
-    <span class="nd">@data.setter</span>
-<div class="viewcode-block" id="Field.data"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source_data</span> <span class="o">=</span> <span class="n">dat</span>
-</div>
-    <span class="k">def</span> <span class="nf">_purge_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; does not guarentee that the memory will be freed &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="k">def</span> <span class="nf">_fill_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_translate_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source_data</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_translate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-        <span class="c"># some magic may need to happen here to accept more than np/h5 data</span>
-        <span class="c"># override if a type does something fancy (eg, interlacing)</span>
-        <span class="c"># and dat.flags[&quot;OWNDATA&quot;]  # might i want this?</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dat_to_ndarray</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_dat_to_ndarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; This should be the last thing called for all data that gets put</span>
-<span class="sd">        into the cache. It makes dimensions jive correctly. This will translate</span>
-<span class="sd">        non-ndarray data structures to a flat ndarray. Also, this function</span>
-<span class="sd">        makes damn sure that the dimensionality of the coords matches the</span>
-<span class="sd">        dimensionality of the array, which is to say, if the array is only 2d,</span>
-<span class="sd">        but the coords have a 3rd dimension with length 1, reshape the array</span>
-<span class="sd">        to include that extra dimension.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">arr</span> <span class="o">=</span> <span class="n">dat</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># dtype.name is for pruning endianness out of dtype</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                <span class="n">dt</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
-                <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dat</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span>
-
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">Field</span><span class="p">):</span>
-                <span class="n">arr</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">data</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reshape_ndarray_to_crds</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_reshape_ndarray_to_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; enforce same dimensionality as coords here!</span>
-<span class="sd">        self.shape better still be using the crds shape corrected for</span>
-<span class="sd">        node / cell centering</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">arr</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># print(&quot;&gt;&gt;&gt; arr.shape: &quot;, arr.shape)</span>
-            <span class="c"># print(&quot;&gt;&gt;&gt; self.shape: &quot;, self.shape)</span>
-            <span class="c"># print(len(self.crds[&quot;xcc&quot;]), &quot;, x = &quot;, self.crds[&quot;xcc&quot;])</span>
-            <span class="c"># print(&quot;center = &quot;, self.center)</span>
-            <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-
-    <span class="c">#TODO: some method that gracefully gets the correct crd arrays for</span>
-    <span class="c"># face and edge centered fields</span>
-
-<div class="viewcode-block" id="Field.slice"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">rm_len1_dims</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Select a slice of the data using selection dictionary.</span>
-<span class="sd">        Returns a new field.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cc</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Cell&quot;</span><span class="p">)</span>
-        <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">make_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">use_cc</span><span class="o">=</span><span class="n">cc</span><span class="p">,</span>
-                                                    <span class="n">rm_len1_dims</span><span class="o">=</span><span class="n">rm_len1_dims</span><span class="p">)</span>
-
-        <span class="c"># no slice necessary, just pass the field through</span>
-        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span>
-
-        <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
-        <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slices</span><span class="p">],</span>
-                                <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot;_slice&quot;</span><span class="p">,</span>
-                                 <span class="s">&quot;crds&quot;</span><span class="p">:</span> <span class="n">crds</span><span class="p">,</span>
-                                <span class="p">})</span>
-        <span class="c"># if there are reduced dims, put them into the info dict</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reduced</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">fld</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reduced</span>
-        <span class="k">return</span> <span class="n">fld</span>
-</div>
-<div class="viewcode-block" id="Field.n_points"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.n_points">[docs]</a>    <span class="k">def</span> <span class="nf">n_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
-        <span class="k">if</span> <span class="n">center</span> <span class="o">==</span> <span class="s">&quot;None&quot;</span><span class="p">:</span>
-            <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Field.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
-        <span class="k">if</span> <span class="n">center</span> <span class="o">==</span> <span class="s">&quot;None&quot;</span><span class="p">:</span>
-            <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">iter_points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
-</div>
-    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">None</span>
-
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-
-    <span class="c"># def __getslice__(self, i, j):</span>
-    <span class="c">#     return self.data[slice(i, j)]</span>
-
-    <span class="c">## emulate a numeric type</span>
-<div class="viewcode-block" id="Field.wrap"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.wrap">[docs]</a>    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; arr is the data to wrap... context is exta info to pass</span>
-<span class="sd">        to the constructor &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">arr</span> <span class="ow">is</span> <span class="bp">NotImplemented</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">NotImplemented</span>
-        <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">crds</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crds&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span><span class="p">)</span>
-        <span class="n">center</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;center&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
-        <span class="c"># should it always return the same type as self?</span>
-        <span class="k">if</span> <span class="n">typ</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">typ</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">typ</span> <span class="o">=</span> <span class="n">field_type_from_str</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="n">info</span><span class="p">)</span>
-</div>
-    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__add__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__sub__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__div__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__truediv__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__floordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__floordiv__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__mod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__mod__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__divmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__divmod__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__pow__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__lshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__lshift__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rshift__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rshift__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__xor__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rshift__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rshift__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__radd__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rsub__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rmul__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rtruediv__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rfloordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rfloordiv__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rmod__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rdivmod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rdivmod__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-    <span class="k">def</span> <span class="nf">__rpow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__rpow__</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="nf">__iadd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__isub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__imul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__idiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__itruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__ifloordiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__imod__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">__ipow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Don&#39;t touch me like that&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__neg__</span><span class="p">())</span>
-    <span class="k">def</span> <span class="nf">__pos__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__pos__</span><span class="p">())</span>
-    <span class="k">def</span> <span class="nf">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__abs__</span><span class="p">())</span>
-    <span class="k">def</span> <span class="nf">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__invert__</span><span class="p">())</span>
-
-</div>
-<div class="viewcode-block" id="ScalarField"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField">[docs]</a><span class="k">class</span> <span class="nc">ScalarField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Scalar&quot;</span>
-
-</div>
-<div class="viewcode-block" id="VectorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField">[docs]</a><span class="k">class</span> <span class="nc">VectorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Vector&quot;</span>
-
-    <span class="n">_layout</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">_ncomp</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>        
-        <span class="nb">super</span><span class="p">(</span><span class="n">VectorField</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;force_layout&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LAYOUT_DEFAULT</span>
-
-    <span class="k">def</span> <span class="nf">_purge_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; does not guarentee that the memory will be freed &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="VectorField.ncomp"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.ncomp">[docs]</a>    <span class="k">def</span> <span class="nf">ncomp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span>
-        <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_OTHER</span><span class="p">:</span>
-            <span class="c"># print(self.name, self.layout)</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;I don&#39;t know what your layout is, assuming vectors &quot;</span>
-                         <span class="s">&quot;are the last index (interleaved)...&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</div>
-    <span class="nd">@property</span>
-<div class="viewcode-block" id="VectorField.layout"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.layout">[docs]</a>    <span class="k">def</span> <span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># make sure that the data is translated before you inquire</span>
-        <span class="c"># about the layout</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_fill_cache</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span>
-</div>
-    <span class="k">def</span> <span class="nf">_translate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-        <span class="c"># if dat is list of fields, make it into a list of source_data so that</span>
-        <span class="c"># elements can be passed bare to np.array(...)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="c"># dat = [d.source_data if isinstance(d, Field) else d for d in dat]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Field</span><span class="p">):</span>
-                    <span class="c"># use source_data so that things don&#39;t get auto cached</span>
-                    <span class="c"># since we are caching own copy of the data anyway</span>
-                    <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">source_data</span>  <span class="c"># pylint: disable=W0212</span>
-
-        <span class="n">dat_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detect_layout</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-
-        <span class="c">#print(&quot;Translating: &quot;, self.name, &quot;; detected layout is &quot;, dat_layout)</span>
-
-        <span class="c"># we will preserve layout or we already have the correct layout,</span>
-        <span class="c"># do no translation... just like Field._translate_data</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">LAYOUT_DEFAULT</span> <span class="ow">or</span> \
-           <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">dat_layout</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="n">dat_layout</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dat_to_ndarray</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-
-        <span class="c"># if layout is found to be other, i cant do anything with that</span>
-        <span class="k">elif</span> <span class="n">dat_layout</span> <span class="o">==</span> <span class="n">LAYOUT_OTHER</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Cannot auto-detect layout; not translating; &quot;</span>
-                         <span class="s">&quot;performance may suffer&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="n">LAYOUT_OTHER</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dat_to_ndarray</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-
-        <span class="c"># ok, we demand FLAT arrays, make it so</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">dat_layout</span> <span class="o">!=</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;should not be here&quot;</span><span class="p">)</span>
-
-            <span class="n">ncomp</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># dat is interlaced</span>
-            <span class="n">dat_dest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">ncomp</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dat</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncomp</span><span class="p">):</span>
-                <span class="c"># NOTE: I wonder if this is the fastest way to reorder</span>
-                <span class="n">dat_dest</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
-                <span class="c"># NOTE: no special case for lists, they are not</span>
-                <span class="c"># interpreted this way</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="n">LAYOUT_FLAT</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dat_to_ndarray</span><span class="p">(</span><span class="n">dat_dest</span><span class="p">)</span>
-
-        <span class="c"># ok, we demand INTERLACED arrays, make it so</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">dat_layout</span> <span class="o">!=</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;should not be here&quot;</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                <span class="n">ncomp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
-                <span class="n">dtype</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ncomp</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">dtype</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
-
-            <span class="n">dat_dest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">[</span><span class="n">ncomp</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncomp</span><span class="p">):</span>
-                <span class="n">dat_dest</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="n">LAYOUT_INTERLACED</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dat_to_ndarray</span><span class="p">(</span><span class="n">dat_dest</span><span class="p">)</span>
-
-        <span class="c"># catch the remaining cases</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">[</span><span class="s">&quot;force_layout&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">LAYOUT_OTHER</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;How should I know how to force other layout?&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Bad argument for layout forcing&quot;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_reshape_ndarray_to_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; enforce same dimensionality as coords here!</span>
-<span class="sd">        self.shape better still be using the crds shape corrected for</span>
-<span class="sd">        node / cell centering</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">target_shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-        <span class="c"># can&#39;t use self.ncomp or self.layout because we&#39;re in a weird</span>
-        <span class="c"># place and self.data hasn&#39;t been set yet, because this has to happen</span>
-        <span class="c"># first... like an ouroboros</span>
-        <span class="c"># NOTE: this logic is hideous, there must be a better way</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-            <span class="n">target_shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">target_shape</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
-            <span class="n">target_shape</span> <span class="o">=</span> <span class="n">target_shape</span> <span class="o">+</span> <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c"># assuming flat?</span>
-            <span class="n">target_shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">target_shape</span>
-
-        <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">target_shape</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">arr</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">target_shape</span><span class="p">)</span>
-
-<div class="viewcode-block" id="VectorField.component_views"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_views">[docs]</a>    <span class="k">def</span> <span class="nf">component_views</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return numpy views to components individually, memory layout</span>
-<span class="sd">        of the original field is maintained &quot;&quot;&quot;</span>
-        <span class="n">ncomp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ncomp</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncomp</span><span class="p">)]</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncomp</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncomp</span><span class="p">)]</span>
-</div>
-<div class="viewcode-block" id="VectorField.component_fields"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_fields">[docs]</a>    <span class="k">def</span> <span class="nf">component_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crds</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
-        <span class="n">views</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
-        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">views</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">views</span><span class="p">):</span>
-            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ScalarField</span><span class="p">(</span><span class="s">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">crds</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
-                                 <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lst</span>
-</div>
-<div class="viewcode-block" id="VectorField.detect_layout"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.detect_layout">[docs]</a>    <span class="k">def</span> <span class="nf">detect_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; returns LAYOUT_XXX &quot;&quot;&quot;</span>
-        <span class="c"># if i receive a list, then i suppose i have a list of</span>
-        <span class="c"># arrays, one for each component... this is a flat layout</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dat</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="n">LAYOUT_FLAT</span>
-
-        <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
-
-        <span class="c"># if the crds shape has more values than the dat.shape</span>
-        <span class="c"># then try trimmeng the directions that have 1 element</span>
-        <span class="c"># this can happen when crds are 3d, but field is only 2d</span>
-        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">shape</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">break</span>
-
-        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">==</span> <span class="n">shape</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">LAYOUT_FLAT</span>
-        <span class="k">elif</span> <span class="nb">list</span><span class="p">(</span><span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="n">shape</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">LAYOUT_INTERLACED</span>
-        <span class="k">elif</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">LAYOUT_INTERLACED</span>
-        <span class="k">elif</span> <span class="n">dat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">LAYOUT_FLAT</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">LAYOUT_OTHER</span>
 </div></div>
-<div class="viewcode-block" id="MatrixField"><a class="viewcode-back" href="../../viscid.html#viscid.field.MatrixField">[docs]</a><span class="k">class</span> <span class="nc">MatrixField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Matrix&quot;</span>
+<div class="viewcode-block" id="VectorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField">[docs]</a>class VectorField(Field):
+    _TYPE = "vector"
+    _COMPONENT_NAMES = "xyzuvw"
+
+<div class="viewcode-block" id="VectorField.component_views"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_views">[docs]</a>    def component_views(self):
+        """ return numpy views to components individually, memory layout
+        of the original field is maintained """
+        nr_comps = self.nr_comps
+        # comp_slc = [slice(None)] * self.nr_dims
+        if self.layout == LAYOUT_FLAT:
+            return [self.data[i, ...] for i in range(nr_comps)]
+        elif self.layout == LAYOUT_INTERLACED:
+            return [self.data[..., i] for i in range(nr_comps)]
+        else:
+            return [self.data[..., i] for i in range(nr_comps)]
+</div>
+<div class="viewcode-block" id="VectorField.component_fields"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_fields">[docs]</a>    def component_fields(self):
+        n = self.name
+        crds = self.crds
+        c = self.center
+        t = self.time
+        views = self.component_views()
+        lst = [None] * len(views)
+        for i, v in enumerate(views):
+            lst[i] = ScalarField("{0}{1}".format(n, self._COMPONENT_NAMES[i]),
+                                 crds, v, center=c, time=t, info=self.info)
+        return lst
+</div>
+    def __getitem__(self, item):
+        if item in self._COMPONENT_NAMES:
+            i = self._COMPONENT_NAMES.index(item)
+            if self.layout == LAYOUT_FLAT:
+                dat = self.data[i, ...]
+            else:
+                dat = self.data[..., i]
+            return self.wrap(dat, typ="Scalar",
+                             context={"name": self.name + item})
+        else:
+            return super(VectorField, self).__getitem__(item)
+</div>
+<div class="viewcode-block" id="MatrixField"><a class="viewcode-back" href="../../viscid.html#viscid.field.MatrixField">[docs]</a>class MatrixField(Field):
+    _TYPE = "matrix"
 
 </div>
-<div class="viewcode-block" id="TensorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.TensorField">[docs]</a><span class="k">class</span> <span class="nc">TensorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
-    <span class="n">TYPE</span> <span class="o">=</span> <span class="s">&quot;Tensor&quot;</span>
+<div class="viewcode-block" id="TensorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.TensorField">[docs]</a>class TensorField(Field):
+    _TYPE = "tensor"
 
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -605,13 +1026,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>

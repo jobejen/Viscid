@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mvi &mdash; Viscid 0.50.0 documentation</title>
+    <title>viscid.plot.mvi &mdash; Viscid 0.50.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.50.0',
+        VERSION:     '0.50.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,115 +46,178 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for viscid.plot.mvi</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
+  <h1>Source code for viscid.plot.mvi</h1><pre>
+#!/usr/bin/env python
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+from __future__ import print_function
+import code
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">mayavi.sources.vtk_data_source</span> <span class="kn">import</span> <span class="n">VTKDataSource</span>
-<span class="kn">from</span> <span class="nn">tvtk.api</span> <span class="kn">import</span> <span class="n">tvtk</span>
+import numpy as np
+from mayavi import mlab
+from mayavi.sources.vtk_data_source import VTKDataSource
+from mayavi.sources.builtin_surface import BuiltinSurface
+from tvtk.api import tvtk
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">field</span>
+from .. import field
+from ..calculator.topology import color_from_topology
 
-<span class="c"># def data_source(fld):</span>
-<span class="c">#     &quot;&quot;&quot; get a data source from a scalar field &quot;&quot;&quot;</span>
-<span class="c">#     dat = tvtk.RectilinearGrid()</span>
-<span class="c">#</span>
-<span class="c">#     suffix = &quot;cc&quot; if fld.center == &quot;Cell&quot; else &quot;&quot;</span>
-<span class="c">#     dat.x_coordinates = fld.crds[&#39;x&#39; + suffix]</span>
-<span class="c">#     dat.y_coordinates = fld.crds[&#39;y&#39; + suffix]</span>
-<span class="c">#     dat.z_coordinates = fld.crds[&#39;z&#39; + suffix]</span>
-<span class="c">#</span>
-<span class="c">#     if isinstance(fld, field.ScalarField):</span>
-<span class="c">#         dat.point_data.scalars = np.ravel(fld.dat)</span>
-<span class="c">#         dat.point_data.scalars.name = fld.name</span>
-<span class="c">#     elif isinstance(fld, field.VectorField):</span>
-<span class="c">#         pass</span>
-<span class="c">#</span>
-<span class="c">#     return VTKDataSource(data=dat)</span>
-<span class="c">#</span>
-<span class="c">#     rr = tvtk.RectilinearGrid()</span>
-<span class="c">#</span>
-<span class="c">#     rr.point_data.scalars.name = &#39;rr&#39;</span>
-<span class="c">#     rr.dimensions = collection[0][&#39;rr&#39;].shape[::-1]</span>
-<span class="c">#     #print(collection[0][&#39;coords&#39;][:])</span>
-<span class="c">#     rr_src = VTKDataSource(data=rr)</span>
-<span class="c">#</span>
-<span class="c">#     b = tvtk.RectilinearGrid()</span>
-<span class="c">#     bdata = np.empty((np.prod(collection[0][&#39;bx&#39;].shape), 3))</span>
-<span class="c">#     for i in range(3):</span>
-<span class="c">#         bdata[:,i] = np.asarray(collection[0][&#39;b&#39;][:,:,:,i],</span>
-<span class="c">#                                 dtype=&#39;f&#39;).ravel()</span>
-<span class="c">#     b.point_data.vectors = bdata</span>
-<span class="c">#     b.dimensions = collection[0][&#39;b&#39;].shape[:-1][::-1]</span>
-<span class="c">#</span>
-<span class="c">#     b_src = VTKDataSource(data=b)</span>
-<span class="c">#     collection.unload()</span>
+# def data_source(fld):
+#     """ get a data source from a scalar field """
+#     dat = tvtk.RectilinearGrid()
+#
+#     suffix = "cc" if fld.iscentered("Cell") else ""
+#     dat.x_coordinates = fld.crds['x' + suffix]
+#     dat.y_coordinates = fld.crds['y' + suffix]
+#     dat.z_coordinates = fld.crds['z' + suffix]
+#
+#     if isinstance(fld, field.ScalarField):
+#         dat.point_data.scalars = np.ravel(fld.dat)
+#         dat.point_data.scalars.name = fld.name
+#     elif isinstance(fld, field.VectorField):
+#         pass
+#
+#     return VTKDataSource(data=dat)
+#
+#     rr = tvtk.RectilinearGrid()
+#
+#     rr.point_data.scalars.name = 'rr'
+#     rr.dimensions = collection[0]['rr'].shape[::-1]
+#     #print(collection[0]['coords'][:])
+#     rr_src = VTKDataSource(data=rr)
+#
+#     b = tvtk.RectilinearGrid()
+#     bdata = np.empty((np.prod(collection[0]['bx'].shape), 3))
+#     for i in range(3):
+#         bdata[:,i] = np.asarray(collection[0]['b'][:,:,:,i],
+#                                 dtype='f').ravel()
+#     b.point_data.vectors = bdata
+#     b.dimensions = collection[0]['b'].shape[:-1][::-1]
+#
+#     b_src = VTKDataSource(data=b)
+#     collection.unload()
 
-<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
-    <span class="n">grid</span> <span class="o">=</span> <span class="n">tvtk</span><span class="o">.</span><span class="n">RectilinearGrid</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unexpected fld type: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fld</span><span class="p">)))</span>
-
-
-    <span class="c"># swap endian if needed</span>
-    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="p">):</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">()</span>
-
-    <span class="c"># at the moment, everything is point data</span>
-    <span class="c"># TODO: fix up for cell data</span>
-    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Cell&quot;</span><span class="p">:</span>
-        <span class="n">dat_center</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">point_data</span>
-        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_cc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;xcc&#39;</span><span class="p">]</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;ycc&#39;</span><span class="p">]</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;zcc&#39;</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s">&quot;Node&quot;</span><span class="p">:</span>
-        <span class="n">dat_center</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">point_data</span>
-        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span>
-        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Cell or Node only please&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
-        <span class="n">dat_center</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="n">arr</span>
-        <span class="n">dat_center</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
-        <span class="n">dat_center</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">arr</span>
-        <span class="n">dat_center</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
-
-    <span class="n">src</span> <span class="o">=</span> <span class="n">VTKDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">src</span>
+<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a>def field_to_source(fld):
+    if fld.iscentered("Node"):
+        return field_to_point_source(fld)
+    elif fld.iscentered("Cell"):
+        return field_to_cell_source(fld)
+    else:
+        raise NotImplementedError("cell / node only for now")
 </div>
-<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a><span class="k">def</span> <span class="nf">mlab_earth</span><span class="p">(</span><span class="n">pipeline</span><span class="p">,</span> <span class="n">daycol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nightcol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">res</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">mayavi.sources.builtin_surface</span> <span class="kn">import</span> <span class="n">BuiltinSurface</span>
+<div class="viewcode-block" id="field_to_point_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_point_source">[docs]</a>def field_to_point_source(fld):
+    grid, arr = _prep_field(fld)
+    dat_target = grid.point_data
 
-    <span class="n">night</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;night&#39;</span><span class="p">)</span>
-    <span class="n">night</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span>
-                          <span class="n">end_theta</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
-                          <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
-    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">night</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">nightcol</span><span class="p">)</span>
+    if fld.iscentered("Cell"):
+        # grid.dimensions is x, y, z not z, y, x
+        grid.dimensions = tuple(fld.crds.shape_cc[::-1])
+        grid.x_coordinates = fld.get_crd_cc('x')
+        grid.y_coordinates = fld.get_crd_cc('y')
+        grid.z_coordinates = fld.get_crd_cc('z')
+    elif fld.iscentered("Node"):
+        # grid.dimensions is x, y, z not z, y, x
+        grid.dimensions = tuple(fld.crds.shape_nc[::-1])
+        grid.x_coordinates = fld.get_crd_nc('x')
+        grid.y_coordinates = fld.get_crd_nc('y')
+        grid.z_coordinates = fld.get_crd_nc('z')
+    else:
+        raise ValueError("cell or node only please")
 
-    <span class="n">day</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;day&#39;</span><span class="p">)</span>
-    <span class="n">day</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-                        <span class="n">end_theta</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
-    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">daycol</span><span class="p">)</span>
+    return _finalize_source(fld, arr, grid, dat_target)
+</div>
+<div class="viewcode-block" id="field_to_cell_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_cell_source">[docs]</a>def field_to_cell_source(fld):
+    grid, arr = _prep_field(fld)
+    dat_target = grid.cell_data
 
-<span class="c">##</span>
-<span class="c">## EOF</span>
-<span class="c">##</span></div>
-</pre></div>
+    if fld.iscentered("Cell"):
+        # grid.dimensions is x, y, z not z, y, x
+        grid.dimensions = tuple(fld.crds.shape_cc[::-1])
+        grid.x_coordinates = fld.get_crd_nc('x')
+        grid.y_coordinates = fld.get_crd_nc('y')
+        grid.z_coordinates = fld.get_crd_nc('z')
+    elif fld.iscentered("Node"):
+        raise NotImplementedError("can't do lossless cell data from nodes yet")
+    else:
+        raise ValueError("cell or node only please")
+
+    return _finalize_source(fld, arr, grid, dat_target)
+</div>
+def _prep_field(fld):
+    grid = tvtk.RectilinearGrid()
+
+    if isinstance(fld, field.ScalarField):
+        arr = np.reshape(fld.data, (-1,))
+    elif isinstance(fld, field.VectorField):
+        arr = np.reshape(fld.data, (-1, 3))
+    else:
+        raise ValueError("Unexpected fld type: {0}".format(type(fld)))
+    # swap endian if needed
+    if str(arr.dtype).startswith("&gt;"):
+        arr = arr.byteswap().newbyteorder()
+    return grid, arr
+
+def _finalize_source(fld, arr, grid, dat_target):
+    if isinstance(fld, field.ScalarField):
+        dat_target.scalars = arr
+        dat_target.scalars.name = fld.name
+    elif isinstance(fld, field.VectorField):
+        dat_target.vectors = arr
+        dat_target.vectors.name = fld.name
+    return VTKDataSource(data=grid)
+
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a>def plot_lines(lines, topology=None, **kwargs):
+    if "color" not in kwargs and topology is not None:
+        if isinstance(topology, field.Field):
+            topology = topology.data.reshape(-1)
+        topo_color = True
+    else:
+        topo_color = False
+
+    for i, line in enumerate(lines):
+        if topo_color:
+            kwargs["color"] = color_from_topology(topology[i])
+        mlab.plot3d(line[2], line[1], line[0], **kwargs)
+</div>
+<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a>def mlab_earth(pipeline=None, daycol=(1, 1, 1), nightcol=(0, 0, 0), res=15,
+               crd_system="mhd"):
+    if pipeline is None:
+        pipeline = mlab.pipeline
+
+    crd_system = crd_system.lower()
+    if crd_system == "mhd":
+        theta_dusk, theta_dawn = 270, 90
+    elif crd_system == "gse":
+        theta_dusk, theta_dawn = 90, 270
+
+    night = BuiltinSurface(source='sphere', name='night')
+    night.data_source.set(center=(0, 0, 0), radius=1.0, start_theta=theta_dusk,
+                          end_theta=theta_dawn, theta_resolution=res,
+                          phi_resolution=res)
+    pipeline.surface(night, color=nightcol)
+
+    day = BuiltinSurface(source='sphere', name='day')
+    day.data_source.set(center=(0, 0, 0), radius=1.0, start_theta=theta_dawn,
+                        end_theta=theta_dusk, theta_resolution=res,
+                        phi_resolution=res)
+    pipeline.surface(day, color=daycol)
+</div>
+<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.show">[docs]</a>def show(stop=True):
+    mlab.show(stop=stop)
+</div>
+<div class="viewcode-block" id="interact"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.interact">[docs]</a>def interact(local=None):
+    """ you probably want to use interact(local=locals()) """
+    banner = """Have some fun with mayavi :)
+    hints:
+        - use locals() to explore the namespace
+        - mlab.show(stop=True) or mvi.show() to interact with the plot/gui
+        - mayavi objects all have a trait_names() method
+        - Use Ctrl-D (eof) to end interaction """
+    code.interact(banner, local=local)
+
+##
+## EOF
+##</div>
+</pre>
 
           </div>
         </div>
@@ -189,13 +250,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
     </div>
   </body>
 </html>
