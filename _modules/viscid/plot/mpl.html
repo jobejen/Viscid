@@ -1,50 +1,99 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>viscid.plot.mpl &mdash; Viscid 0.50.2 documentation</title>
-    
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '0.50.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.plot.mpl &mdash; Viscid 0.50.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid Package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>viscid.plot.mpl</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
             
   <h1>Source code for viscid.plot.mpl</h1><pre>
 #!/usr/bin/env python
@@ -59,10 +108,10 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize, LogNorm
 from mpl_toolkits.mplot3d import Axes3D #pylint: disable=W0611
 
-from .. import field
-from ..calculator import calc
-from ..calculator.topology import color_from_topology
-# from .. import vutil
+from viscid import field
+from viscid.calculator import calc
+from viscid.calculator.topology import color_from_topology
+# from viscid import vutil
 
 __mpl_ver__ = matplotlib.__version__
 has_colorbar_gridspec = LooseVersion(__mpl_ver__) &gt; LooseVersion("1.1.1")
@@ -254,6 +303,26 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     if action_ax is None:
         action_ax = ax
 
+    # ok, here's some raw hackery for contours
+    if style in ["contourf", "contour"]:
+        if "norm" in kwargs:
+            norm = kwargs["norm"]
+            if len(extra_args) &gt; 0:
+                n = extra_args[0]
+                extra_args = extra_args[1:]
+            else:
+                # FIXME, this is a strange way to hardcode 10 contours
+                # by default
+                n = 10
+
+            if isinstance(norm, Normalize):
+                extra_args.insert(0, np.linspace(norm.vmin, norm.vmax, n))
+            elif isinstance(norm, LogNorm):
+                extra_args.insert(0, np.logspace(np.log10(norm.vmin),
+                                                 np.log10(norm.vmax), n))
+            else:
+                raise ValueError("I should never be here")
+
     earth = kwargs.pop("earth", False)
 
     if rotate_plot:
@@ -289,6 +358,8 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     else:
         cbar = None
 
+    p.get_cmap().set_bad('k')
+
     plt.xlabel(namex)
     plt.ylabel(namey)
 
@@ -300,7 +371,8 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
         mplshow()
     return p, cbar
 </div>
-<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a>def plot1d_field(fld, ax=None, plot_opts=None, show=False, **kwargs):
+<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a>def plot1d_field(fld, ax=None, plot_opts=None, show=False, mask_nan=False,
+                 action_ax=None, **kwargs):
     namex, = fld.crds.axes
     if fld.iscentered("Node"):
         x = fld.get_crd_nc(namex)
@@ -308,7 +380,14 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
         x = fld.get_crd_cc(namex)
 
     ax = _apply_parse_opts(plot_opts, fld, kwargs, ax)
-    p = plt.plot(x, fld.data, **kwargs)
+    if action_ax is None:
+        action_ax = ax
+
+    dat = fld.data
+    if mask_nan:
+        dat = np.ma.masked_where(np.isnan(dat), dat)
+
+    p = action_ax.plot(x, dat, **kwargs)
     plt.xlabel(namex)
     plt.ylabel(fld.pretty_name)
     # _apply_acts(acts)
@@ -437,10 +516,10 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     # can't think of anything at this point...
     plt.show()
 </div>
-<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.tighten">[docs]</a>def tighten():
+<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.tighten">[docs]</a>def tighten(**kwargs):
     """ tightens the layout so that axis labels dont get plotted over """
     try:
-        plt.tight_layout()
+        plt.tight_layout(**kwargs)
     except AttributeError:
         logging.warn("No matplotlib tight layout support")
 </div>
@@ -493,43 +572,58 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
 </pre>
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">Viscid 0.50.2 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
-    </div>
-  </body>
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
