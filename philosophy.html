@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Philosophy &mdash; Viscid 0.50.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+        <link rel="next" title="Reading/Plotting Examples" href="ex_reader.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Philosophy</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/philosophy.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="philosophy">
+<h1>Philosophy<a class="headerlink" href="#philosophy" title="Permalink to this headline">¶</a></h1>
+<p>The basic idea is to get the python framework out of your way to help you work. To this end, data files are read into a Numpy ndarray styled object (<a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a>), and there are plenty of convenience functions to turn Fields into 2-D plots (<a class="reference internal" href="viscid.plot.html#module-viscid.plot.mpl" title="viscid.plot.mpl"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mpl</span></tt></a>) or 3-D plots (<a class="reference internal" href="viscid.plot.html#module-viscid.plot.mvi" title="viscid.plot.mvi"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mvi</span></tt></a>).</p>
+<p>Here are some basic features that all readers try to implement to the best of their ability:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Laziness: When using formats like xdmf and hdf5, we get a lot of meta data, so we can do a lot without reading the whole datafiles. Readers try their best to wait until the last possible moment to load any data. This translates into an order of magnitude better performance when loading &gt; 100 time slices of high resolution data.</li>
+<li>Sane Temporal Data: If there is a way to assume more than one file are in a time series, lazily consolidate everything into a <a class="reference internal" href="viscid.html#viscid.dataset.DatasetTemporal" title="viscid.dataset.DatasetTemporal"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.DatasetTemporal</span></tt></a>. This can be accessed like a dictionary just like Grids or Viscid Files, but they have ways to activate a specific time slice, or efficiently iterate through all time slices.</li>
+<li><a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects should be as much like Numpy ndarrays as possible. If for whatever reason, passing a field to a Numpy ufunc doesn&#8217;t work, the underlying ndarray is alwas accessible via its <tt class="docutils literal"><span class="pre">data</span></tt> attribute.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="data-abstraction">
+<h2>Data Abstraction<a class="headerlink" href="#data-abstraction" title="Permalink to this headline">¶</a></h2>
+<p>The story goes something like this... <a class="reference internal" href="viscid.readers.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a> objects are <a class="reference internal" href="viscid.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a> objects. Datasets contain <a class="reference internal" href="viscid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a> instances. Grids have <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> instances, <a class="reference internal" href="viscid.html#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a> instances, and special methods (<tt class="docutils literal"><span class="pre">_get_*</span></tt>) to calculate derived quantites. At any of these levels, the object can be treated like a dictionary to get something sensible. As an example, all of the following return the same object</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; f = readers.load_file("some_file.xdmf")
+&gt;&gt;&gt; bx = f["bx"]
+&gt;&gt;&gt; f.activate_time(0)
+&gt;&gt;&gt; bx = f['bx']
+&gt;&gt;&gt; bx = f.get_grid(time=0)["bx"]</pre>
+</div>
+<p>And to take a look into the coordinates (cell centered in this case)</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; x_cc = f["x_cc"]
+&gt;&gt;&gt; x_cc = f.get_grid(time=0)["x_cc"]
+&gt;&gt;&gt; x_cc = f['bx'].get_crd_cc('x')</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ex_reader.html" class="btn btn-neutral float-right" title="Reading/Plotting Examples">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Kristofor Maynard.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

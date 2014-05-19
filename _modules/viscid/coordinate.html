@@ -57,8 +57,39 @@
         
         
             <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
 </ul>
 </li>
 </ul>
@@ -96,11 +127,12 @@
           <div role="main">
             
   <h1>Source code for viscid.coordinate</h1><pre>
-#!/usr/bin/env python
-""" Coordinates get put into fields
-The order of coords in the clist should mirror the data layout, as in
-if data[iz, iy, ix] (C-order, ix is fastest varying index) then list
-should go z, y, x... this is the default order
+""" Container for grid coordinates
+
+Coordinates primarily go into Field objects. The order of coords in
+the clist should mirror the data layout, as in if data[iz, iy, ix]
+(C-order, ix is fastest varying index) then list should go z, y, x...
+this is the default order
 
 types:
      "Structured":
@@ -108,7 +140,8 @@ types:
          "Cylindrical"
          "Spherical"
      "Unstructured":
-         -&gt; Not Implemented &lt;- """
+         -&gt; Not Implemented &lt;-
+"""
 
 from __future__ import print_function
 # from timeit import default_timer as time
@@ -141,6 +174,9 @@ from viscid import vutil
     @classmethod
 <div class="viewcode-block" id="Coordinates.istype"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.istype">[docs]</a>    def istype(cls, type_str):
         return cls._TYPE == type_str.lower()
+</div>
+<div class="viewcode-block" id="Coordinates.is_spherical"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.Coordinates.is_spherical">[docs]</a>    def is_spherical(self):
+        return "spherical" in self._TYPE
 </div>
     def __init__(self):
         pass
@@ -747,19 +783,19 @@ from viscid import vutil
     def __len__(self):
         return self.nr_dims
 
-    def __getitem__(self, axis):
+<div class="viewcode-block" id="StructuredCrds.__getitem__"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.__getitem__">[docs]</a>    def __getitem__(self, axis):
         """ returns coord identified by axis (shaped / centering encoded
         through capitalization of crd, and suffix), ex: 'Xcc' is shaped cell
         centered, 'znc' is flat node centered, 'x' is flat node centered,
         2 is self._axes[2]
         """
         return self.get_crd(axis)
-
-    def __setitem__(self, axis, arr):
+</div>
+<div class="viewcode-block" id="StructuredCrds.__setitem__"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.__setitem__">[docs]</a>    def __setitem__(self, axis, arr):
         """ I recommend against doing this since there may be unintended
         side effects """
         return self.set_crds((axis, arr))
-
+</div>
     def __delitem__(self, item):
         raise ValueError("can not delete crd this way")
 

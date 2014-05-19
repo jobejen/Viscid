@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.compat package &mdash; Viscid 0.50.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+        <link rel="up" title="viscid package" href="viscid.html"/>
+        <link rel="next" title="viscid.plot package" href="viscid.plot.html"/>
+        <link rel="prev" title="viscid.calculator package" href="viscid.calculator.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">API Reference</a> &raquo;</li>
+      
+          <li><a href="viscid.html">viscid package</a> &raquo;</li>
+      
+    <li>viscid.compat package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/viscid.compat.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="viscid-compat-package">
+<h1>viscid.compat package<a class="headerlink" href="#viscid-compat-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-viscid.compat.ordered_dict_backport">
+<span id="viscid-compat-ordered-dict-backport-module"></span><h2>viscid.compat.ordered_dict_backport module<a class="headerlink" href="#module-viscid.compat.ordered_dict_backport" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict">
+<em class="property">class </em><tt class="descclassname">viscid.compat.ordered_dict_backport.</tt><tt class="descname">OrderedDict</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></p>
+<p>Dictionary that remembers insertion order</p>
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__delitem__">
+<tt class="descname">__delitem__</tt><big>(</big><em>key</em>, <em>dict_delitem=&lt;slot wrapper '__delitem__' of 'dict' objects&gt;</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>od.__delitem__(y) &lt;==&gt; del od[y]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__eq__">
+<tt class="descname">__eq__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>od.__eq__(y) &lt;==&gt; od==y.  Comparison to another OD is order-sensitive
+while comparison to a regular mapping is order-insensitive.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__iter__">
+<tt class="descname">__iter__</tt><big>(</big><em>) &lt;==&gt; iter(od</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__reduce__">
+<tt class="descname">__reduce__</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reduce__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return state information for pickling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__repr__">
+<tt class="descname">__repr__</tt><big>(</big><em>) &lt;==&gt; repr(od</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__reversed__">
+<tt class="descname">__reversed__</tt><big>(</big><em>) &lt;==&gt; reversed(od</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reversed__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.__setitem__">
+<tt class="descname">__setitem__</tt><big>(</big><em>key</em>, <em>value</em>, <em>dict_setitem=&lt;slot wrapper '__setitem__' of 'dict' objects&gt;</em><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>od.__setitem__(i, y) &lt;==&gt; od[i]=y</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.clear">
+<tt class="descname">clear</tt><big>(</big><big>)</big> &rarr; None.  Remove all items from od.<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big> &rarr; a shallow copy of od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.fromkeys">
+<em class="property">classmethod </em><tt class="descname">fromkeys</tt><big>(</big><em>S</em><span class="optional">[</span>, <em>v</em><span class="optional">]</span><big>)</big> &rarr; New ordered dictionary with keys from S<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.fromkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.fromkeys" title="Permalink to this definition">¶</a></dt>
+<dd><p>and values equal to v (which defaults to None).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.items">
+<tt class="descname">items</tt><big>(</big><big>)</big> &rarr; list of (key, value) pairs in od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.iteritems">
+<tt class="descname">iteritems</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd><p>od.iteritems -&gt; an iterator over the (key, value) items in od</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.iterkeys">
+<tt class="descname">iterkeys</tt><big>(</big><big>)</big> &rarr; an iterator over the keys in od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iterkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iterkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.itervalues">
+<tt class="descname">itervalues</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.itervalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.itervalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>od.itervalues -&gt; an iterator over the values in od</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big> &rarr; list of keys in od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.pop">
+<tt class="descname">pop</tt><big>(</big><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><big>)</big> &rarr; v, remove specified key and return the corresponding value.<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.popitem">
+<tt class="descname">popitem</tt><big>(</big><big>)</big> &rarr; (k, v), return and remove a (key, value) pair.<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.popitem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.popitem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pairs are returned in LIFO order if last is true or FIFO order if false.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.setdefault">
+<tt class="descname">setdefault</tt><big>(</big><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><big>)</big> &rarr; od.get(k,d), also set od[k]=d if k not in od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.setdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.update">
+<tt class="descname">update</tt><big>(</big><em>E</em>, <em>**F</em><big>)</big> &rarr; None.  Update od from dict/iterable E and F.<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>If E is a dict instance, does:           for k in E: od[k] = E[k]
+If E has a .keys() method, does:         for k in E.keys(): od[k] = E[k]
+Or if E is an iterable of items, does:   for k, v in E: od[k] = v
+In either case, this is followed by:     for k, v in F.items(): od[k] = v</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.values">
+<tt class="descname">values</tt><big>(</big><big>)</big> &rarr; list of values in od<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.values" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewitems">
+<tt class="descname">viewitems</tt><big>(</big><big>)</big> &rarr; a set-like object providing a view on od's items<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewitems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewitems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewkeys">
+<tt class="descname">viewkeys</tt><big>(</big><big>)</big> &rarr; a set-like object providing a view on od's keys<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewkeys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewvalues">
+<tt class="descname">viewvalues</tt><big>(</big><big>)</big> &rarr; an object providing a view on od's values<a class="reference internal" href="_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.compat">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viscid.compat" title="Permalink to this headline">¶</a></h2>
+<p>Compatability modules... at the moment, this only contains the ordered dict
+backport that&#8217;s posted to active state</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="viscid.plot.html" class="btn btn-neutral float-right" title="viscid.plot package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="viscid.calculator.html" class="btn btn-neutral" title="viscid.calculator package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Kristofor Maynard.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

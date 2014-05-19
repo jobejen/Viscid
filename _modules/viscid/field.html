@@ -57,8 +57,39 @@
         
         
             <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid Package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
 </ul>
 </li>
 </ul>
@@ -96,14 +127,17 @@
           <div role="main">
             
   <h1>Source code for viscid.field</h1><pre>
-#!/usr/bin/env python
-""" Fields belong in grids, or by themselves as a result of a calculation.
-Important: The field must be able to reshape itself to the shape of its
-coordinates, else there will be blood. Also, the order of the coords
-matters, it is assumed that if the coords are z, y, x then the data
-is iz, iy, ix. This can be permuted any which way, but order matters. """
+# pylint: disable=too-many-lines
+"""Fields are the basis of Viscid's data abstration
+
+Fields belong in grids, or by themselves as a result of a calculation.
+They can belong to a :class:`Grid` as the result of a file load, or
+by themselves as the result of a calculation. This module has some
+convenience functions for creating fields similar to `Numpy`.
+"""
 
 from __future__ import print_function
+from six import string_types
 import warnings
 import logging
 from inspect import isclass
@@ -121,9 +155,21 @@ LAYOUT_OTHER = "other"
 
 <div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty">[docs]</a>def empty(typ, name, crds, nr_comps=0, layout=LAYOUT_FLAT, center="Cell",
           dtype="float64", **kwargs):
-    """ creates an empty field of type typ with the same shape as crds,
-    dtype is just something that can be understood by np.array() and
-    kwargs get passed to the field constructor """
+    """Analogous to `numpy.empty` (uninitialized array)
+
+    Parameters:
+        typ (str): 'Scaler' / 'Vector'
+        name (str): a way to refer to the field programatically
+        crds (Coordinates): coordinates that describe the shape / grid
+            of the field
+        nr_comps (int, optional): for vector fields, nr of components
+        layout (str, optional): how data is stored, is in "flat" or
+            "interlaced" (interlaced == AOS)
+        center (str, optional): cell or node, there really isn't
+            support for edge / face yet
+        dtype (optional): some way to describe numpy dtype of data
+        kwargs: passed through to Field constructor
+    """
     if center.lower() == "cell":
         sshape = crds.shape_cc
     elif center.lower() == "node":
@@ -144,27 +190,61 @@ LAYOUT_OTHER = "other"
     return wrap_field(typ, name, crds, dat, center=center, **kwargs)
 </div>
 <div class="viewcode-block" id="empty_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty_like">[docs]</a>def empty_like(name, fld, **kwargs):
-    """ create empty field with 'name' whose shape / meta data match fld """
+    """Analogous to `numpy.empty_like`
+
+    Makes a new, unitilialized :class:`Field`. Copies as much meta data
+    as it can from `fld`.
+
+    Parameters:
+        name: name for this field
+        fld: field to get coordinates / metadata from
+        kwargs: passed through to :class:`Field` constructor
+
+    Returns:
+        new uninitialized :class:`Field`
+    """
     dat = np.empty(fld.shape, dtype=fld.dtype)
     c = fld.center
     t = fld.time
     return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
 </div>
 <div class="viewcode-block" id="zeros_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.zeros_like">[docs]</a>def zeros_like(name, fld, **kwargs):
-    """ create field of zeros with 'name' whose shape / meta data match fld """
+    """Analogous to `numpy.zeros_like`
+
+    Returns:
+        new :class:`Field` initialized to 0
+
+    See Also: :meth:`empty_like`
+    """
     dat = np.zeros(fld.shape, dtype=fld.dtype)
     c = fld.center
     t = fld.time
     return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
 </div>
 <div class="viewcode-block" id="ones_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.ones_like">[docs]</a>def ones_like(name, fld, **kwargs):
-    """ create field of ones with 'name' whose shape / meta data match fld """
+    """Analogous to `numpy.ones_like`
+
+    Returns:
+        new :class:`Field` initialized to 1
+
+    See Also: :meth:`empty_like`
+    """
     dat = np.ones(fld.shape, dtype=fld.dtype)
     c = fld.center
     t = fld.time
     return wrap_field(fld.type, name, fld.crds, dat, center=c, time=t, **kwargs)
 </div>
 <div class="viewcode-block" id="scalar_fields_to_vector"><a class="viewcode-back" href="../../viscid.html#viscid.field.scalar_fields_to_vector">[docs]</a>def scalar_fields_to_vector(name, fldlist, **kwargs):
+    """Convert scaler fields to a vector field
+
+    Parameters:
+        name (str): name for the vector field
+        fldlist: list of :class:`ScalarField`s
+        kwargs: passed to :class:`VectorField` constructor
+
+    Returns:
+        A new :class:`VectorField`.
+    """
     if not name:
         name = fldlist[0].name
     center = fldlist[0].center
@@ -177,9 +257,18 @@ LAYOUT_OTHER = "other"
     return vfield
 </div>
 <div class="viewcode-block" id="field_type"><a class="viewcode-back" href="../../viscid.html#viscid.field.field_type">[docs]</a>def field_type(typ):
-    """ @returns: a class where class.type matches typ
-    the magic lookup happens when typ is a string, if typ is a class
-    then just return the class for convenience """
+    """Lookup a Field type
+
+    The magic lookup happens when typ is a string, if typ is a class
+    then just return the class for convenience.
+
+    Parameters:
+        typ: python class object or string describing a field type in
+            some way
+
+    Returns:
+        a :class:`Field` subclass
+    """
     if isclass(typ) and issubclass(typ, Field):
         return typ
     else:
@@ -190,7 +279,20 @@ LAYOUT_OTHER = "other"
     return None
 </div>
 <div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.wrap_field">[docs]</a>def wrap_field(typ, name, crds, data, **kwargs):
-    """ **kwargs passed to field constructor """
+    """Convenience script for wrapping ndarrays
+
+    Parameters:
+        typ (str): 'Scaler' / 'Vector'
+        name (str): a way to refer to the field programatically
+        crds (Coordinates): coordinates that describe the shape / grid
+            of the field
+        data: Some data container, most likely a `numpy.ndarray`
+        kwargs: passed through to :class:`Field` constructor
+
+    Returns:
+        A :class:`Field` instance.
+
+    **kwargs passed to field constructor """
     #
     #len(clist), clist[0][0], len(clist[0][1]), type)
     cls = field_type(typ)
@@ -705,12 +807,12 @@ LAYOUT_OTHER = "other"
     def __enter__(self):
         return self
 
-    def __exit__(self, typ, value, traceback):
+<div class="viewcode-block" id="Field.__exit__"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.__exit__">[docs]</a>    def __exit__(self, typ, value, traceback):
         """ unload the data """
         self.unload()
         return None
-
-    def __iter__(self):
+</div>
+<div class="viewcode-block" id="Field.__iter__"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.__iter__">[docs]</a>    def __iter__(self):
         """ iterate though all values in the data, raveled """
         for val in self.data.ravel():
             yield val
@@ -718,7 +820,7 @@ LAYOUT_OTHER = "other"
     ##################################
     ## Utility methods to get at crds
     # these are the same as something like self.crds['xnc']
-    # or self.crds.get_crd()
+    # or self.crds.get_crd()</div>
 <div class="viewcode-block" id="Field.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd">[docs]</a>    def get_crd(self, axis, shaped=False):
         """ return crd along axis with same centering as field
         axis can be crd name as string, or index, as in x==2, y==1, z==2 """
@@ -769,6 +871,9 @@ LAYOUT_OTHER = "other"
         """ returns all edge centered coords as a list of ndarrays, flat if
         shaped==False, or shaped if shaped==True """
         return self.crds.get_crds_ec(axes=axes, shaped=shaped)
+</div>
+<div class="viewcode-block" id="Field.is_spherical"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_spherical">[docs]</a>    def is_spherical(self):
+        return self.crds.is_spherical()
 
     #######################
     ## emulate a container
@@ -779,18 +884,18 @@ LAYOUT_OTHER = "other"
     def __getitem__(self, item):
         return self.slice(item)
 
-    def __setitem__(self, key, value):
+<div class="viewcode-block" id="Field.__setitem__"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.__setitem__">[docs]</a>    def __setitem__(self, key, value):
         """ just act as if you setitem on underlying data """
         self.data.__setitem__(key, value)
-
-    def __delitem__(self, item):
+</div>
+<div class="viewcode-block" id="Field.__delitem__"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.__delitem__">[docs]</a>    def __delitem__(self, item):
         """ just act as if you delitem on underlying data, probably raises a
         ValueError """
         self.data.__delitem__(item)
 
     ##########################
     ## emulate a numeric type
-
+</div>
     def __array__(self, dtype=None):
         # dtype = None is ok, datatype won't change
         return np.array(self.data, dtype=dtype, copy=False)
@@ -1019,7 +1124,7 @@ LAYOUT_OTHER = "other"
         return lst
 </div>
     def __getitem__(self, item):
-        if item in self._COMPONENT_NAMES:
+        if isinstance(item, string_types) and item in self._COMPONENT_NAMES:
             i = self._COMPONENT_NAMES.index(item)
             if self.layout == LAYOUT_FLAT:
                 dat = self.data[i, ...]

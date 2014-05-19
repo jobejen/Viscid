@@ -1,103 +1,190 @@
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; Viscid 0.50.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+        <link rel="next" title="viscid package" href="viscid.html"/>
+        <link rel="prev" title="Command Line Utilities" href="command_line.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Viscid</a>
+      </nav>
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>viscid &mdash; Viscid 0.50.0 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '0.50.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Viscid 0.50.0 documentation" href="index.html" />
-    <link rel="next" title="viscid Package" href="viscid.html" />
-    <link rel="prev" title="Welcome to Viscid’s documentation!" href="index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="viscid.html" title="viscid Package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to Viscid’s documentation!"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/modules.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
             
-  <div class="section" id="viscid">
-<h1>viscid<a class="headerlink" href="#viscid" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="viscid.html">viscid Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#id1"><tt class="docutils literal"><span class="pre">viscid</span></tt> Package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.bucket"><tt class="docutils literal"><span class="pre">bucket</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.coordinate"><tt class="docutils literal"><span class="pre">coordinate</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.dataset"><tt class="docutils literal"><span class="pre">dataset</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.field"><tt class="docutils literal"><span class="pre">field</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.grid"><tt class="docutils literal"><span class="pre">grid</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.verror"><tt class="docutils literal"><span class="pre">verror</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.vlab"><tt class="docutils literal"><span class="pre">vlab</span></tt> Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.vutil"><tt class="docutils literal"><span class="pre">vutil</span></tt> Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.html">viscid package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="viscid.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.html">calculator Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#id1"><tt class="docutils literal"><span class="pre">calculator</span></tt> Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.calc"><tt class="docutils literal"><span class="pre">calc</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.necalc"><tt class="docutils literal"><span class="pre">necalc</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.seed"><tt class="docutils literal"><span class="pre">seed</span></tt> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.html">viscid.calculator package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.calc">viscid.calculator.calc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.cycalc">viscid.calculator.cycalc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.integrate">viscid.calculator.integrate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.necalc">viscid.calculator.necalc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.plasma">viscid.calculator.plasma module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.seed">viscid.calculator.seed module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.streamline">viscid.calculator.streamline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.topology">viscid.calculator.topology module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.calculator.html#module-viscid.calculator">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.plot.html">plot Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#id1"><tt class="docutils literal"><span class="pre">plot</span></tt> Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mpl"><tt class="docutils literal"><span class="pre">mpl</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mvi"><tt class="docutils literal"><span class="pre">mvi</span></tt> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.compat.html">viscid.compat package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="viscid.compat.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.compat.html#module-viscid.compat.ordered_dict_backport">viscid.compat.ordered_dict_backport module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.compat.html#module-viscid.compat">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.readers.html">readers Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#id1"><tt class="docutils literal"><span class="pre">readers</span></tt> Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.csv"><tt class="docutils literal"><span class="pre">csv</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.hdf5"><tt class="docutils literal"><span class="pre">hdf5</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile"><tt class="docutils literal"><span class="pre">vfile</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile_bucket"><tt class="docutils literal"><span class="pre">vfile_bucket</span></tt> Module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.xdmf"><tt class="docutils literal"><span class="pre">xdmf</span></tt> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.plot.html">viscid.plot package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mpl">viscid.plot.mpl module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#module-viscid.plot.mvi">viscid.plot.mvi module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.plot.html#module-viscid.plot">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.tools.html">tools Package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="viscid.tools.html#id1"><tt class="docutils literal"><span class="pre">tools</span></tt> Package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="viscid.tools.html#module-viscid.tools.topology"><tt class="docutils literal"><span class="pre">topology</span></tt> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.readers.html">viscid.readers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ascii">viscid.readers.ascii module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.hdf5">viscid.readers.hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.numpy_binary">viscid.readers.numpy_binary module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.openggcm">viscid.readers.openggcm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.psc">viscid.readers.psc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile">viscid.readers.vfile module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.vfile_bucket">viscid.readers.vfile_bucket module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.xdmf">viscid.readers.xdmf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="viscid.readers.html#module-viscid.readers">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.bucket">viscid.bucket module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.coordinate">viscid.coordinate module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.dataset">viscid.dataset module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.field">viscid.field module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.grid">viscid.grid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.parallel">viscid.parallel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.verror">viscid.verror module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.vlab">viscid.vlab module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid.vutil">viscid.vutil module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.html#module-viscid">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -106,59 +193,67 @@
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to Viscid&#8217;s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="viscid.html"
-                        title="next chapter">viscid Package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/modules.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="viscid.html" class="btn btn-neutral float-right" title="viscid package">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="command_line.html" class="btn btn-neutral" title="Command Line Utilities"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="viscid.html" title="viscid Package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to Viscid’s documentation!"
-             >previous</a> |</li>
-        <li><a href="index.html">Viscid 0.50.0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2013, Kristofor Maynard.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
-    </div>
-  </body>
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.psc &mdash; Viscid 0.50.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+          <li><a href="../readers.html">viscid.readers</a> &raquo;</li>
+      
+    <li>viscid.readers.psc</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for viscid.readers.psc</h1><pre>
+#! /usr/bin/env python
+
+from __future__ import print_function
+
+import h5py
+
+from viscid import grid
+from viscid import field
+from viscid.readers import xdmf
+from viscid.calculator import plasma
+
+
+<div class="viewcode-block" id="PscGrid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscGrid">[docs]</a>class PscGrid(grid.Grid):
+    downscale = 0
+    d_i = 1.0 # used to rescale from d_e (natural normalization) to d_i
+
+    def _get_bx(self):
+        return self["hx"]
+
+    def _get_by(self):
+        return self["hy"]
+
+    def _get_bz(self):
+        return self["hz"]
+
+    def _get_epar(self):
+        hx, hy, hz = self["hx"], self["hy"], self["hz"]
+        ex, ey, ez = self["ex"], self["ey"], self["ez"]
+        return (ex * hx + ey * hy + ez * hz) * (hx**2 + hy**2 + hz**2)**-.5
+
+    def _assemble_vector(self, base_name, comp_names="xyz", forget_source=True,
+                         **kwargs):
+
+        opts = dict(forget_source=forget_source, **kwargs)
+
+        if len(comp_names) == 3:
+            with self[base_name + comp_names[0]] as vx, \
+                 self[base_name + comp_names[1]] as vy, \
+                 self[base_name + comp_names[2]] as vz:
+                v = field.scalar_fields_to_vector(base_name, [vx, vy, vz],  # pylint: disable=star-args
+                                                  **opts)
+        else:
+            comps = [self[base_name + c] for c in comp_names]
+            v = field.scalar_fields_to_vector(base_name, comps, **opts)  # pylint: disable=star-args
+            for comp in comps:
+                comp.unload()
+        return v
+
+    def _get_b(self):
+        return self._assemble_vector("b", _force_layout=self.force_vector_layout,
+                                     pretty_name="B")
+
+    def _get_h(self):
+        return self._assemble_vector("h", _force_layout=self.force_vector_layout,
+                                     pretty_name="H")
+
+    def _get_e(self):
+        return self._assemble_vector("e", _force_layout=self.force_vector_layout,
+                                     pretty_name="E")
+
+    def _get_j(self):
+        return self._assemble_vector("j", _force_layout=self.force_vector_layout,
+                                     pretty_name="J")
+
+    def _get_psi(self):
+        B = self['b']
+        # try to guess if a dim of a 3D field is invariant
+        if B.nr_sdims &gt; 2:
+            slcs = [slice(None)] * B.nr_sdims
+            for i, nxi in enumerate(B.sshape):
+                if nxi &lt;= 2:
+                    slcs[i] = 0
+            B = B[slcs]
+        return plasma.calc_psi(B)
+
+</div>
+<div class="viewcode-block" id="PscFieldFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscFieldFile">[docs]</a>class PscFieldFile(xdmf.FileXDMF):  # pylint: disable=W0223
+    _detector = r"^\s*(.*/)?(.*)fd(?:\.([0-9]{6}))?\.xdmf"
+    _grid_type = PscGrid
+
+    def __init__(self, fname, *args, **kwargs):
+        print("Opening '%s'" % (fname))
+        super(PscFieldFile, self).__init__(fname, *args, **kwargs)
+
+</div>
+<div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscParticles">[docs]</a>class PscParticles(object):
+    def __init__(self, path, step):
+        filename = "%s/prt.%06d_p%06d.h5" % (path, step, 0)
+        print("Opening '%s'" % (filename))
+        self._h5file = h5py.File(filename, 'r')
+
+        # path = _find_path(self._h5file, "psc")
+        # self.time = self._h5file[path].attrs["time"][0]
+        # self.timestep = self._h5file[path].attrs["timestep"][0]
+
+        self.data = self._h5file["particles/p0/1d"]
+
+</div>
+<div class="viewcode-block" id="open_psc_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.open_psc_file">[docs]</a>def open_psc_file(path, step, pfx="p"):
+    """ WARNING: using this goes around the file bucket, be careful
+    not to call this twice on the same file. Nothing bad will happen,
+    you'll just have 2 versions in memory.
+    """
+    return PscFieldFile(make_fname(path, step, pfx))
+</div>
+<div class="viewcode-block" id="make_fname"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.make_fname">[docs]</a>def make_fname(path, step, pfx="p"):
+    return "{0}/{1}fd.{2:.06d}.xdmf".format(path, pfx, step)
+
+##
+## EOF
+##</div>
+</pre>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Kristofor Maynard.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

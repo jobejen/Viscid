@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.calculator.plasma &mdash; Viscid 0.50.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="fa fa-home"> Viscid</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>viscid.calculator.plasma</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <h1>Source code for viscid.calculator.plasma</h1><pre>
+#!/usr/bin/env python
+""" some equations that are useful for plasmas """
+
+from __future__ import print_function, division
+
+import numpy as np
+try:
+    import numexpr as ne
+    _HAS_NUMEXPR = True
+except ImportError:
+    _HAS_NUMEXPR = False
+
+from viscid import field
+# from viscid.calculator import calc
+
+
+<div class="viewcode-block" id="calc_psi"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.plasma.calc_psi">[docs]</a>def calc_psi(B):
+    """Calc Flux function (only valid in 2d)
+
+    Parameters:
+        B (VectorField): magnetic field, should only have two
+            spatial dimensions so we can infer the symmetry dimension
+
+    Returns:
+        ScalarField: 2-D scalar flux function
+
+    Raises:
+        ValueError: If B has &lt;&gt; 2 spatial dimensions
+
+    """
+    # TODO: if this is painfully slow, i bet just putting this exact
+    # code in a cython module would make it a bunch faster, the problem
+    # being that the loops are in python instead of some broadcasting
+    # numpy type thing
+
+    if B.nr_sdims != 2:
+        raise ValueError("flux function implemented for 2D fields")
+
+    comps = ""
+    for comp in "zyx":
+        if comp in B.crds.axes:
+            comps += comp
+    # ex: comps = "zy", comp_inds = [2, 1]
+    comp_inds = [dict(x=0, y=1, z=2)[comp] for comp in comps]
+
+    # Note: what follows says y, z, but it has been generalized
+    # to any two directions, so hy isn't necessarily hy, but it's
+    # easier to see at a glance if it's correct using a specific
+    # example
+    zcc, ycc = B.get_crds_cc(comps)
+    comp_views = B.component_views()
+    hz, hy = comp_views[comp_inds[0]], comp_views[comp_inds[1]]
+    dz = zcc[1:] - zcc[:-1]
+    dy = ycc[1:] - ycc[:-1]
+    nz, ny = len(zcc), len(ycc)
+
+    A = np.empty((nz, ny), dtype=B.dtype)
+    A[0, 0] = 0.0
+    for i in range(1, nz):
+        A[i, 0] = A[i - 1, 0] + dz[i - 1] * 0.5 * (hy[i, 0] + hy[i - 1, 0])
+
+    for j in range(1, ny):
+        A[:, j] = A[:, j - 1] - dy[j - 1] * 0.5 * (hz[:, j - 1] + hz[:, j])
+
+    return field.wrap_field("Scalar", "psi", B.crds, A,
+                            center="Cell", pretty_name=r"$\psi$")
+</div>
+<div class="viewcode-block" id="calc_beta"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.plasma.calc_beta">[docs]</a>def calc_beta(pp, B, scale=1.0):
+    """Calc plasma beta (2*p/B^2)
+
+    Parameters:
+        pp (ScalarField or ndarray): pressure
+        B (VectorField): magnetic field
+        scale (float, optional): overall scale factor
+
+    Returns:
+        ScalarField: Plasma beta
+
+    """
+    two = np.array([2.0], dtype=pp.dtype)
+    bx, by, bz = B.component_views()
+    if _HAS_NUMEXPR:
+        ldict = dict(scale=scale, bx=bx, by=by, bz=bz,
+                     pp=pp, two=two)
+        result = ne.evaluate("scale * two * pp / sqrt(bx**2 + by**2 + bz**2)",
+                             local_dict=ldict)
+    else:
+        result = scale * two * pp / np.sqrt(bx**2 + by**2 + bz**2)
+    context = dict(name="beta", pretty_name=r"$\beta_{pl}$")
+    return pp.wrap(result, context=context)
+
+##
+## EOF
+##</div>
+</pre>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2013, Kristofor Maynard.
+    </p>
+  </div>
+
+  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.50.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
