@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import viscid
 from viscid.plot import mpl
 
-iono_file = viscid.load_file(_viscid_root + '/../../sample/cen2000.iof.xdmf')
+iono_file = viscid.load_file(_viscid_root + '/../sample/cen2000.iof.xdmf')
 
 fac_tot = 1e9 * iono_file["fac_tot"]
 
