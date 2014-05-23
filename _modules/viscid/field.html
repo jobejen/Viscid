@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
     
 
   
@@ -25,35 +39,33 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
     <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul>
@@ -86,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
@@ -102,30 +115,23 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>viscid.field</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.field</a></li>
+  
+</ul>
+<hr/>
+
+          
   <h1>Source code for viscid.field</h1><pre>
 # pylint: disable=too-many-lines
 """Fields are the basis of Viscid's data abstration
@@ -239,7 +245,7 @@ LAYOUT_OTHER = "other"
 
     Parameters:
         name (str): name for the vector field
-        fldlist: list of :class:`ScalarField`s
+        fldlist: list of :class:`ScalarField`
         kwargs: passed to :class:`VectorField` constructor
 
     Returns:
@@ -286,13 +292,12 @@ LAYOUT_OTHER = "other"
         name (str): a way to refer to the field programatically
         crds (Coordinates): coordinates that describe the shape / grid
             of the field
-        data: Some data container, most likely a `numpy.ndarray`
+        data: Some data container, most likely a ``numpy.ndarray``
         kwargs: passed through to :class:`Field` constructor
 
     Returns:
         A :class:`Field` instance.
-
-    **kwargs passed to field constructor """
+    """
     #
     #len(clist), clist[0][0], len(clist[0][1]), type)
     cls = field_type(typ)
@@ -1148,19 +1153,14 @@ LAYOUT_OTHER = "other"
 ##</div>
 </pre>
 
-          </div>
           <footer>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -1169,38 +1169,6 @@ LAYOUT_OTHER = "other"
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

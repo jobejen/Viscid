@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
     
 
   
@@ -25,35 +39,33 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
     <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul>
@@ -86,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
@@ -102,30 +115,23 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>viscid.coordinate</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.coordinate</a></li>
+  
+</ul>
+<hr/>
+
+          
   <h1>Source code for viscid.coordinate</h1><pre>
 """ Container for grid coordinates
 
@@ -445,22 +451,40 @@ from viscid import vutil
             raise TypeError()
 
 <div class="viewcode-block" id="StructuredCrds.make_slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice">[docs]</a>    def make_slice(self, selection, cc=False):
-        """ In practice, selection can be a string like "y=3i:6i:2,z=0"
-        where i indicates slice by index as opposed to bare numbers which
-        slice by crd value. The example slice would be the 3rd and 5th crds
-        in y, and the z = 0.0 plane. Selection can also be the usual tuple
-        of slice objects / integers like one would give to numpy.
-        Returns slices, slcrds, reduced
-        slices: list of slice objects, one for each axis in self
-        slcrds: a clist for what the coords will be after the slice
-        reduced: a list of (axis, location) pairs of which axes are sliced out
-        The previous example would return (if z[32] is closest to z=0.0):
-        ([slice(None), slice(3, 6, 2), 32],  # list of data slices
-         [['x', ndarray(all nc x crds)], ['y', array(y[3], y[5])]], # new clist
-         [['z', 0.0]],  # list of coords that are taken out by the slices
-        )
+        """Turns a slice string into a slice (should be private?)
+
+        Slices should be made using the normal ``field[selecton]``
+        syntax. This function is more for internal use; however it
+        does document the slice string syntax.
+
+        In practice, selection can be a string like "y=3i:6i:2,z=0"
+        where i indicates slice by index as opposed to bare numbers
+        which slice by crd value. The example slice would be the 3rd
+        and 5th crds in y, and the z = 0.0 plane. Selection can also
+        be the usual tuple of slice objects / integers like one would
+        give to numpy.
+
+        "y=3i:6i:2,z=0" will give (if z[32] is closest to z=0.0)
+
+            ([slice(None), slice(3, 6, 2), 32],
+            [['x', ndarray(all nc x crds)], ['y', array(y[3], y[5])]],
+            [['z', 0.0]],
+            )
+
+        Parameters:
+            selecton (str): slice string
+            cc (bool): cell centered slice
+
+        Returns:
+            tuple (slices, slcrds, reduced)
+            slices: list of slice objects, one for each axis in self
+            slcrds: a clist for what the coords will be after the
+            slice
+            reduced: a list of (axis, location) pairs of which axes
+            are sliced out
+
         Note: cc is necessary for finding the closest plane, otherwise it
-              might be off by half a grid cell
+            might be off by half a grid cell
         """
         # this turns all types of selection input styles into a selection dict
         # which looks like {'axis': (start,stop?,step?), ...}
@@ -553,7 +577,7 @@ from viscid import vutil
         return slices, slcrds, reduced
 </div>
 <div class="viewcode-block" id="StructuredCrds.make_slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice_reduce">[docs]</a>    def make_slice_reduce(self, selection, cc=False):
-        """ make slice, and reduce dims that were not explicitly sliced """
+        """make slice, and reduce dims that were not explicitly sliced"""
         slices, crdlst, reduced = self.make_slice(selection, cc=cc)
         # augment slices / reduced
         for i, axis in enumerate(self.axes):
@@ -581,7 +605,7 @@ from viscid import vutil
         return slices, crdlst, reduced
 </div>
 <div class="viewcode-block" id="StructuredCrds.make_slice_keep"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.make_slice_keep">[docs]</a>    def make_slice_keep(self, selection, cc=False):
-        """ make slice, but put back dims that were explicitly reduced """
+        """make slice, but put back dims that were explicitly reduced"""
         slices, crdlst, reduced = self.make_slice(selection, cc=cc)
         # put reduced dims back, reduced will be in the same order as self.axes
         # since make_slice loops over self.axes to do the slices; this enables
@@ -620,9 +644,10 @@ from viscid import vutil
         return slices, crdlst, reduced
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice">[docs]</a>    def slice(self, selection, cc=False):
-        """ Get crds that describe a slice (subset) of this grid. Reduces dims
-        the same way numpy / fields do. Chances are you want either slice_reduce
-        or slice_keep """
+        """Get crds that describe a slice (subset) of this grid.
+        Reduces dims the same way numpy / fields do. Chances are
+        you want either slice_reduce or slice_keep
+        """
         slices, crdlst, reduced = self.make_slice(selection, cc=cc)
         # pass through if nothing happened
         if slices == [slice(None)] * len(slices):
@@ -630,8 +655,10 @@ from viscid import vutil
         return wrap_crds(self._TYPE, crdlst)
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.slice_reduce">[docs]</a>    def slice_reduce(self, selection, cc=False):
-        """ Get crds that describe a slice (subset) of this grid. Go through,
-        and if the slice didn't touch a dim with only one crd, reduce it """
+        """Get crds that describe a slice (subset) of this grid. Go
+        through, and if the slice didn't touch a dim with only one crd,
+        reduce it
+        """
         slices, crdlst, reduced = self.make_slice_reduce(selection,
                                                          cc=cc)
         # pass through if nothing happened
@@ -648,20 +675,27 @@ from viscid import vutil
         return wrap_crds(self._TYPE, crdlst)
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crd">[docs]</a>    def get_crd(self, axis, shaped=False, center="none"):
-        """ if axis is not specified, return all coords,
+        """if axis is not specified, return all coords,
         shaped makes axis capitalized and returns ogrid like crds
         shaped is only used if axis == None
         sfx can be none, node, cell, face, edge
-        raises KeyError if axis not found """
+        raises KeyError if axis not found
+        """
         return self.get_crds([axis], shaped, center)[0]
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crds"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds">[docs]</a>    def get_crds(self, axes=None, shaped=False, center="none"):
-        """ axes: should be a list of names or integer indices, or None
-                  to return all axes
-        shaped: boolean if you want a shaped or flat ndarray
+        """Get coordinate arrays
+
+        Parameters:
+            axes: should be a list of names or integer indices, or None
+                to return all axes
+            shaped: boolean if you want a shaped or flat ndarray
                 (True is the same as capitalizing axis)
-        center: 'node' 'cell' 'edge' 'face', same as adding a suffix to axes
-        returns list of coords as ndarrays """
+            center: 'node' 'cell' 'edge' 'face', same as adding a suffix
+                to axes
+        Returns:
+            list of coords as ndarrays
+        """
         if axes == None:
             axes = [a.upper() if shaped else a for a in self.axes]
         if not isinstance(axes, (list, tuple)):
@@ -699,14 +733,25 @@ from viscid import vutil
     #              self._crds[self.axis_name(a) + sfx][:-1]) for a in axes]
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_culled_axes"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_culled_axes">[docs]</a>    def get_culled_axes(self, ignore=2):
-        """ return list of axes names, but discard axes whose coords have
-        length &lt;= ignore... useful for 2d fields that only have 1 cell
-        center in the 3rd direction """
+        """Get only good axes
+
+        Discard axes whose coords have length &lt;= ignore... useful for
+        2d fields that only have 1 cell
+
+        Returns
+            list of axes names
+        """
         return [name for name in self.axes if len(self[name]) &gt; ignore]
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_clist"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_clist">[docs]</a>    def get_clist(self, axes=None, slc=None):
-        """ return a clist of the coordinates sliced if you wish
-        I recommend using numpy.s_ for making the slice """
+        """??
+
+        Returns:
+            a clist of the coordinates sliced if you wish
+
+        Note:
+            I recommend using ``numpy.s_`` for making the slice
+        """
         if slc is None:
             slc = slice(None)
         if axes is None:
@@ -715,49 +760,58 @@ from viscid import vutil
 
     ## These methods just return one crd axis</div>
 <div class="viewcode-block" id="StructuredCrds.get_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_nc">[docs]</a>    def get_nc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        """returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2
+        """
         return self.get_crd(axis, shaped=shaped, center="node")
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_cc">[docs]</a>    def get_cc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        """returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2
+        """
         return self.get_crd(axis, shaped=shaped, center="cell")
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_fc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_fc">[docs]</a>    def get_fc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        """returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2
+        """
         return self.get_crd(axis, shaped=shaped, center="face")
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_ec"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_ec">[docs]</a>    def get_ec(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2 """
+        """returns a flat ndarray of coordinates along a given axis
+        axis can be crd name as string, or index, as in x==2, y==1, z==2
+        """
         return self.get_crd(axis, shaped=shaped, center="edge")
 
     ## These methods return all crd axes</div>
 <div class="viewcode-block" id="StructuredCrds.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_nc">[docs]</a>    def get_crds_nc(self, axes=None, shaped=False):
-        """ returns all node centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True """
+        """returns all node centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True
+        """
         return self.get_crds(axes=axes, center="node", shaped=shaped)
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_cc">[docs]</a>    def get_crds_cc(self, axes=None, shaped=False):
-        """ returns all cell centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True """
+        """returns all cell centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True
+        """
         return self.get_crds(axes=axes, center="cell", shaped=shaped)
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_ec">[docs]</a>    def get_crds_ec(self, axes=None, shaped=False):
-        """ return all edge centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True """
+        """return all edge centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True
+        """
         return self.get_crds(axes=axes, center="edge", shaped=shaped)
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.get_crds_fc">[docs]</a>    def get_crds_fc(self, axes=None, shaped=False):
-        """ returns all face centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True """
+        """returns all face centered coords as a list of ndarrays, flat if
+        shaped==False, or shaped if shaped==True
+        """
         return self.get_crds(axes=axes, center="face", shaped=shaped)
 </div>
 <div class="viewcode-block" id="StructuredCrds.points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.points">[docs]</a>    def points(self, center="none"):
-        """ returns all points in a grid defined by crds as a
-        nr_dims x nr_points ndarray """
+        """returns all points in a grid defined by crds as a
+        nr_dims x nr_points ndarray
+        """
         crds = self.get_crds(shaped=False, center=center)
         shape = [len(c) for c in crds]
         arr = np.empty([len(shape)] + [np.prod(shape)])
@@ -767,12 +821,13 @@ from viscid import vutil
         return arr
 </div>
 <div class="viewcode-block" id="StructuredCrds.nr_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.nr_points">[docs]</a>    def nr_points(self, center="none"):
-        """ returns the number of points in a grid defined by these crds """
+        """returns the number of points in a grid defined by these crds"""
         return np.prod([len(crd) for crd in self.get_crds(center=center)])
 </div>
 <div class="viewcode-block" id="StructuredCrds.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.iter_points">[docs]</a>    def iter_points(self, center="none", **kwargs): #pylint: disable=W0613
-        """ returns an iterator over all the points in a grid, each nextitem
-        will be a list of nr_dims numbers """
+        """returns an iterator over all the points in a grid, each
+        nextitem will be a list of nr_dims numbers
+        """
         return itertools.product(*self.get_crds(shaped=False, center=center))
 </div>
 <div class="viewcode-block" id="StructuredCrds.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.print_tree">[docs]</a>    def print_tree(self):
@@ -792,8 +847,9 @@ from viscid import vutil
         return self.get_crd(axis)
 </div>
 <div class="viewcode-block" id="StructuredCrds.__setitem__"><a class="viewcode-back" href="../../viscid.html#viscid.coordinate.StructuredCrds.__setitem__">[docs]</a>    def __setitem__(self, axis, arr):
-        """ I recommend against doing this since there may be unintended
-        side effects """
+        """I recommend against doing this since there may be unintended
+        side effects
+        """
         return self.set_crds((axis, arr))
 </div>
     def __delitem__(self, item):
@@ -873,7 +929,7 @@ from viscid import vutil
     _target_nc_params = None
 
     def __init__(self, init_clist, **kwargs):
-        """ This subclass is hackilly different from other crd types...
+        """This subclass is hackilly different from other crd types...
         init_clist MUST be list of the form:
         [
             ['phi', [0.0, 360.0, 181]],
@@ -888,8 +944,9 @@ from viscid import vutil
         super(NonuniformSphericalCrds, self).__init__(None, **kwargs)
 
     def _fill_crds_dict(self):
-        """ do the math to calc node, cell, face, edge crds from
-        the src crds """
+        """do the math to calc node, cell, face, edge crds from
+        the src crds
+        """
         # SUPERHACKY! ok, so we're ignoring the cordinates in the file, and
         # just assuming they span the sphere... that way all we actually need
         # is nphi, ntheta, so when we need the crds, fill _src_crds_nc as
@@ -912,19 +969,14 @@ from viscid import vutil
 ##</div>
 </pre>
 
-          </div>
           <footer>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -933,38 +985,6 @@ from viscid import vutil
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

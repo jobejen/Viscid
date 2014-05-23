@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../../',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
     
 
   
@@ -25,35 +39,33 @@
   
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
     <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../../index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul>
@@ -86,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
@@ -102,33 +115,26 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>viscid.calculator.seed</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.calculator.seed</a></li>
+  
+</ul>
+<hr/>
+
+          
   <h1>Source code for viscid.calculator.seed</h1><pre>
 #!/usr/bin/env python
-""" Helpers to generate seed points for streamlines """
+"""Helpers to generate seed points for streamlines"""
 
 from __future__ import print_function
 import itertools
@@ -143,6 +149,13 @@ from viscid import field
 from viscid import coordinate
 
 <div class="viewcode-block" id="SeedGen"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen">[docs]</a>class SeedGen(object):
+    """All about seeds
+
+    These objects are good for defining the root points of streamlines
+    for :meth:`vicid.calculator.streamline.streamlines`, or
+    interpolation points a la
+    :meth:`vicid.calculator.cycalc.interp_trilin`.
+    """
     _cache = None
     _points = None
     dtype = None
@@ -154,7 +167,11 @@ from viscid import coordinate
         self.params = {}
 
 <div class="viewcode-block" id="SeedGen.points"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen.points">[docs]</a>    def points(self):
-        """ 3 x n ndarray of n seed points """
+        """Get points an ndarray
+
+        Returns:
+            3 x n ndarray of n seed point
+        """
         if self._points is not None:
             return self._points
         pts = self.genr_points()
@@ -163,12 +180,14 @@ from viscid import coordinate
         return pts
 </div>
 <div class="viewcode-block" id="SeedGen.iter_points"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen.iter_points">[docs]</a>    def iter_points(self, **kwargs):
-        """ always returns an iterator, this can be overridden in a subclass
-        if it's more efficient to iterate than a call to genr_points,
-        calling iter_points should make an effort to be the fastest way to
-        iterate through the points, ignorant of caching. In cython, it seems to
-        take twice the time to iterate over a generator, than to use a for loop
-        over indices of an array, but only if the array already exists """
+        """always returns an iterator, this can be overridden in a
+        subclass if it's more efficient to iterate than a call to
+        :meth:`genr_points`, calling iter_points should make an effort
+        to be the fastest way to iterate through the points, ignorant
+        of caching. In cython, it seems to take twice the time to
+        iterate over a generator, than to use a for loop over indices
+        of an array, but only if the array already exists
+        """
         pts = self.points()
         return izip(pts[0, :], pts[1, :], pts[2, :])
 </div>
@@ -176,22 +195,27 @@ from viscid import coordinate
         raise NotImplementedError()
 </div>
 <div class="viewcode-block" id="SeedGen.as_coordinates"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen.as_coordinates">[docs]</a>    def as_coordinates(self):
-        """ basically, wrap_crds on something meaningful """
+        """basically, wrap_crds on something meaningful"""
         raise NotImplementedError()
 </div>
 <div class="viewcode-block" id="SeedGen.genr_points"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen.genr_points">[docs]</a>    def genr_points(self):
-        """ this should return an iterable of (z, y, x) points """
+        """this should return an iterable of (z, y, x) points"""
         raise NotImplementedError()
 </div>
 <div class="viewcode-block" id="SeedGen.wrap_field"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SeedGen.wrap_field">[docs]</a>    def wrap_field(self, fld_typ, name, data, **kwargs):
-        """ fld_type is 'Scalar' or 'Vector' or something like that """
+        """fld_type is 'Scalar' or 'Vector' or something like that"""
         crds = self.as_coordinates()
         return field.wrap_field(fld_typ, name, crds, data, **kwargs)
 
 </div></div>
 <div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Point">[docs]</a>class Point(SeedGen):
+    """Collection of points
+
+    This is useful for wrapping up an ndarray of points to go
+    into :meth:`vicid.calculator.streamline.streamlines`.
+    """
     def __init__(self, points, cache=False, dtype=None):
-        """ points should be an n x 3 array of zyx points """
+        """points should be an n x 3 array of zyx points"""
         super(Point, self).__init__(cache=cache, dtype=dtype)
         self.params["points"] = points
 
@@ -221,6 +245,10 @@ from viscid import coordinate
 
 </div></div>
 <div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Line">[docs]</a>class Line(SeedGen):
+    """A line of seed points
+
+    Defined by to endpoints
+    """
     def __init__(self, p0, p1, res=20, cache=False, dtype=None):
         """ p0 &amp; p1 are (z, y, x) points as list, tuple, or ndarray
         res is the number of need points to generate """
@@ -254,6 +282,11 @@ from viscid import coordinate
 
 </div></div>
 <div class="viewcode-block" id="Plane"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Plane">[docs]</a>class Plane(SeedGen):
+    """A plane of seed points
+
+    Defined by a point, a normal direction, a direction in the plane,
+    and the length and width of the plane
+    """
     def __init__(self, p0, Ndir, Ldir, len_l, len_m, res_l=20, res_m=20,
                  cache=False):
         """ plane is specified in L,M,N coords where N is normal to the plane,
@@ -336,6 +369,10 @@ from viscid import coordinate
 
 </div></div>
 <div class="viewcode-block" id="Volume"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Volume">[docs]</a>class Volume(SeedGen):
+    """A volume of seed points
+
+    Defined by two opposite corners of a box in 3d
+    """
     def __init__(self, p0, p1, res=(20, 20, 20), cache=False):
         """ p1 &amp; p2 are (z, y, x) points as list, tuple, or ndarray
         res is the number of need points to generate (nz, ny, nx) """
@@ -377,6 +414,10 @@ from viscid import coordinate
 
 </div></div>
 <div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Sphere">[docs]</a>class Sphere(SeedGen):
+    """A sphere of points
+
+    Defined by a center, and a radius
+    """
     def __init__(self, p0, r, restheta=20, resphi=20, cache=False):
         super(Sphere, self).__init__(cache=cache)
         self.params["p0"] = np.array(p0, copy=False)
@@ -425,6 +466,11 @@ from viscid import coordinate
         return a
 </div>
 <div class="viewcode-block" id="SphericalCap"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.SphericalCap">[docs]</a>class SphericalCap(Sphere):
+    """A spherical cone or cap of seeds
+
+    Defined by a center, and a point indicating the direction of the
+    cone, and the half angle of the cone.
+    """
     _euler_rot = None  # rotation matrix for 2 euler rotations
 
     def __init__(self, p0, p1, angle,
@@ -487,6 +533,10 @@ from viscid import coordinate
 
 </div>
 <div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.seed.Circle">[docs]</a>class Circle(SphericalCap):
+    """A circle of seeds
+
+    Defined by a center and a point normal to the plane of the circle
+    """
     def __init__(self, p0, p1, res=20, r=None,
                  angle=90.0, cache=False):
         super(Circle, self).__init__(p0, p1, angle, restheta=1,
@@ -537,12 +587,12 @@ if __name__ == "__main__":
     interp_vals = cycalc.interp_trilin(bmag, cap)
     t1 = time()
     # logging.info("interp took {0:.3e}s to compute.".format(t1 - t0))
-    pts = cap.points()
+    _pts = cap.points()
     mlab.points3d(_p0[2], _p0[1], _p0[0],
                   scale_factor=0.07, color=(0.0, 0.0, 0.0))
     mlab.points3d(_p1[2], _p1[1], _p1[0],
                   scale_factor=0.07, color=(1.0, 1.0, 1.0))
-    mlab.points3d(pts[2], pts[1], pts[0], interp_vals,
+    mlab.points3d(_pts[2], _pts[1], _pts[0], interp_vals,
                   scale_factor=0.07, scale_mode="none")
     mlab.axes(nb_labels=5)
     mlab.show()
@@ -552,19 +602,14 @@ if __name__ == "__main__":
 ##
 </pre>
 
-          </div>
           <footer>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -573,38 +618,6 @@ if __name__ == "__main__":
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

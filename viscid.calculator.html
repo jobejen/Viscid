@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
     
 
   
@@ -25,6 +39,7 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
@@ -33,29 +48,26 @@
         <link rel="next" title="viscid.compat package" href="viscid.compat.html"/>
         <link rel="prev" title="viscid package" href="viscid.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul class="current">
@@ -88,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
@@ -104,34 +117,23 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="modules.html">API Reference</a> &raquo;</li>
-      
-          <li><a href="viscid.html">viscid package</a> &raquo;</li>
-      
-    <li>viscid.calculator package</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/viscid.calculator.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.calculator package</a></li>
+  
+</ul>
+<hr/>
+
+          
   <div class="section" id="viscid-calculator-package">
 <h1>viscid.calculator package<a class="headerlink" href="#viscid-calculator-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
@@ -380,12 +382,16 @@ If B has &lt;&gt; 2 spatial dimensions</td>
 <dt id="viscid.calculator.seed.Circle">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Circle</tt><big>(</big><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>r=None</em>, <em>angle=90.0</em>, <em>cache=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Circle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SphericalCap" title="viscid.calculator.seed.SphericalCap"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SphericalCap</span></tt></a></p>
+<p>A circle of seeds</p>
+<p>Defined by a center and a point normal to the plane of the circle</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.calculator.seed.Line">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Line</tt><big>(</big><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>cache=False</em>, <em>dtype=None</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SeedGen" title="viscid.calculator.seed.SeedGen"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SeedGen</span></tt></a></p>
+<p>A line of seed points</p>
+<p>Defined by to endpoints</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.Line.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Line.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Line.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -407,6 +413,9 @@ If B has &lt;&gt; 2 spatial dimensions</td>
 <dt id="viscid.calculator.seed.Plane">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Plane</tt><big>(</big><em>p0</em>, <em>Ndir</em>, <em>Ldir</em>, <em>len_l</em>, <em>len_m</em>, <em>res_l=20</em>, <em>res_m=20</em>, <em>cache=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Plane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SeedGen" title="viscid.calculator.seed.SeedGen"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SeedGen</span></tt></a></p>
+<p>A plane of seed points</p>
+<p>Defined by a point, a normal direction, a direction in the plane,
+and the length and width of the plane</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.Plane.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Plane.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Plane.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -428,6 +437,9 @@ If B has &lt;&gt; 2 spatial dimensions</td>
 <dt id="viscid.calculator.seed.Point">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Point</tt><big>(</big><em>points</em>, <em>cache=False</em>, <em>dtype=None</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SeedGen" title="viscid.calculator.seed.SeedGen"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SeedGen</span></tt></a></p>
+<p>Collection of points</p>
+<p>This is useful for wrapping up an ndarray of points to go
+into <tt class="xref py py-meth docutils literal"><span class="pre">vicid.calculator.streamline.streamlines()</span></tt>.</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.Point.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Point.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Point.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -449,6 +461,11 @@ If B has &lt;&gt; 2 spatial dimensions</td>
 <dt id="viscid.calculator.seed.SeedGen">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">SeedGen</tt><big>(</big><em>cache=False</em>, <em>dtype=None</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#SeedGen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SeedGen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>All about seeds</p>
+<p>These objects are good for defining the root points of streamlines
+for <tt class="xref py py-meth docutils literal"><span class="pre">vicid.calculator.streamline.streamlines()</span></tt>, or
+interpolation points a la
+<tt class="xref py py-meth docutils literal"><span class="pre">vicid.calculator.cycalc.interp_trilin()</span></tt>.</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.SeedGen.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#SeedGen.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SeedGen.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -469,12 +486,13 @@ If B has &lt;&gt; 2 spatial dimensions</td>
 <dl class="method">
 <dt id="viscid.calculator.seed.SeedGen.iter_points">
 <tt class="descname">iter_points</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#SeedGen.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SeedGen.iter_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>always returns an iterator, this can be overridden in a subclass
-if it&#8217;s more efficient to iterate than a call to genr_points,
-calling iter_points should make an effort to be the fastest way to
-iterate through the points, ignorant of caching. In cython, it seems to
-take twice the time to iterate over a generator, than to use a for loop
-over indices of an array, but only if the array already exists</p>
+<dd><p>always returns an iterator, this can be overridden in a
+subclass if it&#8217;s more efficient to iterate than a call to
+<a class="reference internal" href="#viscid.calculator.seed.SeedGen.genr_points" title="viscid.calculator.seed.SeedGen.genr_points"><tt class="xref py py-meth docutils literal"><span class="pre">genr_points()</span></tt></a>, calling iter_points should make an effort
+to be the fastest way to iterate through the points, ignorant
+of caching. In cython, it seems to take twice the time to
+iterate over a generator, than to use a for loop over indices
+of an array, but only if the array already exists</p>
 </dd></dl>
 
 <dl class="method">
@@ -490,7 +508,15 @@ over indices of an array, but only if the array already exists</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.SeedGen.points">
 <tt class="descname">points</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#SeedGen.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SeedGen.points" title="Permalink to this definition">¶</a></dt>
-<dd><p>3 x n ndarray of n seed points</p>
+<dd><p>Get points an ndarray</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">3 x n ndarray of n seed point</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -505,6 +531,8 @@ over indices of an array, but only if the array already exists</p>
 <dt id="viscid.calculator.seed.Sphere">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Sphere</tt><big>(</big><em>p0</em>, <em>r</em>, <em>restheta=20</em>, <em>resphi=20</em>, <em>cache=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Sphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Sphere" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SeedGen" title="viscid.calculator.seed.SeedGen"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SeedGen</span></tt></a></p>
+<p>A sphere of points</p>
+<p>Defined by a center, and a radius</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.Sphere.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Sphere.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Sphere.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -531,6 +559,9 @@ over indices of an array, but only if the array already exists</p>
 <dt id="viscid.calculator.seed.SphericalCap">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">SphericalCap</tt><big>(</big><em>p0</em>, <em>p1</em>, <em>angle</em>, <em>restheta=20</em>, <em>resphi=20</em>, <em>r=None</em>, <em>cache=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#SphericalCap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SphericalCap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.Sphere" title="viscid.calculator.seed.Sphere"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.Sphere</span></tt></a></p>
+<p>A spherical cone or cap of seeds</p>
+<p>Defined by a center, and a point indicating the direction of the
+cone, and the half angle of the cone.</p>
 <dl class="attribute">
 <dt id="viscid.calculator.seed.SphericalCap.euler_rot">
 <tt class="descname">euler_rot</tt><a class="reference internal" href="_modules/viscid/calculator/seed.html#SphericalCap.euler_rot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.SphericalCap.euler_rot" title="Permalink to this definition">¶</a></dt>
@@ -547,6 +578,8 @@ over indices of an array, but only if the array already exists</p>
 <dt id="viscid.calculator.seed.Volume">
 <em class="property">class </em><tt class="descclassname">viscid.calculator.seed.</tt><tt class="descname">Volume</tt><big>(</big><em>p0</em>, <em>p1</em>, <em>res=(20</em>, <em>20</em>, <em>20)</em>, <em>cache=False</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Volume" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.calculator.seed.SeedGen" title="viscid.calculator.seed.SeedGen"><tt class="xref py py-class docutils literal"><span class="pre">viscid.calculator.seed.SeedGen</span></tt></a></p>
+<p>A volume of seed points</p>
+<p>Defined by two opposite corners of a box in 3d</p>
 <dl class="method">
 <dt id="viscid.calculator.seed.Volume.as_coordinates">
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/calculator/seed.html#Volume.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.seed.Volume.as_coordinates" title="Permalink to this definition">¶</a></dt>
@@ -572,29 +605,95 @@ over indices of an array, but only if the array already exists</p>
 </div>
 <div class="section" id="module-viscid.calculator.streamline">
 <span id="viscid-calculator-streamline-module"></span><h2>viscid.calculator.streamline module<a class="headerlink" href="#module-viscid.calculator.streamline" title="Permalink to this headline">¶</a></h2>
-<p>NOTE: when nr_procs &gt; 1, fields are shared to child processes using
-a global variable so that on Unix there is no need to picklel and copy the
-entire field. This will only work on Unix, and I have absolutely no idea
-what will happen on Windows</p>
+<p>All streamlines all the time</p>
+<p>Calculate streamlines of a vector field on as many processors your
+heart desires. The only function you need here is <a class="reference internal" href="#viscid.calculator.streamline.streamlines" title="viscid.calculator.streamline.streamlines"><tt class="xref py py-meth docutils literal"><span class="pre">streamlines()</span></tt></a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When nr_procs &gt; 1, fields are shared to child processes using
+a global variable so that on *nix there is no need to picklel and
+copy the entire field. This will only work on *nix, and I have
+absolutely no idea what will happen on Windows.</p>
+</div>
 <dl class="function">
 <dt id="viscid.calculator.streamline.streamlines">
 <tt class="descclassname">viscid.calculator.streamline.</tt><tt class="descname">streamlines</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.calculator.streamline.streamlines" title="Permalink to this definition">¶</a></dt>
-<dd><p>fld:      Some vector field
-seed:     can be a Seeds instance or a Coordinates instance... basically anything</p>
-<blockquote>
-<div>which exposes an iter_points method</div></blockquote>
-<p>nr_procs: how many processes to calc streamlines on (&gt;1 only works on unix systems)
-force_parallel: always calc streamlines in a separate process, even if nr_procs == 1
-nr_chunks_factor: nchunks = nr_procs * nr_chunks_factor, if streamlines are really</p>
-<blockquote>
-<div>unbalanced, try bumping this up</div></blockquote>
-<p>kwargs:   keyword arguments for _py_streamline
-Returns (lines, topo), either of which can be None depending on output
-lines: list or ndarray of objects (if nr_procs &gt; 1) of nr_streams ndarrays,</p>
-<blockquote>
-<div>each ndarray has shape (3, nr_points_in_stream)
-the nr_points_in_stream can be different for each line</div></blockquote>
-<p>topo is an ndarray with shape (nr_streams,) of topology bitmask</p>
+<dd><p>Trace streamlines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fld</strong> &#8211; Some vector field</li>
+<li><strong>seed</strong> &#8211; can be a Seeds instance or a Coordinates instance, or
+anything that exposes an iter_points method</li>
+<li><strong>nr_procs</strong> &#8211; how many processes to calc streamlines on (&gt;1 only
+works on *nix systems)</li>
+<li><strong>force_parallel</strong> &#8211; always calc streamlines in a separate process,
+even if nr_procs == 1</li>
+<li><strong>nr_chunks_factor</strong> &#8211; If streamlines are really unbalanced in
+length, try bumping this up</li>
+<li><strong>kwargs</strong> &#8211; more arguments for streamlines, described below</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li><strong>ds0</strong> (<em>float</em>) &#8211;
+initial spatial step for streamlines (if 0.0, it
+will be half the minimum d[xyz])</li>
+<li><strong>ibound</strong> (<em>float</em>) &#8211;
+Inner boundary as distance from (0, 0, 0)</li>
+<li><strong>obound0</strong> (<em>array-like</em>) &#8211;
+lower corner of outer boundary (z, y, x)</li>
+<li><strong>obound1</strong> (<em>array-like</em>) &#8211;
+upper corner of outer boundary (z, y, x)</li>
+<li><strong>maxit</strong> (<em>int</em>) &#8211;
+maximum number of line segments</li>
+<li><strong>max_length</strong> (<em>float</em>) &#8211;
+maximum streamline length</li>
+<li><strong>stream_dir</strong> (<em>int</em>) &#8211;
+one of DIR_FORWARD, DIR_BACKWARD, DIR_BOTH</li>
+<li><strong>output</strong> (<em>int</em>) &#8211;
+which output to provide, one of
+OUTPUT_STREAMLINE, OUTPUT_TOPOLOGY, or OUTPUT_BOTH</li>
+<li><strong>method</strong> (<em>int</em>) &#8211;
+integrator, one of EULER1, EULER1a (adaptive),
+RK2, RK12 (adaptive)</li>
+<li><strong>tol_lo</strong> (<em>float</em>) &#8211;
+lower acuracy tolerance for adaptive
+integrators. More acurate than, this ds goes up.</li>
+<li><strong>tol_hi</strong> (<em>float</em>) &#8211;
+upper acuracy tolerance for adaptive
+integrators. Less acurate than, this ds goes down.</li>
+<li><strong>fac_refine</strong> (<em>float</em>) &#8211;
+When refining ds, ds *= fac_refine</li>
+<li><strong>fac_coarsen</strong> (<em>float</em>) &#8211;
+When coarsening ds, ds *= fac_coarsen</li>
+<li><strong>smallest_step</strong> (<em>float</em>) &#8211;
+smallest spatial step</li>
+<li><strong>largest_step</strong> (<em>float</em>) &#8211;
+largest spatial step</li>
+<li><strong>topo_style</strong> (<em>str</em>) &#8211;
+how to map end point bitmask to a topology.
+&#8216;msphere&#8217; to map to <tt class="docutils literal"><span class="pre">TOPOLOGY_MS_*</span></tt>, or &#8216;generic&#8217; to
+leave topology as a bitmask of <tt class="docutils literal"><span class="pre">END_*</span></tt></li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(lines, topo), either can be <tt class="docutils literal"><span class="pre">None</span></tt> depending on <tt class="docutils literal"><span class="pre">output</span></tt></p>
+<ul class="simple">
+<li>lines, list of nr_streams ndarrays, each ndarray has shape
+(3, nr_points_in_stream) the nr_points_in_stream can be
+different for each line</li>
+<li>topo, ndarray with shape (nr_streams,) of topology
+bitmask with values depending on the topo_style</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -605,12 +704,31 @@ TOPOLOGY_* is copied here so that one can import this module
 without needing to have built the cython module streamline.pyx</p>
 <dl class="function">
 <dt id="viscid.calculator.topology.color_from_topology">
-<tt class="descclassname">viscid.calculator.topology.</tt><tt class="descname">color_from_topology</tt><big>(</big><em>topology</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/topology.html#color_from_topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.topology.color_from_topology" title="Permalink to this definition">¶</a></dt>
-<dd><p>topology is an integer described by calculator.streamline.TOPOLOGY_*
-returns a color tuple
-Note: to override this color scheme, just set</p>
-<blockquote>
+<tt class="descclassname">viscid.calculator.topology.</tt><tt class="descname">color_from_topology</tt><big>(</big><em>topology</em>, <em>topo_style='msphere'</em><big>)</big><a class="reference internal" href="_modules/viscid/calculator/topology.html#color_from_topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.topology.color_from_topology" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine RGB from topology value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>topology</strong> (<em>int</em>) &#8211; some value in
+<tt class="docutils literal"><span class="pre">calculator.streamline.TOPOLOGY_*</span></tt></li>
+<li><strong>topo_style</strong> (<em>string</em>) &#8211; msphere, or a dict with its own
+mapping</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(R, G, B)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>to override this color scheme, just set</p>
+<blockquote class="last">
 <div>topoloy.color_from_topology = some_function</div></blockquote>
+</div>
 </dd></dl>
 
 </div>
@@ -624,28 +742,14 @@ etc.</p>
 </div>
 
 
-          </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="viscid.compat.html" class="btn btn-neutral float-right" title="viscid.compat package">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="viscid.html" class="btn btn-neutral" title="viscid package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -654,38 +758,6 @@ etc.</p>
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

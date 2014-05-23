@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
     
 
   
@@ -25,6 +39,7 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
@@ -32,29 +47,26 @@
         <link rel="next" title="Command Line Utilities" href="command_line.html"/>
         <link rel="prev" title="OpenGGCM Examples" href="ex_openggcm.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul class="current">
@@ -87,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a><ul>
@@ -103,34 +116,28 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Calculator Examples</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/ex_calc.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">Calculator Examples</a></li>
+  
+</ul>
+<hr/>
+
+          
   <div class="section" id="calculator-examples">
 <h1>Calculator Examples<a class="headerlink" href="#calculator-examples" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="streamlines">
 <h2>Streamlines<a class="headerlink" href="#streamlines" title="Permalink to this headline">¶</a></h2>
+<p>For more info on streamlines, check out <a class="reference internal" href="viscid.calculator.html#viscid.calculator.streamline.streamlines" title="viscid.calculator.streamline.streamlines"><tt class="xref py py-meth docutils literal"><span class="pre">viscid.calculator.streamline.streamlines()</span></tt></a> and <a class="reference internal" href="viscid.calculator.html#module-viscid.calculator.seed" title="viscid.calculator.seed"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.calculator.seed</span></tt></a></p>
 <div class="highlight-python"><pre>import numpy as np
 
 from viscid import vlab
@@ -160,28 +167,14 @@ mpl.plot_streamlines2d(lines, 'y', topo)</pre>
 </div>
 
 
-          </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="command_line.html" class="btn btn-neutral float-right" title="Command Line Utilities">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="ex_openggcm.html" class="btn btn-neutral" title="OpenGGCM Examples"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -190,38 +183,6 @@ mpl.plot_streamlines2d(lines, 'y', topo)</pre>
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

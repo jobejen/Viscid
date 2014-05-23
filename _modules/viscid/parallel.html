@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
     
 
   
@@ -25,35 +39,33 @@
   
   
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
     <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul>
@@ -86,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
@@ -102,32 +115,25 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>viscid.parallel</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.parallel</a></li>
+  
+</ul>
+<hr/>
+
+          
   <h1>Source code for viscid.parallel</h1><pre>
-""" module for common parallel processing """
+"""common tools for parallel processing"""
 
 from __future__ import print_function, division
 from math import ceil
@@ -145,6 +151,7 @@ import numpy as np
 
 # Non daemonic processes are probably a really bad idea
 <div class="viewcode-block" id="NoDaemonProcess"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.NoDaemonProcess">[docs]</a>class NoDaemonProcess(mp.Process):
+    """Using this is probably a bad idea"""
     # make 'daemon' attribute always return False
     @staticmethod
     def _get_daemon():
@@ -155,26 +162,37 @@ import numpy as np
 </div>
 <div class="viewcode-block" id="NoDaemonPool"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.NoDaemonPool">[docs]</a>class NoDaemonPool(multiprocessing.pool.Pool): #pylint: disable=W0223
     """ I am vulnerable to armies of undead worker processes, chances
-    are you don't actually want to use me """
+    are you don't actually want to use me
+    """
     Process = NoDaemonProcess
 
 </div>
 <div class="viewcode-block" id="chunk_list"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.chunk_list">[docs]</a>def chunk_list(seq, nchunks, size=None):
-    """
-    slice seq into chunks if nchunks size, seq can be a anything sliceable
-    such as lists, numpy arrays, etc. These chunks will be 'contiguous', see
-    chunk_interslice for picking every nth element.
+    """Chunk a list
 
-    size: if given, set nchunks such that chunks have about 'size' elements
+    slice seq into chunks of nchunks size, seq can be a anything
+    sliceable such as lists, numpy arrays, etc. These chunks will be
+    'contiguous', see :meth:`chunk_interslice` for picking every nth
+    element.
 
-    Note: Use chunk_iterator to chunk up iterators
+    Parameters:
+        size: if given, set nchunks such that chunks have about 'size'
+            elements
 
-    Returns: nchunks slices of length N = (len(lst) // nchunks) or N - 1
+    Returns:
+        nchunks slices of length N = (len(lst) // nchunks) or N - 1
 
-    ex: it1, it2, it3 = chunk_list(range(8), 3)
-    it1 == range(0, 3)  # 3 vals
-    it2 == range(3, 6)  # 3 vals
-    it3 == range(6, 8)  # 2 vals
+    See Also:
+        Use :meth:`chunk_iterator` to chunk up iterators
+
+    Example:
+        &gt;&gt;&gt; it1, it2, it3 = chunk_list(range(8), 3)
+        &gt;&gt;&gt; it1 == range(0, 3)  # 3 vals
+        True
+        &gt;&gt;&gt; it2 == range(3, 6)  # 3 vals
+        True
+        &gt;&gt;&gt; it3 == range(6, 8)  # 2 vals
+        True
     """
     nel = len(seq)
 
@@ -187,18 +205,27 @@ import numpy as np
     return ret
 </div>
 <div class="viewcode-block" id="chunk_slices"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.chunk_slices">[docs]</a>def chunk_slices(nel, nchunks, size=None):
-    """
-    Get the slice info (can be unpacked &amp; passed to the slice builtin as in
-    slice(*ret[i])) for nchunks contiguous chunks in a list with nel elements
+    r"""Make continuous chunks
 
-    nel: how many elements are in one pass of the original list
-    nchunks: how many chunks to make
-    size: if given, set nchunks such that chunks have about 'size' elements
-    Returns: a list of (start, stop) tuples with length nchunks
+    Get the slice info (can be unpacked and passed to the slice builtin
+    as in slice(\*ret[i])) for nchunks contiguous chunks in a list with
+    nel elements
 
-    ex: sl1, sl2 = chunk_slices(5, 2)
-    -&gt; sl1 == (0, 3)  # 3 vals
-    -&gt; sl2 == (3, 5)  # 2 vals
+    Parameters:
+        nel: how many elements are in one pass of the original list
+        nchunks: how many chunks to make
+        size: if given, set nchunks such that chunks have about 'size'
+            elements
+
+    Returns:
+        a list of (start, stop) tuples with length nchunks
+
+    Example:
+        &gt;&gt;&gt; sl1, sl2 = chunk_slices(5, 2)
+        &gt;&gt;&gt; sl1 == (0, 3)  # 3 vals
+        True
+        &gt;&gt;&gt; sl2 == (3, 5)  # 2 vals
+        True
     """
     if size is not None:
         nchunks = int(ceil(nel / nchunks))
@@ -218,14 +245,20 @@ import numpy as np
     return ret
 </div>
 <div class="viewcode-block" id="chunk_interslices"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.chunk_interslices">[docs]</a>def chunk_interslices(nchunks):
-    """
-    Similar to chunk_slices, but pick every nth element instead of getting
-    a contiguous block for each chunk
+    """Make staggered chunks
 
-    nchunks: how many chunks to make
-    Returns: a list of (start, stop, step) tuples with length nchunks
+    Similar to chunk_slices, but pick every nth element instead of
+    getting a contiguous block for each chunk
 
-    ex: chunk_slices(2) == [(0, None, 2), (1, None, 2)]
+    Parameters:
+        nchunks: how many chunks to make
+
+    Returns:
+        a list of (start, stop, step) tuples with length nchunks
+
+    Example:
+        &gt;&gt;&gt; chunk_slices(2) == [(0, None, 2), (1, None, 2)]
+        True
     """
     ret = [None] * nchunks
     for i in range(nchunks):
@@ -233,17 +266,24 @@ import numpy as np
     return ret
 </div>
 <div class="viewcode-block" id="chunk_sizes"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.chunk_sizes">[docs]</a>def chunk_sizes(nel, nchunks, size=None):
-    """
-    nel: how many elements are in one pass of the original list
-    nchunks: is inferred from the length of iter_list
-    size: if given, set nchunks such that chunks have about 'size' elements
-    Returns: an ndarray of the number of elements in each chunk, this
-             should be the same for chunk_list, chunk_slices and
-             chunk_interslices
+    """For chunking up lists, how big is each chunk
 
-    ex: nel1, nel2 = chunk_sizes(5, 2)
-    -&gt; nel1 == 2
-    -&gt; nel2 == 3
+    Parameters:
+        nel: how many elements are in one pass of the original list
+        nchunks: is inferred from the length of iter_list
+        size: if given, set nchunks such that chunks have about 'size'
+            elements
+    Returns:
+        an ndarray of the number of elements in each chunk, this
+        should be the same for chunk_list, chunk_slices and
+        chunk_interslices
+
+    Example:
+        &gt;&gt;&gt; nel1, nel2 = chunk_sizes(5, 2)
+        &gt;&gt;&gt; nel1 == 2
+        True
+        &gt;&gt;&gt; nel2 == 3
+        True
     """
     if size is not None:
         nchunks = int(ceil(nel / nchunks))
@@ -262,9 +302,12 @@ def _star_passthrough(args):
     return args[0](*(args[1]), **(args[2]))
 
 <div class="viewcode-block" id="map"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.map">[docs]</a>def map(nr_procs, func, args_iter, timeout=1e8, daemonic=True, pool=None,
-        **kwargs):
-    """ same as map_async, except it waits for the result to be ready
-    and returns it """
+        **kwargs):  # pylint: disable=redefined-builtin
+    """Just like ``subprocessing.map``?
+
+    same as :meth:`map_async`, except it waits for the result to
+    be ready and returns it
+    """
     # don't waste time spinning up a new process
     if nr_procs == 1:
         args_iter = izip(repeat(func), args_iter, repeat(kwargs))
@@ -279,25 +322,31 @@ def _star_passthrough(args):
         return ret
 </div>
 <div class="viewcode-block" id="map_async"><a class="viewcode-back" href="../../viscid.html#viscid.parallel.map_async">[docs]</a>def map_async(nr_procs, func, args_iter, daemonic=True, pool=None, **kwargs):
-    """
-    run func on nr_procs with arguments given by args_iter. args_iter
+    """Wrap python's ``map_async``
+
+    This has some utility stuff like star passthrough
+
+    Run func on nr_procs with arguments given by args_iter. args_iter
     should be an iterable of the list of arguments that can be unpacked
     for each invocation. kwargs are passed to func as keyword arguments
-    Returns (pool, multiprocessing.pool.AsyncResult)
-    IMPORTANT: daemonic can be set to False if one needs to spawn child
-               processes in func, BUT this could be vulnerable to creating
-               an undead army of worker processes, only use this if you
-               really really need it, and know what you're doing
-    ex:
-    func = lambda i, letter: print i, letter
-    p, r = map_async(2, func, itertools.izip(itertools.count(), 'abc'))
-    r.get(1e8)
-    p.join()
-    will print
-    0 a
-    1 b
-    2 c
-    on two processes
+
+    Returns:
+        (tuple) (pool, multiprocessing.pool.AsyncResult)
+
+    Note: daemonic can be set to False if one needs to spawn child
+        processes in func, BUT this could be vulnerable to creating
+        an undead army of worker processes, only use this if you
+        really really need it, and know what you're doing
+
+    Example:
+        &gt;&gt;&gt; func = lambda i, letter: print i, letter
+        &gt;&gt;&gt; p, r = map_async(2, func, itertools.izip(itertools.count(), 'abc'))
+        &gt;&gt;&gt; r.get(1e8)
+        &gt;&gt;&gt; p.join()
+        &gt;&gt;&gt; # the following is printed from 2 processes
+        0 a
+        1 b
+        2 c
     """
     args_iter = izip(repeat(func), args_iter, repeat(kwargs))
 
@@ -318,19 +367,14 @@ def _star_passthrough(args):
 ##</div>
 </pre>
 
-          </div>
           <footer>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -339,38 +383,6 @@ def _star_passthrough(args):
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

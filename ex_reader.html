@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
     
 
   
@@ -25,6 +39,7 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
@@ -32,29 +47,26 @@
         <link rel="next" title="OpenGGCM Examples" href="ex_openggcm.html"/>
         <link rel="prev" title="Philosophy" href="philosophy.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul class="current">
@@ -87,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a><ul>
@@ -103,35 +116,28 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Reading/Plotting Examples</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/ex_reader.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">Reading/Plotting Examples</a></li>
+  
+</ul>
+<hr/>
+
+          
   <div class="section" id="reading-plotting-examples">
 <h1>Reading/Plotting Examples<a class="headerlink" href="#reading-plotting-examples" title="Permalink to this headline">¶</a></h1>
-<p>The basic idea of Viscid is to convert data files to <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects and pass them to a convenience function for plotting. It is useful to note that Field objects have most of the same functionalty as Numpy&#8217;s <cite>ndarrays</cite>. That is, you can say</p>
-<blockquote>
-<div><tt class="docutils literal"><span class="pre">field_momentum</span> <span class="pre">=</span> <span class="pre">field_density</span> <span class="pre">*</span> <span class="pre">field_velocity</span></tt></div></blockquote>
+<p>The basic idea of Viscid is to convert data files to <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects and pass them to a convenience function for plotting. It is useful to note that Field objects have most of the same functionalty as Numpy&#8217;s <cite>ndarrays</cite>. That is, you can say:</p>
+<div class="highlight-python"><pre>field_momentum = field_density * field_velocity</pre>
+</div>
 <p>to do simple math using Numpy.</p>
 <div class="section" id="super-simple">
 <h2>Super Simple<a class="headerlink" href="#super-simple" title="Permalink to this headline">¶</a></h2>
@@ -139,7 +145,7 @@
 <div class="highlight-python"><pre>import viscid
 from viscid.plot import mpl
 
-f3d = viscid.load_file(_viscid_root + '/../../sample/sample.3df.xdmf')
+f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
 pp = f3d["pp"]["y=0"]
 mpl.plot(pp, plot_opts="log")</pre>
 </div>
@@ -155,7 +161,7 @@ mpl.plot(pp, plot_opts="log")</pre>
 import viscid
 from viscid.plot import mpl
 
-f3d = viscid.load_file(_viscid_root + '/../../sample/sample.3df.xdmf')
+f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
 
 ax1 = plt.subplot2grid((2, 1), (0, 0))
 mpl.plot(f3d["pp"]["y=0"], plot_opts="log,earth")
@@ -180,7 +186,7 @@ plt.ylim((-10, 10))</pre>
 import viscid
 from viscid.plot import mpl
 
-f3d = viscid.load_file(_viscid_root + '/../../sample/sample.3df.xdmf')
+f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
 
 ax1 = plt.subplot2grid((2, 1), (0, 0))
 f3d.activate_time(0)
@@ -202,7 +208,7 @@ from matplotlib import pyplot as plt
 import viscid
 from viscid.plot import mpl
 
-f3d = viscid.load_file(_viscid_root + '/../../sample/sample.3df.xdmf')
+f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
 
 times = np.array([grid.time for grid in f3d.iter_times()])
 nr_times = len(times)
@@ -222,7 +228,7 @@ for i, grid in enumerate(f3d.iter_times()):
 <div class="highlight-python"><pre>import viscid
 from viscid.plot import mpl
 
-f3d = viscid.load_file(_viscid_root + '/../../sample/sample.3df.xdmf')
+f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
 pp = f3d["pp"]["x=50i:-30i,y=0,z=-10:10"]
 mpl.plot(pp, plot_opts="log,earth")</pre>
 </div>
@@ -234,28 +240,14 @@ mpl.plot(pp, plot_opts="log,earth")</pre>
 </div>
 
 
-          </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="ex_openggcm.html" class="btn btn-neutral float-right" title="OpenGGCM Examples">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="philosophy.html" class="btn btn-neutral" title="Philosophy"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -264,38 +256,6 @@ mpl.plot(pp, plot_opts="log,earth")</pre>
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

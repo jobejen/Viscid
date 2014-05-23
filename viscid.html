@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
     
 
   
@@ -25,6 +39,7 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
@@ -33,29 +48,26 @@
         <link rel="next" title="viscid.calculator package" href="viscid.calculator.html"/>
         <link rel="prev" title="API Reference" href="modules.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul class="current">
@@ -88,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
@@ -104,32 +117,23 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="modules.html">API Reference</a> &raquo;</li>
-      
-    <li>viscid package</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/viscid.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid package</a></li>
+  
+</ul>
+<hr/>
+
+          
   <div class="section" id="viscid-package">
 <h1>viscid package<a class="headerlink" href="#viscid-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
@@ -368,8 +372,19 @@ axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.get_clist">
 <tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_clist" title="Permalink to this definition">¶</a></dt>
-<dd><p>return a clist of the coordinates sliced if you wish
-I recommend using <a href="#id7"><span class="problematic" id="id8">numpy.s_</span></a> for making the slice</p>
+<dd><p>??</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a clist of the coordinates sliced if you wish</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">I recommend using <tt class="docutils literal"><span class="pre">numpy.s_</span></tt> for making the slice</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -385,14 +400,26 @@ raises KeyError if axis not found</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.get_crds">
 <tt class="descname">get_crds</tt><big>(</big><em>axes=None</em>, <em>shaped=False</em>, <em>center='none'</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_crds" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>axes: should be a list of names or integer indices, or None</dt>
-<dd>to return all axes</dd>
-<dt>shaped: boolean if you want a shaped or flat ndarray</dt>
-<dd>(True is the same as capitalizing axis)</dd>
-</dl>
-<p>center: &#8216;node&#8217; &#8216;cell&#8217; &#8216;edge&#8217; &#8216;face&#8217;, same as adding a suffix to axes
-returns list of coords as ndarrays</p>
+<dd><p>Get coordinate arrays</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>axes</strong> &#8211; should be a list of names or integer indices, or None
+to return all axes</li>
+<li><strong>shaped</strong> &#8211; boolean if you want a shaped or flat ndarray
+(True is the same as capitalizing axis)</li>
+<li><strong>center</strong> &#8211; &#8216;node&#8217; &#8216;cell&#8217; &#8216;edge&#8217; &#8216;face&#8217;, same as adding a suffix
+to axes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of coords as ndarrays</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -426,9 +453,17 @@ shaped==False, or shaped if shaped==True</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.get_culled_axes">
 <tt class="descname">get_culled_axes</tt><big>(</big><em>ignore=2</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.get_culled_axes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_culled_axes" title="Permalink to this definition">¶</a></dt>
-<dd><p>return list of axes names, but discard axes whose coords have
-length &lt;= ignore... useful for 2d fields that only have 1 cell
-center in the 3rd direction</p>
+<dd><p>Get only good axes</p>
+<p>Discard axes whose coords have length &lt;= ignore... useful for
+2d fields that only have 1 cell</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of axes names</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -465,31 +500,53 @@ axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.iter_points">
 <tt class="descname">iter_points</tt><big>(</big><em>center='none'</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.iter_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns an iterator over all the points in a grid, each nextitem
-will be a list of nr_dims numbers</p>
+<dd><p>returns an iterator over all the points in a grid, each
+nextitem will be a list of nr_dims numbers</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.make_slice">
 <tt class="descname">make_slice</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.make_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.make_slice" title="Permalink to this definition">¶</a></dt>
-<dd><p>In practice, selection can be a string like &#8220;y=3i:6i:2,z=0&#8221;
-where i indicates slice by index as opposed to bare numbers which
-slice by crd value. The example slice would be the 3rd and 5th crds
-in y, and the z = 0.0 plane. Selection can also be the usual tuple
-of slice objects / integers like one would give to numpy.
-Returns slices, slcrds, reduced
+<dd><p>Turns a slice string into a slice (should be private?)</p>
+<p>Slices should be made using the normal <tt class="docutils literal"><span class="pre">field[selecton]</span></tt>
+syntax. This function is more for internal use; however it
+does document the slice string syntax.</p>
+<p>In practice, selection can be a string like &#8220;y=3i:6i:2,z=0&#8221;
+where i indicates slice by index as opposed to bare numbers
+which slice by crd value. The example slice would be the 3rd
+and 5th crds in y, and the z = 0.0 plane. Selection can also
+be the usual tuple of slice objects / integers like one would
+give to numpy.</p>
+<p>&#8220;y=3i:6i:2,z=0&#8221; will give (if z[32] is closest to z=0.0)</p>
+<blockquote>
+<div>([slice(None), slice(3, 6, 2), 32],
+[[&#8216;x&#8217;, ndarray(all nc x crds)], [&#8216;y&#8217;, array(y[3], y[5])]],
+[[&#8216;z&#8217;, 0.0]],
+)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>selecton</strong> (<em>str</em>) &#8211; slice string</li>
+<li><strong>cc</strong> (<em>bool</em>) &#8211; cell centered slice</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (slices, slcrds, reduced)
 slices: list of slice objects, one for each axis in self
-slcrds: a clist for what the coords will be after the slice
-reduced: a list of (axis, location) pairs of which axes are sliced out
-The previous example would return (if z[32] is closest to z=0.0):
-([slice(None), slice(3, 6, 2), 32],  # list of data slices</p>
-<blockquote>
-<div>[[&#8216;x&#8217;, ndarray(all nc x crds)], [&#8216;y&#8217;, array(y[3], y[5])]], # new clist
-[[&#8216;z&#8217;, 0.0]],  # list of coords that are taken out by the slices</div></blockquote>
-<p>)
-Note: cc is necessary for finding the closest plane, otherwise it</p>
-<blockquote>
-<div>might be off by half a grid cell</div></blockquote>
+slcrds: a clist for what the coords will be after the
+slice
+reduced: a list of (axis, location) pairs of which axes
+are sliced out</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Note: cc is necessary for finding the closest plane, otherwise it</dt>
+<dd>might be off by half a grid cell</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -569,9 +626,9 @@ Note: input crds are assumed to be node centered</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.slice">
 <tt class="descname">slice</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.slice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get crds that describe a slice (subset) of this grid. Reduces dims
-the same way numpy / fields do. Chances are you want either slice_reduce
-or slice_keep</p>
+<dd><p>Get crds that describe a slice (subset) of this grid.
+Reduces dims the same way numpy / fields do. Chances are
+you want either slice_reduce or slice_keep</p>
 </dd></dl>
 
 <dl class="method">
@@ -582,8 +639,9 @@ or slice_keep</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.slice_reduce">
 <tt class="descname">slice_reduce</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.slice_reduce" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get crds that describe a slice (subset) of this grid. Go through,
-and if the slice didn&#8217;t touch a dim with only one crd, reduce it</p>
+<dd><p>Get crds that describe a slice (subset) of this grid. Go
+through, and if the slice didn&#8217;t touch a dim with only one crd,
+reduce it</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1315,7 +1373,7 @@ some way</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>str</em>) &#8211; name for the vector field</li>
-<li><strong>fldlist</strong> &#8211; list of :class:<a href="#id1"><span class="problematic" id="id2">`</span></a>ScalarField`s</li>
+<li><strong>fldlist</strong> &#8211; list of <a class="reference internal" href="#viscid.field.ScalarField" title="viscid.field.ScalarField"><tt class="xref py py-class docutils literal"><span class="pre">ScalarField</span></tt></a></li>
 <li><strong>kwargs</strong> &#8211; passed to <a class="reference internal" href="#viscid.field.VectorField" title="viscid.field.VectorField"><tt class="xref py py-class docutils literal"><span class="pre">VectorField</span></tt></a> constructor</li>
 </ul>
 </td>
@@ -1340,7 +1398,7 @@ some way</td>
 <li><strong>name</strong> (<em>str</em>) &#8211; a way to refer to the field programatically</li>
 <li><strong>crds</strong> (<em>Coordinates</em>) &#8211; coordinates that describe the shape / grid
 of the field</li>
-<li><strong>data</strong> &#8211; Some data container, most likely a <cite>numpy.ndarray</cite></li>
+<li><strong>data</strong> &#8211; Some data container, most likely a <tt class="docutils literal"><span class="pre">numpy.ndarray</span></tt></li>
 <li><strong>kwargs</strong> &#8211; passed through to <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a> constructor</li>
 </ul>
 </td>
@@ -1353,7 +1411,6 @@ of the field</li>
 </tr>
 </tbody>
 </table>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs passed to field constructor</p>
 </dd></dl>
 
 <dl class="function">
@@ -1376,17 +1433,29 @@ of the field</li>
 </div>
 <div class="section" id="module-viscid.grid">
 <span id="viscid-grid-module"></span><h2>viscid.grid module<a class="headerlink" href="#module-viscid.grid" title="Permalink to this headline">¶</a></h2>
+<p>Grids contain fields and coordinates</p>
 <dl class="class">
 <dt id="viscid.grid.Grid">
 <em class="property">class </em><tt class="descclassname">viscid.grid.</tt><tt class="descname">Grid</tt><big>(</big><em>name=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
-<p>Grids contain fields... Datasets recurse to grids using __getitem__
-and get_field in order to find fields</p>
-<p>The following attributes are for customizing data reads, intended to
-be changed by <cite>grid.Grid.flag = value</cite>:
-force_vector_layout = field.LAYOUT_*, force all vectors to be of a certain</p>
+<p>Comptational grid container</p>
+<p>Grids contain fields and coordinates. Datasets recurse to grids
+using <tt class="docutils literal"><span class="pre">__getitem__</span></tt> and get_field in order to find fields. Grids
+can also calculate fields by defining <tt class="docutils literal"><span class="pre">_get_*</span></tt> methods.</p>
+<p>Attributes can be overridden globally to affect all data reads of
+a given grid type. Subclasses of Grid document their own special
+attributes. For example, one can change the default vector layout
+with:</p>
 <blockquote>
-<div>layout when they&#8217;re created (default: LAYOUT_DEFAULT)</div></blockquote>
+<div><tt class="docutils literal"><span class="pre">viscid.grid.Grid.force_vector_layout</span> <span class="pre">=</span> <span class="pre">LAYOUT_INTERLACED</span></tt></div></blockquote>
+<dl class="attribute">
+<dt id="viscid.grid.Grid.force_vecter_layout">
+<tt class="descname">force_vecter_layout</tt><em class="property"> ``field.LAYOUT_*``</em><a class="headerlink" href="#viscid.grid.Grid.force_vecter_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p>force all vectors to
+be of a certain layout when they&#8217;re created
+(default: LAYOUT_DEFAULT)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="viscid.grid.Grid.__getitem__">
 <tt class="descname">__getitem__</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.__getitem__" title="Permalink to this definition">¶</a></dt>
@@ -1542,7 +1611,7 @@ preserved, so data is accessable without an explicit reload</p>
 </div>
 <div class="section" id="module-viscid.parallel">
 <span id="viscid-parallel-module"></span><h2>viscid.parallel module<a class="headerlink" href="#module-viscid.parallel" title="Permalink to this headline">¶</a></h2>
-<p>module for common parallel processing</p>
+<p>common tools for parallel processing</p>
 <dl class="class">
 <dt id="viscid.parallel.NoDaemonPool">
 <em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonPool</tt><big>(</big><em>processes=None</em>, <em>initializer=None</em>, <em>initargs=()</em>, <em>maxtasksperchild=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#NoDaemonPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonPool" title="Permalink to this definition">¶</a></dt>
@@ -1561,6 +1630,7 @@ are you don&#8217;t actually want to use me</p>
 <dt id="viscid.parallel.NoDaemonProcess">
 <em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonProcess</tt><big>(</big><em>group=None</em>, <em>target=None</em>, <em>name=None</em>, <em>args=()</em>, <em>kwargs={}</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#NoDaemonProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<p>Using this is probably a bad idea</p>
 <dl class="attribute">
 <dt id="viscid.parallel.NoDaemonProcess.daemon">
 <tt class="descname">daemon</tt><a class="headerlink" href="#viscid.parallel.NoDaemonProcess.daemon" title="Permalink to this definition">¶</a></dt>
@@ -1583,86 +1653,164 @@ For a more advanced concept, see the classmethod builtin.</p>
 <dl class="function">
 <dt id="viscid.parallel.chunk_interslices">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_interslices</tt><big>(</big><em>nchunks</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_interslices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_interslices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Similar to chunk_slices, but pick every nth element instead of getting
-a contiguous block for each chunk</p>
-<p>nchunks: how many chunks to make
-Returns: a list of (start, stop, step) tuples with length nchunks</p>
-<p>ex: chunk_slices(2) == [(0, None, 2), (1, None, 2)]</p>
+<dd><p>Make staggered chunks</p>
+<p>Similar to chunk_slices, but pick every nth element instead of
+getting a contiguous block for each chunk</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nchunks</strong> &#8211; how many chunks to make</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of (start, stop, step) tuples with length nchunks</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; chunk_slices(2) == [(0, None, 2), (1, None, 2)]
+True</pre>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_list">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_list</tt><big>(</big><em>seq</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>slice seq into chunks if nchunks size, seq can be a anything sliceable
-such as lists, numpy arrays, etc. These chunks will be &#8216;contiguous&#8217;, see
-chunk_interslice for picking every nth element.</p>
-<p>size: if given, set nchunks such that chunks have about &#8216;size&#8217; elements</p>
-<p>Note: Use chunk_iterator to chunk up iterators</p>
-<p>Returns: nchunks slices of length N = (len(lst) // nchunks) or N - 1</p>
-<p>ex: it1, it2, it3 = chunk_list(range(8), 3)
-it1 == range(0, 3)  # 3 vals
-it2 == range(3, 6)  # 3 vals
-it3 == range(6, 8)  # 2 vals</p>
+<dd><p>Chunk a list</p>
+<p>slice seq into chunks of nchunks size, seq can be a anything
+sliceable such as lists, numpy arrays, etc. These chunks will be
+&#8216;contiguous&#8217;, see <tt class="xref py py-meth docutils literal"><span class="pre">chunk_interslice()</span></tt> for picking every nth
+element.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; if given, set nchunks such that chunks have about &#8216;size&#8217;
+elements</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nchunks slices of length N = (len(lst) // nchunks) or N - 1</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Use <tt class="xref py py-meth docutils literal"><span class="pre">chunk_iterator()</span></tt> to chunk up iterators</p>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; it1, it2, it3 = chunk_list(range(8), 3)
+&gt;&gt;&gt; it1 == range(0, 3)  # 3 vals
+True
+&gt;&gt;&gt; it2 == range(3, 6)  # 3 vals
+True
+&gt;&gt;&gt; it3 == range(6, 8)  # 2 vals
+True</pre>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_sizes">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_sizes</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_sizes" title="Permalink to this definition">¶</a></dt>
-<dd><p>nel: how many elements are in one pass of the original list
-nchunks: is inferred from the length of iter_list
-size: if given, set nchunks such that chunks have about &#8216;size&#8217; elements
-Returns: an ndarray of the number of elements in each chunk, this</p>
-<blockquote>
-<div>should be the same for chunk_list, chunk_slices and
-chunk_interslices</div></blockquote>
-<p>ex: nel1, nel2 = chunk_sizes(5, 2)
--&gt; nel1 == 2
--&gt; nel2 == 3</p>
+<dd><p>For chunking up lists, how big is each chunk</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nel</strong> &#8211; how many elements are in one pass of the original list</li>
+<li><strong>nchunks</strong> &#8211; is inferred from the length of iter_list</li>
+<li><strong>size</strong> &#8211; if given, set nchunks such that chunks have about &#8216;size&#8217;
+elements</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">an ndarray of the number of elements in each chunk, this
+should be the same for chunk_list, chunk_slices and
+chunk_interslices</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; nel1, nel2 = chunk_sizes(5, 2)
+&gt;&gt;&gt; nel1 == 2
+True
+&gt;&gt;&gt; nel2 == 3
+True</pre>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_slices">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_slices</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_slices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the slice info (can be unpacked &amp; passed to the slice builtin as in
-slice(<a href="#id5"><span class="problematic" id="id6">*</span></a>ret[i])) for nchunks contiguous chunks in a list with nel elements</p>
-<p>nel: how many elements are in one pass of the original list
-nchunks: how many chunks to make
-size: if given, set nchunks such that chunks have about &#8216;size&#8217; elements
-Returns: a list of (start, stop) tuples with length nchunks</p>
-<p>ex: sl1, sl2 = chunk_slices(5, 2)
--&gt; sl1 == (0, 3)  # 3 vals
--&gt; sl2 == (3, 5)  # 2 vals</p>
+<dd><p>Make continuous chunks</p>
+<p>Get the slice info (can be unpacked and passed to the slice builtin
+as in slice(*ret[i])) for nchunks contiguous chunks in a list with
+nel elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nel</strong> &#8211; how many elements are in one pass of the original list</li>
+<li><strong>nchunks</strong> &#8211; how many chunks to make</li>
+<li><strong>size</strong> &#8211; if given, set nchunks such that chunks have about &#8216;size&#8217;
+elements</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of (start, stop) tuples with length nchunks</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; sl1, sl2 = chunk_slices(5, 2)
+&gt;&gt;&gt; sl1 == (0, 3)  # 3 vals
+True
+&gt;&gt;&gt; sl2 == (3, 5)  # 2 vals
+True</pre>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.map">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">map</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>timeout=100000000.0</em>, <em>daemonic=True</em>, <em>pool=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map" title="Permalink to this definition">¶</a></dt>
-<dd><p>same as map_async, except it waits for the result to be ready
-and returns it</p>
+<dd><p>Just like <tt class="docutils literal"><span class="pre">subprocessing.map</span></tt>?</p>
+<p>same as <a class="reference internal" href="#viscid.parallel.map_async" title="viscid.parallel.map_async"><tt class="xref py py-meth docutils literal"><span class="pre">map_async()</span></tt></a>, except it waits for the result to
+be ready and returns it</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.map_async">
 <tt class="descclassname">viscid.parallel.</tt><tt class="descname">map_async</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>daemonic=True</em>, <em>pool=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#map_async"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map_async" title="Permalink to this definition">¶</a></dt>
-<dd><p>run func on nr_procs with arguments given by args_iter. args_iter
+<dd><p>Wrap python&#8217;s <tt class="docutils literal"><span class="pre">map_async</span></tt></p>
+<p>This has some utility stuff like star passthrough</p>
+<p>Run func on nr_procs with arguments given by args_iter. args_iter
 should be an iterable of the list of arguments that can be unpacked
-for each invocation. kwargs are passed to func as keyword arguments
-Returns (pool, multiprocessing.pool.AsyncResult)
-IMPORTANT: daemonic can be set to False if one needs to spawn child</p>
-<blockquote>
-<div>processes in func, BUT this could be vulnerable to creating
+for each invocation. kwargs are passed to func as keyword arguments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(tuple) (pool, multiprocessing.pool.AsyncResult)</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Note: daemonic can be set to False if one needs to spawn child</dt>
+<dd>processes in func, BUT this could be vulnerable to creating
 an undead army of worker processes, only use this if you
-really really need it, and know what you&#8217;re doing</div></blockquote>
-<p>ex:
-func = lambda i, letter: print i, letter
-p, r = map_async(2, func, itertools.izip(itertools.count(), &#8216;abc&#8217;))
-r.get(1e8)
-p.join()
-will print
+really really need it, and know what you&#8217;re doing</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python"><pre>&gt;&gt;&gt; func = lambda i, letter: print i, letter
+&gt;&gt;&gt; p, r = map_async(2, func, itertools.izip(itertools.count(), 'abc'))
+&gt;&gt;&gt; r.get(1e8)
+&gt;&gt;&gt; p.join()
+&gt;&gt;&gt; # the following is printed from 2 processes
 0 a
 1 b
-2 c
-on two processes</p>
+2 c</pre>
+</div>
 </dd></dl>
 
 </div>
@@ -1686,22 +1834,31 @@ on two processes</p>
 <dl class="function">
 <dt id="viscid.vlab.follow_fluid">
 <tt class="descclassname">viscid.vlab.</tt><tt class="descname">follow_fluid</tt><big>(</big><em>vfile</em>, <em>time_slice</em>, <em>initial_seeds</em>, <em>plot_function</em>, <em>stream_opts</em>, <em>add_seed_cadence=0.0</em>, <em>add_seed_pts=None</em>, <em>speed_scale=1.0</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#follow_fluid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.follow_fluid" title="Permalink to this definition">¶</a></dt>
-<dd><p>vfile: a vFile object that we can call iter_times on
-time_slice: string, slice notation, like 1200:2400:1
-initial_seeds: any SeedGen object
-plot_function: function that is called each time step, arguments</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>should be exactly: (i [int], grid, v [Vector Field],</dt>
-<dd>v_lines [result of streamline trace],
-root_seeds [SeedGen])</dd>
-</dl>
-</div></blockquote>
-<p>stream_opts: a dict of streamline options for flow lines
-add_seed_cadence: how often to add the add_seeds points
-add_seeds: an n x 3 ndarray of n points to add every add_seed_cadence (zyx)
-speed_scale: speed_scale * v should be in units of ds0 / dt
-stream_opts must have ds0 and max_length, maxit will be automatically calculated</p>
+<dd><p>Trace fluid elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vfile</strong> &#8211; a vFile object that we can call iter_times on</li>
+<li><strong>time_slice</strong> &#8211; string, slice notation, like 1200:2400:1</li>
+<li><strong>initial_seeds</strong> &#8211; any SeedGen object</li>
+<li><strong>plot_function</strong> &#8211; function that is called each time step,
+arguments should be exactly: (i [int], grid, v [Vector
+Field], v_lines [result of streamline trace],
+root_seeds [SeedGen])</li>
+<li><strong>stream_opts</strong> &#8211; a dict of streamline options for flow lines</li>
+<li><strong>add_seed_cadence</strong> &#8211; how often to add the add_seeds points</li>
+<li><strong>add_seeds</strong> &#8211; an n x 3 ndarray of n points to add every add_seed_cadence (zyx)</li>
+<li><strong>speed_scale</strong> &#8211; speed_scale * v should be in units of ds0 / dt</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">root points after following the fluid</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -1717,7 +1874,10 @@ stream_opts must have ds0 and max_length, maxit will be automatically calculated
 <dl class="function">
 <dt id="viscid.vlab.multiplot">
 <tt class="descclassname">viscid.vlab.</tt><tt class="descname">multiplot</tt><big>(</big><em>file_</em>, <em>plot_vars</em>, <em>nprocs=1</em>, <em>time_slice=':'</em>, <em>global_popts=None</em>, <em>share_axes=False</em>, <em>show=False</em>, <em>kwopts=None</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#multiplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.multiplot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Make lots of plots</p>
+<p>This is the function used by the <tt class="docutils literal"><span class="pre">p2d</span></tt> script. It may be useful
+to you.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-viscid.vutil">
@@ -1793,28 +1953,14 @@ to read hdf5 / xdmf files.</p>
 </div>
 
 
-          </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="viscid.calculator.html" class="btn btn-neutral float-right" title="viscid.calculator package">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="modules.html" class="btn btn-neutral" title="API Reference"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -1823,38 +1969,6 @@ to read hdf5 / xdmf files.</p>
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

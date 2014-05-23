@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
     
 
   
@@ -25,6 +39,7 @@
   
   
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
@@ -32,29 +47,26 @@
         <link rel="up" title="viscid package" href="viscid.html"/>
         <link rel="prev" title="viscid.plot package" href="viscid.plot.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul class="current">
@@ -87,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">API Reference</a><ul class="current">
@@ -103,34 +116,23 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="modules.html">API Reference</a> &raquo;</li>
-      
-          <li><a href="viscid.html">viscid package</a> &raquo;</li>
-      
-    <li>viscid.readers package</li>
-      <li class="wy-breadcrumbs-aside">
-        
-          <a href="_sources/viscid.readers.txt" rel="nofollow"> View page source</a>
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers package</a></li>
+  
+</ul>
+<hr/>
+
+          
   <div class="section" id="viscid-readers-package">
 <h1>viscid.readers package<a class="headerlink" href="#viscid-readers-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
@@ -511,6 +513,27 @@ problem maybe</p>
 <tt class="descname">fname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.vfile.VFile.fname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="classmethod">
+<dt id="viscid.readers.vfile.VFile.group_fnames">
+<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile.group_fnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group File names</p>
+<p>The default implementation just returns fnames, but some file
+types might do something fancy here</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fnames</strong> (<em>list</em>) &#8211; names that can be logically grouped, as in
+a bunch of file names that are different time steps
+of a given run</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of things that can be given to the constructor of
+this class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="viscid.readers.vfile.VFile.load">
 <tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile.load" title="Permalink to this definition">¶</a></dt>
@@ -575,6 +598,11 @@ preserved, so data is accessable without an explicit reload</p>
 generally only need one instance, but you can construct directly
 if you need more than one manager</p>
 <dl class="method">
+<dt id="viscid.readers.vfile_bucket.VFileBucket.get_item">
+<tt class="descname">get_item</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.get_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.load_file">
 <tt class="descname">load_file</tt><big>(</big><em>fname</em>, <em>index_handle=True</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.load_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.load_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>load a single file and return a vFile instance, not a list
@@ -584,14 +612,31 @@ of vFiles like load does</p>
 <dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.load_files">
 <tt class="descname">load_files</tt><big>(</big><em>fnames</em>, <em>index_handle=True</em>, <em>file_type=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.load_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.load_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>initialize obj before it&#8217;s put into the list, whatever is returned
+<dd><p>Load files, and add them to the bucket</p>
+<p>Initialize obj before it&#8217;s put into the list, whatever is returned
 is what gets stored, returning None means object init failed, do
 not add to the _objs list</p>
-<dl class="docutils">
-<dt>file_type: a class that is a subclass of VFile, if given, use this</dt>
-<dd>file type, don&#8217;t use the autodetect mechanism</dd>
-</dl>
-<p>kwargs is passed to file constructor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fnames</strong> &#8211; a list of file names (can cantain glob patterns)</li>
+<li><strong>index_handle</strong> &#8211; <p>??</p>
+</li>
+<li><strong>file_type</strong> &#8211; a class that is a subclass of VFile, if given,
+use this file type, don&#8217;t use the autodetect mechanism</li>
+<li><strong>kwargs</strong> &#8211; passed to file constructor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of VFile instances. The length may not be the same
+as the length of fnames, and the order may not be the same
+in order to accomidate globs and file grouping.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -625,24 +670,63 @@ number (as in nth file loaded), of file name</p>
 <dl class="function">
 <dt id="viscid.readers.load">
 <tt class="descclassname">viscid.readers.</tt><tt class="descname">load</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generic load</p>
+<p>Dispatches to <a class="reference internal" href="#viscid.readers.load_file" title="viscid.readers.load_file"><tt class="xref py py-meth docutils literal"><span class="pre">load_file()</span></tt></a> or <a class="reference internal" href="#viscid.readers.load_files" title="viscid.readers.load_files"><tt class="xref py py-meth docutils literal"><span class="pre">load_files()</span></tt></a>. This
+function is deprecated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fnames</strong> &#8211; One or many file names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">one or many VFiles</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.load_file">
 <tt class="descclassname">viscid.readers.</tt><tt class="descname">load_file</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers.html#load_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.load_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a single file and return a vFille.
-This function is the primary means of loading a file.
-kwargs is passed to File constructor for changing the
-grid_type and stuff.</p>
+<dd><p>Load a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fname</strong> (<em>str</em>) &#8211; a file name, relative to CWD</li>
+<li><strong>kwargs</strong> &#8211; passed to the VFile constructor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A VFile instance</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.load_files">
 <tt class="descclassname">viscid.readers.</tt><tt class="descname">load_files</tt><big>(</big><em>fnames</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers.html#load_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.load_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a single file and return a vFille.
-This function is the primary means of loading a file.
-kwargs is passed to File constructor for changing the
-grid_type and stuff.</p>
+<dd><p>Load a list of files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fnames</strong> (<em>list</em>) &#8211; list of file names, glob patterns accepted</li>
+<li><strong>kwargs</strong> &#8211; passed to the VFile constructor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of VFile instances. The length may not be the same
+as the length of fnames, and the order may not be the same
+in order to accomidate globs and file grouping.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -672,26 +756,14 @@ grid_type and stuff.</p>
 </div>
 
 
-          </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="viscid.plot.html" class="btn btn-neutral" title="viscid.plot package"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -700,38 +772,6 @@ grid_type and stuff.</p>
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>

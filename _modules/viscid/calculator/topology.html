@@ -14,10 +14,24 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
   
   
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../../',
+        VERSION:'0.50.2',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
     
 
   
@@ -25,35 +39,33 @@
   
   
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
   
     <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
   <div class="wy-grid-for-nav">
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
-        <a href="../../../index.html" class="fa fa-home"> Viscid</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
         
         
             <ul>
@@ -86,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
@@ -102,74 +115,97 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">Viscid</a>
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
       </nav>
 
 
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>viscid.calculator.topology</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main">
-            
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.calculator.topology</a></li>
+  
+</ul>
+<hr/>
+
+          
   <h1>Source code for viscid.calculator.topology</h1><pre>
-""" I don't know if this is worth keeping as its own module,
+"""I don't know if this is worth keeping as its own module,
 TOPOLOGY_* is copied here so that one can import this module
-without needing to have built the cython module streamline.pyx """
+without needing to have built the cython module streamline.pyx
+"""
 
-TOPOLOGY_NONE = 0  # no translation needed
-TOPOLOGY_CLOSED = 1  # translated from 5, 6, 7(4|5|6)
-TOPOLOGY_OPEN_NORTH = 2  # translated from 13 (8|5)
-TOPOLOGY_OPEN_SOUTH = 4  # translated from 14 (8|6)
-TOPOLOGY_SW = 8  # no translation needed
-# TOPOLOGY_CYCLIC = 16  # no translation needed
-TOPOLOGY_INVALID = [3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15]
-TOPOLOGY_OTHER = range(32, 512)  # &gt;= 16
+TOPOLOGY_MS_NONE = 0  # no translation needed
+TOPOLOGY_MS_CLOSED = 1  # translated from 5, 6, 7(4|5|6)
+TOPOLOGY_MS_OPEN_NORTH = 2  # translated from 13 (8|5)
+TOPOLOGY_MS_OPEN_SOUTH = 4  # translated from 14 (8|6)
+TOPOLOGY_MS_SW = 8  # no translation needed
+# TOPOLOGY_MS_CYCLIC = 16  # no translation needed
+TOPOLOGY_MS_INVALID = [3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15]
+TOPOLOGY_MS_OTHER = range(32, 512)  # &gt;= 16
 
-color_map = {TOPOLOGY_CLOSED: (0.0, 0.8, 0.0),
-             TOPOLOGY_OPEN_NORTH: (0.0, 0.0, 0.7),
-             TOPOLOGY_OPEN_SOUTH: (0.7, 0.0, 0.0),
-             TOPOLOGY_SW: (0.7, 0.7, 0.7)
-            }
+TOPOLOGY_G_NONE = 0
 
-<div class="viewcode-block" id="color_from_topology"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.topology.color_from_topology">[docs]</a>def color_from_topology(topology):
-    """ topology is an integer described by calculator.streamline.TOPOLOGY_*
-    returns a color tuple
-    Note: to override this color scheme, just set
-          topoloy.color_from_topology = some_function """
+color_map_msphere = {TOPOLOGY_MS_CLOSED: (0.0, 0.8, 0.0),
+                     TOPOLOGY_MS_OPEN_NORTH: (0.0, 0.0, 0.7),
+                     TOPOLOGY_MS_OPEN_SOUTH: (0.7, 0.0, 0.0),
+                     TOPOLOGY_MS_SW: (0.7, 0.7, 0.7)
+                    }
+
+color_map_generic = {}
+
+# for legacy reasons, make some aliases
+TOPOLOGY_NONE = TOPOLOGY_MS_NONE
+TOPOLOGY_CLOSED = TOPOLOGY_MS_CLOSED
+TOPOLOGY_OPEN_NORTH = TOPOLOGY_MS_OPEN_NORTH
+TOPOLOGY_OPEN_SOUTH = TOPOLOGY_MS_OPEN_SOUTH
+TOPOLOGY_SW = TOPOLOGY_MS_SW
+# TOPOLOGY_CYCLIC = TOPOLOGY_MS_CYCLIC
+TOPOLOGY_INVALID = TOPOLOGY_MS_INVALID
+TOPOLOGY_OTHER = TOPOLOGY_MS_OTHER
+color_map = color_map_msphere
+
+<div class="viewcode-block" id="color_from_topology"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.topology.color_from_topology">[docs]</a>def color_from_topology(topology, topo_style="msphere"):
+    """Determine RGB from topology value
+
+    Parameters:
+      topology (int): some value in
+          ``calculator.streamline.TOPOLOGY_*``
+      topo_style (string): msphere, or a dict with its own
+          mapping
+
+    Returns:
+        (R, G, B)
+
+    Note:
+        to override this color scheme, just set
+
+            topoloy.color_from_topology = some_function
+    """
+    if isinstance(topo_style, dict):
+        mapping = topo_style
+    elif topo_style == "msphere":
+        mapping = color_map_msphere
+    else:
+        mapping = color_map_generic
+
     try:
-        return color_map[topology]
+        return mapping[topology]
     except KeyError:
         return (0.0, 0.0, 0.0)</div>
 </pre>
 
-          </div>
           <footer>
-  
-
   <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2013, Kristofor Maynard.
-    </p>
-  </div>
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
 
-  <a href="https://github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
 </footer>
         </div>
       </div>
@@ -178,38 +214,6 @@ color_map = {TOPOLOGY_CLOSED: (0.0, 0.8, 0.0),
 
   </div>
   
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'0.50.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
 
 </body>
 </html>
