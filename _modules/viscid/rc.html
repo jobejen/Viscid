@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.rc &mdash; Viscid 0.60.0 dev documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../',
+        VERSION:'0.60.0 dev',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.rc</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <h1>Source code for viscid.rc</h1><pre>
+"""Used for loading ~/.viscidrc
+
+An example rc file might contain the line:
+readers.openggcm.GGCMFile.read_log_file: true
+"""
+
+from __future__ import print_function
+import os
+
+import viscid
+
+<div class="viewcode-block" id="RCPathError"><a class="viewcode-back" href="../../viscid.html#viscid.rc.RCPathError">[docs]</a>class RCPathError(Exception):
+    pass
+</div>
+def _parse_rc_value(s):
+    try:
+        return int(s)
+    except ValueError:
+        try:
+            return float(s)
+        except ValueError:
+            if s.lower() == "true":
+                return True
+            elif s.lower() == "false":
+                return False
+            else:
+                return s
+
+def _get_obj(rt, path):
+    if len(path) == 0:
+        return rt
+    try:
+        return _get_obj(getattr(rt, path[0]), path[1:])
+    except AttributeError:
+        # can't re-raise AttributeError since this is recursive
+        # and we're catching AttributeError, so the info about
+        # what part of the path DNE would be lost
+        raise RCPathError("'{0}' has no attribute '{1}'".format(
+                          rt.__name__, path[0]))
+
+<div class="viewcode-block" id="set_attribute"><a class="viewcode-back" href="../../viscid.html#viscid.rc.set_attribute">[docs]</a>def set_attribute(path, value):
+    p = path.split('.')
+    value = _parse_rc_value(value)
+    obj = _get_obj(viscid, p[:-1])
+
+    if not hasattr(obj, p[-1]):
+        print("WARNING: from rc file, object '{0}' has no attribute '{1}'.\n"
+              "         If this isn't a typeo then the functionality may "
+              "have moved.".format(".".join(p[:-1]), p[-1]))
+    setattr(obj, p[-1], value)
+</div>
+<div class="viewcode-block" id="load_rc_file"><a class="viewcode-back" href="../../viscid.html#viscid.rc.load_rc_file">[docs]</a>def load_rc_file(fname):
+    try:
+        with open(os.path.expanduser(os.path.expandvars(fname)), 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+
+                lst = line.split(":")
+                path, val = lst[0].strip(), ":".join(lst[1:]).strip()
+                try:
+                    set_attribute(path, val)
+                except RCPathError as e:
+                    print("WARNING: from rc file, {0}\n"
+                          "         If this isn't a typeo then the "
+                          "functionality may have moved.".format(e.message))
+
+    except IOError:
+        pass
+
+##
+## EOF
+##</div>
+</pre>
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2013, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>
