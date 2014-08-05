@@ -134,6 +134,8 @@
           
   <h1>Source code for viscid.readers.ggcm_jrrle</h1><pre>
 from __future__ import print_function
+import os
+import re
 try:
     from collections import OrderedDict
 except ImportError:
@@ -213,7 +215,17 @@ from viscid.readers import _jrrle
                          shape=meta['dims'])
                 template.append(d)
         return template
-</div>
+
+    @classmethod
+<div class="viewcode-block" id="GGCMFileJrrleMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group">[docs]</a>    def collective_name_from_group(cls, fnames):
+        fname0 = fnames[0]
+        basename = os.path.basename(fname0)
+        run = re.match(cls._detector, basename).group(1)
+        fldtype = re.match(cls._detector, basename).group(2)
+        new_basename = "{0}.{1}".format(run, fldtype)
+        return os.path.join(os.path.dirname(fname0), new_basename)
+
+</div></div>
 <div class="viewcode-block" id="GGCMFileJrrleIono"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleIono">[docs]</a>class GGCMFileJrrleIono(GGCMFileJrrleMHD):  # pylint: disable=abstract-method
     """Jimmy's run length encoding files"""
     _detector = r"^\s*(.*)\.(iof)\.([0-9]{6})\s*$"

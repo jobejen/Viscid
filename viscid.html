@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid package &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid package &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="index.html"/>
         <link rel="up" title="API Reference" href="modules.html"/>
         <link rel="next" title="viscid.calculator package" href="viscid.calculator.html"/>
         <link rel="prev" title="API Reference" href="modules.html"/> 
@@ -169,6 +169,10 @@
 <li class="toctree-l1"><a class="reference internal" href="viscid.readers.html">viscid.readers package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ascii">viscid.readers.ascii module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ggcm_fortbin">viscid.readers.ggcm_fortbin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ggcm_jrrle">viscid.readers.ggcm_jrrle module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ggcm_logfile">viscid.readers.ggcm_logfile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.ggcm_xdmf">viscid.readers.ggcm_xdmf module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.hdf5">viscid.readers.hdf5 module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.numpy_binary">viscid.readers.numpy_binary module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="viscid.readers.html#module-viscid.readers.openggcm">viscid.readers.openggcm module</a></li>
@@ -189,26 +193,13 @@
 <span id="viscid-bucket-module"></span><h2>viscid.bucket module<a class="headerlink" href="#module-viscid.bucket" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="viscid.bucket.Bucket">
-<em class="property">class </em><tt class="descclassname">viscid.bucket.</tt><tt class="descname">Bucket</tt><a class="reference internal" href="_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.bucket.</tt><tt class="descname">Bucket</tt><big>(</big><em>ordered=False</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>This is an interface where</p>
-<dl class="method">
-<dt id="viscid.bucket.Bucket.get_item">
-<tt class="descname">get_item</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.get_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>look up the file using the handle dictionary, raises KeyError
-if handle not found</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="viscid.bucket.Bucket.handle_string">
 <tt class="descname">handle_string</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.handle_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.handle_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>return string representation of handles and items</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="viscid.bucket.Bucket.index">
-<tt class="descname">index</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.index" title="Permalink to this definition">¶</a></dt>
-<dd><p>find index of item, comparison is made using object id</p>
 </dd></dl>
 
 <dl class="method">
@@ -234,15 +225,10 @@ if handle not found</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="viscid.bucket.Bucket.remove_item_handle">
-<tt class="descname">remove_item_handle</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_handle" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.bucket.Bucket.remove_item_by_handle">
+<tt class="descname">remove_item_by_handle</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item_by_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_by_handle" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove item by handle, raises KeyError if handle is not found</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="viscid.bucket.Bucket.remove_item_onum">
-<tt class="descname">remove_item_onum</tt><big>(</big><em>onum</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.remove_item_onum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_onum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.set_item">
@@ -272,6 +258,10 @@ this is the default order</p>
 <dd>-&gt; Not Implemented &lt;-</dd>
 </dl>
 </dd>
+<dt>FIXME: uniform coordinates are generally unsupported, but they&#8217;re just</dt>
+<dd>a special case of nonuniform coordinates, so the functionality
+is still there... it&#8217;s just unnatural to use full crd arrays
+with uniform coordinates</dd>
 </dl>
 <dl class="class">
 <dt id="viscid.coordinate.Coordinates">
@@ -313,7 +303,7 @@ this is the default order</p>
 
 <dl class="class">
 <dt id="viscid.coordinate.NonuniformSphericalCrds">
-<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">NonuniformSphericalCrds</tt><big>(</big><em>init_clist</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#NonuniformSphericalCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformSphericalCrds" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">NonuniformSphericalCrds</tt><big>(</big><em>init_clist</em>, <em>fill_by_linspace=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#NonuniformSphericalCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformSphericalCrds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.NonuniformCrds" title="viscid.coordinate.NonuniformCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.NonuniformCrds</span></tt></a></p>
 </dd></dl>
 
@@ -677,7 +667,7 @@ reduce it</p>
 
 <dl class="function">
 <dt id="viscid.coordinate.wrap_crds">
-<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">wrap_crds</tt><big>(</big><em>typ</em>, <em>clist</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#wrap_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.wrap_crds" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">wrap_crds</tt><big>(</big><em>typ</em>, <em>clist</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#wrap_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.wrap_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -786,7 +776,7 @@ this will recurse down to a grid</p>
 
 <dl class="method">
 <dt id="viscid.dataset.Dataset.print_tree">
-<tt class="descname">print_tree</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.print_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">print_tree</tt><big>(</big><em>depth=-1</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#Dataset.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -868,7 +858,7 @@ this will recurse down to a grid</p>
 
 <dl class="method">
 <dt id="viscid.dataset.DatasetTemporal.print_tree">
-<tt class="descname">print_tree</tt><big>(</big><em>recursive=True</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.print_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">print_tree</tt><big>(</big><em>depth=-1</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/dataset.html#DatasetTemporal.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1585,7 +1575,7 @@ list of field names to iterate over</p>
 
 <dl class="method">
 <dt id="viscid.grid.Grid.print_tree">
-<tt class="descname">print_tree</tt><big>(</big><em>recursive=False</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.print_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">print_tree</tt><big>(</big><em>depth=-1</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1812,6 +1802,28 @@ really really need it, and know what you&#8217;re doing</dd>
 2 c</pre>
 </div>
 </dd></dl>
+
+</div>
+<div class="section" id="module-viscid.rc">
+<span id="viscid-rc-module"></span><h2>viscid.rc module<a class="headerlink" href="#module-viscid.rc" title="Permalink to this headline">¶</a></h2>
+<p>Used for loading ~/.viscidrc</p>
+<p>An example rc file might contain the line:
+readers.openggcm.GGCMFile.read_log_file: true</p>
+<dl class="exception">
+<dt id="viscid.rc.RCPathError">
+<em class="property">exception </em><tt class="descclassname">viscid.rc.</tt><tt class="descname">RCPathError</tt><a class="reference internal" href="_modules/viscid/rc.html#RCPathError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.RCPathError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.rc.load_rc_file">
+<tt class="descclassname">viscid.rc.</tt><tt class="descname">load_rc_file</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#load_rc_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.load_rc_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.rc.set_attribute">
+<tt class="descclassname">viscid.rc.</tt><tt class="descname">set_attribute</tt><big>(</big><em>path</em>, <em>value</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#set_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.set_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-viscid.verror">

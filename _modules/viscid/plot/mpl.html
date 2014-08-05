@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mpl &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.plot.mpl &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -147,8 +147,14 @@ import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize, LogNorm
 from mpl_toolkits.mplot3d import Axes3D #pylint: disable=W0611
+try:
+    from mpl_toolkits.basemap import Basemap
+    _HAS_BASEMAP = True
+except ImportError:
+    _HAS_BASEMAP = False
 
 from viscid import field
+from viscid import coordinate
 from viscid.calculator import calc
 from viscid.calculator.topology import color_from_topology
 # from viscid import vutil
@@ -194,12 +200,7 @@ has_colorbar_gridspec = LooseVersion(__mpl_ver__) &gt; LooseVersion("1.1.1")
             return plot1d_field(fld, **kwargs)
         elif fld.nr_sdims == 2:
             if fld.is_spherical():
-                try:
-                    from mpl_toolkits.basemap import Basemap  # pylint: disable=unused-variable
-                    return plot2d_mapfield(fld, **kwargs)
-                except ImportError:
-                    print("Note: Install basemap for better map projection "
-                          "plots")
+                return plot2d_mapfield(fld, **kwargs)
             return plot2d_field(fld, **kwargs)
         else:
             raise ValueError("mpl can only do 1-D or 2-D fields")
@@ -229,7 +230,7 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     plot_acts are set using plt.set(act[0], act[1], act[2]) """
 
     plot_opts = _parse_str(plot_opts_str)
-    # acts = []
+    actions = []
 
     if not axis:
         axis = plt.gca()
@@ -237,8 +238,8 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     for opt in plot_opts:
         if opt[0] == "lin":
             opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            axis.set_xscale("linear")
-            axis.set_yscale("linear")
+            actions.append([axis.set_xscale, ["linear"]])
+            actions.append([axis.set_yscale, ["linear"]])
 
             # scale will be centered around 0
             if len(opt) == 2 and float(opt[1]) == 0.0:
@@ -246,7 +247,7 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
                 opt = [opt[0], -1.0 * absmax, 1.0 * absmax]
 
             if fld.nr_sdims == 1:
-                axis.set_ylim(*opt[1:])
+                actions.append([axis.set_ylim, opt[1:]])
             elif fld.nr_sdims == 2:
                 # plt.normalize is deprecated
                 # kwargs["norm"] = plt.normalize(*opt[1:])
@@ -254,31 +255,31 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
 
         elif opt[0] == "log":
             opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            axis.set_xscale("linear")
+            actions.append([axis.set_xscale, ["linear"]])
 
             if fld.nr_sdims == 1:
-                axis.set_yscale("log")
-                axis.set_ylim(*opt[1:])
+                actions.append([axis.set_yscale, ["log"]])
+                actions.append([axis.set_ylim, opt[1:]])
             elif fld.nr_sdims == 2:
-                axis.set_yscale("linear")
+                actions.append([axis.set_yscale, ["linear"]])
                 kwargs["norm"] = LogNorm(*opt[1:])
 
         elif opt[0] == "loglog":
             opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            axis.set_xscale("log")
-            axis.set_yscale("log")
+            actions.append([axis.set_xscale, ["log"]])
+            actions.append([axis.set_yscale, ["log"]])
             if fld.nr_sdims == 2:
                 kwargs["norm"] = LogNorm(*opt[1:])
 
         elif opt[0] == "x":
             opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            axis.set_xlim(*opt[1:])
-            # acts.append([axis, "xlim", opt[1:]])
+            # axis.set_xlim(*opt[1:])
+            actions.append([axis.set_xlim, opt[1:]])
 
         elif opt[0] == "y":
             opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            axis.set_ylim(*opt[1:])
-            # acts.append([axis, "ylim", opt[1:]])
+            # axis.set_ylim(*opt[1:])
+            actions.append([axis.set_ylim, opt[1:]])
 
         elif opt[0] == "own":
             logging.warn("own axis doesn't seem to work yet...")
@@ -307,13 +308,11 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
         if norm.vmin and norm.vmax and np.abs(norm.vmax + 1.0*norm.vmin) &lt; 1e-4:
             kwargs["cmap"] = plt.get_cmap('seismic')
 
-    # return axis, acts
-    return axis
+    return axis, actions
 
-# def _apply_acts(acts):
-#     for act in acts:
-#         print(act)
-#         plt.setp(act[0], act[1], act[2])
+def _apply_actions(acts):
+    for act in acts:
+        act[0](*act[1])
 
 <div class="viewcode-block" id="plot2d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_field">[docs]</a>def plot2d_field(fld, style="pcolormesh", ax=None, plot_opts=None,
                  colorbar=True, mask_nan=False, do_labels=True, show=False,
@@ -391,12 +390,14 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     if action_ax is None:
         action_ax = ax
 
-    if colorbar is not None:
+    if colorbar:
         if not isinstance(colorbar, dict):
             colorbar = {}
+    else:
+        colorbar = None
 
     # parse plot_opts and apply them
-    ax = _apply_parse_opts(plot_opts, fld, kwargs, ax)
+    ax, actions = _apply_parse_opts(plot_opts, fld, kwargs, ax)
 
     # make customizing plot type from command line possible
     style = kwargs.pop("style", style)
@@ -447,11 +448,13 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
         Y *= mod[1]
 
     # print(x.shape, y.shape, fld.data.shape)
+    mask_nan = False
     if mask_nan:
         dat = np.ma.masked_where(np.isnan(dat), dat)
 
     if equalaxis:
         ax.axis('equal')
+    _apply_actions(actions)
 
     # ok, here's some raw hackery for contours
     if style in ["contourf", "contour"]:
@@ -486,13 +489,15 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
     elif style == "contour":
         p = action_ax.contour(X, Y, dat, *extra_args, **kwargs)
         if "colors" in kwargs:
-            colorbar = False
+            colorbar = None
     elif style == "contourf":
         p = action_ax.contourf(X, Y, dat, *extra_args, **kwargs)
     elif style == "pcolor":
         p = action_ax.pcolor(X, Y, dat, *extra_args, **kwargs)
     else:
         raise RuntimeError("I don't understand {0} 2d plot style".format(style))
+
+    p.get_cmap().set_bad('k')
 
     # figure out the colorbar...
     if colorbar is not None:
@@ -501,13 +506,14 @@ def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
             colorbar["use_gridspec"] = True
         # ok, this way to pass options to colorbar is bad!!!
         # but it's kind of the cleanest way to affect the colorbar?
-        cbar = plt.colorbar(p, **colorbar)
-        if do_labels:
-            cbar.set_label(fld.pretty_name)
+        if mask_nan and dat.mask.all():
+            cbar = None
+        else:
+            cbar = plt.colorbar(p, **colorbar)
+            if do_labels:
+                cbar.set_label(fld.pretty_name)
     else:
         cbar = None
-
-    p.get_cmap().set_bad('k')
 
     if do_labels:
         plt.xlabel(namex)
@@ -545,16 +551,16 @@ def _mlt_labels(longitude):
           this function setting up a Basemap first
 
     """
-    from mpl_toolkits.basemap import Basemap
+    hemisphere = kwargs.pop("hemisphere", "north").lower().strip()
 
-    hemisphere = kwargs.pop("hemisphere", "north").lower()
+    def_projection = "polar"
 
     if hemisphere == "north":
-        def_projection = "nplaea"
+        # def_projection = "nplaea"
         def_boundinglat = 40.0
         latlabel_arr = np.linspace(50.0, 80.0, 4)
     elif hemisphere == "south":
-        def_projection = "splaea"
+        # def_projection = "splaea"
         def_boundinglat = -40.0
         latlabel_arr = -1.0 * np.linspace(50.0, 80.0, 4)
     else:
@@ -567,21 +573,72 @@ def _mlt_labels(longitude):
     drawcoastlines = kwargs.pop("drawcoastlines", False)
     ax = kwargs.get("ax", None)
 
-    m = Basemap(projection=projection, lon_0=lon_0, lat_0=lat_0,
-                boundinglat=boundinglat, ax=ax)
+    if projection != "polar" and not _HAS_BASEMAP:
+        print("NOTE: install the basemap for the desired spherical "
+              "projection; falling back to matplotlib's polar plot.")
+        projection = "polar"
 
-    kwargs['latlon'] = True
-    kwargs['action_ax'] = m
-    kwargs['do_labels'] = False
-    kwargs['equalaxis'] = False
-    ret = plot2d_field(fld, **kwargs)
-    m.drawparallels(latlabel_arr, labels=[1, 1, 1, 1],
-                    linewidth=0.25)
-    m.drawmeridians(np.linspace(360.0, 0.0, 8, endpoint=False),
-                    labels=[1, 1, 1, 1], fmt=_mlt_labels, linewidth=0.25)
-    if drawcoastlines:
-        m.drawcoastlines(linewidth=0.25)
-    return ret
+    if projection == "polar":
+        # FIXME: this is not good practice since grid means something
+        # different for all other plots, and it defaults to False
+        dogrid = kwargs.pop("grid", True)
+
+        boundinglat = np.abs(boundinglat)
+
+        if ax is None:
+            ax = plt.gca()
+        if not hasattr(ax, "set_thetagrids"):
+            ax = plt.subplot(*ax.get_geometry(), projection='polar')
+
+        ax.set_thetagrids((45, 90, 135, 180, 225, 270, 315, 360),
+                          (9, 12, 15, 18, 21, 24, 3, 6))
+        trange = (None, boundinglat)
+        grid_dr = 10
+        ax.set_rgrids(np.arange(grid_dr, trange[1], grid_dr), fmt='%.0f')
+
+        if hemisphere == "north":
+            sl_fld = fld["lat=:{0}".format(boundinglat)]
+            maxlat = sl_fld.get_crd_nc('lat')[-1]
+        elif hemisphere == "south":
+            sl_fld = fld["lat={0}:".format(180.0 - boundinglat)]["lat=::-1"]
+            maxlat = 180.0 - sl_fld.get_crd_nc('lat')[-1]
+
+        lat, lon = sl_fld.get_crds_nc(['lat', 'lon'])
+        new_lat = np.linspace(0.0, maxlat, len(lat))
+        # FIXME: Matt's code had a - 0.5 * (lon[1] - lon[0]) here...
+        # I'm omiting it
+        new_lon = (lon - 90.0) * np.pi / 180.0
+        new_crds = coordinate.wrap_crds("nonuniform_spherical",
+                                        [('lat', new_lat), ('lon', new_lon)])
+        new_fld = fld.wrap(sl_fld.data, context=dict(crds=new_crds))
+
+        # print(fld.get_crds())
+
+        kwargs['ax'] = ax
+        kwargs['action_ax'] = ax
+        kwargs['do_labels'] = False
+        kwargs['equalaxis'] = False
+
+        ret = plot2d_field(new_fld, **kwargs)
+        if dogrid:
+            ax.grid(True)
+        return ret
+
+    else:
+        m = Basemap(projection=projection, lon_0=lon_0, lat_0=lat_0,
+                    boundinglat=boundinglat, ax=ax)
+        kwargs['latlon'] = True
+        kwargs['action_ax'] = m
+        kwargs['do_labels'] = False
+        kwargs['equalaxis'] = False
+        ret = plot2d_field(fld, **kwargs)
+        m.drawparallels(latlabel_arr, labels=[1, 1, 1, 1],
+                        linewidth=0.25)
+        m.drawmeridians(np.linspace(360.0, 0.0, 8, endpoint=False),
+                        labels=[1, 1, 1, 1], fmt=_mlt_labels, linewidth=0.25)
+        if drawcoastlines:
+            m.drawcoastlines(linewidth=0.25)
+        return ret
 
 </div>
 <div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a>def plot1d_field(fld, ax=None, plot_opts=None, show=False, mask_nan=False,
@@ -601,7 +658,7 @@ def _mlt_labels(longitude):
     elif fld.iscentered("Cell"):
         x = fld.get_crd_cc(namex)
 
-    ax = _apply_parse_opts(plot_opts, fld, kwargs, ax)
+    ax, actions = _apply_parse_opts(plot_opts, fld, kwargs, ax)
     if action_ax is None:
         action_ax = ax
 
@@ -616,7 +673,7 @@ def _mlt_labels(longitude):
     if do_labels:
         plt.xlabel(namex)
         plt.ylabel(fld.pretty_name)
-    # _apply_acts(acts)
+    _apply_actions(actions)
 
     if show:
         mplshow()
@@ -797,14 +854,16 @@ def _mlt_labels(longitude):
     except AttributeError:
         logging.warn("No matplotlib tight layout support")
 </div>
-<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_earth">[docs]</a>def plot_earth(fld, axis=None, scale=1.0, rot=0,
-               daycol='w', nightcol='k', crd_system="mhd"):
+<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_earth">[docs]</a>def plot_earth(plane_spec, axis=None, scale=1.0, rot=0,
+               daycol='w', nightcol='k', crd_system="mhd",
+               zorder=-10):
     """Plot a black and white Earth to show sunward direction
 
     Parameters:
-        fld: Chances are you want to add earth to a plot of a field,
-            this is that field. It's used for deducing info about the
-            plot.
+        plane_spec: Specifies the plane for determining sunlit portion.
+            This can be a :class:`viscid.field.Field` object to try to
+            auto-discover the plane and crd_system, or it can be a
+            string like "y=0".
         axis (matplotlib Axis): axis on which to plot
         scale (float, optional): scale of earth
         rot (float, optional): Rotation of day/night side... I forget all
@@ -812,19 +871,24 @@ def _mlt_labels(longitude):
         daycol (str, optional): color of dayside (matplotlib format)
         nightcol (str, optional): color of nightside (matplotlib format)
         crd_system (str, optional): 'mhd' or 'gse', can usually be
-            deduced from fld
+            deduced from plane_spec if it's a Field instance.
     """
     import matplotlib.patches as mpatches
 
-    crd_system = fld.info.get("crd_system", crd_system)
+    # this is kind of a hacky way to
+    if isinstance(plane_spec, field.Field):
+        crd_system = plane_spec.info.get("crd_system", crd_system)
 
-    # take only the 1st reduced.nr_sdims... this should just work
-    try:
-        plane, value = fld.deep_meta["reduced"][0]
-    except KeyError:
-        logging.error("No reduced dims in the field, i don't know what 2d \n "
-                      "plane, we're in and can't figure out the size of earth.")
-        return None
+        # take only the 1st reduced.nr_sdims... this should just work
+        try:
+            plane, value = plane_spec.deep_meta["reduced"][0]
+        except KeyError:
+            logging.error("No reduced dims in the field, i don't know what 2d \n "
+                          "plane, we're in and can't figure out the size of earth.")
+            return None
+    else:
+        plane, value = [s.strip() for s in plane_spec.split("=")]
+        value = float(value)
 
     if value**2 &gt;= scale**2:
         return None
@@ -838,16 +902,16 @@ def _mlt_labels(longitude):
 
     if plane == 'y' or plane == 'z':
         axis.add_patch(mpatches.Wedge((0, 0), radius, 90 + rot, 270 + rot,
-                                      ec=nightcol, fc=daycol))
+                                      ec=nightcol, fc=daycol, zorder=zorder))
         axis.add_patch(mpatches.Wedge((0, 0), radius, 270 + rot, 450 + rot,
-                                      ec=nightcol, fc=nightcol))
+                                      ec=nightcol, fc=nightcol, zorder=zorder))
     elif plane == 'x':
         if value &lt; 0:
             axis.add_patch(mpatches.Circle((0, 0), radius, ec=nightcol,
-                                           fc=daycol))
+                                           fc=daycol, zorder=zorder))
         else:
             axis.add_patch(mpatches.Circle((0, 0), radius, ec=nightcol,
-                                           fc=nightcol))
+                                           fc=nightcol, zorder=zorder))
     return None
 
 ##

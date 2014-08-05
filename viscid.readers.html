@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers package &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.readers package &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="index.html"/>
         <link rel="up" title="viscid package" href="viscid.html"/>
         <link rel="prev" title="viscid.plot package" href="viscid.plot.html"/> 
 
@@ -148,6 +148,423 @@ WARNING: not lazy</p>
 <dd><p>Bases: <a class="reference internal" href="#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
 <p>open an ascii file with viscid format, or if not specified, assume
 it&#8217;s in gnuplot format, gnuplot format not yet specified</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.readers.ggcm_fortbin">
+<span id="viscid-readers-ggcm-fortbin-module"></span><h2>viscid.readers.ggcm_fortbin module<a class="headerlink" href="#module-viscid.readers.ggcm_fortbin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">FortbinDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em>, <em>file_position</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.expected_shape">
+<tt class="descname">expected_shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_position">
+<tt class="descname">file_position</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_wrapper">
+<tt class="descname">file_wrapper</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.fld_name">
+<tt class="descname">fld_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">zyx shape since that&#8217;s the shape __array__ returns</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinIono</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinIono"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinMHD</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFileFortran" title="viscid.readers.openggcm.GGCMFileFortran"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFileFortran</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFortbinFileWrapper</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A File-like object for interfacing with OpenGGCM binary files</p>
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.fields_seen">
+<tt class="descname">fields_seen</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.fields_seen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">
+<tt class="descname">file_meta</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.file_meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">
+<tt class="descname">inquire</tt><big>(</big><em>fld_name</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">
+<tt class="descname">inquire_all_fields</tt><big>(</big><em>reinquire=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire_all_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">
+<tt class="descname">inquire_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the meta-data from the next field in the file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tuple (field name, dict of meta data) both
+of which will be None if there are no more Fields</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">After this operation is done, the file-pointer will be reset
+to the position it was before the inquiry.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">
+<tt class="descname">isopen</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.isopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">
+<tt class="descname">read_field</tt><big>(</big><em>fld_name</em>, <em>pos=None</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a field given a seekable location</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fld_name</strong> (<em>str</em>) &#8211; name of field we&#8217;re expecting to read</li>
+<li><strong>pos</strong> (<em>int</em>) &#8211; position in file we can seek to</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (field name, dict of meta data, array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.seen_all_fields">
+<tt class="descname">seen_all_fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.seen_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.readers.ggcm_jrrle">
+<span id="viscid-readers-ggcm-jrrle-module"></span><h2>viscid.readers.ggcm_jrrle module<a class="headerlink" href="#module-viscid.readers.ggcm_jrrle" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleIono">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">GGCMFileJrrleIono</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleIono"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleIono" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD" title="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">GGCMFileJrrleMHD</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleMHD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFileFortran" title="viscid.readers.openggcm.GGCMFileFortran"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFileFortran</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleMHD.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">JrrleDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.expected_shape">
+<tt class="descname">expected_shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.file_wrapper">
+<tt class="descname">file_wrapper</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.fld_name">
+<tt class="descname">fld_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.len">
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct">
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">zyx shape since that&#8217;s the shape __array__ returns</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">JrrleFileWrapper</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">viscid.readers._fortfile_wrapper.FortranFile</span></tt></p>
+<p>Interface for actually opening / reading a jrrle file</p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.fields_seen">
+<tt class="descname">fields_seen</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.fields_seen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire">
+<tt class="descname">inquire</tt><big>(</big><em>fld_name</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields">
+<tt class="descname">inquire_all_fields</tt><big>(</big><em>reinquire=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire_all_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next">
+<tt class="descname">inquire_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the meta-data from the next field in the file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tuple (field name, dict of meta data) both
+of which will be None if there are no more Fields</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">After this operation is done, the file-pointer will be reset
+to the position it was before the inquiry.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field">
+<tt class="descname">read_field</tt><big>(</big><em>fld_name</em>, <em>ndim</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a field given a seekable location</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>loc</strong> (<em>int</em>) &#8211; position in file we can seek to</li>
+<li><strong>ndim</strong> (<em>int</em>) &#8211; dimensionality of field</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (field name, dict of meta data, array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.seen_all_fields">
+<tt class="descname">seen_all_fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.seen_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.readers.ggcm_logfile">
+<span id="viscid-readers-ggcm-logfile-module"></span><h2>viscid.readers.ggcm_logfile module<a class="headerlink" href="#module-viscid.readers.ggcm_logfile" title="Permalink to this headline">¶</a></h2>
+<p>Loads a ggcm log file</p>
+<p>Parses the view info</p>
+<dl class="class">
+<dt id="viscid.readers.ggcm_logfile.GGCMLogFile">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_logfile.</tt><tt class="descname">GGCMLogFile</tt><big>(</big><em>fname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Libmrc log file reader</p>
+<p>This class looks at the mrc_view info before the run starts
+to gather info about libmrc runtime parameters.</p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes">
+<tt class="descname">watched_classes</tt><em class="property"> list</em><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of libmrc classes whose parameters
+will be loaded</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_logfile.GGCMLogFile.fname">
+<tt class="descname">fname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.fname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_logfile.GGCMLogFile.info">
+<tt class="descname">info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_logfile.GGCMLogFile.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.unload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">watched_classes</tt><em class="property"> = ['ggcm_mhd', 'ggcm_mhd_ic', 'ggcm_dipole']</em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-viscid.readers.ggcm_xdmf">
+<span id="viscid-readers-ggcm-xdmf-module"></span><h2>viscid.readers.ggcm_xdmf module<a class="headerlink" href="#module-viscid.readers.ggcm_xdmf" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_xdmf.</tt><tt class="descname">GGCMFileXDMF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></tt></a></p>
+<p>File type for GGCM style convenience stuff</p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file">
+<tt class="descname">read_log_file</tt><em class="property"> bool</em><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>search for a log file to load some of the
+libmrc runtime parameters. This does not read parameters
+from all libmrc classes, but can be customized with
+:py:const`viscid.readers.ggcm_logfile.GGCMLogFile.
+watched_classes`. Defaults to False for performance.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames">
+<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group File names</p>
+<p>The default implementation just returns fnames, but some file
+types might do something fancy here</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fnames</strong> (<em>list</em>) &#8211; names that can be logically grouped, as in
+a bunch of file names that are different time steps
+of a given run</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of things that can be given to the constructor of
+this class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.load">
+<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_xdmf.</tt><tt class="descname">GGCMIonoFileXDMF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_xdmf.html#GGCMIonoFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="viscid.readers.ggcm_xdmf.GGCMFileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_xdmf.GGCMFileXDMF</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
 </dd></dl>
 
 </div>
@@ -310,11 +727,79 @@ for large temporal datasets over sshfs</p>
 <p>Wrapper grid for some OpenGGCM convenience</p>
 <dl class="class">
 <dt id="viscid.readers.openggcm.GGCMFile">
-<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFile</tt><big>(</big><em>fname</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></tt></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFile</tt><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Mixin some GGCM convenience stuff</p>
+<dl class="attribute">
+<dt id="viscid.readers.openggcm.GGCMFile.read_log_file">
+<tt class="descname">read_log_file</tt><em class="property"> bool</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_log_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>search for a log file to load some of the
+libmrc runtime parameters. This does not read parameters
+from all libmrc classes, but can be customized with
+:py:const`viscid.readers.ggcm_logfile.GGCMLogFile.
+watched_classes`. Defaults to False for performance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">read_log_file</tt><em class="property"> = True</em></dt>
+<dd></dd></dl>
+
 <dl class="method">
-<dt id="viscid.readers.openggcm.GGCMFile.load">
-<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFile.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.load" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.readers.openggcm.GGCMFile.read_logfile">
+<tt class="descname">read_logfile</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFile.read_logfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_logfile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.openggcm.GGCMFile.vfilebucket">
+<tt class="descname">vfilebucket</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.vfilebucket" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.openggcm.GGCMFileFortran">
+<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFileFortran</tt><big>(</big><em>fname</em>, <em>vfilebucket=None</em>, <em>crds=None</em>, <em>fld_templates=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFileFortran"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.openggcm.GGCMFileFortran.grid2">
+<tt class="descname">grid2</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.grid2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.readers.openggcm.GGCMFileFortran.group_fnames">
+<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFileFortran.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.group_fnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group File names</p>
+<p>The default implementation just returns fnames, but some file
+types might do something fancy here</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fnames</strong> (<em>list</em>) &#8211; names that can be logically grouped, as in
+a bunch of file names that are different time steps
+of a given run</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of things that can be given to the constructor of
+this class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.openggcm.GGCMFileFortran.load">
+<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFileFortran.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.openggcm.GGCMFileFortran.make_crds">
+<tt class="descname">make_crds</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFileFortran.make_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.make_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.openggcm.GGCMFileFortran.read_grid2">
+<tt class="descname">read_grid2</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMFileFortran.read_grid2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.read_grid2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -398,7 +883,7 @@ layout for vector fields on load (default is
 
 <dl class="attribute">
 <dt>
-<tt class="descname">mhd_to_gse_on_read</tt><em class="property"> = False</em></dt>
+<tt class="descname">mhd_to_gse_on_read</tt><em class="property"> = True</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -407,6 +892,35 @@ layout for vector fields on load (default is
 <dd></dd></dl>
 
 </dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.find_file_uptree">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">find_file_uptree</tt><big>(</big><em>directory</em>, <em>basename</em>, <em>max_depth=8</em>, <em>_depth=0</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#find_file_uptree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.find_file_uptree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find basename by going up the file tree</p>
+<p>Keep going up a directory until you find one that has the file
+&#8220;basename&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>directory</strong> (<em>str</em>) &#8211; directory to start the search</li>
+<li><strong>basename</strong> (<em>str</em>) &#8211; bare file name</li>
+<li><strong>max_depth</strong> (<em>int</em>) &#8211; max number of directories to seach</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Relative path to file, or None if not found</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.group_ggcm_files_common">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">group_ggcm_files_common</tt><big>(</big><em>detector</em>, <em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#group_ggcm_files_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.group_ggcm_files_common" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-viscid.readers.psc">
@@ -485,6 +999,29 @@ you&#8217;ll just have 2 versions in memory.</p>
 <dt id="viscid.readers.vfile.VFile">
 <em class="property">class </em><tt class="descclassname">viscid.readers.vfile.</tt><tt class="descname">VFile</tt><big>(</big><em>fname</em>, <em>vfilebucket=None</em>, <em>grid_type=None</em>, <em>grid_opts=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a></p>
+<dl class="classmethod">
+<dt id="viscid.readers.vfile.VFile.collective_name">
+<em class="property">classmethod </em><tt class="descname">collective_name</tt><big>(</big><em>group</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile.collective_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile.collective_name" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>group</strong> &#8211; single file name or list of file names that would
+be grouped by group_fnames</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a single name</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.readers.vfile.VFile.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>group</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="classmethod">
 <dt id="viscid.readers.vfile.VFile.detect_type">
 <em class="property">classmethod </em><tt class="descname">detect_type</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile.html#VFile.detect_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile.VFile.detect_type" title="Permalink to this definition">¶</a></dt>
@@ -598,11 +1135,6 @@ preserved, so data is accessable without an explicit reload</p>
 generally only need one instance, but you can construct directly
 if you need more than one manager</p>
 <dl class="method">
-<dt id="viscid.readers.vfile_bucket.VFileBucket.get_item">
-<tt class="descname">get_item</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.get_item" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.load_file">
 <tt class="descname">load_file</tt><big>(</big><em>fname</em>, <em>index_handle=True</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.load_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.load_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>load a single file and return a vFile instance, not a list
@@ -642,6 +1174,11 @@ in order to accomidate globs and file grouping.</p>
 <dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.remove_all_items">
 <tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.vfile_bucket.VFileBucket.remove_item">
+<tt class="descname">remove_item</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_item" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

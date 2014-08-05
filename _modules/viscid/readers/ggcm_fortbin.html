@@ -135,6 +135,8 @@
   <h1>Source code for viscid.readers.ggcm_fortbin</h1><pre>
 from __future__ import print_function
 import struct
+import os
+import re
 try:
     from collections import OrderedDict
 except ImportError:
@@ -154,7 +156,7 @@ from viscid.readers import openggcm
 <div class="viewcode-block" id="GGCMFileFortbinMHD"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">[docs]</a>class GGCMFileFortbinMHD(openggcm.GGCMFileFortran):  # pylint: disable=abstract-method
     """Jimmy's run length encoding files"""
     _detector = r"^\s*(.*)\.(p[xyz]_[0-9]+|3df)" \
-                r"\.([0-9]{6})b\s*$"
+                r"\.([0-9]{6}).b\s*$"
 
     _file_wrapper = None
     _data_item_templates = None
@@ -193,7 +195,7 @@ from viscid.readers import openggcm
 
         for item in templates:
             data = data_wrapper(self._file_wrapper, item['fld_name'],
-                                item['shape'])
+                                item['shape'], item['file_position'])
             fld = field.wrap_field("Scalar", item['fld_name'], self._crds,
                                    data, center=self._def_fld_center,
                                    time=time)
@@ -211,14 +213,24 @@ from viscid.readers import openggcm
             template = []
             for fld_name, meta in f.fields_seen.items():
                 d = dict(fld_name=fld_name,
-                         shape=meta['dims'])
+                         shape=meta['dims'],
+                         file_position=meta['file_position'])
                 template.append(d)
         return template
 
-</div>
+    @classmethod
+<div class="viewcode-block" id="GGCMFileFortbinMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">[docs]</a>    def collective_name_from_group(cls, fnames):
+        fname0 = fnames[0]
+        basename = os.path.basename(fname0)
+        run = re.match(cls._detector, basename).group(1)
+        fldtype = re.match(cls._detector, basename).group(2)
+        new_basename = "{0}.{1}.b".format(run, fldtype)
+        return os.path.join(os.path.dirname(fname0), new_basename)
+
+</div></div>
 <div class="viewcode-block" id="GGCMFileFortbinIono"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">[docs]</a>class GGCMFileFortbinIono(GGCMFileFortbinMHD):  # pylint: disable=abstract-method
     """Jimmy's run length encoding files"""
-    _detector = r"^\s*(.*)\.(iof)\.([0-9]{6})b\s*$"
+    _detector = r"^\s*(.*)\.(iof)\.([0-9]{6}).b\s*$"
     _iono = True
     _grid_type = grid.Grid
     _def_fld_center = "Node"
@@ -250,20 +262,30 @@ from viscid.readers import openggcm
                 pass
         return self._file_meta
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    def read_field(self, fld_name):
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    def read_field(self, fld_name, pos=None):
         """Read a field given a seekable location
 
         Parameters:
-            loc(int): position in file we can seek to
+            fld_name(str): name of field we're expecting to read
+            pos(int): position in file we can seek to
 
         Returns:
             tuple (field name, dict of meta data, array)
         """
-        meta = self.inquire(fld_name)
-        self._file.seek(meta['file_position'] + meta['header_size'])
 
+        if pos is not None:
+            self._file.seek(pos)
+            found_fld, meta = self.inquire_next()
+            if found_fld != fld_name:
+                raise ValueError("The file {0} didn't contain field {1} at "
+                                 "position {2}".format(self.filename,
+                                 fld_name, pos))
+        else:
+            meta = self.inquire(fld_name)
+
+        self._file.seek(meta['file_position'] + meta['header_size'])
         data = np.fromfile(self._file, dtype=np.dtype(self._endian + 'f'),
-                           count=meta.nelem)
+                           count=meta['nelem'])
         return meta, data.reshape(meta['dims'], order='F')
 </div>
 <div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">[docs]</a>    def inquire_all_fields(self, reinquire=False):
@@ -274,10 +296,10 @@ from viscid.readers import openggcm
         if self.seen_all_fields:
             return
 
-        self.rewind()
+        self._file.seek(0)
         while not self.seen_all_fields:
             self.inquire_next()
-            self._file.seek(self.file_meta['nbytes'], whence=1)
+            self._file.seek(self.file_meta['nbytes'], 1)
 </div>
 <div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">[docs]</a>    def inquire(self, fld_name):
         try:
@@ -285,16 +307,19 @@ from viscid.readers import openggcm
             self.seek(meta['file_position'])
             return meta
         except KeyError:
-            last_added = next(reversed(self.fields_seen))
-            # go to the last seen field and go one field past it
-            self.seek(self.fields_seen[last_added]['file_position'] +
-                      self.file_meta['nbytes'])
+            try:
+                last_added = next(reversed(self.fields_seen))
+                # go to the last seen field and go one field past it
+                self.seek(self.fields_seen[last_added]['file_position'] +
+                          self.file_meta['nbytes'])
+            except StopIteration:
+                self._file.seek(0)
 
             while not self.seen_all_fields:
                 found_fld_name, meta = self.inquire_next()
                 if found_fld_name == fld_name:
                     return meta
-                self._file.seek(self.file_meta['nbytes'], whence=1)
+                self._file.seek(self.file_meta['nbytes'], 1)
 
             raise KeyError("file '{0}' has no field '{1}'".format(
                            self.filename, fld_name))
@@ -313,7 +338,10 @@ from viscid.readers import openggcm
         if not self.isopen:
             raise RuntimeError("file is not open")
 
-        fld_name, meta = self._read_header()
+        try:
+            fld_name, meta = self._read_header()
+        except IOError:
+            fld_name, meta = None, None
 
         if not fld_name:
             self.seen_all_fields = True
@@ -339,9 +367,10 @@ from viscid.readers import openggcm
         return self._file is not None
 </div>
 <div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    def close(self):
-        f = self._file
-        self._file = None
-        f.close()
+        if self._file is not None:
+            f = self._file
+            self._file = None
+            f.close()
 </div>
     def __enter__(self):
         self.open()
@@ -357,20 +386,27 @@ from viscid.readers import openggcm
         self._file_meta = meta
 
     def _read_header(self, data_size=4):
-        """read a field's header; returns None, None if EOF"""
+        """read a field's header; returns None, None if EOF
+        Raises:
+            Both of the following are raised if there are no more
+            fields in a file (although it'll more likely be an IOError)
+
+            IOError: couldn't detect endian
+            struct.error: not enough lines in file to get a header
+        """
         if not self.isopen:
             raise RuntimeError("Trying to read header, but file is closed.")
 
         try:
             pos = self._file.tell()
-            endian_marker = self._file.read(4) #Read an integer.  Unpack it
+            endian_marker = self._file.read(4)
             if endian_marker == struct.pack('&lt;i', 2):
                 self._endian = '&lt;'
             elif endian_marker == struct.pack('&gt;i', 2):
                 self._endian = '&gt;'
             else:
                 raise IOError("Can't detect endian, not a fortbin file: "
-                              "{0}".format(self.fname))
+                              "{0}".format(self.filename))
 
             inttime = struct.unpack(self._endian + 'i', self._file.read(4))[0]
             ndim = struct.unpack(self._endian + 'i', self._file.read(4))[0]
@@ -390,7 +426,8 @@ from viscid.readers import openggcm
                             ndim=ndim,
                             dims=dims,
                             nelem=nelem,
-                            nbytes=nbytes)
+                            nbytes=nbytes,
+                            file_position=pos)
             self._file.seek(pos)
 
             if fld_name == "":
@@ -406,8 +443,9 @@ from viscid.readers import openggcm
     filename = None
     fld_name = None
     expected_shape = None
+    file_position = None
 
-    def __init__(self, file_wrapper, fld_name, expected_shape):
+    def __init__(self, file_wrapper, fld_name, expected_shape, file_position):
         """Lazy wrapper for a field in a Fortbin file
 
         Parameters:
@@ -419,6 +457,7 @@ from viscid.readers import openggcm
         self.fld_name = fld_name
         # translate to zyx
         self.expected_shape = expected_shape
+        self.file_position = file_position
 
     @property
 <div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    def shape(self):
@@ -434,9 +473,8 @@ from viscid.readers import openggcm
 </div>
     def __array__(self, *args, **kwargs):
         with self.file_wrapper as f:
-            ndim = len(self.expected_shape)
             # fld_name, meta, arr = f.read_field_at(self.loc, ndim)
-            meta, arr = f.read_field(self.fld_name, ndim)
+            meta, arr = f.read_field(self.fld_name, pos=self.file_position)
             arr = np.array(arr.flatten(order='F').reshape(meta['dims'][::-1]),
                            order='C')
 

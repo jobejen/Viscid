@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.bucket &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.bucket &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -139,19 +139,32 @@ from __future__ import print_function
 import logging
 
 # from viscid.vutil import tree_prefix
+try:
+    from collections import OrderedDict
+except ImportError:
+    from viscid.compat.ordered_dict_backport import OrderedDict
 
 <div class="viewcode-block" id="Bucket"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket">[docs]</a>class Bucket(object):
     """ This is an interface where  """
-    _items = None
-    _handles = None
+    _ordered = False
+
+    _items = None  # keys are items, values are list of handles
+    _handles = None  # keys are handles, values are items
+
     # if index handle, set_item adds this number as a handle and increments it
     # this is useful for hiding loads that are not user initiated, such as
     # an xdmf file loading an h5 file under the covers
     _int_counter = None
 
-    def __init__(self):
-        self._items = []
-        self._handles = {}
+    def __init__(self, ordered=False):
+        self._ordered = ordered
+
+        if self._ordered:
+            self._items = OrderedDict()
+            self._handles = OrderedDict()
+        else:
+            self._items = {}
+            self._handles = {}
         self._int_counter = 0
 
 <div class="viewcode-block" id="Bucket.set_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.set_item">[docs]</a>    def set_item(self, handles, item, index_handle=True):
@@ -163,55 +176,63 @@ import logging
         if not isinstance(handles, list):
             raise TypeError("handle must by of list type")
 
-        try:
-            self.index(item)
-        except ValueError:
+        if item not in self._items:
             if index_handle:
-                handles += [self._int_counter] # handles += [onum]
+                handles += [self._int_counter]
                 self._int_counter += 1
-            self._items.append(item)
+            self._items[item] = handles
 
-        self._set_handles(handles, item)
+            if len(handles) == 0:
+                raise ValueError("item {0} must have at least one "
+                                 "handle".format(item))
+
+        for h in handles:
+            # check if we're stealing a handle from another item
+            if (h in self._handles) and  (item is not self._handles[h]):
+                logging.warn("The handle {0} is being hijacked! Memory leak "
+                             "could ensue.".format(h))
+                # romove handle from old item, since this check is here,
+                # there sholdn't be 2 items with the same handle in the
+                # items dict
+                old_item = self._handles[h]
+                self._items[old_item].remove(h)
+                if len(self._items[h]) == 0:
+                    self.remove_item(old_item)
+
+            self._handles[h] = item
+
         return None
 </div>
 <div class="viewcode-block" id="Bucket.remove_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item">[docs]</a>    def remove_item(self, item):
         """ remove item, raises ValueError if item is not found """
-        self.remove_item_onum(self.index(item))</div>
-<div class="viewcode-block" id="Bucket.remove_item_handle"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_handle">[docs]</a>    def remove_item_handle(self, handle):
+        handles = self._items[item]
+        del self._items[item]
+        for h in handles:
+            del self._handles[h]
+</div>
+<div class="viewcode-block" id="Bucket.remove_item_by_handle"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_by_handle">[docs]</a>    def remove_item_by_handle(self, handle):
         """ remove item by handle, raises KeyError if handle is not found """
-        self.remove_item_onum(self._handles[handle])</div>
-<div class="viewcode-block" id="Bucket.remove_item_onum"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_item_onum">[docs]</a>    def remove_item_onum(self, onum):
-        for k in self._handles.keys():
-            if self._handles[k] == onum:
-                self._handles.pop(k)
-        self._items[onum] = None
+        self.remove_item(self._handles[handle])
 </div>
 <div class="viewcode-block" id="Bucket.remove_all_items"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.remove_all_items">[docs]</a>    def remove_all_items(self):
         """ unload all items """
-        for i in range(len(self._items)):
-            self.remove_item_onum(i)
-</div>
-<div class="viewcode-block" id="Bucket.get_item"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.get_item">[docs]</a>    def get_item(self, handle):
-        """ look up the file using the handle dictionary, raises KeyError
-            if handle not found """
-        return self._items[self._handles[handle]]
+        # TODO: maybe unload things explicitly?
+        if self._ordered:
+            self._items = OrderedDict()
+            self._handles = OrderedDict()
+        else:
+            self._items = {}
+            self._handles = {}
 </div>
 <div class="viewcode-block" id="Bucket.items_as_list"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.items_as_list">[docs]</a>    def items_as_list(self):
-        return self._items
-</div>
-<div class="viewcode-block" id="Bucket.index"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.index">[docs]</a>    def index(self, item):
-        """ find index of item, comparison is made using object id """
-        for i, it in enumerate(self._items):
-            if item is it:
-                return i
-        raise ValueError("item's object id not in list")
+        return list(self._items.keys())
 </div>
 <div class="viewcode-block" id="Bucket.handle_string"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.handle_string">[docs]</a>    def handle_string(self, prefix=""):
         """ return string representation of handles and items """
         # this is inefficient, but probably doesn't matter
         s = ""
-        for i, item in enumerate(self._items):
-            hands = [repr(h) for h, onum in self._handles.items() if onum == i]
+        for item, handles in self._items.items():
+            hands = [repr(h) for h in handles]
             s += "{0}handles: {1}\n".format(prefix, ", ".join(hands))
             s += "{0}  item: {1}\n".format(prefix, str(item))
         return s
@@ -219,18 +240,8 @@ import logging
 <div class="viewcode-block" id="Bucket.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.print_tree">[docs]</a>    def print_tree(self, prefix=""):
         print(self.handle_string(prefix=prefix), end='')
 </div>
-    def _set_handles(self, handles, item):
-        """ this should only be called for items that are in _items...
-            a ValueError will result otherwise """
-        onum = self.index(item)
-        for h in handles:
-            if (h in self._handles) and (not item is self._items[onum]):
-                logging.warn("The handle {0} is being hijacked!".format(h))
-            self._handles[h] = onum
-        return None
-
     def __getitem__(self, handle):
-        return self.get_item(handle)
+        return self._handles[handle]
 
     def __setitem__(self, key, value):
         if isinstance(key, (list, tuple)):
@@ -240,15 +251,21 @@ import logging
         self.set_item(key, value)
 
     def __delitem__(self, handle):
-        self.remove_item_handle(handle)
+        try:
+            self.remove_item_by_handle(handle)
+        except KeyError:
+            # maybe we are asking to remove an item explicitly
+            self.remove_item(handle)
 
     def __iter__(self):
-        return self._items.__iter__()
+        return self._items.keys().__iter__()
 
     def __contains__(self, handle):
-        return handle in self._handles
+        return handle in self._handles or handle in self._items
+
     def __len__(self):
         return len(self._items)
+
     def __str__(self):
         return self.handle_string()
 </div>

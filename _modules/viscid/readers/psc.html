@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.psc &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.readers.psc &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -172,11 +172,11 @@ from viscid.calculator import plasma
             with self[base_name + comp_names[0]] as vx, \
                  self[base_name + comp_names[1]] as vy, \
                  self[base_name + comp_names[2]] as vz:
-                v = field.scalar_fields_to_vector(base_name, [vx, vy, vz],  # pylint: disable=star-args
+                v = field.scalar_fields_to_vector(base_name, [vx, vy, vz],
                                                   **opts)
         else:
             comps = [self[base_name + c] for c in comp_names]
-            v = field.scalar_fields_to_vector(base_name, comps, **opts)  # pylint: disable=star-args
+            v = field.scalar_fields_to_vector(base_name, comps, **opts)
             for comp in comps:
                 comp.unload()
         return v

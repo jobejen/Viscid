@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mvi &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.plot.mvi &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -278,7 +278,7 @@ def _finalize_source(fld, arr, grid, dat_target):
         dat_target.vectors.name = fld.name
     return VTKDataSource(data=grid)
 
-<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a>def plot_lines(lines, topology=None, **kwargs):
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a>def plot_lines(lines, topology=None, scalar=None, **kwargs):
     """Make 3D mayavi plot of lines
 
     Parameters:
@@ -298,7 +298,11 @@ def _finalize_source(fld, arr, grid, dat_target):
     for i, line in enumerate(lines):
         if topo_color:
             kwargs["color"] = color_from_topology(topology[i])
-        mlab.plot3d(line[2], line[1], line[0], **kwargs)
+
+        if scalar is not None:
+            mlab.plot3d(line[2], line[1], line[0], scalar, **kwargs)
+        else:
+            mlab.plot3d(line[2], line[1], line[0], **kwargs)
 </div>
 <div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a>def mlab_earth(pipeline=None, daycol=(1, 1, 1), nightcol=(0, 0, 0), res=15,
                crd_system="mhd"):

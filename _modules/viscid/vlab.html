@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.vlab &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.vlab &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -260,6 +260,7 @@ def _do_multiplot(tind, grid, plot_vars, global_popts=None, share_axes=False,
     out_format = kwopts.get("out_format", "png")
     selection = kwopts.get("selection", None)
     fancytime = kwopts.get("fancytime", False)
+    tighten = kwopts.get("tighten", False)
 
     # nrows = len(plot_vars)
     nrows = len([pv[0] for pv in plot_vars if not pv[0].startswith('^')])
@@ -331,7 +332,8 @@ def _do_multiplot(tind, grid, plot_vars, global_popts=None, share_axes=False,
     else:
         plt.suptitle("t = {0:g}".format(grid.time))
 
-    mpl.tighten(rect=[0, 0.03, 1, 0.90])
+    if tighten:
+        mpl.tighten(rect=[0, 0.03, 1, 0.90])
 
     if out_prefix:
         plt.savefig("{0}_{1:06d}.{2}".format(out_prefix, tind + 1, out_format))
@@ -397,7 +399,7 @@ def _follow_fluid_step(i, dt, grid, root_seeds, plot_function, stream_opts,
     logging.debug("finished reading V field")
 
     logging.debug("calculating new streamline positions")
-    flow_lines = streamlines(v, root_seeds,  # pylint: disable=W0142
+    flow_lines = streamlines(v, root_seeds,
                              output=streamline.OUTPUT_STREAMLINES,
                              **stream_opts)[0]
 

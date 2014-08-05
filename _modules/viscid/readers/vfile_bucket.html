@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.vfile_bucket &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.readers.vfile_bucket &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -157,7 +157,7 @@ from viscid.readers.vfile import VFile
     """
 
     def __init__(self, **kwargs):
-        super(VFileBucket, self).__init__(**kwargs)
+        super(VFileBucket, self).__init__(ordered=True, **kwargs)
 
     # This routine is just sort of confusing
     # def add(self, fname, file):
@@ -230,7 +230,11 @@ from viscid.readers.vfile import VFile
         for ftype, vals in types_detected.items():
             names = [v[0] for v in vals]
             # group all file names of a given type
-            groups = ftype.group_fnames(names)
+            try:
+                groups = ftype.group_fnames(names)
+            except AttributeError:
+                # can't group fnames for this type, that's ok
+                groups = names
 
             # iterate all the groups and add them
             for group in groups:
@@ -258,27 +262,23 @@ from viscid.readers.vfile import VFile
                         # what's this about?
                         pass
 
-                if f is not None:
-                    # group can either be 1 item or a list
-                    if isinstance(group, list):
-                        handles = group
-                    else:
-                        handles = [group]
-                    self.set_item(handles, f, index_handle=index_handle)
+                try:
+                    handle_name = f.collective_name(group)
+                except AttributeError:
+                    handle_name = VFile.collective_name(group)
+                self.set_item([handle_name], f, index_handle=index_handle)
                 file_lst.append(f)
 
         return file_lst
 </div>
-<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    def remove_all_items(self):
-        for item in self:
-            if item is not None:
-                item.unload()
-        super(VFileBucket, self).remove_all_items()
+<div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    def remove_item(self, item):
+        item.unload()
+        super(VFileBucket, self).remove_item(item)
 </div>
-<div class="viewcode-block" id="VFileBucket.get_item"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.get_item">[docs]</a>    def get_item(self, handle):
-        if isinstance(handle, six.string_types):
-            handle = os.path.expanduser(os.path.expandvars(handle))
-        return super(VFileBucket, self).get_item(handle)
+<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    def remove_all_items(self):
+        for item in self._items.keys():
+            item.unload()
+        super(VFileBucket, self).remove_all_items()
 </div>
     def __getitem__(self, handle):
         if isinstance(handle, six.string_types):

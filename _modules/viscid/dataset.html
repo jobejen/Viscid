@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.dataset &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.dataset &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -229,7 +229,7 @@ from viscid.vutil import tree_prefix
         else:
             return child.iter_fields(time=time, named=named)
 </div>
-<div class="viewcode-block" id="Dataset.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.print_tree">[docs]</a>    def print_tree(self, recursive=True, prefix=""):
+<div class="viewcode-block" id="Dataset.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset.print_tree">[docs]</a>    def print_tree(self, depth=-1, prefix=""):
         if prefix == "":
             print(self)
             prefix += tree_prefix
@@ -239,8 +239,8 @@ from viscid.vutil import tree_prefix
             if child is self.active_child:
                 suffix = " &lt;-- active"
             print("{0}{1}{2}".format(prefix, child, suffix))
-            if recursive:
-                child.print_tree(recursive=True, prefix=prefix + tree_prefix)
+            if depth != 0:
+                child.print_tree(depth=depth - 1, prefix=prefix + tree_prefix)
 
     # def get_non_dataset(self):
     #     """ recurse down datasets until active_grid is not a subclass
@@ -366,19 +366,44 @@ from viscid.vutil import tree_prefix
     def _slice_time(self, slice_str=":"):
         times = np.array([child[0] for child in self.children])
         slc_lst = [s.strip() for s in slice_str.split(":")]
-        # slc_lst[:2] = [float(t) if t != "" else None for t in slc_lst[:2]]
-        slc_lst[:2] = [np.argmin(np.abs(float(t) - times)) if t != "" else None
-                       for t in slc_lst[:2]]
-        # make the slice inclusive, no matter what
-        if len(slc_lst) &gt; 1 and slc_lst[1] is not None:
-            if slc_lst[0] &lt;= slc_lst[1]:
-                slc_lst[1] += 1
-            else:
-                slc_lst[1] -= 1
-        slc_lst[2:] = [int(s) if s != "" else None for s in slc_lst[2:]]
+
         if len(slc_lst) == 1:
-            slc_lst = [slc_lst[0], slc_lst[0] + 1]
-        slc = slice(*slc_lst) #pylint: disable=W0142
+            s = slc_lst[0]
+            if s[-1] in "ij":
+                slc = int(s[:-1])
+            else:
+                slc = np.argmin(np.abs(float(s) - times))
+        else:
+            for i, s in enumerate(slc_lst):
+                if s == "":
+                    slc_lst[i] = None
+                elif i &gt; 1 or s[-1] in "ij":
+                    try:
+                        slc_lst[i] = int(s[:-1])
+                    except ValueError:
+                        slc_lst[i] = np.argmin(np.abs(float(s[:-1]) - times))
+                else:
+                    slc_lst[i] = np.argmin(np.abs(float(s) - times))
+
+            # make the slice inclusive, no matter what
+            if slc_lst[1] is not None:
+                if slc_lst[0] &lt;= slc_lst[1]:
+                    slc_lst[1] += 1
+                else:
+                    slc_lst[1] -= 1
+
+            slc = slice(*slc_lst)
+
+        # otherwise the slice would reduce the dimension, which isn't what
+        # we want in iter_times
+        if isinstance(slc, int):
+            if slc == -1:
+                slc = slice(-1, None)
+            else:
+                slc = slice(slc, slc + 1)
+
+        # print("time slc list:", slc_lst, slc)
+
         return slc
 
 <div class="viewcode-block" id="DatasetTemporal.nr_times"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.nr_times">[docs]</a>    def nr_times(self, slice_str=":"):
@@ -407,7 +432,7 @@ from viscid.vutil import tree_prefix
         else:
             return child.iter_fields(time=time, named=named)
 </div>
-<div class="viewcode-block" id="DatasetTemporal.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.print_tree">[docs]</a>    def print_tree(self, recursive=True, prefix=""):
+<div class="viewcode-block" id="DatasetTemporal.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.print_tree">[docs]</a>    def print_tree(self, depth=-1, prefix=""):
         if prefix == "":
             print(self)
             prefix += tree_prefix
@@ -417,8 +442,8 @@ from viscid.vutil import tree_prefix
             if child[1] is self.active_child:
                 suffix = " &lt;-- active"
             print("{0}{1} (t={2}){3}".format(prefix, child, child[0], suffix))
-            if recursive:
-                child[1].print_tree(recursive=True, prefix=prefix + tree_prefix)
+            if depth != 0:
+                child[1].print_tree(depth=depth - 1, prefix=prefix + tree_prefix)
 </div>
 <div class="viewcode-block" id="DatasetTemporal.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.DatasetTemporal.get_field">[docs]</a>    def get_field(self, fldname, time=None):
         """ recurse down active children to get a field """

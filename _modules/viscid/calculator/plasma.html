@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.calculator.plasma &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.calculator.plasma &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -182,7 +182,7 @@ from viscid import field
     # to any two directions, so hy isn't necessarily hy, but it's
     # easier to see at a glance if it's correct using a specific
     # example
-    zcc, ycc = B.get_crds_cc(comps)
+    zcc, ycc = B.get_crds(comps)
     comp_views = B.component_views()
     hz, hy = comp_views[comp_inds[0]], comp_views[comp_inds[1]]
     dz = zcc[1:] - zcc[:-1]
@@ -198,7 +198,7 @@ from viscid import field
         A[:, j] = A[:, j - 1] - dy[j - 1] * 0.5 * (hz[:, j - 1] + hz[:, j])
 
     return field.wrap_field("Scalar", "psi", B.crds, A,
-                            center="Cell", pretty_name=r"$\psi$")
+                            center=B.center, pretty_name=r"$\psi$")
 </div>
 <div class="viewcode-block" id="calc_beta"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.plasma.calc_beta">[docs]</a>def calc_beta(pp, B, scale=1.0):
     """Calc plasma beta (2*p/B^2)
