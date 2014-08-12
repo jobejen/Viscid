@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot package &mdash; Viscid 0.50.2 documentation</title>
+  <title>viscid.plot package &mdash; Viscid 0.60.0 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.50.2',
+        VERSION:'0.60.0 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.50.2 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.60.0 dev documentation" href="index.html"/>
         <link rel="up" title="viscid package" href="viscid.html"/>
         <link rel="next" title="viscid.readers package" href="viscid.readers.html"/>
         <link rel="prev" title="viscid.compat package" href="viscid.compat.html"/> 
@@ -340,7 +340,9 @@ is probably a better way to give these options</li>
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_mapfield">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_mapfield</tt><big>(</big><em>fld</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_mapfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_mapfield" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot data on a map projection of a sphere using Basemap</p>
+<dd><p>Plot data on a map projection of a sphere</p>
+<p>The default projection is polar, but any other basemap projection
+can be used.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -357,7 +359,7 @@ should be passed along to <cite>plot2d_field</cite></li>
 <li><strong>hemisphere</strong> (<em>string</em>) &#8211;
 &#8216;north&#8217; or &#8216;south&#8217;</li>
 <li><strong>projection</strong> (<em>string</em>) &#8211;
-Basemap projection to use</li>
+&#8216;polar&#8217; or Basemap projection to use</li>
 <li><strong>lon_0</strong> (<em>float</em>) &#8211;
 center longitude</li>
 <li><strong>lat_0</strong> (<em>fload</em>) &#8211;
@@ -405,16 +407,17 @@ this function setting up a Basemap first</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_earth">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_earth</tt><big>(</big><em>fld</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_earth</tt><big>(</big><em>plane_spec</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em>, <em>zorder=-10</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white Earth to show sunward direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fld</strong> &#8211; Chances are you want to add earth to a plot of a field,
-this is that field. It&#8217;s used for deducing info about the
-plot.</li>
+<li><strong>plane_spec</strong> &#8211; Specifies the plane for determining sunlit portion.
+This can be a <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> object to try to
+auto-discover the plane and crd_system, or it can be a
+string like &#8220;y=0&#8221;.</li>
 <li><strong>axis</strong> (<em>matplotlib Axis</em>) &#8211; axis on which to plot</li>
 <li><strong>scale</strong> (<em>float, optional</em>) &#8211; scale of earth</li>
 <li><strong>rot</strong> (<em>float, optional</em>) &#8211; Rotation of day/night side... I forget all
@@ -422,7 +425,7 @@ the details :(</li>
 <li><strong>daycol</strong> (<em>str, optional</em>) &#8211; color of dayside (matplotlib format)</li>
 <li><strong>nightcol</strong> (<em>str, optional</em>) &#8211; color of nightside (matplotlib format)</li>
 <li><strong>crd_system</strong> (<em>str, optional</em>) &#8211; &#8216;mhd&#8217; or &#8216;gse&#8217;, can usually be
-deduced from fld</li>
+deduced from plane_spec if it&#8217;s a Field instance.</li>
 </ul>
 </td>
 </tr>
@@ -609,7 +612,7 @@ an openggcm field using <tt class="docutils literal"><span class="pre">fld.info[
 
 <dl class="function">
 <dt id="viscid.plot.mvi.plot_lines">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">plot_lines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">plot_lines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 3D mayavi plot of lines</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

@@ -504,7 +504,7 @@ will be loaded</p>
 
 <dl class="attribute">
 <dt>
-<tt class="descname">watched_classes</tt><em class="property"> = ['ggcm_mhd', 'ggcm_mhd_ic', 'ggcm_dipole']</em></dt>
+<tt class="descname">watched_classes</tt><em class="property"> = ['ggcm_mhd', 'mrc_domain', 'mrc_crds', 'ggcm_mhd_ic', 'ggcm_dipole']</em></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -861,29 +861,9 @@ layout for vector fields on load (default is
 <tt class="descname">copy_on_transform</tt><em class="property"> = False</em></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="viscid.readers.openggcm.GGCMGrid.mhd2gse_crds">
-<tt class="descname">mhd2gse_crds</tt><big>(</big><em>crds</em>, <em>arr</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMGrid.mhd2gse_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd2gse_crds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.readers.openggcm.GGCMGrid.mhd2gse_field_scalar">
-<tt class="descname">mhd2gse_field_scalar</tt><big>(</big><em>fld</em>, <em>arr</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMGrid.mhd2gse_field_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd2gse_field_scalar" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.readers.openggcm.GGCMGrid.mhd2gse_field_scalar_m1">
-<tt class="descname">mhd2gse_field_scalar_m1</tt><big>(</big><em>fld</em>, <em>arr</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMGrid.mhd2gse_field_scalar_m1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd2gse_field_scalar_m1" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.readers.openggcm.GGCMGrid.mhd2gse_field_vector">
-<tt class="descname">mhd2gse_field_vector</tt><big>(</big><em>fld</em>, <em>arr</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#GGCMGrid.mhd2gse_field_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd2gse_field_vector" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
 <dt>
-<tt class="descname">mhd_to_gse_on_read</tt><em class="property"> = True</em></dt>
+<tt class="descname">mhd_to_gse_on_read</tt><em class="property"> = False</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -920,6 +900,26 @@ layout for vector fields on load (default is
 <dl class="function">
 <dt id="viscid.readers.openggcm.group_ggcm_files_common">
 <tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">group_ggcm_files_common</tt><big>(</big><em>detector</em>, <em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#group_ggcm_files_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.group_ggcm_files_common" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.mhd2gse_crds">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_crds</tt><big>(</big><em>crds</em>, <em>arr</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#mhd2gse_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.mhd2gse_field_scalar">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_scalar</tt><big>(</big><em>fld</em>, <em>arr</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.mhd2gse_field_scalar_m1">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_scalar_m1</tt><big>(</big><em>fld</em>, <em>arr</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar_m1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar_m1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.openggcm.mhd2gse_field_vector">
+<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_vector</tt><big>(</big><em>fld</em>, <em>arr</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/openggcm.html#mhd2gse_field_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_vector" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

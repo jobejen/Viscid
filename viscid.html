@@ -297,7 +297,7 @@ with uniform coordinates</dd>
 
 <dl class="class">
 <dt id="viscid.coordinate.NonuniformCrds">
-<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">NonuniformCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#NonuniformCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformCrds" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">NonuniformCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>transform_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#NonuniformCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformCrds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
 </dd></dl>
 
@@ -309,7 +309,7 @@ with uniform coordinates</dd>
 
 <dl class="class">
 <dt id="viscid.coordinate.StructuredCrds">
-<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">StructuredCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">StructuredCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>transform_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a></p>
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.SUFFIXES">
@@ -639,6 +639,11 @@ reduce it</p>
 <tt class="descname">transform_funcs</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.transform_funcs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="viscid.coordinate.StructuredCrds.transform_kwargs">
+<tt class="descname">transform_kwargs</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.coordinate.StructuredCrds.transform_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.unload">
 <tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#StructuredCrds.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.unload" title="Permalink to this definition">¶</a></dt>
@@ -655,7 +660,7 @@ reduce it</p>
 
 <dl class="class">
 <dt id="viscid.coordinate.UniformCrds">
-<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">UniformCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#UniformCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">UniformCrds</tt><big>(</big><em>init_clist</em>, <em>has_cc=True</em>, <em>transform_funcs=None</em>, <em>transform_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/coordinate.html#UniformCrds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
 </dd></dl>
 
@@ -881,7 +886,7 @@ by themselves as the result of a calculation. This module has some
 convenience functions for creating fields similar to <cite>Numpy</cite>.</p>
 <dl class="class">
 <dt id="viscid.field.Field">
-<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">Field</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">Field</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="method">
 <dt id="viscid.field.Field.__delitem__">
@@ -1170,6 +1175,11 @@ the same shape as underlying array, does not load the data</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="viscid.field.Field.transform_func_kwargs">
+<tt class="descname">transform_func_kwargs</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.transform_func_kwargs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="viscid.field.Field.type">
 <tt class="descname">type</tt><a class="reference internal" href="_modules/viscid/field.html#Field.type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1192,13 +1202,13 @@ to the constructor. The return is just a number if arr is a
 
 <dl class="class">
 <dt id="viscid.field.MatrixField">
-<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">MatrixField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#MatrixField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.MatrixField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">MatrixField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#MatrixField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.MatrixField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.field.ScalarField">
-<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#ScalarField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.ScalarField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">ScalarField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#ScalarField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.ScalarField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
 <dl class="method">
 <dt id="viscid.field.ScalarField.downsample">
@@ -1237,13 +1247,13 @@ using np.transpose(fld)</p>
 
 <dl class="class">
 <dt id="viscid.field.TensorField">
-<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">TensorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#TensorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.TensorField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">TensorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#TensorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.TensorField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.field.VectorField">
-<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>info=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>pre_reshape_transform_func=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
 <dl class="method">
 <dt id="viscid.field.VectorField.component_fields">
