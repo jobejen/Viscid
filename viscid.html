@@ -501,13 +501,13 @@ nextitem will be a list of nr_dims numbers</p>
 <p>Slices should be made using the normal <tt class="docutils literal"><span class="pre">field[selecton]</span></tt>
 syntax. This function is more for internal use; however it
 does document the slice string syntax.</p>
-<p>In practice, selection can be a string like &#8220;y=3i:6i:2,z=0&#8221;
-where i indicates slice by index as opposed to bare numbers
+<p>In practice, selection can be a string like &#8220;y=3:6:2,z=0.0&#8221;
+where integers indicate an index as opposed to floats
 which slice by crd value. The example slice would be the 3rd
 and 5th crds in y, and the z = 0.0 plane. Selection can also
 be the usual tuple of slice objects / integers like one would
 give to numpy.</p>
-<p>&#8220;y=3i:6i:2,z=0&#8221; will give (if z[32] is closest to z=0.0)</p>
+<p>&#8220;y=3:6:2,z=0.0&#8221; will give (if z[32] is closest to z=0.0)</p>
 <blockquote>
 <div>([slice(None), slice(3, 6, 2), 32],
 [[&#8216;x&#8217;, ndarray(all nc x crds)], [&#8216;y&#8217;, array(y[3], y[5])]],
@@ -1130,7 +1130,7 @@ the data</p>
 <dl class="method">
 <dt id="viscid.field.Field.slice">
 <tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.slice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Slice the field using a string like &#8220;y=3i:6i:2,z=0&#8221; or a standard
+<dd><p>Slice the field using a string like &#8220;y=3:6:2,z=0&#8221; or a standard
 list of slice objects like one would give to numpy. In a string, i
 means by index, and bare numbers mean by the index closest to that
 value; see Coordinate.make_slice docs for an example. The semantics
