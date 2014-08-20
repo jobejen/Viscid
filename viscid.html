@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid package &mdash; Viscid 0.60.0 documentation</title>
+  <title>viscid package &mdash; Viscid 0.60.2 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.0',
+        VERSION:'0.60.2 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.0 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/>
         <link rel="up" title="API Reference" href="modules.html"/>
         <link rel="next" title="viscid.calculator package" href="viscid.calculator.html"/>
         <link rel="prev" title="API Reference" href="modules.html"/> 
@@ -79,6 +79,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
@@ -1121,6 +1128,41 @@ explicitly load the data</p>
 the data</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.shell_copy">
+<tt class="descname">shell_copy</tt><big>(</big><em>force=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.shell_copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.shell_copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a field just like this one with a new cache</p>
+<p>So, fields that belong to files are kept around for the
+lifetime of the file bucket, which is probably the lifetime
+of the main script. That means you have to explicitly unload
+to clear the cache (important if reading a timeseries of fields
+&gt; 1GB). This function will return a new field instance with
+references to all the same internals as self, except for the
+cache. Effectively, this turns the parent field into a
+lightweight &#8220;field shell&#8221;, from which a memory intensive field
+can be made on the fly.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>force</strong> (<em>bool</em>) &#8211; without force, only make a new field if the
+cache is not already loaded. If set to True, a field&#8217;s
+data could be in ram twice since _cache will be filled
+for the new field when needed. This is probably not what
+you want.</li>
+<li><strong>kwargs</strong> &#8211; additional keyword arguments to give to the Field
+constructor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a field as described above (could be self)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.size">
 <tt class="descname">size</tt><a class="reference internal" href="_modules/viscid/field.html#Field.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.size" title="Permalink to this definition">¶</a></dt>
@@ -1456,6 +1498,17 @@ be of a certain layout when they&#8217;re created
 (default: LAYOUT_DEFAULT)</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="viscid.grid.Grid.longterm_field_caches">
+<tt class="descname">longterm_field_caches</tt><em class="property"> bool</em><a class="headerlink" href="#viscid.grid.Grid.longterm_field_caches" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True, then when a field is
+cached, it must be explicitly removed from memory with
+&#8220;unload&#8221; or using the &#8216;with&#8217; statemnt. If False,
+&#8220;shell copies&#8221; of fields are made so that memory is freed
+when the returned instance is garbage collected.
+Default: False</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="viscid.grid.Grid.__getitem__">
 <tt class="descname">__getitem__</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.__getitem__" title="Permalink to this definition">¶</a></dt>
@@ -1548,7 +1601,7 @@ shaped==False, or shaped if shaped==True</p>
 
 <dl class="method">
 <dt id="viscid.grid.Grid.get_field">
-<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em>, <em>force_longterm_caches=False</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_field" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1566,6 +1619,11 @@ list of field names to iterate over</p>
 <dl class="method">
 <dt id="viscid.grid.Grid.iter_times">
 <tt class="descname">iter_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/grid.html#Grid.iter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.iter_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">longterm_field_caches</tt><em class="property"> = False</em></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1966,9 +2024,9 @@ ${args.prefix}_000001.png where the number is in order from 1 up</p>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-viscid"></span><p>A set of pure python modules that aid in plotting gridded scientific data.
+<div class="section" id="module-viscid">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viscid" title="Permalink to this headline">¶</a></h2>
+<p>A set of pure python modules that aid in plotting gridded scientific data.
 Plotting depends on matplotlib and/or mayavi and file reading uses h5py and
 to read hdf5 / xdmf files.</p>
 </div>

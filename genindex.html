@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Viscid 0.60.0 documentation</title>
+  <title>Index &mdash; Viscid 0.60.2 dev documentation</title>
   
 
   
@@ -23,7 +23,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.0',
+        VERSION:'0.60.2 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -44,7 +44,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.0 documentation" href="index.html"/> 
+    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -77,6 +77,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
@@ -1403,8 +1410,6 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.readers.html#viscid.readers.load_files">load_files() (in module viscid.readers)</a>
   </dt>
@@ -1415,6 +1420,8 @@
   </dt>
 
       </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.rc.load_rc_file">load_rc_file() (in module viscid.rc)</a>
   </dt>
@@ -1435,6 +1442,10 @@
       </dl></dd>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.necalc.VneCalc.local_dict">local_dict (viscid.calculator.necalc.VneCalc attribute)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.grid.Grid.longterm_field_caches">longterm_field_caches (viscid.grid.Grid attribute)</a>, <a href="viscid.html#viscid.grid.Grid.longterm_field_caches">[1]</a>
   </dt>
 
   </dl></td>
@@ -2069,6 +2080,10 @@
 
       
   <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.shape_nc">shape_nc (viscid.coordinate.StructuredCrds attribute)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.field.Field.shell_copy">shell_copy() (viscid.field.Field method)</a>
   </dt>
 
       

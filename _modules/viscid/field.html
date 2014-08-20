@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.field &mdash; Viscid 0.60.0 documentation</title>
+  <title>viscid.field &mdash; Viscid 0.60.2 dev documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.60.0',
+        VERSION:'0.60.2 dev',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -77,6 +77,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
@@ -347,6 +354,12 @@ LAYOUT_OTHER = "other"
                  post_reshape_transform_func=None,
                  transform_func_kwargs=None,
                  **kwargs):
+        """
+        Other Parameters:
+            kwargs with a leading underscore (like _copy) are added to
+            the deep_meta dict without the leading _. Everything else
+            is added to the info dict
+        """
         self.name = name
         self.center = center
         self.time = time
@@ -552,7 +565,7 @@ LAYOUT_OTHER = "other"
         self._nr_comps = None
         self._dtype = None
         self._src_data = dat
-        self._translate_src_data()
+        # self._translate_src_data()  # um, what's this for? looks dangerous
         # do some sort of lazy pre-setup _src_data inspection?
 </div>
 <div class="viewcode-block" id="Field.is_loaded"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_loaded">[docs]</a>    def is_loaded(self):
@@ -566,8 +579,9 @@ LAYOUT_OTHER = "other"
         """ actually load data into the cache """
         self._cache = self._src_data_to_ndarray()
 
-    def _translate_src_data(self):
-        pass
+    # um, what was this for? looks dangerous
+    # def _translate_src_data(self):
+    #     pass
 
     def _src_data_to_ndarray(self):
         """ prep the src data into something usable and enforce a layout """
@@ -888,6 +902,48 @@ LAYOUT_OTHER = "other"
 <div class="viewcode-block" id="Field.is_spherical"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_spherical">[docs]</a>    def is_spherical(self):
         return self.crds.is_spherical()
 
+    ######################</div>
+<div class="viewcode-block" id="Field.shell_copy"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.shell_copy">[docs]</a>    def shell_copy(self, force=False, **kwargs):
+        """Get a field just like this one with a new cache
+
+        So, fields that belong to files are kept around for the
+        lifetime of the file bucket, which is probably the lifetime
+        of the main script. That means you have to explicitly unload
+        to clear the cache (important if reading a timeseries of fields
+        &gt; 1GB). This function will return a new field instance with
+        references to all the same internals as self, except for the
+        cache. Effectively, this turns the parent field into a
+        lightweight "field shell", from which a memory intensive field
+        can be made on the fly.
+
+        Parameters:
+            force(bool): without force, only make a new field if the
+                cache is not already loaded. If set to True, a field's
+                data could be in ram twice since _cache will be filled
+                for the new field when needed. This is probably not what
+                you want.
+            kwargs: additional keyword arguments to give to the Field
+                constructor
+
+        Returns:
+            a field as described above (could be self)
+        """
+        if self._cache is not None and not force:
+            return self
+
+        # Note: this is fragile if a subclass takes additional parameters
+        # in an overridden __init__; in that case, the developer MUST
+        # override shell_copy and pass the extra kwargs in to here.
+        f = type(self)(self.name, self.crds, self._src_data, center=self.center,
+            time=self.time, info=self.info, deep_meta=self.deep_meta,
+            forget_source=False,
+            pretty_name=self.pretty_name,
+            pre_reshape_transform_func=self.pre_reshape_transform_func,
+            post_reshape_transform_func=self.post_reshape_transform_func,
+            transform_func_kwargs=self.transform_func_kwargs,
+            **kwargs)
+        return f
+
     #######################
     ## emulate a container
 </div>
@@ -935,6 +991,8 @@ LAYOUT_OTHER = "other"
             typ = type(self)
         else:
             typ = field_type(typ)
+        # Transform functions are intentionally omitted. The idea being that
+        # the transform was already applied when creating arr
         return typ(name, crds, arr, time=time, center=center,
                    info=self.info, deep_meta=context, pretty_name=pretty_name)
 </div>

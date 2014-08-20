@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>OpenGGCM Examples &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>Custom Behavior (rc file) &mdash; Viscid 0.60.2 dev documentation</title>
   
 
   
@@ -44,8 +44,8 @@
 
   
     <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/>
-        <link rel="next" title="Calculator Examples" href="ex_calc.html"/>
-        <link rel="prev" title="Reading/Plotting Examples" href="ex_reader.html"/> 
+        <link rel="next" title="Reading/Plotting Examples" href="ex_reader.html"/>
+        <link rel="prev" title="Philosophy" href="philosophy.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -80,11 +80,11 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
@@ -94,9 +94,9 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ionosphere-files">Ionosphere Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
@@ -134,57 +134,65 @@
         <div class="rst-content">
           <ul class="wy-breadcrumbs">
   <li><a href="index.html">Docs</a> &raquo;</li>
-  <li><a href="">OpenGGCM Examples</a></li>
+  <li><a href="">Custom Behavior (rc file)</a></li>
   
 </ul>
 <hr/>
 
           
-  <div class="section" id="openggcm-examples">
-<h1>OpenGGCM Examples<a class="headerlink" href="#openggcm-examples" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="gse-coordinates">
-<h2>GSE coordinates<a class="headerlink" href="#gse-coordinates" title="Permalink to this headline">¶</a></h2>
-<p>This is just one way to customize the OpenGGCM reader. For more, check out <a class="reference internal" href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid" title="viscid.readers.openggcm.GGCMGrid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMGrid</span></tt></a>.</p>
-<div class="highlight-python"><pre>import viscid
-from viscid.readers import openggcm
-from viscid.plot import mpl
-
-openggcm.GGCMGrid.mhd_to_gse_on_read = True
-
-f3d = viscid.load_file(_viscid_root + '/../sample/sample.3df.xdmf')
-pp = f3d["pp"]["x=-20.0:20.0,y=0.0,z=-10.0:10.0"]
-mpl.plot(pp, plot_opts="log,x_-30_15", earth=True)</pre>
-</div>
-<p>(<a class="reference external" href=".//ex_openggcm-1.py">Source code</a>, <a class="reference external" href=".//ex_openggcm-1.png">png</a>)</p>
-<div class="figure">
-<img alt="_images/ex_openggcm-1.png" src="_images/ex_openggcm-1.png" />
+  <div class="section" id="custom-behavior-rc-file">
+<h1>Custom Behavior (rc file)<a class="headerlink" href="#custom-behavior-rc-file" title="Permalink to this headline">¶</a></h1>
+<p>Some classes have attributes that customize how specific files, datasets and grids behave. These attributes can be set globally, or on a per-instance basis. An instance picks up the value from the class when it&#8217;s created, so changing things globally is recommended before any files are loaded. These attributes can also be set from <cite>~/.viscidrc</cite>. Here is an example:</p>
+<div class="highlight-python"><pre># ~/.viscidrc
+# try to get extra run information
+readers.openggcm.GGCMFile.read_log_file: true
+# everyone likes GSE coords :)
+readers.openggcm.GGCMGrid.mhd_to_gse_on_read: true
+# use shell copies so we don't have to call unload()
+grid.Grid.longterm_field_caches: false</pre>
 </div>
 </div>
-<div class="section" id="ionosphere-files">
-<h2>Ionosphere Files<a class="headerlink" href="#ionosphere-files" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><pre>from matplotlib import pyplot as plt
-
-import viscid
-from viscid.plot import mpl
-
-iono_file = viscid.load_file(_viscid_root + '/../sample/cen2000.iof.xdmf')
-
-fac_tot = 1e9 * iono_file["fac_tot"]
-
-ax1 = plt.subplot(121)
-mpl.plot(fac_tot, ax=ax1, hemisphere="north", style="contourf",
-         plot_opts="lin_-300_300", extend="both",
-         levels=50, drawcoastlines=True)
-ax2 = plt.subplot(122)
-mpl.plot(fac_tot, ax=ax2, hemisphere="south", style="contourf",
-         plot_opts="lin_-300_300", extend="both",
-         levels=50, drawcoastlines=True)
-plt.gcf().set_size_inches(12, 4.5)</pre>
+<div class="section" id="common-customizations">
+<h1>Common Customizations<a class="headerlink" href="#common-customizations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="viscid-grid-grid">
+<h2>viscid.grid.Grid<a class="headerlink" href="#viscid-grid-grid" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><strong>force_vecter_layout</strong> (<tt class="docutils literal"><span class="pre">field.LAYOUT_*</span></tt>): force all vectors to
+be of a certain layout when they&#8217;re created
+(default: LAYOUT_DEFAULT)</li>
+<li><strong>longterm_field_caches</strong> (bool): If True, then when a field is
+cached, it must be explicitly removed from memory with
+&#8220;unload&#8221; or using the &#8216;with&#8217; statemnt. If False,
+&#8220;shell copies&#8221; of fields are made so that memory is freed
+when the returned instance is garbage collected.
+Default: False</li>
+</ul>
+</div></blockquote>
 </div>
-<p>(<a class="reference external" href=".//ex_openggcm-2.py">Source code</a>, <a class="reference external" href=".//ex_openggcm-2.png">png</a>)</p>
-<div class="figure">
-<img alt="_images/ex_openggcm-2.png" src="_images/ex_openggcm-2.png" />
+<div class="section" id="viscid-readers-openggcm-ggcmgrid">
+<h2>viscid.readers.openggcm.GGCMGrid<a class="headerlink" href="#viscid-readers-openggcm-ggcmgrid" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><strong>mhd_to_gse_on_read</strong> (bool): flips arrays on load to be in
+GSE crds (default is False)</li>
+<li><strong>copy_on_transform</strong> (bool): True means array will be contiguous
+after transform (if one is done), but makes data load
+50%-60% slower (default is True)</li>
+</ul>
+</div></blockquote>
 </div>
+<div class="section" id="viscid-readers-openggcm-ggcmfile">
+<h2>viscid.readers.openggcm.GGCMFile<a class="headerlink" href="#viscid-readers-openggcm-ggcmfile" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><strong>read_log_file</strong> (bool): search for a log file to load some of the
+libmrc runtime parameters. This does not read parameters
+from all libmrc classes, but can be customized with
+:py:const`viscid.readers.ggcm_logfile.GGCMLogFile.
+watched_classes`. Defaults to False for performance.</li>
+</ul>
+</div></blockquote>
 </div>
 </div>
 
