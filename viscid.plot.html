@@ -81,7 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
@@ -229,7 +229,7 @@ keyword arguments</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_field">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_field</tt><big>(</big><em>fld</em>, <em>style='pcolormesh'</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>colorbar=True</em>, <em>mask_nan=False</em>, <em>do_labels=True</em>, <em>show=False</em>, <em>action_ax=None</em>, <em>mod=None</em>, <em>extra_args=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_field</tt><big>(</big><em>fld</em>, <em>style='pcolormesh'</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>colorbar=True</em>, <em>mask_nan=False</em>, <em>do_labels=True</em>, <em>show=False</em>, <em>action_ax=None</em>, <em>scale=None</em>, <em>mod=None</em>, <em>extra_args=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 2D Field using pcolormesh, contour, etc.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -320,7 +320,7 @@ Plot a masked array</li>
 Number of contours to follow (default: 10)</li>
 <li><strong>do_labels</strong> &#8211;
 automatically label x/y axes and color bar</li>
-<li><strong>grid</strong> (<em>bool</em>) &#8211;
+<li><strong>show_grid</strong> (<em>bool</em>) &#8211;
 Plot lines showing grid cells</li>
 <li><strong>earth</strong> (<em>bool</em>) &#8211;
 Plot a black and white circle representing Earth
@@ -330,6 +330,9 @@ Call pyplot.show before returning</li>
 <li><strong>action_ax</strong> &#8211;
 axis on which to call matplotlib functions... I
 don&#8217;t even remember why this was necessary</li>
+<li><strong>scale</strong> (<em>float</em>) &#8211;
+multiply field by scalar before plotting, useful
+for changing units</li>
 <li><strong>mod</strong> (<em>list of floats</em>) &#8211;
 DEPRECATED, scale x and y axes by some
 factor</li>
@@ -346,34 +349,41 @@ is probably a better way to give these options</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_mapfield">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_mapfield</tt><big>(</big><em>fld</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_mapfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_mapfield" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_mapfield</tt><big>(</big><em>fld</em>, <em>projection='polar'</em>, <em>hemisphere='north'</em>, <em>drawcoastlines=False</em>, <em>show_grid=True</em>, <em>lon_0=0.0</em>, <em>lat_0=None</em>, <em>bounding_lat=40.0</em>, <em>title=True</em>, <em>label_lat=True</em>, <em>label_mlt=True</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_mapfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_mapfield" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot data on a map projection of a sphere</p>
 <p>The default projection is polar, but any other basemap projection
 can be used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Parameters are in degrees, but if the projection is &#8216;polar&#8217;,
+then the plot is actually made in radians, which is important
+if you want to annotate a plot.</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>fld</strong> (<em>Field</em>) &#8211; field whose crds are spherical</li>
+<li><strong>projection</strong> (<em>string</em>) &#8211; &#8216;polar&#8217; or Basemap projection to use</li>
+<li><strong>hemisphere</strong> (<em>string</em>) &#8211; &#8216;north&#8217; or &#8216;south&#8217;</li>
+<li><strong>drawcoastlines</strong> (<em>bool</em>) &#8211; If projection is a basemap projection,
+then draw coastlines, pretty cool, but not actually useful.
+NOTE: coastlines do NOT reflect UT time; London is always
+at midnight.</li>
+<li><strong>show_grid</strong> (<em>bool</em>) &#8211; draw grid lines</li>
+<li><strong>lon_0</strong> (<em>float</em>) &#8211; center longitude (basemap projections only)</li>
+<li><strong>lat_0</strong> (<em>fload</em>) &#8211; center latitude (basemap projections only)</li>
+<li><strong>bounding_lat</strong> (<em>float</em>) &#8211; bounding latitude (not for all
+projections)</li>
+<li><strong>title</strong> (<em>bool, str</em>) &#8211; put a specific title on the plot, or with
+if a boolean, use the field&#8217;s pretty_name.</li>
+<li><strong>label_lat</strong> (<em>bool</em>) &#8211; label latitudes at 10, 20, 30 degrees. Note
+that basemap projections won&#8217;t label latitudes unless they
+hit the edge of the plot.</li>
+<li><strong>label_mlt</strong> (<em>bool</em>) &#8211; label magnetic local time</li>
 <li><strong>kwargs</strong> &#8211; either mapping keyword arguments, or those that
 should be passed along to <cite>plot2d_field</cite></li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
-<li><strong>hemisphere</strong> (<em>string</em>) &#8211;
-&#8216;north&#8217; or &#8216;south&#8217;</li>
-<li><strong>projection</strong> (<em>string</em>) &#8211;
-&#8216;polar&#8217; or Basemap projection to use</li>
-<li><strong>lon_0</strong> (<em>float</em>) &#8211;
-center longitude</li>
-<li><strong>lat_0</strong> (<em>fload</em>) &#8211;
-center latitude</li>
-<li><strong>bounding_lat</strong> (<em>float</em>) &#8211;
-bounding latitude (not for all
-projections)</li>
 </ul>
 </td>
 </tr>

@@ -149,10 +149,10 @@ grid """
 # import string
 from __future__ import print_function
 import os
-import logging
 
 import numpy as np
 
+from viscid import logger
 from viscid.readers import vfile
 from viscid import coordinate
 from viscid import field
@@ -180,7 +180,7 @@ from viscid import field
                 self._shape = dset.shape
                 self._dtype = dset.dtype
         except IOError as e:
-            logging.error("Problem opening npz file, '{0}'".format(self.fname))
+            logger.error("Problem opening npz file, '{0}'".format(self.fname))
             raise e
 
     @property
@@ -291,12 +291,12 @@ from viscid import field
 <div class="viewcode-block" id="FileNumpyNPZ.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save">[docs]</a>    def save(self, fname=None, **kwargs):
         if fname is None:
             fname = self.fname
-        flds = list(self.iter_fields)
+        flds = list(self.iter_fields())
         self.save_fields(fname, flds)
 </div>
     @classmethod
 <div class="viewcode-block" id="FileNumpyNPZ.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">[docs]</a>    def save_fields(cls, fname, flds, **kwargs):
-        assert(len(flds) &gt; 0)
+        assert len(flds) &gt; 0
         fname = os.path.expanduser(os.path.expandvars(fname))
         fld_dict = {}
 
@@ -309,7 +309,12 @@ from viscid import field
         fld_dict[cls._KEY_CRDS] = np.array(axis_names)
 
         # setup fields
-        fld_names = {key.lower(): [] for key in cls._KEY_FLDS.keys()}
+        # dict comprehension invalid in Python 2.6
+        # fld_names = {key.lower(): [] for key in cls._KEY_FLDS.keys()}
+        fld_names = {}
+        for key in cls._KEY_FLDS.keys():
+            fld_names[key.lower()] = []
+
         for fld in flds:
             fld_names[fld.center.lower()].append(fld.name)
             fld_dict[fld.name] = fld.data

@@ -144,11 +144,11 @@
 """ test docstring """
 
 from __future__ import print_function
-import logging
 # import bisect
 
 import numpy as np
 
+from viscid import logger
 from viscid.bucket import Bucket
 from viscid.vutil import tree_prefix
 
@@ -231,7 +231,7 @@ from viscid.vutil import tree_prefix
         child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.iter_fields(time=time, named=named)
@@ -262,7 +262,7 @@ from viscid.vutil import tree_prefix
         child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.get_field(fldname, time=time)
@@ -272,7 +272,7 @@ from viscid.vutil import tree_prefix
         child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.get_grid(time=time)
@@ -344,7 +344,7 @@ from viscid.vutil import tree_prefix
             raise RuntimeError()
         if child.time is None:
             child.time = 0.0
-            logging.warn("A child with no time? Something is strange...")
+            logger.warn("A child with no time? Something is strange...")
         # this keeps the children in time order
         self.children.append((child.time, child))
         self.children.sort()
@@ -441,7 +441,7 @@ from viscid.vutil import tree_prefix
             child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.iter_fields(time=time, named=named)
@@ -467,7 +467,7 @@ from viscid.vutil import tree_prefix
             child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.get_field(fldname, time=time)
@@ -480,7 +480,7 @@ from viscid.vutil import tree_prefix
             child = self.active_child
 
         if child is None:
-            logging.warn("Could not get appropriate child...")
+            logger.warn("Could not get appropriate child...")
             return None
         else:
             return child.get_grid(time=time)

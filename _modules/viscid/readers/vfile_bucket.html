@@ -145,14 +145,14 @@
 from __future__ import print_function
 import os
 from glob import glob
-import logging
-import six
-# import sys
+
 try:
     from collections import OrderedDict
 except ImportError:
     from viscid.compat import OrderedDict
 
+from viscid import logger
+from viscid.compat import string_types
 from viscid.bucket import Bucket
 from viscid.readers.vfile import VFile
 
@@ -175,14 +175,12 @@ from viscid.readers.vfile import VFile
         """ load a single file and return a vFile instance, not a list
         of vFiles like load does
         """
-        fls = self.load_files([fname], index_handle=index_handle, **kwargs)
+        fls = self.load_files(fname, index_handle=index_handle, **kwargs)
         if len(fls) == 0:
-            logging.warn("No files loaded for '{0}', is the path "
-                         "correct?".format(fname))
             return None
         else:
             if len(fls) &gt; 1:
-                logging.warn("Loaded &gt; 1 file for '{0}', did you mean to call "
+                logger.warn("Loaded &gt; 1 file for '{0}', did you mean to call "
                              "load_files()?".format(fname))
             return fls[0]
 </div>
@@ -205,6 +203,8 @@ from viscid.readers.vfile import VFile
             as the length of fnames, and the order may not be the same
             in order to accomidate globs and file grouping.
         """
+        orig_fnames = fnames
+
         if not isinstance(fnames, (list, tuple)):
             fnames = [fnames]
         file_lst = []
@@ -220,16 +220,19 @@ from viscid.readers.vfile import VFile
         # detect file types
         types_detected = OrderedDict()
         for i, fname in enumerate(fnames):
+            _ftype = None
             if file_type is None:
-                file_type = VFile.detect_type(fname)
-            if not file_type:
+                _ftype = VFile.detect_type(fname)
+            else:
+                _ftype = file_type
+            if not _ftype:
                 raise RuntimeError("Can't determine type "
                                    "for {0}".format(fname))
             value = (fname, i)
             try:
-                types_detected[file_type].append(value)
+                types_detected[_ftype].append(value)
             except KeyError:
-                types_detected[file_type] = [value]
+                types_detected[_ftype] = [value]
 
         # see if the file's already been loaded, or load it, and add it
         # to the bucket and all that good stuff
@@ -246,37 +249,39 @@ from viscid.readers.vfile import VFile
             # iterate all the groups and add them
             for group in groups:
                 f = None
-                if isinstance(group, list):
-                    # FIXME: if the glob has changed since it was loaded,
-                    # this won't know that it has changed... I'm not sure
-                    # if there's a good way to figure this out... the user
-                    # can always just unload / reload
-                    g0 = group[0]
-                else:
-                    g0 = group
 
-                if g0 in self:
-                    f = self[g0]
-                else:
+                try:
+                    handle_name = ftype.collective_name(group)
+                except AttributeError:
+                    handle_name = VFile.collective_name(group)
+
+                try:
+                    f = self[handle_name]
+                except KeyError:
                     try:
                         f = ftype(group, vfilebucket=self, **kwargs)
                     except IOError as e:
-                        cname = ftype.collective_name(group)
-                        s = " IOError on file: {0}\n".format(cname)
-                        s += "              File Type: {0}\n".format(file_type)
+                        s = " IOError on file: {0}\n".format(handle_name)
+                        s += "              File Type: {0}\n".format(handle_name)
                         s += "              {0}".format(e.message)
-                        logging.warn(s)
-                    except ValueError:
-                        # what's this about?
-                        pass
+                        logger.warn(s)
+                    except ValueError, e:
+                        # ... why am i explicitly catching ValueErrors?
+                        # i'm probably breaking something by re-raising
+                        # this expeception, but i didn't document what :(
+                        s = " ValueError on file load: {0}\n".format(handle_name)
+                        s += "              File Type: {0}\n".format(handle_name)
+                        s += "              {0}".format(e.message)
+                        logger.warn(s)
+                        # re-raise the last expection
+                        raise
 
-                try:
-                    handle_name = f.collective_name(group)
-                except AttributeError:
-                    handle_name = VFile.collective_name(group)
                 self.set_item([handle_name], f, index_handle=index_handle)
                 file_lst.append(f)
 
+        if len(file_lst) == 0:
+            logger.warn("No files loaded for '{0}', is the path "
+                         "correct?".format(orig_fnames))
         return file_lst
 </div>
 <div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    def remove_item(self, item):
@@ -289,12 +294,12 @@ from viscid.readers.vfile import VFile
         super(VFileBucket, self).remove_all_items()
 </div>
     def __getitem__(self, handle):
-        if isinstance(handle, six.string_types):
+        if isinstance(handle, string_types):
             handle = os.path.expanduser(os.path.expandvars(handle))
         return super(VFileBucket, self).__getitem__(handle)
 
     def __contains__(self, handle):
-        if isinstance(handle, six.string_types):
+        if isinstance(handle, string_types):
             handle = os.path.expanduser(os.path.expandvars(handle))
         return super(VFileBucket, self).__contains__(handle)</div>
 </pre>

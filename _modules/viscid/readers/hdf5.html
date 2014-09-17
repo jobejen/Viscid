@@ -142,17 +142,18 @@
   <h1>Source code for viscid.readers.hdf5</h1><pre>
 from __future__ import print_function
 import os
-import logging
 
 import numpy as np
+
+from viscid import logger
+from viscid.readers import vfile
+
 try:
     import h5py
     HAS_H5PY = True
 except ImportError:
     HAS_H5PY = False
-    logging.warn("h5py library not found, no hdf5 support.")
-
-from viscid.readers import vfile
+    logger.warn("h5py library not found, no hdf5 support.")
 
 <div class="viewcode-block" id="H5pyDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper">[docs]</a>class H5pyDataWrapper(vfile.DataWrapper):
     """  """
@@ -177,7 +178,7 @@ from viscid.readers import vfile
                 self._shape = dset.shape
                 self._dtype = dset.dtype
         except IOError as e:
-            logging.error("Problem opening hdf5 file, '{0}'".format(self.fname))
+            logger.error("Problem opening hdf5 file, '{0}'".format(self.fname))
             raise e
 
     @property

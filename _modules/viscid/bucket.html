@@ -143,13 +143,14 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-import logging
 
 # from viscid.vutil import tree_prefix
 try:
     from collections import OrderedDict
 except ImportError:
     from viscid.compat.ordered_dict_backport import OrderedDict
+
+from viscid import logger
 
 <div class="viewcode-block" id="Bucket"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket">[docs]</a>class Bucket(object):
     """ This is an interface where  """
@@ -196,7 +197,7 @@ except ImportError:
         for h in handles:
             # check if we're stealing a handle from another item
             if (h in self._handles) and  (item is not self._handles[h]):
-                logging.warn("The handle {0} is being hijacked! Memory leak "
+                logger.warn("The handle {0} is being hijacked! Memory leak "
                              "could ensue.".format(h))
                 # romove handle from old item, since this check is here,
                 # there sholdn't be 2 items with the same handle in the
@@ -233,6 +234,10 @@ except ImportError:
 </div>
 <div class="viewcode-block" id="Bucket.items_as_list"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.items_as_list">[docs]</a>    def items_as_list(self):
         return list(self._items.keys())
+</div>
+<div class="viewcode-block" id="Bucket.get_primary_handles"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.get_primary_handles">[docs]</a>    def get_primary_handles(self):
+        """Return a list of the first handles for all items"""
+        return [handles[0] for handles in self._items.values()]
 </div>
 <div class="viewcode-block" id="Bucket.handle_string"><a class="viewcode-back" href="../../viscid.html#viscid.bucket.Bucket.handle_string">[docs]</a>    def handle_string(self, prefix=""):
         """ return string representation of handles and items """

@@ -146,7 +146,6 @@
 from __future__ import print_function
 import os
 import re
-import logging
 from itertools import islice
 from operator import itemgetter
 
@@ -157,6 +156,7 @@ try:
 except ImportError:
     _has_numexpr = False
 
+from viscid import logger
 from viscid.readers.vfile_bucket import VFileBucket
 from viscid.readers.ggcm_logfile import GGCMLogFile
 from viscid.readers import vfile
@@ -212,9 +212,10 @@ from viscid.calculator import plasma
             d["time"] = -1
         infolst.append(d)
 
-    infolst.sort(key=itemgetter("runname"))
-    infolst.sort(key=itemgetter("ftype"))
+    # careful with sorting, only consecutive files will be grouped
     infolst.sort(key=itemgetter("time"))
+    infolst.sort(key=itemgetter("ftype"))
+    infolst.sort(key=itemgetter("runname"))
 
     info_groups = []
     info_group = [infolst[0]]
@@ -489,9 +490,11 @@ from viscid.calculator import plasma
                 log_f = self.vfilebucket.load_file(log_fname,
                                                    file_type=GGCMLogFile,
                                                    index_handle=False)
+                # print("!!", log_f)
                 self.info.update(log_f.info)
             else:
-                logging.warn("You wanted to read parameters from the "
+                # print("**", log_f)
+                logger.warn("You wanted to read parameters from the "
                              "logfile, but I couldn't find one. Maybe "
                              "you need to copy it from somewhere?")
 
@@ -546,6 +549,8 @@ from viscid.calculator import plasma
         self.info['fieldtype'] = re.match(self._detector, basename).group(2)
 
         super(GGCMFileFortran, self).load(fname1)
+
+        self.read_logfile()
 </div>
     def _parse(self):
         # look for and parse grid2 file or whatever else needs be done

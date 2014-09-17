@@ -244,7 +244,7 @@ from viscid import grid
 </div>
     @classmethod
 <div class="viewcode-block" id="VFile.save_grid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_grid">[docs]</a>    def save_grid(cls, fname, grd, **kwargs):
-        flds = list(grd.iter_fields)
+        flds = list(grd.iter_fields())
         cls.save_fields(fname, flds, **kwargs)
 </div>
     @classmethod

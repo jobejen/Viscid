@@ -81,7 +81,7 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
@@ -203,6 +203,12 @@
 <em class="property">class </em><tt class="descclassname">viscid.bucket.</tt><tt class="descname">Bucket</tt><big>(</big><em>ordered=False</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>This is an interface where</p>
+<dl class="method">
+<dt id="viscid.bucket.Bucket.get_primary_handles">
+<tt class="descname">get_primary_handles</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.get_primary_handles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.get_primary_handles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of the first handles for all items</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="viscid.bucket.Bucket.handle_string">
 <tt class="descname">handle_string</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="_modules/viscid/bucket.html#Bucket.handle_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.handle_string" title="Permalink to this definition">¶</a></dt>
@@ -1529,6 +1535,11 @@ fields, so any grid crd transforms won&#8217;t be set</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="viscid.grid.Grid.field_names">
+<tt class="descname">field_names</tt><a class="reference internal" href="_modules/viscid/grid.html#Grid.field_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.field_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="viscid.grid.Grid.fields">
 <tt class="descname">fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1978,11 +1989,11 @@ sure parser was constructed with conflict_handler=&#8217;resolve&#8217;</p>
 
 <dl class="function">
 <dt id="viscid.vutil.common_argparse">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">common_argparse</tt><big>(</big><em>parser</em>, <em>default_verb=0</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#common_argparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.common_argparse" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">common_argparse</tt><big>(</big><em>parser</em>, <em>default_verb=0</em>, <em>logging_fmt=None</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#common_argparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.common_argparse" title="Permalink to this definition">¶</a></dt>
 <dd><p>add some common verbosity stuff to argparse, parse the
 command line args, and setup the logging levels
 parser should be an ArgumentParser instance, and kwargs
-should be options that get passed to logging.basicConfig
+should be options that get passed to logger.basicConfig
 returns the args namespace</p>
 </dd></dl>
 
@@ -2024,9 +2035,9 @@ ${args.prefix}_000001.png where the number is in order from 1 up</p>
 <dd></dd></dl>
 
 </div>
-<div class="section" id="module-viscid">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viscid" title="Permalink to this headline">¶</a></h2>
-<p>A set of pure python modules that aid in plotting gridded scientific data.
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-viscid"></span><p>A set of pure python modules that aid in plotting gridded scientific data.
 Plotting depends on matplotlib and/or mayavi and file reading uses h5py and
 to read hdf5 / xdmf files.</p>
 </div>

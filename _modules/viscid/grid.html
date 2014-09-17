@@ -193,7 +193,7 @@ from viscid.vutil import tree_prefix
     def __init__(self, name=None, **kwargs):
         """ all kwargs are added to the grid as attributes """
         self.name = name
-        self.fields = Bucket()
+        self.fields = Bucket(ordered=True)
 
         self.crds = None  # Coordinates()
         for opt, value in kwargs.items():
@@ -202,6 +202,10 @@ from viscid.vutil import tree_prefix
     @staticmethod
 <div class="viewcode-block" id="Grid.null_transform"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.null_transform">[docs]</a>    def null_transform(something):
         return something
+</div>
+    @property
+<div class="viewcode-block" id="Grid.field_names"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.field_names">[docs]</a>    def field_names(self):
+        return self.fields.get_primary_handles()
 
     # def set_time(self, time):
     #     self.time = time
