@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Philosophy &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>Philosophy &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,8 +43,8 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/>
-        <link rel="next" title="Custom Behavior" href="custom_behavior.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="index.html"/>
+        <link rel="next" title="Custom Behavior (rc file)" href="custom_behavior.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -80,8 +80,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -91,11 +91,16 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -104,8 +109,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -154,16 +161,18 @@
 <div class="section" id="data-abstraction">
 <h2>Data Abstraction<a class="headerlink" href="#data-abstraction" title="Permalink to this headline">¶</a></h2>
 <p>The story goes something like this... <a class="reference internal" href="viscid.readers.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a> objects are <a class="reference internal" href="viscid.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a> objects. Datasets contain <a class="reference internal" href="viscid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a> instances. Grids have <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> instances, <a class="reference internal" href="viscid.html#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a> instances, and special methods (<tt class="docutils literal"><span class="pre">_get_*</span></tt>) to calculate derived quantites. At any of these levels, the object can be treated like a dictionary to get something sensible. As an example, all of the following return the same object</p>
-<div class="highlight-python"><pre>&gt;&gt;&gt; f = readers.load_file("some_file.xdmf")
-&gt;&gt;&gt; bx = f["bx"]
-&gt;&gt;&gt; f.activate_time(0)
-&gt;&gt;&gt; bx = f['bx']
-&gt;&gt;&gt; bx = f.get_grid(time=0)["bx"]</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="s">&quot;some_file.xdmf&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&quot;bx&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">activate_time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&#39;bx&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="s">&quot;bx&quot;</span><span class="p">]</span>
+</pre></div>
 </div>
 <p>And to take a look into the coordinates (cell centered in this case)</p>
-<div class="highlight-python"><pre>&gt;&gt;&gt; x_cc = f["x_cc"]
-&gt;&gt;&gt; x_cc = f.get_grid(time=0)["x_cc"]
-&gt;&gt;&gt; x_cc = f['bx'].get_crd_cc('x')</pre>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x_cc</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&quot;x_cc&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_cc</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="s">&quot;x_cc&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_cc</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&#39;bx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>

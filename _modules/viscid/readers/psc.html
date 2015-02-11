@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.psc &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.psc &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,125 +146,125 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.psc</h1><pre>
-#! /usr/bin/env python
+  <h1>Source code for viscid.readers.psc</h1><div class="highlight"><pre>
+<span class="c">#! /usr/bin/env python</span>
 
-from __future__ import print_function
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
-try:
-    import h5py
-    _HAVE_H5PY = True
-except ImportError:
-    _HAVE_H5PY = False
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">h5py</span>
+    <span class="n">_HAVE_H5PY</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HAVE_H5PY</span> <span class="o">=</span> <span class="bp">False</span>
 
-from viscid import grid
-from viscid import field
-from viscid.readers import xdmf
-from viscid.calculator import plasma
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">xdmf</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">plasma</span>
 
 
-<div class="viewcode-block" id="PscGrid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscGrid">[docs]</a>class PscGrid(grid.Grid):
-    downscale = 0
-    d_i = 1.0 # used to rescale from d_e (natural normalization) to d_i
+<div class="viewcode-block" id="PscGrid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscGrid">[docs]</a><span class="k">class</span> <span class="nc">PscGrid</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
+    <span class="n">downscale</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">d_i</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c"># used to rescale from d_e (natural normalization) to d_i</span>
 
-    def _get_bx(self):
-        return self["hx"]
+    <span class="k">def</span> <span class="nf">_get_bx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hx&quot;</span><span class="p">]</span>
 
-    def _get_by(self):
-        return self["hy"]
+    <span class="k">def</span> <span class="nf">_get_by</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hy&quot;</span><span class="p">]</span>
 
-    def _get_bz(self):
-        return self["hz"]
+    <span class="k">def</span> <span class="nf">_get_bz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hz&quot;</span><span class="p">]</span>
 
-    def _get_epar(self):
-        hx, hy, hz = self["hx"], self["hy"], self["hz"]
-        ex, ey, ez = self["ex"], self["ey"], self["ez"]
-        return (ex * hx + ey * hy + ez * hz) * (hx**2 + hy**2 + hz**2)**-.5
+    <span class="k">def</span> <span class="nf">_get_epar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">hx</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hz</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hx&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hy&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;hz&quot;</span><span class="p">]</span>
+        <span class="n">ex</span><span class="p">,</span> <span class="n">ey</span><span class="p">,</span> <span class="n">ez</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;ex&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;ey&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="s">&quot;ez&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">ex</span> <span class="o">*</span> <span class="n">hx</span> <span class="o">+</span> <span class="n">ey</span> <span class="o">*</span> <span class="n">hy</span> <span class="o">+</span> <span class="n">ez</span> <span class="o">*</span> <span class="n">hz</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">hx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">hy</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">hz</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**-.</span><span class="mi">5</span>
 
-    def _assemble_vector(self, base_name, comp_names="xyz", forget_source=True,
-                         **kwargs):
+    <span class="k">def</span> <span class="nf">_assemble_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_name</span><span class="p">,</span> <span class="n">comp_names</span><span class="o">=</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">forget_source</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
-        opts = dict(forget_source=forget_source, **kwargs)
+        <span class="n">opts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">forget_source</span><span class="o">=</span><span class="n">forget_source</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        if len(comp_names) == 3:
-            vx = self[base_name + comp_names[0]]
-            vy = self[base_name + comp_names[1]]
-            vz = self[base_name + comp_names[2]]
-            v = field.scalar_fields_to_vector(base_name, [vx, vy, vz],
-                                              **opts)
-        else:
-            comps = [self[base_name + c] for c in comp_names]
-            v = field.scalar_fields_to_vector(base_name, comps, **opts)
-            for comp in comps:
-                comp.unload()
-        return v
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">comp_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">vx</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">base_name</span> <span class="o">+</span> <span class="n">comp_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">vy</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">base_name</span> <span class="o">+</span> <span class="n">comp_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="n">vz</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">base_name</span> <span class="o">+</span> <span class="n">comp_names</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">scalar_fields_to_vector</span><span class="p">(</span><span class="n">base_name</span><span class="p">,</span> <span class="p">[</span><span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span><span class="p">],</span>
+                                              <span class="o">**</span><span class="n">opts</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comps</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">base_name</span> <span class="o">+</span> <span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">comp_names</span><span class="p">]</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">scalar_fields_to_vector</span><span class="p">(</span><span class="n">base_name</span><span class="p">,</span> <span class="n">comps</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comps</span><span class="p">:</span>
+                <span class="n">comp</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">v</span>
 
-    def _get_b(self):
-        return self._assemble_vector("b", _force_layout=self.force_vector_layout,
-                                     pretty_name="B")
+    <span class="k">def</span> <span class="nf">_get_b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_vector</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">,</span> <span class="n">_force_layout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">force_vector_layout</span><span class="p">,</span>
+                                     <span class="n">pretty_name</span><span class="o">=</span><span class="s">&quot;B&quot;</span><span class="p">)</span>
 
-    def _get_h(self):
-        return self._assemble_vector("h", _force_layout=self.force_vector_layout,
-                                     pretty_name="H")
+    <span class="k">def</span> <span class="nf">_get_h</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_vector</span><span class="p">(</span><span class="s">&quot;h&quot;</span><span class="p">,</span> <span class="n">_force_layout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">force_vector_layout</span><span class="p">,</span>
+                                     <span class="n">pretty_name</span><span class="o">=</span><span class="s">&quot;H&quot;</span><span class="p">)</span>
 
-    def _get_e(self):
-        return self._assemble_vector("e", _force_layout=self.force_vector_layout,
-                                     pretty_name="E")
+    <span class="k">def</span> <span class="nf">_get_e</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_vector</span><span class="p">(</span><span class="s">&quot;e&quot;</span><span class="p">,</span> <span class="n">_force_layout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">force_vector_layout</span><span class="p">,</span>
+                                     <span class="n">pretty_name</span><span class="o">=</span><span class="s">&quot;E&quot;</span><span class="p">)</span>
 
-    def _get_j(self):
-        return self._assemble_vector("j", _force_layout=self.force_vector_layout,
-                                     pretty_name="J")
+    <span class="k">def</span> <span class="nf">_get_j</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_vector</span><span class="p">(</span><span class="s">&quot;j&quot;</span><span class="p">,</span> <span class="n">_force_layout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">force_vector_layout</span><span class="p">,</span>
+                                     <span class="n">pretty_name</span><span class="o">=</span><span class="s">&quot;J&quot;</span><span class="p">)</span>
 
-    def _get_psi(self):
-        B = self['b']
-        # try to guess if a dim of a 3D field is invariant
-        if B.nr_sdims &gt; 2:
-            slcs = [slice(None)] * B.nr_sdims
-            for i, nxi in enumerate(B.sshape):
-                if nxi &lt;= 2:
-                    slcs[i] = 0
-            B = B[slcs]
-        return plasma.calc_psi(B)
-
-</div>
-<div class="viewcode-block" id="PscFieldFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscFieldFile">[docs]</a>class PscFieldFile(xdmf.FileXDMF):  # pylint: disable=W0223
-    _detector = r"^\s*(.*/)?(.*)fd(?:\.([0-9]{6}))?\.xdmf"
-    _grid_type = PscGrid
-
-    def __init__(self, fname, *args, **kwargs):
-        print("Opening '%s'" % (fname))
-        super(PscFieldFile, self).__init__(fname, *args, **kwargs)
+    <span class="k">def</span> <span class="nf">_get_psi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
+        <span class="c"># try to guess if a dim of a 3D field is invariant</span>
+        <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">slcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nxi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">sshape</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nxi</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">slcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">slcs</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">plasma</span><span class="o">.</span><span class="n">calc_psi</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscParticles">[docs]</a>class PscParticles(object):
-    def __init__(self, path, step):
-        filename = "%s/prt.%06d_p%06d.h5" % (path, step, 0)
-        print("Opening '%s'" % (filename))
-        if not _HAVE_H5PY:
-            raise RuntimeError("Can't load psc particles w/o h5py")
-        self._h5file = h5py.File(filename, 'r')
+<div class="viewcode-block" id="PscFieldFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscFieldFile">[docs]</a><span class="k">class</span> <span class="nc">PscFieldFile</span><span class="p">(</span><span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=W0223</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*/)?(.*)fd(?:\.([0-9]{6}))?\.xdmf&quot;</span>
+    <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">PscGrid</span>
 
-        # path = _find_path(self._h5file, "psc")
-        # self.time = self._h5file[path].attrs["time"][0]
-        # self.timestep = self._h5file[path].attrs["timestep"][0]
-
-        self.data = self._h5file["particles/p0/1d"]
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Opening &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PscFieldFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="open_psc_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.open_psc_file">[docs]</a>def open_psc_file(path, step, pfx="p"):
-    """ WARNING: using this goes around the file bucket, be careful
-    not to call this twice on the same file. Nothing bad will happen,
-    you'll just have 2 versions in memory.
-    """
-    return PscFieldFile(make_fname(path, step, pfx))
-</div>
-<div class="viewcode-block" id="make_fname"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.make_fname">[docs]</a>def make_fname(path, step, pfx="p"):
-    return "{0}/{1}fd.{2:.06d}.xdmf".format(path, pfx, step)
+<div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscParticles">[docs]</a><span class="k">class</span> <span class="nc">PscParticles</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">/prt.</span><span class="si">%06d</span><span class="s">_p</span><span class="si">%06d</span><span class="s">.h5&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Opening &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAVE_H5PY</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Can&#39;t load psc particles w/o h5py&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_h5file</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
 
-##
-## EOF
-##</div>
-</pre>
+        <span class="c"># path = _find_path(self._h5file, &quot;psc&quot;)</span>
+        <span class="c"># self.time = self._h5file[path].attrs[&quot;time&quot;][0]</span>
+        <span class="c"># self.timestep = self._h5file[path].attrs[&quot;timestep&quot;][0]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_h5file</span><span class="p">[</span><span class="s">&quot;particles/p0/1d&quot;</span><span class="p">]</span>
+
+</div>
+<div class="viewcode-block" id="open_psc_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.open_psc_file">[docs]</a><span class="k">def</span> <span class="nf">open_psc_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; WARNING: using this goes around the file bucket, be careful</span>
+<span class="sd">    not to call this twice on the same file. Nothing bad will happen,</span>
+<span class="sd">    you&#39;ll just have 2 versions in memory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">PscFieldFile</span><span class="p">(</span><span class="n">make_fname</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="make_fname"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.make_fname">[docs]</a><span class="k">def</span> <span class="nf">make_fname</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;{0}/{1}fd.{2:.06d}.xdmf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pfx</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>

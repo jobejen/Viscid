@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.numpy_binary &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.numpy_binary &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,197 +146,197 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.numpy_binary</h1><pre>
-#!/usr/bin/env python
-""" simple reader that tries to understand a numpy binary npz file
-WARNING: not lazy
-Current working assumption is that all fields in an npz file share the same
-grid """
+  <h1>Source code for viscid.readers.numpy_binary</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot; simple reader that tries to understand a numpy binary npz file</span>
+<span class="sd">WARNING: not lazy</span>
+<span class="sd">Current working assumption is that all fields in an npz file share the same</span>
+<span class="sd">grid &quot;&quot;&quot;</span>
 
-# import string
-from __future__ import print_function
-import os
+<span class="c"># import string</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-from viscid import logger
-from viscid.readers import vfile
-from viscid import coordinate
-from viscid import field
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 
-<div class="viewcode-block" id="NPZDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper">[docs]</a>class NPZDataWrapper(vfile.DataWrapper):
-    """  """
-    fname = None
-    loc = None
+<div class="viewcode-block" id="NPZDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">NPZDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="bp">None</span>
 
-    _shape = None
-    _dtype = None
+    <span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, fname, loc):
-        super(NPZDataWrapper, self).__init__()
-        self.fname = fname
-        self.loc = loc
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NPZDataWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="o">=</span> <span class="n">loc</span>
 
-    def _get_info(self):
-        # this takes super long when reading 3 hrs worth of ggcm data
-        # over sshfs
-        # import pdb; pdb.set_trace()
-        try:
-            with np.load(self.fname) as f:
-                dset = f[self.loc]
-                self._shape = dset.shape
-                self._dtype = dset.dtype
-        except IOError as e:
-            logger.error("Problem opening npz file, '{0}'".format(self.fname))
-            raise e
+    <span class="k">def</span> <span class="nf">_read_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># this takes super long when reading 3 hrs worth of ggcm data</span>
+        <span class="c"># over sshfs</span>
+        <span class="c"># import pdb; pdb.set_trace()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">dset</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">shape</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Problem opening npz file, &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">raise</span>
 
-    @property
-<div class="viewcode-block" id="NPZDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.shape">[docs]</a>    def shape(self):
-        """ only ask for this if you really need it; can be a speed problem
-        for large temporal datasets over sshfs """
-        if self._shape is None:
-            self._get_info()
-        return self._shape
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="NPZDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
+<span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
-    @property
-<div class="viewcode-block" id="NPZDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.dtype">[docs]</a>    def dtype(self):
-        """ only ask for this if you really need it; can be a speed problem
-        for large temporal datasets over sshfs """
-        if self._dtype is None:
-            self._get_info()
-        return self._dtype
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="NPZDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
+<span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
-<div class="viewcode-block" id="NPZDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func">[docs]</a>    def wrap_func(self, func_name, *args, **kwargs):
-        with np.load(self.fname) as f:
-            return getattr(f[self.loc], func_name)(*args, **kwargs)
+<div class="viewcode-block" id="NPZDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">],</span> <span class="n">func_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-    def __array__(self, *args, **kwargs):
-        return self.wrap_func("__array__", *args, **kwargs)
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__array__&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NPZDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.read_direct">[docs]</a>    def read_direct(self, *args, **kwargs):
-        raise NotImplementedError()
+<div class="viewcode-block" id="NPZDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="NPZDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.len">[docs]</a>    def len(self):
-        return self.wrap_func("len")
+<div class="viewcode-block" id="NPZDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;len&quot;</span><span class="p">)</span>
 </div>
-    def __getitem__(self, item):
-        return self.wrap_func("__getitem__", item)
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__getitem__&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FileNumpyNPZ"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ">[docs]</a>class FileNumpyNPZ(vfile.VFile):
-    """ open an ascii file with viscid format, or if not specified, assume
-    it's in gnuplot format, gnuplot format not yet specified """
-    _detector = r".*\.(npz)\s*$"
+<div class="viewcode-block" id="FileNumpyNPZ"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ">[docs]</a><span class="k">class</span> <span class="nc">FileNumpyNPZ</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; open an ascii file with viscid format, or if not specified, assume</span>
+<span class="sd">    it&#39;s in gnuplot format, gnuplot format not yet specified &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(npz)\s*$&quot;</span>
 
-    _KEY_CRDS = "crd_names"
-    _KEY_FLDS = {"node": "field_names_nc",
-                 "cell": "field_names_cc",
-                 "face": "field_names_fc",
-                 "edge": "field_names_ec"}
+    <span class="n">_KEY_CRDS</span> <span class="o">=</span> <span class="s">&quot;crd_names&quot;</span>
+    <span class="n">_KEY_FLDS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;node&quot;</span><span class="p">:</span> <span class="s">&quot;field_names_nc&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;cell&quot;</span><span class="p">:</span> <span class="s">&quot;field_names_cc&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;face&quot;</span><span class="p">:</span> <span class="s">&quot;field_names_fc&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;edge&quot;</span><span class="p">:</span> <span class="s">&quot;field_names_ec&quot;</span><span class="p">}</span>
 
-    def __init__(self, fname, **kwargs):
-        super(FileNumpyNPZ, self).__init__(fname, **kwargs)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileNumpyNPZ</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    @staticmethod
-    def _wrap_lazy_field(file_name, fld_name, crds, center):
-        lazy_arr = NPZDataWrapper(file_name, fld_name)
-        if len(lazy_arr.shape) == crds.nr_dims:
-            typ = "Scalar"
-        elif len(lazy_arr.shape) == crds.nr_dims + 1:
-            typ = "Vector"
-        else:
-            raise IOError("can't infer field type")
-        return field.wrap_field(typ, fld_name, crds, lazy_arr, center=center)
+    <span class="k">def</span> <span class="nf">_wrap_lazy_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">center</span><span class="p">):</span>
+        <span class="n">lazy_arr</span> <span class="o">=</span> <span class="n">NPZDataWrapper</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lazy_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">crds</span><span class="o">.</span><span class="n">nr_dims</span><span class="p">:</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="s">&quot;Scalar&quot;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">lazy_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="n">crds</span><span class="o">.</span><span class="n">nr_dims</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="s">&quot;Vector&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;can&#39;t infer field type&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_field</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">lazy_arr</span><span class="p">,</span>
+                                <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 
-    def _parse(self):
-        g = self._grid_type(**self._grid_opts)
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">)</span>
 
-        with np.load(self.fname) as f:
-            fld_names = f.keys()
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">fld_names</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-            crd_names = []
-            # try to get crds names from an array of strings called _KEY_CRDS
-            # else, assume it's z, y, x and see if that works
-            try:
-                clist = [(ax, f[ax]) for ax in f[self._KEY_CRDS]]
-                crd_names = f[self._KEY_CRDS]
-                fld_names.remove(self._KEY_CRDS)
-            except KeyError:
-                for axisname in "zyx":
-                    if axisname in f:
-                        crd_names.append(axisname)
-            clist = [(cn, NPZDataWrapper(self.fname, cn)) for cn in crd_names]
-            crds = coordinate.wrap_crds("nonuniform_cartesian", clist)
-            g.set_crds(crds)
-            for c in clist:
-                # we should be sure by now that the keys exist
-                fld_names.remove(c[0])
+            <span class="n">crd_names</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c"># try to get crds names from an array of strings called _KEY_CRDS</span>
+            <span class="c"># else, assume it&#39;s z, y, x and see if that works</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">clist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ax</span><span class="p">,</span> <span class="n">f</span><span class="p">[</span><span class="n">ax</span><span class="p">])</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_KEY_CRDS</span><span class="p">]]</span>
+                <span class="n">crd_names</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_KEY_CRDS</span><span class="p">]</span>
+                <span class="n">fld_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_KEY_CRDS</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">axisname</span> <span class="ow">in</span> <span class="s">&quot;zyx&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">axisname</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">crd_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axisname</span><span class="p">)</span>
+            <span class="n">clist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">cn</span><span class="p">,</span> <span class="n">NPZDataWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">cn</span><span class="p">))</span> <span class="k">for</span> <span class="n">cn</span> <span class="ow">in</span> <span class="n">crd_names</span><span class="p">]</span>
+            <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="n">clist</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">crds</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">:</span>
+                <span class="c"># we should be sure by now that the keys exist</span>
+                <span class="n">fld_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-            # try to get field names from arrays of nc, cc, ec, fc
-            # fields
-            for fld_center, names_key in self._KEY_FLDS.items():
-                try:
-                    names = f[names_key]
-                    fld_names.remove(names_key)
-                except KeyError:
-                    names = []
+            <span class="c"># try to get field names from arrays of nc, cc, ec, fc</span>
+            <span class="c"># fields</span>
+            <span class="k">for</span> <span class="n">fld_center</span><span class="p">,</span> <span class="n">names_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_KEY_FLDS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">names</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="n">names_key</span><span class="p">]</span>
+                    <span class="n">fld_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">names_key</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
 
-                for name in names:
-                    fld = self._wrap_lazy_field(self.fname, name, crds,
-                                                fld_center)
-                    g.add_field(fld)
-                    fld_names.remove(name)
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+                    <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_lazy_field</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span>
+                                                <span class="n">fld_center</span><span class="p">)</span>
+                    <span class="n">g</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+                    <span class="n">fld_names</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-            # load any remaining fields as though they were node centered
-            for name in fld_names:
-                fld = self._wrap_lazy_field(self.fname, name, crds, "Node")
-                g.add_field(fld)
+            <span class="c"># load any remaining fields as though they were node centered</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fld_names</span><span class="p">:</span>
+                <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_lazy_field</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="s">&quot;Node&quot;</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
 
-        self.add(g)
-        self.activate(0)
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FileNumpyNPZ.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save">[docs]</a>    def save(self, fname=None, **kwargs):
-        if fname is None:
-            fname = self.fname
-        flds = list(self.iter_fields())
-        self.save_fields(fname, flds)
+<div class="viewcode-block" id="FileNumpyNPZ.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>
+        <span class="n">flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">)</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="FileNumpyNPZ.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">[docs]</a>    def save_fields(cls, fname, flds, **kwargs):
-        assert len(flds) &gt; 0
-        fname = os.path.expanduser(os.path.expandvars(fname))
-        fld_dict = {}
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FileNumpyNPZ.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">flds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="n">fld_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
-        # setup crds
-        clist = flds[0].crds.get_clist()
-        axis_names = []
-        for axis_name, crdarr in clist:
-            fld_dict[axis_name] = crdarr
-            axis_names.append(axis_name)
-        fld_dict[cls._KEY_CRDS] = np.array(axis_names)
+        <span class="c"># setup crds</span>
+        <span class="n">clist</span> <span class="o">=</span> <span class="n">flds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">()</span>
+        <span class="n">axis_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">crdarr</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">:</span>
+            <span class="n">fld_dict</span><span class="p">[</span><span class="n">axis_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">crdarr</span>
+            <span class="n">axis_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">axis_name</span><span class="p">)</span>
+        <span class="n">fld_dict</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">_KEY_CRDS</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">axis_names</span><span class="p">)</span>
 
-        # setup fields
-        # dict comprehension invalid in Python 2.6
-        # fld_names = {key.lower(): [] for key in cls._KEY_FLDS.keys()}
-        fld_names = {}
-        for key in cls._KEY_FLDS.keys():
-            fld_names[key.lower()] = []
+        <span class="c"># setup fields</span>
+        <span class="c"># dict comprehension invalid in Python 2.6</span>
+        <span class="c"># fld_names = {key.lower(): [] for key in cls._KEY_FLDS.keys()}</span>
+        <span class="n">fld_names</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">_KEY_FLDS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">fld_names</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        for fld in flds:
-            fld_names[fld.center.lower()].append(fld.name)
-            fld_dict[fld.name] = fld.data
+        <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">:</span>
+            <span class="n">fld_names</span><span class="p">[</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">fld_dict</span><span class="p">[</span><span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
 
-        for center, names_lst in fld_names.items():
-            fld_dict[cls._KEY_FLDS[center.lower()]] = np.array(names_lst)
+        <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">names_lst</span> <span class="ow">in</span> <span class="n">fld_names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">fld_dict</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">_KEY_FLDS</span><span class="p">[</span><span class="n">center</span><span class="o">.</span><span class="n">lower</span><span class="p">()]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">names_lst</span><span class="p">)</span>
 
-        if fname.endswith(".npz"):
-            fname = fname[:-4]
-        np.savez(fname, **fld_dict)
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;.npz&quot;</span><span class="p">):</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">fld_dict</span><span class="p">)</span>
 
-##
-## EOF
-##</div></div>
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div></div>
+</pre></div>
 
           <footer>
   <hr/>

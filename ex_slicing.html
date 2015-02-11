@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Custom Behavior (rc file) &mdash; Viscid 0.70.0 documentation</title>
+  <title>Slicing Examples &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -44,8 +44,8 @@
 
   
     <link rel="top" title="Viscid 0.70.0 documentation" href="index.html"/>
-        <link rel="next" title="Reading/Plotting Examples" href="ex_reader.html"/>
-        <link rel="prev" title="Philosophy" href="philosophy.html"/> 
+        <link rel="next" title="OpenGGCM Examples" href="ex_openggcm.html"/>
+        <link rel="prev" title="Reading/Plotting Examples" href="ex_reader.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -80,11 +80,11 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
@@ -93,9 +93,9 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
@@ -141,90 +141,57 @@
         <div class="rst-content">
           <ul class="wy-breadcrumbs">
   <li><a href="index.html">Docs</a> &raquo;</li>
-  <li><a href="">Custom Behavior (rc file)</a></li>
+  <li><a href="">Slicing Examples</a></li>
   
 </ul>
 <hr/>
 
           
-  <div class="section" id="custom-behavior-rc-file">
-<h1>Custom Behavior (rc file)<a class="headerlink" href="#custom-behavior-rc-file" title="Permalink to this headline">¶</a></h1>
-<p>Some classes have attributes that customize how specific files, datasets and grids behave. These attributes can be set globally, or on a per-instance basis. An instance picks up the value from the class when it&#8217;s created, so changing things globally is recommended before any files are loaded. These attributes can also be set from <cite>~/.viscidrc</cite>. Here is an example:</p>
-<div class="highlight-python"><div class="highlight"><pre># ~/.viscidrc
-### For Everything
-## use shell copies so we don&#39;t have to call unload()
-grid.Grid.longterm_field_caches: false
+  <div class="section" id="slicing-examples">
+<h1>Slicing Examples<a class="headerlink" href="#slicing-examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spatial-slices">
+<h2>Spatial Slices<a class="headerlink" href="#spatial-slices" title="Permalink to this headline">¶</a></h2>
+<p>Fields can be sliced just like Numpy ndarrays, but you can also use an extended syntax to ask for a physical location instead of an index in the array. This example snips off the fist 50 cells and last 30 cells in x and plots the y = 0.0 plane for z = [-10.0..10.0].</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">viscid</span>
+<span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
 
-### for OpenGGCM
-## try to get extra run information
-readers.openggcm.GGCMFile.read_log_file: true
-## everyone likes GSE coords :)
-readers.openggcm.GGCMGrid.mhd_to_gse_on_read: auto
+<span class="n">f3d</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">_viscid_root</span> <span class="o">+</span> <span class="s">&#39;/../sample/sample.3df.xdmf&#39;</span><span class="p">)</span>
 
-### For Athena
-## this doesn&#39;t work for some reason
-# readers.athena_bin.AthenaBinFileWrapper.var_type: prim
-
-# evaluator control for security
-calculator.evaluator.enabled: false
-
-# pretty plotting
-plot.vseaborn.enabled: true
-plot.vseaborn.context: poster
-plot.vseaborn.style: ticks
-plot.vseaborn.palette: husl, 8
-# plot.vseaborn.palette: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]]
-# plot.vseaborn.rc: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: cubehelix}
-# plot.vseaborn.rc: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: jet}
-plot.vseaborn.rc: {&quot;image.cmap&quot;: cubehelix}
-
-##
-## EOF
-##
+<span class="c"># notice how slices by index appear as integers, and slices by location</span>
+<span class="c"># are done with floats... this means &quot;y=0&quot; is not the same as &quot;y=0.0&quot;</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">f3d</span><span class="p">[</span><span class="s">&quot;pp&quot;</span><span class="p">][</span><span class="s">&quot;x=50:-30,y=0.0,z=-10.0:10.0&quot;</span><span class="p">]</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="s">&quot;log,earth&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="common-customizations">
-<h2>Common Customizations<a class="headerlink" href="#common-customizations" title="Permalink to this headline">¶</a></h2>
+<p>(<a class="reference external" href=".//ex_slicing-1.py">Source code</a>, <a class="reference external" href=".//ex_slicing-1.png">png</a>)</p>
+<div class="figure">
+<img alt="_images/ex_slicing-1.png" src="_images/ex_slicing-1.png" />
 </div>
-<div class="section" id="viscid-grid-grid">
-<h2>viscid.grid.Grid<a class="headerlink" href="#viscid-grid-grid" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ul class="simple">
-<li><strong>force_vecter_layout</strong> (<tt class="docutils literal"><span class="pre">field.LAYOUT_*</span></tt>): force all vectors to
-be of a certain layout when they&#8217;re created
-(default: LAYOUT_DEFAULT)</li>
-<li><strong>longterm_field_caches</strong> (bool): If True, then when a field is
-cached, it must be explicitly removed from memory with
-&#8220;unload&#8221; or using the &#8216;with&#8217; statemnt. If False,
-&#8220;shell copies&#8221; of fields are made so that memory is freed
-when the returned instance is garbage collected.
-Default: False</li>
-</ul>
-</div></blockquote>
 </div>
-<div class="section" id="viscid-readers-openggcm-ggcmgrid">
-<h2>viscid.readers.openggcm.GGCMGrid<a class="headerlink" href="#viscid-readers-openggcm-ggcmgrid" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ul class="simple">
-<li><strong>mhd_to_gse_on_read</strong> (bool): flips arrays on load to be in
-GSE crds (default is False)</li>
-<li><strong>copy_on_transform</strong> (bool): True means array will be contiguous
-after transform (if one is done), but makes data load
-50%-60% slower (default is True)</li>
-</ul>
-</div></blockquote>
+<div class="section" id="temporal-slices">
+<h2>Temporal Slices<a class="headerlink" href="#temporal-slices" title="Permalink to this headline">¶</a></h2>
+<p>Temporal Datasets can be sliced a number of ways too, here are some examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="go">&gt;&gt;&gt;&gt; import viscid</span>
+<span class="go">&gt;&gt;&gt;&gt; f3d = viscid.load_file(_viscid_root + &#39;/../sample/sample.3df.xdmf&#39;)</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; grids = f3d.get_times(slice(&quot;UT1967:01:01:00:10:00.0&quot;,</span>
+<span class="go">&gt;&gt;&gt;&gt;                             &quot;UT1967:01:01:00:20:00.0&quot;))</span>
+<span class="go">&gt;&gt;&gt;&gt; print([grid.time for grid in grids])</span>
+<span class="go">[600.0, 1200.0]</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; grids = f3d.get_times(1)</span>
+<span class="go">&gt;&gt;&gt;&gt; print([grid.time for grid in grids])</span>
+<span class="go">[600.0]</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; grids = f3d.get_times(slice(None, 600.0))</span>
+<span class="go">&gt;&gt;&gt;&gt; print([grid.time for grid in grids])</span>
+<span class="go">[600.0]</span>
+<span class="go">&gt;&gt;&gt;&gt; grids = f3d.get_times(&quot;T0:10:00.0:T0:20:00.0&quot;)</span>
+<span class="go">&gt;&gt;&gt;&gt; print([grid.time for grid in grids])</span>
+<span class="go">[600.0, 1200.0]</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+</pre></div>
 </div>
-<div class="section" id="viscid-readers-openggcm-ggcmfile">
-<h2>viscid.readers.openggcm.GGCMFile<a class="headerlink" href="#viscid-readers-openggcm-ggcmfile" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ul class="simple">
-<li><strong>read_log_file</strong> (bool): search for a log file to load some of the
-libmrc runtime parameters. This does not read parameters
-from all libmrc classes, but can be customized with
-:py:const`viscid.readers.ggcm_logfile.GGCMLogFile.
-watched_classes`. Defaults to False for performance.</li>
-</ul>
-</div></blockquote>
 </div>
 </div>
 

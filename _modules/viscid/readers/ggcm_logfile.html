@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.ggcm_logfile &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.ggcm_logfile &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,141 +146,145 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.ggcm_logfile</h1><pre>
-"""Loads a ggcm log file
+  <h1>Source code for viscid.readers.ggcm_logfile</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Loads a ggcm log file</span>
 
-Parses the view info """
+<span class="sd">Parses the view info &quot;&quot;&quot;</span>
 
-from __future__ import print_function
-import itertools
-import re
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="GGCMLogFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile">[docs]</a>class GGCMLogFile(object):  # pylint: disable=W0223
-    """Libmrc log file reader
+<div class="viewcode-block" id="GGCMLogFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile">[docs]</a><span class="k">class</span> <span class="nc">GGCMLogFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>  <span class="c"># pylint: disable=W0223</span>
+    <span class="sd">&quot;&quot;&quot;Libmrc log file reader</span>
 
-    This class looks at the mrc_view info before the run starts
-    to gather info about libmrc runtime parameters.
+<span class="sd">    This class looks at the mrc_view info before the run starts</span>
+<span class="sd">    to gather info about libmrc runtime parameters.</span>
 
-    Attributes:
-        watched_classes (list): list of libmrc classes whose parameters
-            will be loaded
-    """
-    _detector = None
-    _grid_type = None
+<span class="sd">    Attributes:</span>
+<span class="sd">        watched_classes (list): list of libmrc classes whose parameters</span>
+<span class="sd">            will be loaded</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_grid_type</span> <span class="o">=</span> <span class="bp">None</span>
 
-    watched_classes = ["ggcm_mhd",
-                       "mrc_domain",
-                       "mrc_crds",
-                       "ggcm_mhd_ic",
-                       "ggcm_dipole"]
+    <span class="n">watched_classes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;ggcm_mhd&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;mrc_domain&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;mrc_crds&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;ggcm_mhd_ic&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;ggcm_dipole&quot;</span><span class="p">]</span>
 
-    fname = None
-    info = None
+    <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, fname, *args, **kwargs):  # pylint: disable=unused-argument
-        self.fname = fname
-        self._parse()
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
 
-    def _parse(self):
-        _info = {}
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_info</span> <span class="o">=</span> <span class="p">{}</span>
 
-        armed = False
-        with open(self.fname, 'r') as f:
-            # find end of view
-            is_timestep = lambda s: not s.strip().startswith(('cp=', 'step='))
-            lines_iter = itertools.takewhile(is_timestep, f)
-            for line in lines_iter:
-                line = line.strip()
-                if armed:
-                    try:
-                        key, val = self._parse_param(line)
-                        _info["{0}_{1}".format(armed, key)] = val
-                    except ValueError:
-                        # this is expected for lines that look like
-                        # "-------+------ type -- ???"
-                        # as well as blank lines that mark the end of a
-                        # section
-                        if line == "":
-                            armed = False
-                else:
-                    try:
-                        c = re.match(r"=+ class == (.+)", line).group(1)
-                        c = c.strip()
-                        if c in self.watched_classes:
-                            armed = c
-                            # the next lines just say
-                            # "parameter  | value"
-                            # "-----------|------"
-                            # ignore them
-                            lines_iter.next()
-                            lines_iter.next()
-                    except AttributeError:
-                        # not the start of a new class view, that's ok
-                        pass
+        <span class="n">armed</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c"># find end of view</span>
+            <span class="n">is_timestep</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s">&#39;cp=&#39;</span><span class="p">,</span> <span class="s">&#39;step=&#39;</span><span class="p">))</span>
+            <span class="n">lines_iter</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">takewhile</span><span class="p">(</span><span class="n">is_timestep</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines_iter</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">armed</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_param</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                        <span class="n">_info</span><span class="p">[</span><span class="s">&quot;{0}_{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">armed</span><span class="p">,</span> <span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="c"># this is expected for lines that look like</span>
+                        <span class="c"># &quot;-------+------ type -- ???&quot;</span>
+                        <span class="c"># as well as blank lines that mark the end of a</span>
+                        <span class="c"># section</span>
+                        <span class="n">typ</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&quot;-+\+-+ type -- (\w+)&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">typ</span><span class="p">:</span>
+                            <span class="n">_info</span><span class="p">[</span><span class="s">&quot;{0}_type&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">armed</span><span class="p">)]</span> <span class="o">=</span> <span class="n">typ</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="c"># yes, keep armed, for super&#39;s parameters</span>
+                        <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                            <span class="n">armed</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">c</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&quot;=+ class == (.+)&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">watched_classes</span><span class="p">:</span>
+                            <span class="n">armed</span> <span class="o">=</span> <span class="n">c</span>
+                            <span class="c"># the next lines just say</span>
+                            <span class="c"># &quot;parameter  | value&quot;</span>
+                            <span class="c"># &quot;-----------|------&quot;</span>
+                            <span class="c"># ignore them</span>
+                            <span class="nb">next</span><span class="p">(</span><span class="n">lines_iter</span><span class="p">)</span>
+                            <span class="nb">next</span><span class="p">(</span><span class="n">lines_iter</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="c"># not the start of a new class view, that&#39;s ok</span>
+                        <span class="k">pass</span>
 
-        self.info = _info
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">_info</span>
 
-    @staticmethod
-    def _parse_value(s):
-        """Parse a parameter and infer its type
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse a parameter and infer its type</span>
 
-        Parameters:
-            s (str): the value of a libmrc parameter
+<span class="sd">        Parameters:</span>
+<span class="sd">            s (str): the value of a libmrc parameter</span>
 
-        Returns:
-            Either an int, float, string, or list of mixed types as
-            inferred by the data
-        """
-        try:
-            return int(s)
-        except ValueError:
-            pass
+<span class="sd">        Returns:</span>
+<span class="sd">            Either an int, float, string, or list of mixed types as</span>
+<span class="sd">            inferred by the data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
 
-        try:
-            return float(s)
-        except ValueError:
-            pass
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
 
-        s = s.strip()
-        if re.match(r"[\d\.]+(\s*,\s*[\d\.]+)+", s):
-            l = s.split(",")
-            for i, s in enumerate(l):
-                try:
-                    l[i] = int(s)
-                except ValueError:
-                    try:
-                        l[i] = float(s)
-                    except ValueError:
-                        l[i] = s.strip()
-            return np.array(l)
-        elif re.match(r"[A-Za-z\d\.]+(\s*:\s*[A-Za-z\d\.]+)+", s):
-            return s.split(":")
-        else:
-            return s
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&quot;\-?[\d\.]+(\s*,\s*\-?[\d\.]+)+&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&quot;[A-Za-z\d\.\-]+(\s*:\s*[A-Za-z\d\.\-]+)+&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span>
 
-    @classmethod
-    def _parse_param(cls, s):
-        """Parse a libmrc view output line
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_param</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse a libmrc view output line</span>
 
-        Parameters:
-            s (str): full line of a parameter in the view
+<span class="sd">        Parameters:</span>
+<span class="sd">            s (str): full line of a parameter in the view</span>
 
-        Raises
-            ValueError: If there is &gt; 1 '|' character in s
-        """
-        key, val = [part.strip() for part in s.split("|")]
-        val = cls._parse_value(val)
-        return key, val
+<span class="sd">        Raises</span>
+<span class="sd">            ValueError: If there is &gt; 1 &#39;|&#39; character in s</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="p">[</span><span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;|&quot;</span><span class="p">)]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_parse_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span>
 
-<div class="viewcode-block" id="GGCMLogFile.unload"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.unload">[docs]</a>    def unload(self):
-        self.info = {}
+<div class="viewcode-block" id="GGCMLogFile.unload"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
 
-##
-## EOF
-##</div></div>
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div></div>
+</pre></div>
 
           <footer>
   <hr/>

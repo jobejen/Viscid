@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.vfile_bucket &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.vfile_bucket &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,170 +146,172 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.vfile_bucket</h1><pre>
-#!/usr/bin/env python
+  <h1>Source code for viscid.readers.vfile_bucket</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
 
-from __future__ import print_function
-import os
-from glob import glob
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from viscid.compat import OrderedDict
-
-from viscid import logger
-from viscid.compat import string_types
-from viscid.bucket import Bucket
-from viscid.readers.vfile import VFile
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">viscid.bucket</span> <span class="kn">import</span> <span class="n">Bucket</span>
+<span class="kn">from</span> <span class="nn">viscid.readers.vfile</span> <span class="kn">import</span> <span class="n">VFile</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 
-<div class="viewcode-block" id="VFileBucket"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket">[docs]</a>class VFileBucket(Bucket):
-    """ manages open files, create / get with get_file_bucket() as you
-    generally only need one instance, but you can construct directly
-    if you need more than one manager
-    """
+<div class="viewcode-block" id="VFileBucket"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket">[docs]</a><span class="k">class</span> <span class="nc">VFileBucket</span><span class="p">(</span><span class="n">Bucket</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; manages open files, create / get with get_file_bucket() as you</span>
+<span class="sd">    generally only need one instance, but you can construct directly</span>
+<span class="sd">    if you need more than one manager</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    def __init__(self, **kwargs):
-        super(VFileBucket, self).__init__(ordered=True, **kwargs)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ordered</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    # This routine is just sort of confusing
-    # def add(self, fname, file):
-    #     absfname = os.path.abspath(fname)
-    #     self[(absfname, fname)] = f
+    <span class="c"># This routine is just sort of confusing</span>
+    <span class="c"># def add(self, fname, file):</span>
+    <span class="c">#     absfname = os.path.abspath(fname)</span>
+    <span class="c">#     self[(absfname, fname)] = f</span>
 
-<div class="viewcode-block" id="VFileBucket.load_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.load_file">[docs]</a>    def load_file(self, fname, index_handle=True, **kwargs):
-        """ load a single file and return a vFile instance, not a list
-        of vFiles like load does
-        """
-        fls = self.load_files(fname, index_handle=index_handle, **kwargs)
-        if len(fls) == 0:
-            return None
-        else:
-            if len(fls) &gt; 1:
-                logger.warn("Loaded &gt; 1 file for '{0}', did you mean to call "
-                             "load_files()?".format(fname))
-            return fls[0]
+<div class="viewcode-block" id="VFileBucket.load_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.load_file">[docs]</a>    <span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; load a single file and return a vFile instance, not a list</span>
+<span class="sd">        of vFiles like load does</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_files</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="n">index_handle</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fls</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fls</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Loaded &gt; 1 file for &#39;{0}&#39;, did you mean to call &quot;</span>
+                            <span class="s">&quot;load_files()?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">fls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.load_files"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.load_files">[docs]</a>    def load_files(self, fnames, index_handle=True, file_type=None, **kwargs):
-        """Load files, and add them to the bucket
+<div class="viewcode-block" id="VFileBucket.load_files"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.load_files">[docs]</a>    <span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load files, and add them to the bucket</span>
 
-        Initialize obj before it's put into the list, whatever is returned
-        is what gets stored, returning None means object init failed, do
-        not add to the _objs list
+<span class="sd">        Initialize obj before it&#39;s put into the list, whatever is returned</span>
+<span class="sd">        is what gets stored, returning None means object init failed, do</span>
+<span class="sd">        not add to the _objs list</span>
 
-        Parameters:
-            fnames: a list of file names (can cantain glob patterns)
-            index_handle: ??
-            file_type: a class that is a subclass of VFile, if given,
-                use this file type, don't use the autodetect mechanism
-            kwargs: passed to file constructor
+<span class="sd">        Parameters:</span>
+<span class="sd">            fnames: a list of file names (can cantain glob patterns)</span>
+<span class="sd">            index_handle: ??</span>
+<span class="sd">            file_type: a class that is a subclass of VFile, if given,</span>
+<span class="sd">                use this file type, don&#39;t use the autodetect mechanism</span>
+<span class="sd">            kwargs: passed to file constructor</span>
 
-        Returns:
-            A list of VFile instances. The length may not be the same
-            as the length of fnames, and the order may not be the same
-            in order to accomidate globs and file grouping.
-        """
-        orig_fnames = fnames
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of VFile instances. The length may not be the same</span>
+<span class="sd">            as the length of fnames, and the order may not be the same</span>
+<span class="sd">            in order to accomidate globs and file grouping.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">orig_fnames</span> <span class="o">=</span> <span class="n">fnames</span>
 
-        if not isinstance(fnames, (list, tuple)):
-            fnames = [fnames]
-        file_lst = []
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">fnames</span><span class="p">]</span>
+        <span class="n">file_lst</span> <span class="o">=</span> <span class="p">[]</span>
 
-        # glob and convert to absolute paths
-        globbed_fnames = []
-        for fname in fnames:
-            better_fname = os.path.expanduser(os.path.expandvars(fname))
-            absfnames = [os.path.abspath(fn) for fn in glob(better_fname)]
-            globbed_fnames += absfnames
-        fnames = globbed_fnames
+        <span class="c"># glob and convert to absolute paths</span>
+        <span class="n">globbed_fnames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+            <span class="n">expanded_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">absfname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expanded_fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s">&#39;*&#39;</span> <span class="ow">in</span> <span class="n">absfname</span> <span class="ow">or</span> <span class="s">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">absfname</span><span class="p">:</span>
+                <span class="n">globbed_fnames</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span><span class="n">absfname</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">globbed_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">absfname</span><span class="p">]</span>
+            <span class="c"># Is it necessary to recall abspath here? We did it before</span>
+            <span class="c"># the glob to make sure it didn&#39;t start with a &#39;.&#39; since that</span>
+            <span class="c"># tells glob not to fill wildcards</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="n">globbed_fnames</span>
 
-        # detect file types
-        types_detected = OrderedDict()
-        for i, fname in enumerate(fnames):
-            _ftype = None
-            if file_type is None:
-                _ftype = VFile.detect_type(fname)
-            else:
-                _ftype = file_type
-            if not _ftype:
-                raise RuntimeError("Can't determine type "
-                                   "for {0}".format(fname))
-            value = (fname, i)
-            try:
-                types_detected[_ftype].append(value)
-            except KeyError:
-                types_detected[_ftype] = [value]
+        <span class="c"># detect file types</span>
+        <span class="n">types_detected</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fname</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+            <span class="n">_ftype</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">file_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">_ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_ftype</span> <span class="o">=</span> <span class="n">file_type</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">_ftype</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Can&#39;t determine type &quot;</span>
+                                   <span class="s">&quot;for {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">types_detected</span><span class="p">[</span><span class="n">_ftype</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">types_detected</span><span class="p">[</span><span class="n">_ftype</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
 
-        # see if the file's already been loaded, or load it, and add it
-        # to the bucket and all that good stuff
-        file_lst = []
-        for ftype, vals in types_detected.items():
-            names = [v[0] for v in vals]
-            # group all file names of a given type
-            try:
-                groups = ftype.group_fnames(names)
-            except AttributeError:
-                # can't group fnames for this type, that's ok
-                groups = names
+        <span class="c"># see if the file&#39;s already been loaded, or load it, and add it</span>
+        <span class="c"># to the bucket and all that good stuff</span>
+        <span class="n">file_lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ftype</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">types_detected</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">]</span>
+            <span class="c"># group all file names of a given type</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">group_fnames</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="c"># can&#39;t group fnames for this type, that&#39;s ok</span>
+                <span class="n">groups</span> <span class="o">=</span> <span class="n">names</span>
 
-            # iterate all the groups and add them
-            for group in groups:
-                f = None
+            <span class="c"># iterate all the groups and add them</span>
+            <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="bp">None</span>
 
-                try:
-                    handle_name = ftype.collective_name(group)
-                except AttributeError:
-                    handle_name = VFile.collective_name(group)
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">handle_name</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="n">handle_name</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
 
-                try:
-                    f = self[handle_name]
-                except KeyError:
-                    try:
-                        f = ftype(group, vfilebucket=self, **kwargs)
-                    except IOError as e:
-                        s = " IOError on file: {0}\n".format(handle_name)
-                        s += "              File Type: {0}\n".format(handle_name)
-                        s += "              {0}".format(e.message)
-                        logger.warn(s)
-                    except ValueError, e:
-                        # ... why am i explicitly catching ValueErrors?
-                        # i'm probably breaking something by re-raising
-                        # this expeception, but i didn't document what :(
-                        s = " ValueError on file load: {0}\n".format(handle_name)
-                        s += "              File Type: {0}\n".format(handle_name)
-                        s += "              {0}".format(e.message)
-                        logger.warn(s)
-                        # re-raise the last expection
-                        raise
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">handle_name</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">f</span> <span class="o">=</span> <span class="n">ftype</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="n">s</span> <span class="o">=</span> <span class="s">&quot; IOError on file: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
+                        <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;              File Type: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
+                        <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;              {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="c"># ... why am i explicitly catching ValueErrors?</span>
+                        <span class="c"># i&#39;m probably breaking something by re-raising</span>
+                        <span class="c"># this exception, but i didn&#39;t document what :(</span>
+                        <span class="n">s</span> <span class="o">=</span> <span class="s">&quot; ValueError on file load: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
+                        <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;              File Type: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
+                        <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;              {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                        <span class="c"># re-raise the last expection</span>
+                        <span class="k">raise</span>
 
-                self.set_item([handle_name], f, index_handle=index_handle)
-                file_lst.append(f)
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_item</span><span class="p">([</span><span class="n">handle_name</span><span class="p">],</span> <span class="n">f</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="n">index_handle</span><span class="p">)</span>
+                <span class="n">file_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-        if len(file_lst) == 0:
-            logger.warn("No files loaded for '{0}', is the path "
-                         "correct?".format(orig_fnames))
-        return file_lst
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_lst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;No files loaded for &#39;{0}&#39;, is the path &quot;</span>
+                        <span class="s">&quot;correct?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">orig_fnames</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">file_lst</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    def remove_item(self, item):
-        item.unload()
-        super(VFileBucket, self).remove_item(item)
+<div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">remove_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    def remove_all_items(self):
-        for item in self._items.keys():
-            item.unload()
-        super(VFileBucket, self).remove_all_items()
+<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    <span class="k">def</span> <span class="nf">remove_all_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">val</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span>
 </div>
-    def __getitem__(self, handle):
-        if isinstance(handle, string_types):
-            handle = os.path.expanduser(os.path.expandvars(handle))
-        return super(VFileBucket, self).__getitem__(handle)
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">handle</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 
-    def __contains__(self, handle):
-        if isinstance(handle, string_types):
-            handle = os.path.expanduser(os.path.expandvars(handle))
-        return super(VFileBucket, self).__contains__(handle)</div>
-</pre>
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="n">handle</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">handle</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__contains__</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span></div>
+</pre></div>
 
           <footer>
   <hr/>

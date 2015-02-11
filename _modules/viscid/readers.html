@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,119 +146,119 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers</h1><pre>
-""" docstring for readers """
-# To add a new file type, subclass VFile and import the module here.
-# This registers the file type class as a subclass of VFile, and
-# it automatically becomes part of the file detection cascade...
-# Note that subclasses are given precedence in type detection, so
-# care must be taken when crafting the detector regex.
-# Also, look at csv for an example of overriding detect_type(...)
+  <h1>Source code for viscid.readers</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; docstring for readers &quot;&quot;&quot;</span>
+<span class="c"># To add a new file type, subclass VFile and import the module here.</span>
+<span class="c"># This registers the file type class as a subclass of VFile, and</span>
+<span class="c"># it automatically becomes part of the file detection cascade...</span>
+<span class="c"># Note that subclasses are given precedence in type detection, so</span>
+<span class="c"># care must be taken when crafting the detector regex.</span>
+<span class="c"># Also, look at csv for an example of overriding detect_type(...)</span>
 
-__DEBUG_IMPORT_ERRORS = False
+<span class="n">__DEBUG_IMPORT_ERRORS</span> <span class="o">=</span> <span class="bp">False</span>
 
-# import vfile
-from viscid.readers.vfile import VFile
-from viscid.readers import vfile_bucket
+<span class="c"># import vfile</span>
+<span class="kn">from</span> <span class="nn">viscid.readers.vfile</span> <span class="kn">import</span> <span class="n">VFile</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile_bucket</span>
 
-# these imports are necessary to register file types
-from viscid.readers import xdmf
-from viscid.readers import hdf5
-from viscid.readers import numpy_binary
-from viscid.readers import ascii
+<span class="c"># these imports are necessary to register file types</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">xdmf</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">hdf5</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">numpy_binary</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">ascii</span>
 
-# these imports register convenience readers for data from
-# specific sim packages
-from viscid.readers import ggcm_xdmf
-from viscid.readers import ggcm_fortbin
-from viscid.readers import athena_bin
-from viscid.readers import athena_tab
-from viscid.readers import athena_hst
-from viscid.readers import athena_xdmf
-from viscid.readers import psc
-try:
-    from viscid.readers import ggcm_jrrle
-except ImportError:
-    if __DEBUG_IMPORT_ERRORS:
-        raise
+<span class="c"># these imports register convenience readers for data from</span>
+<span class="c"># specific sim packages</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">ggcm_xdmf</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">ggcm_fortbin</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena_bin</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena_tab</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena_hst</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena_xdmf</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">psc</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">ggcm_jrrle</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">__DEBUG_IMPORT_ERRORS</span><span class="p">:</span>
+        <span class="k">raise</span>
 
-__filebucket__ = vfile_bucket.VFileBucket()
+<span class="n">__filebucket__</span> <span class="o">=</span> <span class="n">vfile_bucket</span><span class="o">.</span><span class="n">VFileBucket</span><span class="p">()</span>
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load">[docs]</a>def load(fnames):
-    """Generic load
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic load</span>
 
-    Dispatches to :meth:`load_file` or :meth:`load_files`. This
-    function is deprecated.
+<span class="sd">    Dispatches to :meth:`load_file` or :meth:`load_files`. This</span>
+<span class="sd">    function is deprecated.</span>
 
-    Parameters:
-        fnames: One or many file names
+<span class="sd">    Parameters:</span>
+<span class="sd">        fnames: One or many file names</span>
 
-    Returns:
-        one or many VFiles
-    """
-    from warnings import warn
-    # this is not a deprecated warning since by default those aren't shown
-    # and i want this to be a loud and clear do not use :)
-    warn("readers.load deprecated in favor of load_file or load_files",
-         stacklevel=2)
-    files = load_files(fnames)
-    if isinstance(fnames, (list, tuple)):
-        return files
-    else:
-        return files[0]
+<span class="sd">    Returns:</span>
+<span class="sd">        one or many VFiles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+    <span class="c"># this is not a deprecated warning since by default those aren&#39;t shown</span>
+    <span class="c"># and i want this to be a loud and clear do not use :)</span>
+    <span class="n">warn</span><span class="p">(</span><span class="s">&quot;readers.load deprecated in favor of load_file or load_files&quot;</span><span class="p">,</span>
+         <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">files</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load_file">[docs]</a>def load_file(fname, **kwargs):
-    """Load a file
+<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load_file">[docs]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a file</span>
 
-    Parameters:
-        fname (str): a file name, relative to CWD
-        kwargs: passed to the VFile constructor
+<span class="sd">    Parameters:</span>
+<span class="sd">        fname (str): a file name, relative to CWD</span>
+<span class="sd">        kwargs: passed to the VFile constructor</span>
 
-    Returns:
-        A VFile instance
-    """
-    return __filebucket__.load_file(fname, **kwargs)
+<span class="sd">    Returns:</span>
+<span class="sd">        A VFile instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">__filebucket__</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="load_files"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load_files">[docs]</a>def load_files(fnames, **kwargs):
-    """Load a list of files
+<div class="viewcode-block" id="load_files"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.load_files">[docs]</a><span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a list of files</span>
 
-    Parameters:
-        fnames (list): list of file names, glob patterns accepted
-        kwargs: passed to the VFile constructor
+<span class="sd">    Parameters:</span>
+<span class="sd">        fnames (list): list of file names, glob patterns accepted</span>
+<span class="sd">        kwargs: passed to the VFile constructor</span>
 
-    Returns:
-        A list of VFile instances. The length may not be the same
-        as the length of fnames, and the order may not be the same
-        in order to accomidate globs and file grouping.
-    """
-    return __filebucket__.load_files(fnames, **kwargs)
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of VFile instances. The length may not be the same</span>
+<span class="sd">        as the length of fnames, and the order may not be the same</span>
+<span class="sd">        in order to accomidate globs and file grouping.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">__filebucket__</span><span class="o">.</span><span class="n">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.get_file">[docs]</a>def get_file(handle):
-    """ return a file that's already been loaded by either
-    number (as in nth file loaded), of file name
-    """
-    return __filebucket__[handle]
+<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.get_file">[docs]</a><span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return a file that&#39;s already been loaded by either</span>
+<span class="sd">    number (as in nth file loaded), of file name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">__filebucket__</span><span class="p">[</span><span class="n">handle</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="save_grid"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_grid">[docs]</a>def save_grid(fname, grd, **kwargs):
-    """ save a grid, filetype is inferred from fname
-    """
-    ftype = VFile.detect_type(fname)
-    ftype.save_grid(fname, grd, **kwargs)
+<div class="viewcode-block" id="save_grid"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_grid">[docs]</a><span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; save a grid, filetype is inferred from fname</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">ftype</span><span class="o">.</span><span class="n">save_grid</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="save_field"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_field">[docs]</a>def save_field(fname, fld, **kwargs):
-    """ save a field, filetype is inferred from fname"""
-    ftype = VFile.detect_type(fname)
-    ftype.save_field(fname, fld, **kwargs)
+<div class="viewcode-block" id="save_field"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_field">[docs]</a><span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; save a field, filetype is inferred from fname&quot;&quot;&quot;</span>
+    <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">ftype</span><span class="o">.</span><span class="n">save_field</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="save_fields"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_fields">[docs]</a>def save_fields(fname, flds, **kwargs):
-    """ save a list of fields, filetype is inferred from fname
-    """
-    ftype = VFile.detect_type(fname)
-    ftype.save_fields(fname, flds, **kwargs)
+<div class="viewcode-block" id="save_fields"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.save_fields">[docs]</a><span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; save a list of fields, filetype is inferred from fname</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">ftype</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="unload_all_files"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.unload_all_files">[docs]</a>def unload_all_files():
-    __filebucket__.remove_all_items()</div>
-</pre>
+<div class="viewcode-block" id="unload_all_files"><a class="viewcode-back" href="../../viscid.readers.html#viscid.readers.unload_all_files">[docs]</a><span class="k">def</span> <span class="nf">unload_all_files</span><span class="p">():</span>
+    <span class="n">__filebucket__</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span></div>
+</pre></div>
 
           <footer>
   <hr/>

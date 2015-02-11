@@ -8,7 +8,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>Index &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -44,7 +44,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/> 
+    <link rel="top" title="Viscid 0.70.0 documentation" href="index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -143,8 +150,7 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#_"><strong>_</strong></a>
- | <a href="#A"><strong>A</strong></a>
+ <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
@@ -169,82 +175,6 @@
  | <a href="#Z"><strong>Z</strong></a>
  
 </div>
-<h2 id="_">_</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__delitem__">__delitem__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.field.Field.__delitem__">(viscid.field.Field method)</a>
-  </dt>
-
-      </dl></dd>
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__eq__">__eq__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.html#viscid.field.Field.__exit__">__exit__() (viscid.field.Field method)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.__getitem__">__getitem__() (viscid.coordinate.StructuredCrds method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.dataset.Dataset.__getitem__">(viscid.dataset.Dataset method)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.html#viscid.grid.Grid.__getitem__">(viscid.grid.Grid method)</a>
-  </dt>
-
-      </dl></dd>
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__iter__">__iter__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.field.Field.__iter__">(viscid.field.Field method)</a>
-  </dt>
-
-      </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__reduce__">__reduce__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__repr__">__repr__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__reversed__">__reversed__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.__setitem__">__setitem__() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.__setitem__">(viscid.coordinate.StructuredCrds method)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.html#viscid.field.Field.__setitem__">(viscid.field.Field method)</a>
-  </dt>
-
-      </dl></dd>
-  </dl></td>
-</tr></table>
-
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
@@ -304,8 +234,6 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.calc.Operation.add_implementation">add_implementation() (viscid.calculator.calc.Operation method)</a>
   </dt>
@@ -314,6 +242,8 @@
   <dt><a href="viscid.calculator.html#viscid.calculator.calc.Operation.add_implementations">add_implementations() (viscid.calculator.calc.Operation method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.vutil.add_mpl_output_arguments">add_mpl_output_arguments() (in module viscid.vutil)</a>
   </dt>
@@ -324,6 +254,14 @@
 
       
   <dt><a href="viscid.html#viscid.field.Field.any">any() (viscid.field.Field method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.apply_reflections">apply_reflections() (viscid.coordinate.StructuredCrds method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.field.Field.as_cell_centered">as_cell_centered() (viscid.field.Field method)</a>
   </dt>
 
       
@@ -356,6 +294,10 @@
   </dt>
 
       </dl></dd>
+      
+  <dt><a href="viscid.html#viscid.field.Field.as_node_centered">as_node_centered() (viscid.field.Field method)</a>
+  </dt>
+
       
   <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.axes">axes (viscid.coordinate.StructuredCrds attribute)</a>
   </dt>
@@ -435,6 +377,14 @@
   </dt>
 
       
+  <dt><a href="viscid.plot.html#viscid.plot.mvi.clear_data">clear_data() (in module viscid.plot.mvi)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.plot.html#viscid.plot.mvi.clf">clf() (in module viscid.plot.mvi)</a>
+  </dt>
+
+      
   <dt><a href="viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">close() (viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper method)</a>
   </dt>
 
@@ -446,12 +396,12 @@
   <dt><a href="viscid.calculator.html#viscid.calculator.calc.closest1d_val">closest1d_val() (in module viscid.calculator.calc)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.cycalc.closest_ind">closest_ind (in module viscid.calculator.cycalc)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.readers.html#viscid.readers.vfile.VFile.collective_name">collective_name() (viscid.readers.vfile.VFile class method)</a>
   </dt>
@@ -491,6 +441,18 @@
   </dt>
 
       
+  <dt><a href="viscid.html#viscid.bucket.Bucket.contains_handle">contains_handle() (viscid.bucket.Bucket method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.bucket.Bucket.contains_item">contains_item() (viscid.bucket.Bucket method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.vutil.convert_floating_slice">convert_floating_slice() (in module viscid.vutil)</a>
+  </dt>
+
+      
   <dt><a href="viscid.html#viscid.coordinate.Coordinates">Coordinates (class in viscid.coordinate)</a>
   </dt>
 
@@ -499,7 +461,7 @@
   </dt>
 
       
-  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.copy_on_transform">copy_on_transform (viscid.readers.openggcm.GGCMGrid attribute)</a>, <a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.copy_on_transform">[1]</a>
+  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.copy_on_transform">copy_on_transform (viscid.readers.openggcm.GGCMGrid attribute)</a>
   </dt>
 
       
@@ -522,6 +484,10 @@
 
       
   <dt><a href="viscid.calculator.html#viscid.calculator.necalc.curl">curl() (in module viscid.calculator.necalc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.curl_at_point">curl_at_point() (in module viscid.calculator.calc)</a>
   </dt>
 
   </dl></td>
@@ -574,6 +540,10 @@
 
       
   <dt><a href="viscid.calculator.html#viscid.calculator.necalc.div">div() (in module viscid.calculator.necalc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.div_at_point">div_at_point() (in module viscid.calculator.calc)</a>
   </dt>
 
       
@@ -799,21 +769,15 @@
   </dt>
 
       
-  <dt><a href="viscid.html#viscid.grid.Grid.force_vecter_layout">force_vecter_layout (viscid.grid.Grid attribute)</a>
-  </dt>
-
-      
   <dt><a href="viscid.html#viscid.grid.Grid.force_vector_layout">force_vector_layout (viscid.grid.Grid attribute)</a>
   </dt>
 
-      <dd><dl>
-        
-  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.force_vector_layout">(viscid.readers.openggcm.GGCMGrid attribute)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="viscid.html#viscid.field.Field.forget_source">forget_source() (viscid.field.Field method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.vutil.format_time">format_time() (in module viscid.vutil)</a>
   </dt>
 
       
@@ -1034,12 +998,12 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.readers.html#viscid.readers.get_file">get_file() (in module viscid.readers)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.dataset.Dataset.get_grid">get_grid() (viscid.dataset.Dataset method)</a>
   </dt>
@@ -1062,6 +1026,34 @@
   <dt><a href="viscid.html#viscid.bucket.Bucket.get_primary_handles">get_primary_handles() (viscid.bucket.Bucket method)</a>
   </dt>
 
+      
+  <dt><a href="viscid.html#viscid.dataset.Dataset.get_time">get_time() (viscid.dataset.Dataset method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="viscid.html#viscid.dataset.DatasetTemporal.get_time">(viscid.dataset.DatasetTemporal method)</a>
+  </dt>
+
+        
+  <dt><a href="viscid.html#viscid.grid.Grid.get_time">(viscid.grid.Grid method)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="viscid.html#viscid.dataset.Dataset.get_times">get_times() (viscid.dataset.Dataset method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="viscid.html#viscid.dataset.DatasetTemporal.get_times">(viscid.dataset.DatasetTemporal method)</a>
+  </dt>
+
+        
+  <dt><a href="viscid.html#viscid.grid.Grid.get_times">(viscid.grid.Grid method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="viscid.html#viscid.vlab.get_trilinear_field">get_trilinear_field() (in module viscid.vlab)</a>
   </dt>
@@ -1171,19 +1163,9 @@
   </dt>
 
       
-  <dt><a href="viscid.html#viscid.dataset.Dataset.info">info (viscid.dataset.Dataset attribute)</a>
+  <dt><a href="viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.info">info (viscid.readers.ggcm_logfile.GGCMLogFile attribute)</a>
   </dt>
 
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.field.Field.info">(viscid.field.Field attribute)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.info">(viscid.readers.ggcm_logfile.GGCMLogFile attribute)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">inquire() (viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper method)</a>
   </dt>
@@ -1261,9 +1243,15 @@
 
       </dl></dd>
       
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.items">items() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  <dt><a href="viscid.html#viscid.bucket.Bucket.items">items() (viscid.bucket.Bucket method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.items">(viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="viscid.html#viscid.bucket.Bucket.items_as_list">items_as_list() (viscid.bucket.Bucket method)</a>
   </dt>
@@ -1333,11 +1321,27 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper">JrrleDataWrapper (class in viscid.readers.ggcm_jrrle)</a>
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.jacobian_at_ind">jacobian_at_ind() (in module viscid.calculator.calc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.jacobian_at_point">jacobian_at_point() (in module viscid.calculator.calc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.jacobian_eig_at_ind">jacobian_eig_at_ind() (in module viscid.calculator.calc)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.jacobian_eig_at_point">jacobian_eig_at_point() (in module viscid.calculator.calc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper">JrrleDataWrapper (class in viscid.readers.ggcm_jrrle)</a>
+  </dt>
+
       
   <dt><a href="viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper">JrrleFileWrapper (class in viscid.readers.ggcm_jrrle)</a>
   </dt>
@@ -1355,9 +1359,15 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.keys">keys() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  <dt><a href="viscid.html#viscid.bucket.Bucket.keys">keys() (viscid.bucket.Bucket method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.keys">(viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  </dt>
+
+      </dl></dd>
   </dl></td>
 </tr></table>
 
@@ -1457,7 +1467,11 @@
   </dt>
 
       
-  <dt><a href="viscid.html#viscid.grid.Grid.longterm_field_caches">longterm_field_caches (viscid.grid.Grid attribute)</a>, <a href="viscid.html#viscid.grid.Grid.longterm_field_caches">[1]</a>
+  <dt><a href="viscid.calculator.html#viscid.calculator.calc.local_vector_points">local_vector_points() (in module viscid.calculator.calc)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.grid.Grid.longterm_field_caches">longterm_field_caches (viscid.grid.Grid attribute)</a>
   </dt>
 
   </dl></td>
@@ -1491,7 +1505,15 @@
   </dt>
 
       
+  <dt><a href="viscid.html#viscid.vutil.make_fwd_slice">make_fwd_slice() (in module viscid.vutil)</a>
+  </dt>
+
+      
   <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.make_slice">make_slice() (viscid.coordinate.StructuredCrds method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.vutil.make_slice_inclusive">make_slice_inclusive() (in module viscid.vutil)</a>
   </dt>
 
       
@@ -1517,7 +1539,17 @@
   </dt>
 
       
-  <dt><a href="viscid.readers.html#viscid.readers.openggcm.mhd2gse_crds">mhd2gse_crds() (in module viscid.readers.openggcm)</a>
+  <dt><a href="viscid.html#viscid.rc.RCPathError.message">message (viscid.rc.RCPathError attribute)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="viscid.html#viscid.rc.RCValueError.message">(viscid.rc.RCValueError attribute)</a>
+  </dt>
+
+      </dl></dd>
+      
+  <dt><a href="viscid.html#viscid.field.Field.meta">meta (viscid.field.Field attribute)</a>
   </dt>
 
       
@@ -1533,7 +1565,7 @@
   </dt>
 
       
-  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read">mhd_to_gse_on_read (viscid.readers.openggcm.GGCMGrid attribute)</a>, <a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read">[1]</a>
+  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read">mhd_to_gse_on_read (viscid.readers.openggcm.GGCMGrid attribute)</a>
   </dt>
 
       
@@ -1554,20 +1586,6 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="viscid.html#viscid.dataset.Dataset.name">name (viscid.dataset.Dataset attribute)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.field.Field.name">(viscid.field.Field attribute)</a>
-  </dt>
-
-        
-  <dt><a href="viscid.html#viscid.grid.Grid.name">(viscid.grid.Grid attribute)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.calc.nearest_val">nearest_val() (in module viscid.calculator.calc)</a>
   </dt>
@@ -1766,12 +1784,12 @@
   <dt><a href="viscid.plot.html#viscid.plot.mpl.plot_streamlines2d">plot_streamlines2d() (in module viscid.plot.mpl)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.seed.Point">Point (class in viscid.calculator.seed)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.calculator.html#viscid.calculator.seed.SeedGen.points">points() (viscid.calculator.seed.SeedGen method)</a>
   </dt>
@@ -1792,10 +1810,6 @@
 
       
   <dt><a href="viscid.html#viscid.field.Field.post_reshape_transform_func">post_reshape_transform_func (viscid.field.Field attribute)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.html#viscid.field.Field.pre_reshape_transform_func">pre_reshape_transform_func (viscid.field.Field attribute)</a>
   </dt>
 
       
@@ -1851,6 +1865,10 @@
   </dt>
 
       
+  <dt><a href="viscid.html#viscid.rc.RCValueError">RCValueError</a>
+  </dt>
+
+      
   <dt><a href="viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">read_direct() (viscid.readers.ggcm_fortbin.FortbinDataWrapper method)</a>
   </dt>
 
@@ -1887,25 +1905,31 @@
   </dt>
 
       
-  <dt><a href="viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file">read_log_file (viscid.readers.ggcm_xdmf.GGCMFileXDMF attribute)</a>
+  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMFile.read_log_file">read_log_file (viscid.readers.openggcm.GGCMFile attribute)</a>
   </dt>
 
-      <dd><dl>
-        
-  <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMFile.read_log_file">(viscid.readers.openggcm.GGCMFile attribute)</a>, <a href="viscid.readers.html#viscid.readers.openggcm.GGCMFile.read_log_file">[1]</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="viscid.readers.html#viscid.readers.openggcm.GGCMFile.read_logfile">read_logfile() (viscid.readers.openggcm.GGCMFile method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.reflect_axes">reflect_axes (viscid.coordinate.StructuredCrds attribute)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.reflect_fld_arr">reflect_fld_arr() (viscid.coordinate.StructuredCrds method)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.reflect_slices">reflect_slices() (viscid.coordinate.StructuredCrds method)</a>
   </dt>
 
       
   <dt><a href="viscid.readers.html#viscid.readers.vfile.VFile.refresh">refresh() (viscid.readers.vfile.VFile method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.bucket.Bucket.remove_all_items">remove_all_items() (viscid.bucket.Bucket method)</a>
   </dt>
@@ -1928,6 +1952,10 @@
       </dl></dd>
       
   <dt><a href="viscid.html#viscid.bucket.Bucket.remove_item_by_handle">remove_item_by_handle() (viscid.bucket.Bucket method)</a>
+  </dt>
+
+      
+  <dt><a href="viscid.plot.html#viscid.plot.mvi.remove_source">remove_source() (in module viscid.plot.mvi)</a>
   </dt>
 
       
@@ -2223,16 +2251,6 @@
   </dt>
 
       
-  <dt><a href="viscid.html#viscid.dataset.Dataset.time">time (viscid.dataset.Dataset attribute)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="viscid.html#viscid.field.Field.time">(viscid.field.Field attribute)</a>
-  </dt>
-
-      </dl></dd>
-      
   <dt><a href="viscid.html#viscid.vutil.timeit">timeit() (in module viscid.vutil)</a>
   </dt>
 
@@ -2240,6 +2258,8 @@
   <dt><a href="viscid.html#viscid.vutil.timereps">timereps() (in module viscid.vutil)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.dataset.Dataset.topology_info">topology_info (viscid.dataset.Dataset attribute)</a>
   </dt>
@@ -2250,18 +2270,8 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="viscid.html#viscid.field.Field.transform_func_kwargs">transform_func_kwargs (viscid.field.Field attribute)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.transform_funcs">transform_funcs (viscid.coordinate.StructuredCrds attribute)</a>
-  </dt>
-
-      
-  <dt><a href="viscid.html#viscid.coordinate.StructuredCrds.transform_kwargs">transform_kwargs (viscid.coordinate.StructuredCrds attribute)</a>
   </dt>
 
       
@@ -2347,9 +2357,15 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.values">values() (viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  <dt><a href="viscid.html#viscid.bucket.Bucket.values">values() (viscid.bucket.Bucket method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.values">(viscid.compat.ordered_dict_backport.OrderedDict method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="viscid.html#viscid.field.VectorField">VectorField (class in viscid.field)</a>
   </dt>
@@ -2553,7 +2569,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes">watched_classes (viscid.readers.ggcm_logfile.GGCMLogFile attribute)</a>, <a href="viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes">[1]</a>
+  <dt><a href="viscid.readers.html#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes">watched_classes (viscid.readers.ggcm_logfile.GGCMLogFile attribute)</a>
   </dt>
 
       

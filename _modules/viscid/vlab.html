@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.vlab &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.vlab &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,331 +146,365 @@
 <hr/>
 
           
-  <h1>Source code for viscid.vlab</h1><pre>
-from __future__ import print_function
-import itertools
-try:
-    from itertools import izip
-except ImportError:
-    izip = zip
+  <h1>Source code for viscid.vlab</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
 
-import numpy as np
-try:
-    import numexpr as ne
-except ImportError:
-    pass
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numexpr</span> <span class="kn">as</span> <span class="nn">ne</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
 
-from viscid import logger
-from viscid import parallel
-from viscid import field
-from viscid import coordinate
-from viscid.calculator import seed
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">parallel</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">seed</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">izip</span>
 
-# these compiled are needed for fluid following
-try:
-    from viscid.calculator import cycalc
-    from viscid.calculator import streamline
-    from viscid.calculator.streamline import streamlines
-except ImportError:
-    pass
+<span class="c"># these compiled are needed for fluid following</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">cycalc</span>
+    <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">streamline</span>
+    <span class="kn">from</span> <span class="nn">viscid.calculator.streamline</span> <span class="kn">import</span> <span class="n">streamlines</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
 
-<div class="viewcode-block" id="get_dipole"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_dipole">[docs]</a>def get_dipole(m=None, l=None, h=None, n=None, twod=False):
-    dtype = 'float64'
-    if l is None:
-        l = [-5] * 3
-    if h is None:
-        h = [5] * 3
-    if n is None:
-        n = [256] * 3
-    x = np.array(np.linspace(l[0], h[0], n[0]), dtype=dtype)
-    y = np.array(np.linspace(l[1], h[1], n[1]), dtype=dtype)
-    z = np.array(np.linspace(l[2], h[2], n[2]), dtype=dtype)
-    if twod:
-        y = np.array(np.linspace(-0.1, 0.1, 2), dtype=dtype)
-    crds = coordinate.wrap_crds("nonuniform_cartesian", (('z', z), ('y', y), ('x', x)))
+<div class="viewcode-block" id="get_dipole"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_dipole">[docs]</a><span class="k">def</span> <span class="nf">get_dipole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">twod</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="s">&#39;float64&#39;</span>
+    <span class="k">if</span> <span class="n">l</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mi">256</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">twod</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="p">((</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
 
-    one = np.array([1.0], dtype=dtype) #pylint: disable=W0612
-    three = np.array([3.0], dtype=dtype) #pylint: disable=W0612
-    if m is None:
-        m = [0.0, 0.0, -1.0]
-    m = np.array(m, dtype=dtype)
-    mx, my, mz = m #pylint: disable=W0612
+    <span class="n">one</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="n">three</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">mx</span><span class="p">,</span> <span class="n">my</span><span class="p">,</span> <span class="n">mz</span> <span class="o">=</span> <span class="n">m</span> <span class="c">#pylint: disable=W0612</span>
 
-    Zcc, Ycc, Xcc = crds.get_crds_cc(shaped=True) #pylint: disable=W0612
+    <span class="n">Zcc</span><span class="p">,</span> <span class="n">Ycc</span><span class="p">,</span> <span class="n">Xcc</span> <span class="o">=</span> <span class="n">crds</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
 
-    rsq = ne.evaluate("Xcc**2 + Ycc**2 + Zcc**2") #pylint: disable=W0612
-    mdotr = ne.evaluate("mx * Xcc + my * Ycc + mz * Zcc") #pylint: disable=W0612
-    Bx = ne.evaluate("((three * Xcc * mdotr / rsq) - mx) / rsq**1.5")
-    By = ne.evaluate("((three * Ycc * mdotr / rsq) - my) / rsq**1.5")
-    Bz = ne.evaluate("((three * Zcc * mdotr / rsq) - mz) / rsq**1.5")
+    <span class="n">rsq</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;Xcc**2 + Ycc**2 + Zcc**2&quot;</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="n">mdotr</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;mx * Xcc + my * Ycc + mz * Zcc&quot;</span><span class="p">)</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="n">Bx</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;((three * Xcc * mdotr / rsq) - mx) / rsq**1.5&quot;</span><span class="p">)</span>
+    <span class="n">By</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;((three * Ycc * mdotr / rsq) - my) / rsq**1.5&quot;</span><span class="p">)</span>
+    <span class="n">Bz</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;((three * Zcc * mdotr / rsq) - mz) / rsq**1.5&quot;</span><span class="p">)</span>
 
-    fld = field.VectorField("B_cc", crds, [Bx, By, Bz],
-                            center="Cell", forget_source=True,
-                            _force_layout=field.LAYOUT_INTERLACED,
-                           )
-    # fld_rsq = field.ScalarField("r", crds, hmm,
-    #                             center="Cell", forget_source=True)
-    return fld  # , fld_rsq
+    <span class="n">fld</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">(</span><span class="s">&quot;B_cc&quot;</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="p">[</span><span class="n">Bx</span><span class="p">,</span> <span class="n">By</span><span class="p">,</span> <span class="n">Bz</span><span class="p">],</span>
+                            <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">,</span> <span class="n">forget_source</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                            <span class="n">_force_layout</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">LAYOUT_INTERLACED</span><span class="p">,</span>
+                           <span class="p">)</span>
+    <span class="c"># fld_rsq = field.ScalarField(&quot;r&quot;, crds, hmm,</span>
+    <span class="c">#                             center=&quot;Cell&quot;, forget_source=True)</span>
+    <span class="k">return</span> <span class="n">fld</span>  <span class="c"># , fld_rsq</span>
 </div>
-<div class="viewcode-block" id="get_trilinear_field"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_trilinear_field">[docs]</a>def get_trilinear_field():
-    xl, xh, nx = -1.0, 1.0, 41
-    yl, yh, ny = -1.5, 1.5, 41
-    zl, zh, nz = -2.0, 2.0, 41
-    x = np.linspace(xl, xh, nx)
-    y = np.linspace(yl, yh, ny)
-    z = np.linspace(zl, zh, nz)
-    crds = coordinate.wrap_crds("nonuniform_cartesian",
-                                [('z', z), ('y', y), ('x', x)])
-    b = field.empty("Vector", "f", crds, 3, center="Cell",
-                      layout="interlaced")
-    Z, Y, X = b.get_crds(shaped=True)
+<div class="viewcode-block" id="get_trilinear_field"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.get_trilinear_field">[docs]</a><span class="k">def</span> <span class="nf">get_trilinear_field</span><span class="p">():</span>
+    <span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">41</span>
+    <span class="n">yl</span><span class="p">,</span> <span class="n">yh</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">41</span>
+    <span class="n">zl</span><span class="p">,</span> <span class="n">zh</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">41</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">nx</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">yl</span><span class="p">,</span> <span class="n">yh</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">zl</span><span class="p">,</span> <span class="n">zh</span><span class="p">,</span> <span class="n">nz</span><span class="p">)</span>
+    <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span>
+                                <span class="p">[(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)])</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="s">&quot;Vector&quot;</span><span class="p">,</span> <span class="s">&quot;f&quot;</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">,</span>
+                      <span class="n">layout</span><span class="o">=</span><span class="s">&quot;interlaced&quot;</span><span class="p">)</span>
+    <span class="n">Z</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">get_crds</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-    x01, y01, z01 = 0.5, 0.5, 0.5
-    x02, y02, z02 = 0.5, 0.5, 0.5
-    x03, y03, z03 = 0.5, 0.5, 0.5
+    <span class="n">x01</span><span class="p">,</span> <span class="n">y01</span><span class="p">,</span> <span class="n">z01</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span>
+    <span class="n">x02</span><span class="p">,</span> <span class="n">y02</span><span class="p">,</span> <span class="n">z02</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span>
+    <span class="n">x03</span><span class="p">,</span> <span class="n">y03</span><span class="p">,</span> <span class="n">z03</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span>
 
-    b['x'][:] = 0.0 + 1.0 * (X - x01) + 1.0 * (Y - y01) + 1.0 * (Z - z01) + \
-                1.0 * (X - x01) * (Y - y01) + 1.0 * (Y - y01) * (Z - z01) + \
-                1.0 * (X - x01) * (Y - y01) * (Z - z01)
-    b['y'][:] = 0.0 + 1.0 * (X - x02) - 1.0 * (Y - y02) + 1.0 * (Z - z02) + \
-                1.0 * (X - x02) * (Y - y02) + 1.0 * (Y - y02) * (Z - z02) - \
-                1.0 * (X - x02) * (Y - y02) * (Z - z02)
-    b['z'][:] = 0.0 + 1.0 * (X - x03) + 1.0 * (Y - y03) - 1.0 * (Z - z03) + \
-                1.0 * (X - x03) * (Y - y03) + 1.0 * (Y - y03) * (Z - z03) + \
-                1.0 * (X - x03) * (Y - y03) * (Z - z03)
-    return b
+    <span class="n">b</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z01</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x01</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y01</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y01</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z01</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x01</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y01</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z01</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x02</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y02</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z02</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x02</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y02</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y02</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z02</span><span class="p">)</span> <span class="o">-</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x02</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y02</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z02</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">][:]</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x03</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y03</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z03</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y03</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z03</span><span class="p">)</span> <span class="o">+</span> \
+                <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z03</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span>
 </div>
-<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.multiplot">[docs]</a>def multiplot(file_, plot_vars, nprocs=1, time_slice=":", global_popts=None,
-              share_axes=False, show=False, kwopts=None):
-    """Make lots of plots
+<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.multiplot">[docs]</a><span class="k">def</span> <span class="nf">multiplot</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">plot_vars</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">,</span> <span class="n">global_popts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+              <span class="n">share_axes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">kwopts</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make lots of plots</span>
 
-    This is the function used by the ``p2d`` script. It may be useful
-    to you.
-    """
-    grid_iter = izip(
-                     itertools.count(),
-                     file_.iter_times(time_slice),
-                     itertools.repeat(plot_vars),
-                     itertools.repeat(global_popts),
-                     itertools.repeat(share_axes),
-                     itertools.repeat(show),
-                     itertools.repeat(kwopts),
-                    )
-    parallel.map(nprocs, _do_multiplot, grid_iter)
+<span class="sd">    This is the function used by the ``p2d`` script. It may be useful</span>
+<span class="sd">    to you.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># make sure time slice yields &gt;= 1 actual time slice</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">next</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Time slice &#39;{0}&#39; yields no data&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_slice</span><span class="p">))</span>
+
+    <span class="n">grid_iter</span> <span class="o">=</span> <span class="n">izip</span><span class="p">(</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                     <span class="n">file_</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">),</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">plot_vars</span><span class="p">),</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">global_popts</span><span class="p">),</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">share_axes</span><span class="p">),</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">show</span><span class="p">),</span>
+                     <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">kwopts</span><span class="p">),</span>
+                    <span class="p">)</span>
+
+    <span class="c"># FIXME: this is a wicked hack, it does one plot before splitting off</span>
+    <span class="c"># in order to make the subplot adjustments the same for all plots</span>
+    <span class="c"># this matters when making movies since gridspec is very badly</span>
+    <span class="c"># behaved and subplots will dance around during the movie; bad gridspec</span>
+    <span class="n">hack_opts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s">&quot;subplot_params&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwopts</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_do_multiplot</span><span class="p">,</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">grid_iter</span><span class="p">)],</span>
+                         <span class="n">args_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">_return_subplot_params</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+                         <span class="n">force_subprocess</span><span class="o">=</span><span class="p">(</span><span class="n">nprocs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">hack_opts</span><span class="p">[</span><span class="s">&#39;_subplot_params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c"># now get back to your regularly scheduled programming</span>
+    <span class="n">parallel</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">nprocs</span><span class="p">,</span> <span class="n">_do_multiplot</span><span class="p">,</span> <span class="n">grid_iter</span><span class="p">,</span> <span class="n">args_kw</span><span class="o">=</span><span class="n">hack_opts</span><span class="p">)</span>
 </div>
-def _do_multiplot(tind, grid, plot_vars, global_popts=None, share_axes=False,
-                  show=False, kwopts=None):
-    import matplotlib.pyplot as plt
-    from viscid.plot import mpl
+<span class="k">def</span> <span class="nf">_do_multiplot</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">plot_vars</span><span class="p">,</span> <span class="n">global_popts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">share_axes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                  <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">kwopts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">_subplot_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                  <span class="n">_return_subplot_params</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+    <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
 
-    logger.info("Plotting timestep: {0}, {1}".format(tind, grid.time))
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Plotting timestep: {0}, {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
 
-    if kwopts is None:
-        kwopts = {}
-    transpose = kwopts.get("transpose", False)
-    plot_size = kwopts.get("plot_size", None)
-    dpi = kwopts.get("dpi", None)
-    out_prefix = kwopts.get("out_prefix", None)
-    out_format = kwopts.get("out_format", "png")
-    selection = kwopts.get("selection", None)
-    fancytime = kwopts.get("fancytime", False)
-    tighten = kwopts.get("tighten", False)
+    <span class="k">if</span> <span class="n">kwopts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">kwopts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">transpose</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;transpose&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">plot_size</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;plot_size&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">dpi</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;dpi&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">out_prefix</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;out_prefix&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">out_format</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;out_format&quot;</span><span class="p">,</span> <span class="s">&quot;png&quot;</span><span class="p">)</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;selection&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">timeformat</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;timeformat&quot;</span><span class="p">,</span> <span class="s">&quot;.02f&quot;</span><span class="p">)</span>
+    <span class="n">tighten</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;tighten&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="c"># wicked hacky</span>
+    <span class="n">subplot_params</span> <span class="o">=</span> <span class="n">kwopts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;subplot_params&quot;</span><span class="p">,</span> <span class="n">_subplot_params</span><span class="p">)</span>
 
-    # nrows = len(plot_vars)
-    nrows = len([pv[0] for pv in plot_vars if not pv[0].startswith('^')])
-    ncols = 1
-    if transpose:
-        nrows, ncols = ncols, nrows
+    <span class="c"># nrows = len(plot_vars)</span>
+    <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">pv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pv</span> <span class="ow">in</span> <span class="n">plot_vars</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">pv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;^&#39;</span><span class="p">)])</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+        <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span> <span class="o">=</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">nrows</span>
 
-    if nrows == 0:
-        logger.warn("I have no variables to plot")
-        return
+    <span class="k">if</span> <span class="n">nrows</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;I have no variables to plot&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
 
-    fig = plt.gcf()
-    if plot_size is not None:
-        fig.set_size_inches(*plot_size, forward=True)
-    if dpi is not None:
-        fig.set_dpi(dpi)
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="o">*</span><span class="n">plot_size</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dpi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">set_dpi</span><span class="p">(</span><span class="n">dpi</span><span class="p">)</span>
 
-    shareax = None
+    <span class="n">shareax</span> <span class="o">=</span> <span class="bp">None</span>
 
-    this_row = -1
-    for i, fld_meta in enumerate(plot_vars):
-        if not fld_meta[0].startswith('^'):
-            this_row += 1
-            same_axis = False
-        else:
-            same_axis = True
+    <span class="n">this_row</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fld_meta</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plot_vars</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fld_meta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;^&#39;</span><span class="p">):</span>
+            <span class="n">this_row</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">same_axis</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">same_axis</span> <span class="o">=</span> <span class="bp">True</span>
 
-        fld_name_meta = fld_meta[0].lstrip('^')
-        fld_name_split = fld_name_meta.split(',')
-        fld_name = fld_name_split[0]
-        fld_slc = ",".join(fld_name_split[1:])
-        if selection is not None:
-            # fld_slc += ",{0}".format(selection)
-            if fld_slc != "":
-                fld_slc = ",".join([fld_slc, selection])
-            else:
-                fld_slc = selection
+        <span class="n">fld_name_meta</span> <span class="o">=</span> <span class="n">fld_meta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&#39;^&#39;</span><span class="p">)</span>
+        <span class="n">fld_name_split</span> <span class="o">=</span> <span class="n">fld_name_meta</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;=&#39;</span> <span class="ow">in</span> <span class="n">fld_name_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="c"># if fld_name is actually an equation, assume</span>
+            <span class="c"># there&#39;s no slice, and commas are part of the</span>
+            <span class="c"># equation</span>
+            <span class="n">fld_name</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fld_name_split</span><span class="p">)</span>
+            <span class="n">fld_slc</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fld_name</span> <span class="o">=</span> <span class="n">fld_name_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">fld_slc</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fld_name_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="k">if</span> <span class="n">selection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># fld_slc += &quot;,{0}&quot;.format(selection)</span>
+            <span class="k">if</span> <span class="n">fld_slc</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">fld_slc</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fld_slc</span><span class="p">,</span> <span class="n">selection</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fld_slc</span> <span class="o">=</span> <span class="n">selection</span>
+        <span class="k">if</span> <span class="n">fld_slc</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">fld_slc</span> <span class="o">=</span> <span class="bp">None</span>
 
-        # print("fld_time:", fld.time)
-        if this_row &lt; 0:
-            raise ValueError("first plot can't begin with a +")
-        row = this_row
-        col = 0
-        if transpose:
-            row, col = col, row
-        if not same_axis:
-            ax = plt.subplot2grid((nrows, ncols), (row, col),
-                                  sharex=shareax, sharey=shareax)
-        if i == 0 and share_axes:
-            shareax = ax
+        <span class="c"># print(&quot;fld_time:&quot;, fld.time)</span>
+        <span class="k">if</span> <span class="n">this_row</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;first plot can&#39;t begin with a +&quot;</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">this_row</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">transpose</span><span class="p">:</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">same_axis</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">((</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">),</span> <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span>
+                                  <span class="n">sharex</span><span class="o">=</span><span class="n">shareax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">shareax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">share_axes</span><span class="p">:</span>
+            <span class="n">shareax</span> <span class="o">=</span> <span class="n">ax</span>
 
-        if not "plot_opts" in fld_meta[1]:
-            fld_meta[1]["plot_opts"] = global_popts
-        elif global_popts is not None:
-            fld_meta[1]["plot_opts"] = "{0},{1}".format(
-                fld_meta[1]["plot_opts"], global_popts)
+        <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;plot_opts&quot;</span> <span class="ow">in</span> <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">global_popts</span>
+        <span class="k">elif</span> <span class="n">global_popts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;{0},{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&quot;plot_opts&quot;</span><span class="p">],</span> <span class="n">global_popts</span><span class="p">)</span>
 
-        with grid[fld_name] as fld:
-            mpl.plot(fld, selection=fld_slc, mask_nan=True, **fld_meta[1])
-        # print("fld cache", grid[fld_meta[0]]._cache)
+        <span class="k">with</span> <span class="n">grid</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">fld_name</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="n">fld_slc</span><span class="p">)</span> <span class="k">as</span> <span class="n">fld</span><span class="p">:</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">masknan</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">fld_meta</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c"># print(&quot;fld cache&quot;, grid[fld_meta[0]]._cache)</span>
 
-    if fancytime:
-        # TODO: look for actual UT time in the grid?
-        hrs = int(grid.time / 3600)
-        mins = int((grid.time / 60) % 60)
-        secs = grid.time % 60
-        # plt.suptitle("t = {0:.2f}".format(grid.time))
-        plt.suptitle("t = {0}:{1:02}:{2:05.2f}".format(hrs, mins, secs))
-    else:
-        plt.suptitle("t = {0:g}".format(grid.time))
+    <span class="k">if</span> <span class="n">timeformat</span> <span class="ow">and</span> <span class="n">timeformat</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&quot;none&quot;</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">timeformat</span><span class="p">))</span>
 
-    if tighten:
-        mpl.tighten(rect=[0, 0.03, 1, 0.90])
+    <span class="k">if</span> <span class="n">tighten</span><span class="p">:</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">tighten</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.90</span><span class="p">])</span>
 
-    if out_prefix:
-        plt.savefig("{0}_{1:06d}.{2}".format(out_prefix, tind + 1, out_format))
-    if show:
-        plt.show()
-    plt.clf()
+    <span class="c"># for movies where plots wiggle</span>
+    <span class="k">if</span> <span class="n">subplot_params</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="o">**</span><span class="n">subplot_params</span><span class="p">)</span>
 
-<div class="viewcode-block" id="follow_fluid"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.follow_fluid">[docs]</a>def follow_fluid(vfile, time_slice, initial_seeds, plot_function,
-                 stream_opts, add_seed_cadence=0.0, add_seed_pts=None,
-                 speed_scale=1.0):
-    """Trace fluid elements
+    <span class="k">if</span> <span class="n">_return_subplot_params</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">subplotpars</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;left&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="s">&#39;right&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="s">&#39;top&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">top</span><span class="p">,</span>
+               <span class="s">&#39;bottom&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="s">&#39;hspace&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">hspace</span><span class="p">,</span> <span class="s">&#39;wspace&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">wspace</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
 
-    Parameters:
-        vfile: a vFile object that we can call iter_times on
-        time_slice: string, slice notation, like 1200:2400:1
-        initial_seeds: any SeedGen object
-        plot_function: function that is called each time step,
-            arguments should be exactly: (i [int], grid, v [Vector
-            Field], v_lines [result of streamline trace],
-            root_seeds [SeedGen])
-        stream_opts: a dict of streamline options for flow lines
-        add_seed_cadence: how often to add the add_seeds points
-        add_seeds: an n x 3 ndarray of n points to add every add_seed_cadence (zyx)
-        speed_scale: speed_scale * v should be in units of ds0 / dt
-        stream_opts must have ds0 and max_length, maxit will be automatically calculated
+    <span class="k">if</span> <span class="n">out_prefix</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;{0}_{1:06d}.{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_prefix</span><span class="p">,</span> <span class="n">tind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out_format</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 
-    Returns:
-        root points after following the fluid
-    """
-    times = np.array([grid.time for grid in vfile.iter_times(time_slice)])
-    dt = np.roll(times, -1) - times  # Note: last element makes no sense
-    root_seeds = initial_seeds
+    <span class="k">return</span> <span class="n">ret</span>
 
-    # setup maximum number of iterations for a streamline
-    if "ds0" in stream_opts and "max_length" in stream_opts:
-        max_length = stream_opts["max_length"]
-        ds0 = stream_opts["ds0"]
-        stream_opts["maxit"] = (max_length // ds0) + 1
-    else:
-        raise KeyError("ds0 and max_length must be keys of stream_opts, "
-                       "otherwise I don't know how to follow the fluid")
+<div class="viewcode-block" id="follow_fluid"><a class="viewcode-back" href="../../viscid.html#viscid.vlab.follow_fluid">[docs]</a><span class="k">def</span> <span class="nf">follow_fluid</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">time_slice</span><span class="p">,</span> <span class="n">initial_seeds</span><span class="p">,</span> <span class="n">plot_function</span><span class="p">,</span>
+                 <span class="n">stream_opts</span><span class="p">,</span> <span class="n">add_seed_cadence</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">add_seed_pts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">speed_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trace fluid elements</span>
 
-    # iterate through the time steps from time_slice
-    for i, grid in enumerate(vfile.iter_times(time_slice)):
-        if i == 0:
-            last_add_time = grid.time
+<span class="sd">    Parameters:</span>
+<span class="sd">        vfile: a vFile object that we can call iter_times on</span>
+<span class="sd">        time_slice: string, slice notation, like 1200:2400:1</span>
+<span class="sd">        initial_seeds: any SeedGen object</span>
+<span class="sd">        plot_function: function that is called each time step,</span>
+<span class="sd">            arguments should be exactly: (i [int], grid, v [Vector</span>
+<span class="sd">            Field], v_lines [result of streamline trace],</span>
+<span class="sd">            root_seeds [SeedGen])</span>
+<span class="sd">        stream_opts: a dict of streamline options for flow lines</span>
+<span class="sd">        add_seed_cadence: how often to add the add_seeds points</span>
+<span class="sd">        add_seeds: an n x 3 ndarray of n points to add every add_seed_cadence (zyx)</span>
+<span class="sd">        speed_scale: speed_scale * v should be in units of ds0 / dt</span>
+<span class="sd">        stream_opts must have ds0 and max_length, maxit will be automatically calculated</span>
 
-        root_pts = _follow_fluid_step(i, dt[i], grid, root_seeds,
-                                      plot_function, stream_opts, speed_scale)
+<span class="sd">    Returns:</span>
+<span class="sd">        root points after following the fluid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="n">vfile</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)])</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">times</span>  <span class="c"># Note: last element makes no sense</span>
+    <span class="n">root_seeds</span> <span class="o">=</span> <span class="n">initial_seeds</span>
 
-        # maybe add some new seed points to account for those that have left
-        if add_seed_pts and abs(grid.time - last_add_time) &gt;= add_seed_cadence:
-            root_pts = np.concatenate([root_pts, add_seed_pts.T], axis=1)
-            last_add_time = grid.time
-        root_seeds = seed.Point(root_pts)
+    <span class="c"># setup maximum number of iterations for a streamline</span>
+    <span class="k">if</span> <span class="s">&quot;ds0&quot;</span> <span class="ow">in</span> <span class="n">stream_opts</span> <span class="ow">and</span> <span class="s">&quot;max_length&quot;</span> <span class="ow">in</span> <span class="n">stream_opts</span><span class="p">:</span>
+        <span class="n">max_length</span> <span class="o">=</span> <span class="n">stream_opts</span><span class="p">[</span><span class="s">&quot;max_length&quot;</span><span class="p">]</span>
+        <span class="n">ds0</span> <span class="o">=</span> <span class="n">stream_opts</span><span class="p">[</span><span class="s">&quot;ds0&quot;</span><span class="p">]</span>
+        <span class="n">stream_opts</span><span class="p">[</span><span class="s">&quot;maxit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_length</span> <span class="o">//</span> <span class="n">ds0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;ds0 and max_length must be keys of stream_opts, &quot;</span>
+                       <span class="s">&quot;otherwise I don&#39;t know how to follow the fluid&quot;</span><span class="p">)</span>
 
-    return root_seeds
+    <span class="c"># iterate through the time steps from time_slice</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">last_add_time</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span>
+
+        <span class="n">root_pts</span> <span class="o">=</span> <span class="n">_follow_fluid_step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dt</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">grid</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
+                                      <span class="n">plot_function</span><span class="p">,</span> <span class="n">stream_opts</span><span class="p">,</span> <span class="n">speed_scale</span><span class="p">)</span>
+
+        <span class="c"># maybe add some new seed points to account for those that have left</span>
+        <span class="k">if</span> <span class="n">add_seed_pts</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">last_add_time</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">add_seed_cadence</span><span class="p">:</span>
+            <span class="n">root_pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">root_pts</span><span class="p">,</span> <span class="n">add_seed_pts</span><span class="o">.</span><span class="n">T</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">last_add_time</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span>
+        <span class="n">root_seeds</span> <span class="o">=</span> <span class="n">seed</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">root_pts</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">root_seeds</span>
 </div>
-def _follow_fluid_step(i, dt, grid, root_seeds, plot_function, stream_opts,
-                       speed_scale):
-    logger.info("working on timestep {0} {1}".format(i, grid.time))
-    v = grid["v"]
-    logger.debug("finished reading V field")
+<span class="k">def</span> <span class="nf">_follow_fluid_step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span> <span class="n">plot_function</span><span class="p">,</span> <span class="n">stream_opts</span><span class="p">,</span>
+                       <span class="n">speed_scale</span><span class="p">):</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;working on timestep {0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;finished reading V field&quot;</span><span class="p">)</span>
 
-    logger.debug("calculating new streamline positions")
-    flow_lines = streamlines(v, root_seeds,
-                             output=streamline.OUTPUT_STREAMLINES,
-                             **stream_opts)[0]
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;calculating new streamline positions&quot;</span><span class="p">)</span>
+    <span class="n">flow_lines</span> <span class="o">=</span> <span class="n">streamlines</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
+                             <span class="n">output</span><span class="o">=</span><span class="n">streamline</span><span class="o">.</span><span class="n">OUTPUT_STREAMLINES</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">stream_opts</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    logger.debug("done with that, now i'm plotting...")
-    plot_function(i, grid, v, flow_lines, root_seeds)
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;done with that, now i&#39;m plotting...&quot;</span><span class="p">)</span>
+    <span class="n">plot_function</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">flow_lines</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">)</span>
 
-    ############################################################
-    # now recalculate the seed positions for the next timestep
-    logger.debug("finding new seed positions...")
-    root_pts = root_seeds.genr_points()
-    valid_pt_inds = []
-    for i in range(root_pts.shape[1]):
-        valid_pt = True
+    <span class="c">############################################################</span>
+    <span class="c"># now recalculate the seed positions for the next timestep</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;finding new seed positions...&quot;</span><span class="p">)</span>
+    <span class="n">root_pts</span> <span class="o">=</span> <span class="n">root_seeds</span><span class="o">.</span><span class="n">genr_points</span><span class="p">()</span>
+    <span class="n">valid_pt_inds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">root_pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">valid_pt</span> <span class="o">=</span> <span class="bp">True</span>
 
-        # get the index of the root point in teh 2d flow line array
-        dist = flow_lines[i] - root_pts[:, [i]]
-        root_ind = np.argmin(np.sum(dist**2, axis=0))
-        # print("!!!", root_pts[:, i], "==", flow_lines[i][:, root_ind])
-        # interpolate velocity onto teh flow line, and get speed too
-        v_interp = cycalc.interp_trilin(v, seed.Point(flow_lines[i]))
-        speed = np.sqrt(np.sum(v_interp * v_interp, axis=1))
-        direction = int(dt / np.abs(dt))
+        <span class="c"># get the index of the root point in teh 2d flow line array</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">flow_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">root_pts</span><span class="p">[:,</span> <span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">root_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dist</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="c"># print(&quot;!!!&quot;, root_pts[:, i], &quot;==&quot;, flow_lines[i][:, root_ind])</span>
+        <span class="c"># interpolate velocity onto teh flow line, and get speed too</span>
+        <span class="n">v_interp</span> <span class="o">=</span> <span class="n">cycalc</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">seed</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">flow_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        <span class="n">speed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">v_interp</span> <span class="o">*</span> <span class="n">v_interp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dt</span><span class="p">))</span>
 
-        # this is a super slopy way to integrate velocity
-        # keep marching along the flow line until we get to the next timestep
-        t = 0.0
-        ind = root_ind
-        while np.abs(t) &lt; np.abs(dt):
-            ind += direction
-            if ind &lt; 0 or ind &gt;= v_interp.shape[0]:
-                # set valid_pt to True if you want to keep that point for
-                # future time steps, but most likely if we're here, the seed
-                # has gone out of our region of interest
-                ind = max(min(ind, v_interp.shape[0] - 1), 0)
-                valid_pt = False
-                logger.warning("OOPS: ran out of streamline, increase "
-                                "max_length when tracing flow lines if this "
-                                "is unexpected")
-                break
+        <span class="c"># this is a super slopy way to integrate velocity</span>
+        <span class="c"># keep marching along the flow line until we get to the next timestep</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">root_ind</span>
+        <span class="k">while</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dt</span><span class="p">):</span>
+            <span class="n">ind</span> <span class="o">+=</span> <span class="n">direction</span>
+            <span class="k">if</span> <span class="n">ind</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ind</span> <span class="o">&gt;=</span> <span class="n">v_interp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="c"># set valid_pt to True if you want to keep that point for</span>
+                <span class="c"># future time steps, but most likely if we&#39;re here, the seed</span>
+                <span class="c"># has gone out of our region of interest</span>
+                <span class="n">ind</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">v_interp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">valid_pt</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;OOPS: ran out of streamline, increase &quot;</span>
+                                <span class="s">&quot;max_length when tracing flow lines if this &quot;</span>
+                                <span class="s">&quot;is unexpected&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
 
-            t += stream_opts["ds0"] / (speed_scale * speed[ind])
+            <span class="n">t</span> <span class="o">+=</span> <span class="n">stream_opts</span><span class="p">[</span><span class="s">&quot;ds0&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">speed_scale</span> <span class="o">*</span> <span class="n">speed</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
 
-        root_pts[:, i] = flow_lines[i][:, ind]
-        if valid_pt:
-            valid_pt_inds.append(i)
+        <span class="n">root_pts</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">flow_lines</span><span class="p">[</span><span class="n">i</span><span class="p">][:,</span> <span class="n">ind</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">valid_pt</span><span class="p">:</span>
+            <span class="n">valid_pt_inds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 
-    # remove seeds that have flown out of our region of interest
-    # (aka, beyond the flow line we drew)
-    root_pts = root_pts[:, valid_pt_inds]
+    <span class="c"># remove seeds that have flown out of our region of interest</span>
+    <span class="c"># (aka, beyond the flow line we drew)</span>
+    <span class="n">root_pts</span> <span class="o">=</span> <span class="n">root_pts</span><span class="p">[:,</span> <span class="n">valid_pt_inds</span><span class="p">]</span>
 
-    logger.debug("ok, done with all that :)")
-    return root_pts
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;ok, done with all that :)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">root_pts</span>
 
-##
-## EOF
-##
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span>
+</pre></div>
 
           <footer>
   <hr/>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,385 +146,383 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.ggcm_fortbin</h1><pre>
-from __future__ import print_function
-import struct
-import os
-import re
-try:
-    from collections import OrderedDict
-except ImportError:
-    from viscid.compat import OrderedDict
+  <h1>Source code for viscid.readers.ggcm_fortbin</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-from viscid import field
-from viscid import grid
-from viscid.readers import vfile
-from viscid.readers import openggcm
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">openggcm</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 
-# raise NotImplementedError("fortbin reader is not at all")
+<span class="c"># raise NotImplementedError(&quot;fortbin reader is not at all&quot;)</span>
 
 
-<div class="viewcode-block" id="GGCMFileFortbinMHD"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">[docs]</a>class GGCMFileFortbinMHD(openggcm.GGCMFileFortran):  # pylint: disable=abstract-method
-    """Jimmy's run length encoding files"""
-    _detector = r"^\s*(.*)\.(p[xyz]_[0-9]+|3df)" \
-                r"\.([0-9]{6}).b\s*$"
+<div class="viewcode-block" id="GGCMFileFortbinMHD"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(p[xyz]_[0-9]+|3df)&quot;</span> \
+                <span class="s">r&quot;\.([0-9]{6}).b\s*$&quot;</span>
 
-    _file_wrapper = None
-    _data_item_templates = None
-    _def_fld_center = "Cell"
+    <span class="n">_file_wrapper</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_data_item_templates</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Cell&quot;</span>
 
-    def __init__(self, filename, vfilebucket=None, **kwargs):
-        super(GGCMFileFortbinMHD, self).__init__(filename, vfilebucket, **kwargs)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileFortbinMHD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    def _parse_file(self, filename):
-        # we do minimal file parsing here for performance. we just
-        # make data wrappers from the templates we got from the first
-        # file in the group, and package them up into grids
+    <span class="k">def</span> <span class="nf">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">):</span>
+        <span class="c"># we do minimal file parsing here for performance. we just</span>
+        <span class="c"># make data wrappers from the templates we got from the first</span>
+        <span class="c"># file in the group, and package them up into grids</span>
 
-        # find the time from the first field's meta data
-        self._file_wrapper = GGCMFortbinFileWrapper(filename)
+        <span class="c"># find the time from the first field&#39;s meta data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_wrapper</span> <span class="o">=</span> <span class="n">GGCMFortbinFileWrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        timestr = self._file_wrapper.file_meta['timestr']
-        time = float(str(timestr)[6:].split()[0])
+        <span class="n">timestr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_wrapper</span><span class="o">.</span><span class="n">file_meta</span><span class="p">[</span><span class="s">&#39;timestr&#39;</span><span class="p">]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">timestr</span><span class="p">)[</span><span class="mi">6</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
 
-        _grid = self._grid_type("&lt;FortbinGrid&gt;", **self._grid_opts)
-        self.time = time
-        _grid.time = time
-        _grid.set_crds(self._crds)
+        <span class="n">_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_grid</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;&lt;FortbinGrid&gt;&quot;</span><span class="p">,</span>
+                                <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="n">_grid</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="n">_grid</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">)</span>
 
-        templates = self._fld_templates
-        if templates is None:
-            templates = self._make_template(filename)
+        <span class="n">templates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fld_templates</span>
+        <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">templates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_template</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        # make a DataWrapper and a Field for each template that we
-        # have from the first file that we parsed, then add it to
-        # the _grid
-        if self._iono:
-            data_wrapper = FortbinDataWrapper
-        else:
-            data_wrapper = FortbinDataWrapper
+        <span class="c"># make a DataWrapper and a Field for each template that we</span>
+        <span class="c"># have from the first file that we parsed, then add it to</span>
+        <span class="c"># the _grid</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iono</span><span class="p">:</span>
+            <span class="n">data_wrapper</span> <span class="o">=</span> <span class="n">FortbinDataWrapper</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_wrapper</span> <span class="o">=</span> <span class="n">FortbinDataWrapper</span>
 
-        for item in templates:
-            data = data_wrapper(self._file_wrapper, item['fld_name'],
-                                item['shape'], item['file_position'])
-            fld = field.wrap_field("Scalar", item['fld_name'], self._crds,
-                                   data, center=self._def_fld_center,
-                                   time=time)
-            _grid.add_field(fld)
-        return _grid
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">templates</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_wrapper</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;fld_name&#39;</span><span class="p">],</span>
+                                <span class="n">item</span><span class="p">[</span><span class="s">&#39;shape&#39;</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
+            <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_field</span><span class="p">(</span><span class="n">_grid</span><span class="p">,</span> <span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;fld_name&#39;</span><span class="p">],</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_def_fld_center</span><span class="p">,</span>
+                                   <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">_grid</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_grid</span>
 
-    @staticmethod
-    def _make_template(filename):
-        """read meta data for all fields in a file to get
-        a list of field names and shapes, all the required info
-        to make a FortbinDataWrapper
-        """
-        with GGCMFortbinFileWrapper(filename) as f:
-            f.inquire_all_fields()
-            template = []
-            for fld_name, meta in f.fields_seen.items():
-                d = dict(fld_name=fld_name,
-                         shape=meta['dims'],
-                         file_position=meta['file_position'])
-                template.append(d)
-        return template
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_make_template</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;read meta data for all fields in a file to get</span>
+<span class="sd">        a list of field names and shapes, all the required info</span>
+<span class="sd">        to make a FortbinDataWrapper</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">GGCMFortbinFileWrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">inquire_all_fields</span><span class="p">()</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">fields_seen</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fld_name</span><span class="o">=</span><span class="n">fld_name</span><span class="p">,</span>
+                         <span class="n">shape</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">],</span>
+                         <span class="n">file_position</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
+                <span class="n">template</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">template</span>
 
-    @classmethod
-<div class="viewcode-block" id="GGCMFileFortbinMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">[docs]</a>    def collective_name_from_group(cls, fnames):
-        fname0 = fnames[0]
-        basename = os.path.basename(fname0)
-        run = re.match(cls._detector, basename).group(1)
-        fldtype = re.match(cls._detector, basename).group(2)
-        new_basename = "{0}.{1}.b".format(run, fldtype)
-        return os.path.join(os.path.dirname(fname0), new_basename)
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="GGCMFileFortbinMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="n">fname0</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname0</span><span class="p">)</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fldtype</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">new_basename</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}.b&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">fldtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname0</span><span class="p">),</span> <span class="n">new_basename</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="GGCMFileFortbinIono"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">[docs]</a>class GGCMFileFortbinIono(GGCMFileFortbinMHD):  # pylint: disable=abstract-method
-    """Jimmy's run length encoding files"""
-    _detector = r"^\s*(.*)\.(iof)\.([0-9]{6}).b\s*$"
-    _iono = True
-    _grid_type = grid.Grid
-    _def_fld_center = "Node"
+<div class="viewcode-block" id="GGCMFileFortbinIono"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinIono</span><span class="p">(</span><span class="n">GGCMFileFortbinMHD</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(iof)\.([0-9]{6}).b\s*$&quot;</span>
+    <span class="n">_iono</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Grid</span>
+    <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Node&quot;</span>
 
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">[docs]</a>class GGCMFortbinFileWrapper(object):
-    """A File-like object for interfacing with OpenGGCM binary files"""
-    _file = None
-    _endian = None
+<div class="viewcode-block" id="GGCMFortbinFileWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">[docs]</a><span class="k">class</span> <span class="nc">GGCMFortbinFileWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A File-like object for interfacing with OpenGGCM binary files&quot;&quot;&quot;</span>
+    <span class="n">_file</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_endian</span> <span class="o">=</span> <span class="bp">None</span>
 
-    filename = None
-    _file_meta = None
-    fields_seen = None
-    seen_all_fields = None
+    <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_file_meta</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fields_seen</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, filename):
-        self.filename = filename
-        self.fields_seen = OrderedDict()
-        self.seen_all_fields = False
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">False</span>
 
-    def __del__(self):
-        self.close()
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    @property
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.file_meta"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">[docs]</a>    def file_meta(self):
-        if self._file_meta is None:
-            with self as _:
-                # just opening the file makes it read the meta data
-                pass
-        return self._file_meta
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.file_meta"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">[docs]</a>    <span class="k">def</span> <span class="nf">file_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+                <span class="c"># just opening the file makes it read the meta data</span>
+                <span class="k">pass</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    def read_field(self, fld_name, pos=None):
-        """Read a field given a seekable location
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read a field given a seekable location</span>
 
-        Parameters:
-            fld_name(str): name of field we're expecting to read
-            pos(int): position in file we can seek to
+<span class="sd">        Parameters:</span>
+<span class="sd">            fld_name(str): name of field we&#39;re expecting to read</span>
+<span class="sd">            pos(int): position in file we can seek to</span>
 
-        Returns:
-            tuple (field name, dict of meta data, array)
-        """
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple (field name, dict of meta data, array)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        if pos is not None:
-            self._file.seek(pos)
-            found_fld, meta = self.inquire_next()
-            if found_fld != fld_name:
-                raise ValueError("The file {0} didn't contain field {1} at "
-                                 "position {2}".format(self.filename,
-                                 fld_name, pos))
-        else:
-            meta = self.inquire(fld_name)
+        <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+            <span class="n">found_fld</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">found_fld</span> <span class="o">!=</span> <span class="n">fld_name</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;The file {0} didn&#39;t contain field {1} at &quot;</span>
+                                 <span class="s">&quot;position {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                                 <span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inquire</span><span class="p">(</span><span class="n">fld_name</span><span class="p">)</span>
 
-        self._file.seek(meta['file_position'] + meta['header_size'])
-        data = np.fromfile(self._file, dtype=np.dtype(self._endian + 'f'),
-                           count=meta['nelem'])
-        return meta, data.reshape(meta['dims'], order='F')
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">meta</span><span class="p">[</span><span class="s">&#39;header_size&#39;</span><span class="p">])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">+</span> <span class="s">&#39;f&#39;</span><span class="p">),</span>
+                           <span class="n">count</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;nelem&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">meta</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">[docs]</a>    def inquire_all_fields(self, reinquire=False):
-        if reinquire:
-            self.seen_all_fields = False
-            self.fields_seen = OrderedDict()
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">reinquire</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
 
-        if self.seen_all_fields:
-            return
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span><span class="p">:</span>
+            <span class="k">return</span>
 
-        self._file.seek(0)
-        while not self.seen_all_fields:
-            self.inquire_next()
-            self._file.seek(self.file_meta['nbytes'], 1)
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_meta</span><span class="p">[</span><span class="s">&#39;nbytes&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">[docs]</a>    def inquire(self, fld_name):
-        try:
-            meta = self.fields_seen[fld_name]
-            self.seek(meta['file_position'])
-            return meta
-        except KeyError:
-            try:
-                last_added = next(reversed(self.fields_seen))
-                # go to the last seen field and go one field past it
-                self.seek(self.fields_seen[last_added]['file_position'] +
-                          self.file_meta['nbytes'])
-            except StopIteration:
-                self._file.seek(0)
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">[docs]</a>    <span class="k">def</span> <span class="nf">inquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">meta</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">last_added</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">))</span>
+                <span class="c"># go to the last seen field and go one field past it</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">last_added</span><span class="p">][</span><span class="s">&#39;file_position&#39;</span><span class="p">]</span> <span class="o">+</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">file_meta</span><span class="p">[</span><span class="s">&#39;nbytes&#39;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-            while not self.seen_all_fields:
-                found_fld_name, meta = self.inquire_next()
-                if found_fld_name == fld_name:
-                    return meta
-                self._file.seek(self.file_meta['nbytes'], 1)
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span><span class="p">:</span>
+                <span class="n">found_fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">found_fld_name</span> <span class="o">==</span> <span class="n">fld_name</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">meta</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_meta</span><span class="p">[</span><span class="s">&#39;nbytes&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 
-            raise KeyError("file '{0}' has no field '{1}'".format(
-                           self.filename, fld_name))
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file &#39;{0}&#39; has no field &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_next"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">[docs]</a>    def inquire_next(self):
-        """Collect the meta-data from the next field in the file
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_next"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Collect the meta-data from the next field in the file</span>
 
-        Returns:
-            tuple (field name, dict of meta data) both
-            of which will be None if there are no more Fields
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple (field name, dict of meta data) both</span>
+<span class="sd">            of which will be None if there are no more Fields</span>
 
-        Note:
-            After this operation is done, the file-pointer will be reset
-            to the position it was before the inquiry.
-        """
-        if not self.isopen:
-            raise RuntimeError("file is not open")
+<span class="sd">        Note:</span>
+<span class="sd">            After this operation is done, the file-pointer will be reset</span>
+<span class="sd">            to the position it was before the inquiry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isopen</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;file is not open&quot;</span><span class="p">)</span>
 
-        try:
-            fld_name, meta = self._read_header()
-        except IOError:
-            fld_name, meta = None, None
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_header</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
 
-        if not fld_name:
-            self.seen_all_fields = True
-            return None, None
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fld_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
 
-        if fld_name not in self.fields_seen:
-            self.fields_seen[fld_name] = meta
+        <span class="k">if</span> <span class="n">fld_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">meta</span>
 
-        return fld_name, meta
+        <span class="k">return</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.open"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">[docs]</a>    def open(self):
-        if self._file is None:
-            self._file = open(self.filename, 'rb')
-            try:
-                if self._endian is None or self._file_meta is None:
-                    self._read_file_header()
-            except IOError as e:
-                self.close()
-                raise e
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.open"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_read_file_header</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="n">e</span>
 </div>
-    @property
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.isopen"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">[docs]</a>    def isopen(self):
-        return self._file is not None
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.isopen"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">[docs]</a>    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    def close(self):
-        if self._file is not None:
-            f = self._file
-            self._file = None
-            f.close()
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </div>
-    def __enter__(self):
-        self.open()
-        return self
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
-    def __exit__(self, typ, value, traceback):
-        self.close()
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    def _read_file_header(self, data_size=4):
-        """load up the file's meta data"""
-        assert self._file.tell() == 0
-        _, meta = self._read_header(data_size=data_size)
-        self._file_meta = meta
+    <span class="k">def</span> <span class="nf">_read_file_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;load up the file&#39;s meta data&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_header</span><span class="p">(</span><span class="n">data_size</span><span class="o">=</span><span class="n">data_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span> <span class="o">=</span> <span class="n">meta</span>
 
-    def _read_header(self, data_size=4):
-        """read a field's header; returns None, None if EOF
-        Raises:
-            Both of the following are raised if there are no more
-            fields in a file (although it'll more likely be an IOError)
+    <span class="k">def</span> <span class="nf">_read_header</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;read a field&#39;s header; returns None, None if EOF</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            Both of the following are raised if there are no more</span>
+<span class="sd">            fields in a file (although it&#39;ll more likely be an IOError)</span>
 
-            IOError: couldn't detect endian
-            struct.error: not enough lines in file to get a header
-        """
-        if not self.isopen:
-            raise RuntimeError("Trying to read header, but file is closed.")
+<span class="sd">            IOError: couldn&#39;t detect endian</span>
+<span class="sd">            struct.error: not enough lines in file to get a header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isopen</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Trying to read header, but file is closed.&quot;</span><span class="p">)</span>
 
-        try:
-            pos = self._file.tell()
-            endian_marker = self._file.read(4)
-            if endian_marker == struct.pack('&lt;i', 2):
-                self._endian = '&lt;'
-            elif endian_marker == struct.pack('&gt;i', 2):
-                self._endian = '&gt;'
-            else:
-                raise IOError("Can't detect endian, not a fortbin file: "
-                              "{0}".format(self.filename))
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+            <span class="n">endian_marker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">endian_marker</span> <span class="o">==</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&#39;&lt;i&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">=</span> <span class="s">&#39;&lt;&#39;</span>
+            <span class="k">elif</span> <span class="n">endian_marker</span> <span class="o">==</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&#39;&gt;i&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">=</span> <span class="s">&#39;&gt;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&quot;Can&#39;t detect endian, not a fortbin file: &quot;</span>
+                              <span class="s">&quot;{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
 
-            inttime = struct.unpack(self._endian + 'i', self._file.read(4))[0]
-            ndim = struct.unpack(self._endian + 'i', self._file.read(4))[0]
-            dims = struct.unpack(self._endian + '{0}i'.format(ndim),
-                                 self._file.read(4 * ndim))
+            <span class="n">inttime</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">+</span> <span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ndim</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">+</span> <span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_endian</span> <span class="o">+</span> <span class="s">&#39;{0}i&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ndim</span><span class="p">),</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ndim</span><span class="p">))</span>
 
-            fld_name = self._file.read(80).decode().strip()
-            asciitime = self._file.read(80).decode()
+            <span class="n">fld_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">asciitime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
-            header_size = 4 + 4 + 4 + (4 * ndim) + (2 * 80)
-            nelem = np.prod(dims)
-            nbytes = header_size + data_size * nelem
+            <span class="n">header_size</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">ndim</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+            <span class="n">nelem</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">nbytes</span> <span class="o">=</span> <span class="n">header_size</span> <span class="o">+</span> <span class="n">data_size</span> <span class="o">*</span> <span class="n">nelem</span>
 
-            fld_meta = dict(header_size=header_size,
-                            timestr=asciitime,
-                            inttime=inttime,
-                            ndim=ndim,
-                            dims=dims,
-                            nelem=nelem,
-                            nbytes=nbytes,
-                            file_position=pos)
-            self._file.seek(pos)
+            <span class="n">fld_meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">header_size</span><span class="o">=</span><span class="n">header_size</span><span class="p">,</span>
+                            <span class="n">timestr</span><span class="o">=</span><span class="n">asciitime</span><span class="p">,</span>
+                            <span class="n">inttime</span><span class="o">=</span><span class="n">inttime</span><span class="p">,</span>
+                            <span class="n">ndim</span><span class="o">=</span><span class="n">ndim</span><span class="p">,</span>
+                            <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span>
+                            <span class="n">nelem</span><span class="o">=</span><span class="n">nelem</span><span class="p">,</span>
+                            <span class="n">nbytes</span><span class="o">=</span><span class="n">nbytes</span><span class="p">,</span>
+                            <span class="n">file_position</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 
-            if fld_name == "":
-                return None, None
-            else:
-                return fld_name, fld_meta
-        except struct.error:
-            return None, None
+            <span class="k">if</span> <span class="n">fld_name</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">fld_meta</span>
+        <span class="k">except</span> <span class="n">struct</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="FortbinDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper">[docs]</a>class FortbinDataWrapper(vfile.DataWrapper):
-    """  """
-    file_wrapper = None
-    filename = None
-    fld_name = None
-    expected_shape = None
-    file_position = None
+<div class="viewcode-block" id="FortbinDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">FortbinDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
+    <span class="n">file_wrapper</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fld_name</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">expected_shape</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">file_position</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, file_wrapper, fld_name, expected_shape, file_position):
-        """Lazy wrapper for a field in a Fortbin file
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_wrapper</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">expected_shape</span><span class="p">,</span> <span class="n">file_position</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Lazy wrapper for a field in a Fortbin file</span>
 
-        Parameters:
-            expected_shape (tuple): shape of data in the file (xyz)
-        """
-        super(FortbinDataWrapper, self).__init__()
-        self.file_wrapper = file_wrapper
-        self.filename = file_wrapper.filename
-        self.fld_name = fld_name
-        # translate to zyx
-        self.expected_shape = expected_shape
-        self.file_position = file_position
+<span class="sd">        Parameters:</span>
+<span class="sd">            expected_shape (tuple): shape of data in the file (xyz)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FortbinDataWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_wrapper</span> <span class="o">=</span> <span class="n">file_wrapper</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">file_wrapper</span><span class="o">.</span><span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fld_name</span> <span class="o">=</span> <span class="n">fld_name</span>
+        <span class="c"># translate to zyx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span> <span class="o">=</span> <span class="n">expected_shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_position</span> <span class="o">=</span> <span class="n">file_position</span>
 
-    @property
-<div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    def shape(self):
-        """
-        Returns:
-            zyx shape since that's the shape __array__ returns
-        """
-        return self.expected_shape[::-1]
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </div>
-    @property
-<div class="viewcode-block" id="FortbinDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">[docs]</a>    def dtype(self):
-        return np.dtype("float32")
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FortbinDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;float32&quot;</span><span class="p">)</span>
 </div>
-    def __array__(self, *args, **kwargs):
-        with self.file_wrapper as f:
-            # fld_name, meta, arr = f.read_field_at(self.loc, ndim)
-            meta, arr = f.read_field(self.fld_name, pos=self.file_position)
-            arr = np.array(arr.flatten(order='F').reshape(meta['dims'][::-1]),
-                           order='C')
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_wrapper</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c"># fld_name, meta, arr = f.read_field_at(self.loc, ndim)</span>
+            <span class="n">meta</span><span class="p">,</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read_field</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_position</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                           <span class="n">order</span><span class="o">=</span><span class="s">&#39;C&#39;</span><span class="p">)</span>
 
-        # meta's dims are xyz (from file), but ex
-        if meta['dims'] != self.expected_shape:
-            raise RuntimeError("Field '{0}' from file '{1}' has shape {2} "
-                               "instead of {3}".format(self.fld_name,
-                               self.filename, meta['dims'],
-                               self.expected_shape))
-        return arr.astype(self.dtype)
+        <span class="c"># meta&#39;s dims are xyz (from file), but ex</span>
+        <span class="k">if</span> <span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Field &#39;{0}&#39; from file &#39;{1}&#39; has shape {2} &quot;</span>
+                               <span class="s">&quot;instead of {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fld_name</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">],</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FortbinDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">[docs]</a>    def read_direct(self, *args, **kwargs):
-        return self.__array__()
+<div class="viewcode-block" id="FortbinDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="FortbinDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">[docs]</a>    def len(self):
-        return self.shape[0]
+<div class="viewcode-block" id="FortbinDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-    def __getitem__(self, item):
-        return self.__array__().__getitem__(item)
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
 
-# class FortbinIonoDataWrapper(FortbinDataWrapper):
-#     @property
-#     def shape(self):
-#         ret = tuple([n - 1 for n in reversed(self.expected_shape)])
-#         return ret
+<span class="c"># class FortbinIonoDataWrapper(FortbinDataWrapper):</span>
+<span class="c">#     @property</span>
+<span class="c">#     def shape(self):</span>
+<span class="c">#         ret = tuple([n - 1 for n in reversed(self.expected_shape)])</span>
+<span class="c">#         return ret</span>
 
-#     def __array__(self, *args, **kwargs):
-#         arr = super(FortbinIonoDataWrapper, self).__array__(*args, **kwargs)
-#         ndim = len(self.expected_shape)
-#         return arr[[slice(None, -1)]*ndim]
+<span class="c">#     def __array__(self, *args, **kwargs):</span>
+<span class="c">#         arr = super(FortbinIonoDataWrapper, self).__array__(*args, **kwargs)</span>
+<span class="c">#         ndim = len(self.expected_shape)</span>
+<span class="c">#         return arr[[slice(None, -1)]*ndim]</span>
 
-##
-## EOF
-##</div>
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>

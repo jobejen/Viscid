@@ -12,3 +12,5 @@ nr_times = len(times)
 for i, grid in enumerate(f3d.iter_times()):
     plt.subplot2grid((nr_times, 1), (i, 0))
     mpl.plot(grid["vz"]["x=-20.0:20.0,y=0.0,z=-10.0:10.0"], plot_opts="lin_0,earth")
+    mpl.plt.title(grid.format_time(".01f"))
+mpl.tighten()

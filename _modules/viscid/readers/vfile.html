@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.vfile &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.vfile &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,207 +146,264 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.vfile</h1><pre>
-# This module should only be imported by modules in 'readers/'. If you just
-# want to load files, use vfile_factory. This prevents circular imports.
-#
-# reader_base: provides file readers. This will eventually house the
-# backend for data input.
+  <h1>Source code for viscid.readers.vfile</h1><div class="highlight"><pre>
+<span class="c"># This module should only be imported by modules in &#39;readers/&#39;. If you just</span>
+<span class="c"># want to load files, use vfile_factory. This prevents circular imports.</span>
+<span class="c">#</span>
+<span class="c"># reader_base: provides file readers. This will eventually house the</span>
+<span class="c"># backend for data input.</span>
 
-from __future__ import print_function
-# import sys
-import os
-import re
-from time import time
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="c"># import sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 
-from viscid.dataset import Dataset
-from viscid import grid
+<span class="kn">from</span> <span class="nn">viscid.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DatasetTemporal</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 
-<div class="viewcode-block" id="DataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper">[docs]</a>class DataWrapper(object):
-    _shape = None
-    _dtype = None
+<div class="viewcode-block" id="DataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper">[docs]</a><span class="k">class</span> <span class="nc">DataWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_hypersliceable</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># can read slices from disk</span>
 
-    def __init__(self):
-        self._shape = None
-        self._dtype = None
+    <span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
 
-    @property
-<div class="viewcode-block" id="DataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.shape">[docs]</a>    def shape(self):
-        return self._shape
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="DataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
-    @property
-<div class="viewcode-block" id="DataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.dtype">[docs]</a>    def dtype(self):
-        return self._dtype
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="DataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
-    def __array__(self, *args, **kwargs):
-        raise NotImplementedError()
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.read_direct">[docs]</a>    def read_direct(self, *args, **kwargs):
-        raise NotImplementedError()
+<div class="viewcode-block" id="DataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="DataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.len">[docs]</a>    def len(self):
-        raise NotImplementedError()
+<div class="viewcode-block" id="DataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-    def __getitem__(self, item):
-        raise NotImplementedError()
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="VFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile">[docs]</a>class VFile(Dataset):
-    # _detector is a regex string used for file type detection
-    _detector = None
-    # _gc_warn = True  # i dont think this is used... it should go away?
-    _grid_type = grid.Grid
-    _grid_opts = {}
+<div class="viewcode-block" id="VFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile">[docs]</a><span class="k">class</span> <span class="nc">VFile</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic File</span>
 
-    vfilebucket = None
-    load_time = None
+<span class="sd">    Note:</span>
+<span class="sd">        Important when subclassing: Do not call the constructors for a</span>
+<span class="sd">        dataset / grid yourself, dispatch through _make_dataset and</span>
+<span class="sd">        _make_grid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># _detector is a regex string used for file type detection</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># _gc_warn = True  # i dont think this is used... it should go away?</span>
+    <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Grid</span>
+    <span class="n">_dataset_type</span> <span class="o">=</span> <span class="n">Dataset</span>
+    <span class="n">_temporal_dataset_type</span> <span class="o">=</span> <span class="n">DatasetTemporal</span>
+    <span class="n">_grid_opts</span> <span class="o">=</span> <span class="p">{}</span>
 
-    fname = None
-    dirname = None
+    <span class="n">vfilebucket</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">load_time</span> <span class="o">=</span> <span class="bp">None</span>
 
-    file = None  # this is for files that stay open after being parsed,
-                 # for instance hdf5 File object
-    # grids = None  # already part of Dataset
+    <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">dirname</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, fname, vfilebucket=None, grid_type=None, grid_opts=None,
-                 **kwargs):
-        """  """
-        super(VFile, self).__init__(fname, **kwargs)
+    <span class="nb">file</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># this is for files that stay open after being parsed,</span>
+                 <span class="c"># for instance hdf5 File object</span>
+    <span class="c"># grids = None  # already part of Dataset</span>
 
-        if grid_type is not None:
-            self._grid_type = grid_type
-        if grid_opts is not None:
-            self.grid_opts = grid_opts
-        assert self._grid_type is not None
-        assert isinstance(self._grid_opts, dict)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        self.vfilebucket = vfilebucket
-        self.load(fname)
+        <span class="k">if</span> <span class="n">grid_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid_type</span>
+        <span class="k">if</span> <span class="n">grid_opts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_opts</span> <span class="o">=</span> <span class="n">grid_opts</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
 
-<div class="viewcode-block" id="VFile.load"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.load">[docs]</a>    def load(self, fname):
-        #self.unload()
-        fname = os.path.expanduser(os.path.expandvars(fname))
-        self.fname = os.path.abspath(fname)
-        self.dirname = os.path.dirname(self.fname)
-        self.load_time = time()
-        self._parse()
+        <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">vfilebucket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VFile.load"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="c">#self.unload()</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="VFile.refresh"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.refresh">[docs]</a>    def refresh(self):
-        #self.unload()
-        self.load(self.fname)
+<div class="viewcode-block" id="VFile.refresh"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c">#self.unload()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.unload">[docs]</a>    def unload(self):
-        """ unload is meant to give children a chance to free caches, the idea
-        being that an unload will free memory, but all the functionality is
-        preserved, so data is accessable without an explicit reload
-        """
-        super(VFile, self).unload()
+<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
+<span class="sd">        being that an unload will free memory, but all the functionality is</span>
+<span class="sd">        preserved, so data is accessable without an explicit reload</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
 
-    # some classy saving utility methods, should be sufficient to override
-    # save and save_fields</div>
-<div class="viewcode-block" id="VFile.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save">[docs]</a>    def save(self, fname=None, **kwargs):
-        """ save an instance of VFile, fname defaults to the name
-        of the file object as read """
-        raise NotImplementedError()
+    <span class="c"># some classy saving utility methods, should be sufficient to override</span>
+    <span class="c"># save and save_fields</span></div>
+<div class="viewcode-block" id="VFile.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; save an instance of VFile, fname defaults to the name</span>
+<span class="sd">        of the file object as read &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.save_grid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_grid">[docs]</a>    def save_grid(cls, fname, grd, **kwargs):
-        flds = list(grd.iter_fields())
-        cls.save_fields(fname, flds, **kwargs)
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.save_grid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_grid">[docs]</a>    <span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grd</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">())</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.save_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_field">[docs]</a>    def save_field(cls, fname, fld, **kwargs):
-        cls.save_fields(fname, [fld], **kwargs)
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.save_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_field">[docs]</a>    <span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">[</span><span class="n">fld</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_fields">[docs]</a>    def save_fields(cls, fname, flds, **kwargs):
-        """ save some fields using the format given by the class """
-        raise NotImplementedError()
-
-    # already implemented in dataset
-    #def add_grid(self, grid):
-    #    self.grids[grid.name] = grid
-
-    # if i need this, it should be implemented at the Dataset level
-    #def get_grid(self, grid_handle):
-    #    return self.grids[grid_handle]
-
-    # this is get_field implemented in Dataset
-    # def get_data(self, item):
-    #     if self.active_grid and item in self.activate_grid:
-    #         # ask the active grid for the item
-    #         return self.active_grid[item]
-    #     else:
-    #         return self.grids[item]
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; save some fields using the format given by the class &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-    def _parse(self):
-        # make _parse 'abstract'
-        raise NotImplementedError("override _parse to read a file")
+    <span class="k">def</span> <span class="nf">_make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">,</span> <span class="n">dset_type</span><span class="o">=</span><span class="s">&quot;dataset&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Use this instead of calling Dataset(...) yourself</span>
 
-    @classmethod
-<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    def detect_type(cls, fname):
-        """ recursively detect a filetype using _detector regex string.
-        this is called recursively for all subclasses and results
-        further down the tree are given precedence.
-        NOTE: THIS WILL ONLY WORK FOR CLASSES THAT HAVE ALREADY BEEN IMPORTED.
-        THIS IS A FRAGILE MECHANISM IN THAT SENSE.
-        TODO: move this functionality into a more robust/extendable factory
-        class... that can also take care of the bucket / circular reference
-        problem maybe
-        """
-        # reversed gives precedence to the more recently declared classes
-        for filetype in reversed(cls.__subclasses__()): #pylint: disable=E1101
-            td = filetype.detect_type(fname)
-            if td:
-                return td
-        if cls._detector and re.match(cls._detector, fname):
-            return cls
-        return None
+<span class="sd">        Args:</span>
+<span class="sd">            parent_node (Dataset, Grid, or None): Hint at parent in</span>
+<span class="sd">                the tree, needed if info is used before this object</span>
+<span class="sd">                is added to its parent</span>
+<span class="sd">            grid_type (str, subclass of Dataset, optional): type of</span>
+<span class="sd">                dataset to create</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dset_type</span> <span class="o">=</span> <span class="n">dset_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dset_type</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dset_type</span> <span class="o">==</span> <span class="s">&quot;dataset&quot;</span><span class="p">:</span>
+                <span class="n">dset_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_type</span>
+            <span class="k">elif</span> <span class="n">dset_type</span> <span class="o">==</span> <span class="s">&quot;temporal&quot;</span><span class="p">:</span>
+                <span class="n">dset_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_temporal_dataset_type</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;unknown dataset type: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dset_type</span><span class="p">))</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">dset_type</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">parent_node</span><span class="o">.</span><span class="n">prepare_child</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dset</span>
+
+    <span class="k">def</span> <span class="nf">_make_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">,</span> <span class="n">grid_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Use this instead of calling Grid(...) yourself</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parent_node (Dataset, Grid, or None): Hint at parent in</span>
+<span class="sd">                the tree, needed if info is used before this object</span>
+<span class="sd">                is added to its parent</span>
+<span class="sd">            grid_type (subclass of Grid, optional): if not given, use</span>
+<span class="sd">                self._grid_type</span>
+<span class="sd">            name (str, optional): self explanatory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">)</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">grid_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">grid_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">grid_type</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">parent_node</span><span class="o">.</span><span class="n">prepare_child</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
+
+    <span class="k">def</span> <span class="nf">_make_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">,</span> <span class="n">fld_typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Use this instead of calling Grid(...) yourself</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parent_node (Dataset, Grid, or None): Hint at parent in</span>
+<span class="sd">                the tree, needed if info is used before this object</span>
+<span class="sd">                is added to its parent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fld</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">fld_typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">parent_node</span><span class="o">.</span><span class="n">prepare_child</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fld</span>
+
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># make _parse &#39;abstract&#39;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;override _parse to read a file&quot;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; recursively detect a filetype using _detector regex string.</span>
+<span class="sd">        this is called recursively for all subclasses and results</span>
+<span class="sd">        further down the tree are given precedence.</span>
+<span class="sd">        NOTE: THIS WILL ONLY WORK FOR CLASSES THAT HAVE ALREADY BEEN IMPORTED.</span>
+<span class="sd">        THIS IS A FRAGILE MECHANISM IN THAT SENSE.</span>
+<span class="sd">        TODO: move this functionality into a more robust/extendable factory</span>
+<span class="sd">        class... that can also take care of the bucket / circular reference</span>
+<span class="sd">        problem maybe</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># reversed gives precedence to the more recently declared classes</span>
+        <span class="k">for</span> <span class="n">filetype</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()):</span> <span class="c">#pylint: disable=E1101</span>
+            <span class="n">td</span> <span class="o">=</span> <span class="n">filetype</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">td</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">td</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">_detector</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">cls</span>
+        <span class="k">return</span> <span class="bp">None</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.group_fnames">[docs]</a>    def group_fnames(cls, fnames):
-        """Group File names
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Group File names</span>
 
-        The default implementation just returns fnames, but some file
-        types might do something fancy here
+<span class="sd">        The default implementation just returns fnames, but some file</span>
+<span class="sd">        types might do something fancy here</span>
 
-        Parameters:
-            fnames (list): names that can be logically grouped, as in
-                a bunch of file names that are different time steps
-                of a given run
+<span class="sd">        Parameters:</span>
+<span class="sd">            fnames (list): names that can be logically grouped, as in</span>
+<span class="sd">                a bunch of file names that are different time steps</span>
+<span class="sd">                of a given run</span>
 
-        Returns:
-            A list of things that can be given to the constructor of
-            this class
-        """
-        return fnames
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of things that can be given to the constructor of</span>
+<span class="sd">            this class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">fnames</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name_from_group">[docs]</a>    def collective_name_from_group(cls, group):
-        raise NotImplementedError()
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="VFile.collective_name"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name">[docs]</a>    def collective_name(cls, group):
-        """
-        Parameters:
-            group: single file name or list of file names that would
-                be grouped by group_fnames
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="VFile.collective_name"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">            group: single file name or list of file names that would</span>
+<span class="sd">                be grouped by group_fnames</span>
 
-        Returns:
-            str: a single name
-        """
-        if not isinstance(group, (list, tuple)):
-            group = [group]
+<span class="sd">        Returns:</span>
+<span class="sd">            str: a single name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="p">[</span><span class="n">group</span><span class="p">]</span>
 
-        if len(group) &gt; 1:
-            return cls.collective_name_from_group(group)
-        else:
-            return group[0]
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">collective_name_from_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">group</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-##
-## EOF
-##</div></div>
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div></div>
+</pre></div>
 
           <footer>
   <hr/>

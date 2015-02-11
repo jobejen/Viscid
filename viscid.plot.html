@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot package &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.plot package &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="index.html"/>
         <link rel="up" title="viscid package" href="viscid.html"/>
         <link rel="next" title="viscid.readers package" href="viscid.readers.html"/>
         <link rel="prev" title="viscid.compat package" href="viscid.compat.html"/> 
@@ -81,8 +81,8 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -92,11 +92,16 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -105,8 +110,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -151,6 +158,7 @@
 <p>Convenience module for making matplotlib plots</p>
 <p>Your best friend in this module is the <a class="reference internal" href="#viscid.plot.mpl.plot" title="viscid.plot.mpl.plot"><tt class="xref py py-meth docutils literal"><span class="pre">plot()</span></tt></a> function, but the
 best reference for all quirky options is <a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>.</p>
+<p>Note: you can&#8217;t set rc parameters for this module</p>
 <dl class="function">
 <dt id="viscid.plot.mpl.mplshow">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">mplshow</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#mplshow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.mplshow" title="Permalink to this definition">¶</a></dt>
@@ -170,77 +178,63 @@ best reference for all quirky options is <a class="reference internal" href="#vi
 ionospheric fields), try to use <a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></tt></a> which
 uses basemap to make its axes.</li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>selection</strong> (<em>optional</em>) &#8211; something that describes a field slice</li>
-<li><strong>kwargs</strong> &#8211; passed as keyword arguments to the actual plotting
-function</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(plot, colorbar)
-plot: matplotlib plot object
-colorbar: matplotlib colorbar object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">selection (optional): something that describes a field slice
+kwargs: passed as keyword arguments to the actual plotting</p>
+<blockquote class="last">
+<div>function</div></blockquote>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>tuple: (plot, colorbar)</dt>
+<dd>plot: matplotlib plot object
+colorbar: matplotlib colorbar object</dd>
+</dl>
+</dd>
+<dt>See Also:</dt>
+<dd><ul class="first last simple">
 <li><a class="reference internal" href="#viscid.plot.mpl.plot1d_field" title="viscid.plot.mpl.plot1d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot1d_field()</span></tt></a>: target for 1d fields</li>
 <li><a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></tt></a>: target for 2d spherical fields</li>
 <li><a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>: target for 2d fields</li>
 </ul>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Field slices are done using &#8220;slice_reduce&#8221;, meaning extra
-dimensions are reduced out.</p>
-</div>
+</dd>
+<dt>Note:</dt>
+<dd>Field slices are done using &#8220;slice_reduce&#8221;, meaning extra
+dimensions are reduced out.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot1d_field">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot1d_field</tt><big>(</big><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>show=False</em>, <em>mask_nan=False</em>, <em>do_labels=True</em>, <em>action_ax=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot1d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot1d_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot1d_field</tt><big>(</big><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>show=False</em>, <em>do_labels=True</em>, <em>action_ax=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot1d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot1d_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 1D Field using lines</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; Field to plot</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld: Field to plot</dd>
+<dt>See Also:</dt>
+<dd><ul class="first last simple">
 <li><a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>: Describes plot_opts, and all other
 keyword arguments</li>
 </ul>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_field">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_field</tt><big>(</big><em>fld</em>, <em>style='pcolormesh'</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>colorbar=True</em>, <em>mask_nan=False</em>, <em>do_labels=True</em>, <em>show=False</em>, <em>action_ax=None</em>, <em>scale=None</em>, <em>mod=None</em>, <em>extra_args=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_field</tt><big>(</big><em>fld</em>, <em>style='pcolormesh'</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>colorbar=True</em>, <em>do_labels=True</em>, <em>show=False</em>, <em>action_ax=None</em>, <em>scale=None</em>, <em>mod=None</em>, <em>extra_args=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 2D Field using pcolormesh, contour, etc.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>style</strong> (<em>str, optional</em>) &#8211; One of pcolormesh, pcolor, contour, or
-contourf</li>
-<li><strong>ax</strong> (<em>matplotlib axis, optional</em>) &#8211; Plot in a specific axis object</li>
-<li><strong>plot_opts</strong> (<em>str, optional</em>) &#8211; <p>comma separated string of additional
-options with underscore separated argument options. They are
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>style (str, optional): One of pcolormesh, pcolor, contour, or</dt>
+<dd>contourf</dd>
+</dl>
+<p>ax (matplotlib axis, optional): Plot in a specific axis object
+plot_opts (str, optional): comma separated string of additional</p>
+<blockquote>
+<div><p>options with underscore separated argument options. They are
 summarized as follows...</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -288,6 +282,11 @@ sub-options</td>
 <tr class="row-even"><td>flip_plot <a class="footnote-reference" href="#f1" id="id4">[1]</a></td>
 <td>flip x and y axes (2d fields only)</td>
 </tr>
+<tr class="row-odd"><td>masknan</td>
+<td>if true, nan values are masked, so
+black if pcolor, or missing for
+countours</td>
+</tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
@@ -301,50 +300,40 @@ Some plot_opt examples are:
 * <tt class="docutils literal"><span class="pre">lin_-300_300,earth</span></tt>
 * <tt class="docutils literal"><span class="pre">log,x_-3_30,y_-10_10,cmap_afmhot</span></tt>
 * <tt class="docutils literal"><span class="pre">lin_0,x_-10_20,grid,earth</span></tt></p>
-</li>
-<li><strong>kwargs</strong> &#8211; Some other keyword arguments are understood and
-described below, and all others are passed as keyword
+</div></blockquote>
+<dl class="last docutils">
+<dt>kwargs: Some other keyword arguments are understood and</dt>
+<dd>described below, and all others are passed as keyword
 arguments to the matplotlib plotting functions. This way,
-one can pass arguments like cmap and the like.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
-<li><strong>colorbar</strong> (<em>bool or dict</em>) &#8211;
-If dict, the items are passed to
-plt.colorbar as keyword arguments</li>
-<li><strong>mask_nan</strong> (<em>bool, optional</em>) &#8211;
-Plot a masked array</li>
-<li><strong>levels</strong> (<em>int</em>) &#8211;
-Number of contours to follow (default: 10)</li>
-<li><strong>do_labels</strong> &#8211;
-automatically label x/y axes and color bar</li>
-<li><strong>show_grid</strong> (<em>bool</em>) &#8211;
-Plot lines showing grid cells</li>
-<li><strong>earth</strong> (<em>bool</em>) &#8211;
-Plot a black and white circle representing Earth
-showing the sunlit half</li>
-<li><strong>show</strong> (<em>bool, optional</em>) &#8211;
-Call pyplot.show before returning</li>
-<li><strong>action_ax</strong> &#8211;
-axis on which to call matplotlib functions... I
-don&#8217;t even remember why this was necessary</li>
-<li><strong>scale</strong> (<em>float</em>) &#8211;
-multiply field by scalar before plotting, useful
-for changing units</li>
-<li><strong>mod</strong> (<em>list of floats</em>) &#8211;
-DEPRECATED, scale x and y axes by some
-factor</li>
-<li><strong>extra_args</strong> (<em>list</em>) &#8211;
-DEPRECATED, was used to pass args to
-matplotlib functions, like contour levels, but there
-is probably a better way to give these options</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+one can pass arguments like cmap and the like.</dd>
+</dl>
+</dd>
+<dt>Other Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>colorbar (bool or dict): If dict, the items are passed to</dt>
+<dd>plt.colorbar as keyword arguments</dd>
+</dl>
+<p>levels (int): Number of contours to follow (default: 10)
+do_labels: automatically label x/y axes and color bar
+show_grid (bool): Plot lines showing grid cells
+earth (bool): Plot a black and white circle representing Earth</p>
+<blockquote>
+<div>showing the sunlit half</div></blockquote>
+<p>show (bool, optional): Call pyplot.show before returning
+action_ax: axis on which to call matplotlib functions... I</p>
+<blockquote>
+<div>don&#8217;t even remember why this was necessary</div></blockquote>
+<dl class="last docutils">
+<dt>scale (float): multiply field by scalar before plotting, useful</dt>
+<dd>for changing units</dd>
+<dt>mod (list of floats): DEPRECATED, scale x and y axes by some</dt>
+<dd>factor</dd>
+<dt>extra_args (list): DEPRECATED, was used to pass args to</dt>
+<dd>matplotlib functions, like contour levels, but there
+is probably a better way to give these options</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -353,177 +342,153 @@ is probably a better way to give these options</li>
 <dd><p>Plot data on a map projection of a sphere</p>
 <p>The default projection is polar, but any other basemap projection
 can be used.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Parameters are in degrees, but if the projection is &#8216;polar&#8217;,
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>Parameters are in degrees, but if the projection is &#8216;polar&#8217;,
 then the plot is actually made in radians, which is important
-if you want to annotate a plot.</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fld</strong> (<em>Field</em>) &#8211; field whose crds are spherical</li>
-<li><strong>projection</strong> (<em>string</em>) &#8211; &#8216;polar&#8217; or Basemap projection to use</li>
-<li><strong>hemisphere</strong> (<em>string</em>) &#8211; &#8216;north&#8217; or &#8216;south&#8217;</li>
-<li><strong>drawcoastlines</strong> (<em>bool</em>) &#8211; If projection is a basemap projection,
-then draw coastlines, pretty cool, but not actually useful.
+if you want to annotate a plot.</dd>
+<dt>Parameters:</dt>
+<dd><p class="first">fld (Field): field whose crds are spherical
+projection (string): &#8216;polar&#8217; or Basemap projection to use
+hemisphere (string): &#8216;north&#8217; or &#8216;south&#8217;
+drawcoastlines (bool): If projection is a basemap projection,</p>
+<blockquote>
+<div>then draw coastlines, pretty cool, but not actually useful.
 NOTE: coastlines do NOT reflect UT time; London is always
-at midnight.</li>
-<li><strong>show_grid</strong> (<em>bool</em>) &#8211; draw grid lines</li>
-<li><strong>lon_0</strong> (<em>float</em>) &#8211; center longitude (basemap projections only)</li>
-<li><strong>lat_0</strong> (<em>fload</em>) &#8211; center latitude (basemap projections only)</li>
-<li><strong>bounding_lat</strong> (<em>float</em>) &#8211; bounding latitude (not for all
-projections)</li>
-<li><strong>title</strong> (<em>bool, str</em>) &#8211; put a specific title on the plot, or with
-if a boolean, use the field&#8217;s pretty_name.</li>
-<li><strong>label_lat</strong> (<em>bool</em>) &#8211; label latitudes at 10, 20, 30 degrees. Note
-that basemap projections won&#8217;t label latitudes unless they
-hit the edge of the plot.</li>
-<li><strong>label_mlt</strong> (<em>bool</em>) &#8211; label magnetic local time</li>
-<li><strong>kwargs</strong> &#8211; either mapping keyword arguments, or those that
-should be passed along to <cite>plot2d_field</cite></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<ul class="last simple">
+at midnight.</div></blockquote>
+<p>show_grid (bool): draw grid lines
+lon_0 (float): center longitude (basemap projections only)
+lat_0 (fload): center latitude (basemap projections only)
+bounding_lat (float): bounding latitude in degrees from the</p>
+<blockquote>
+<div>nearest pole (not for all projections)</div></blockquote>
+<dl class="docutils">
+<dt>title (bool, str): put a specific title on the plot, or with</dt>
+<dd>if a boolean, use the field&#8217;s pretty_name.</dd>
+<dt>label_lat (bool, str): label latitudes at 80, 70, 60 degrees</dt>
+<dd>with sign indicating northern / southern hemisphere.
+if label_lat is &#8216;from_pole&#8217;, then the labels are 10, 20,
+30 for both hemispheres. Note that basemap projections
+won&#8217;t label latitudes unless they hit the edge of the plot.</dd>
+</dl>
+<p>label_mlt (bool): label magnetic local time
+kwargs: either mapping keyword arguments, or those that</p>
+<blockquote class="last">
+<div>should be passed along to <cite>plot2d_field</cite></div></blockquote>
+</dd>
+<dt>See Also:</dt>
+<dd><ul class="first last simple">
 <li><a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>: <cite>plot2d_mapfield</cite> basically just wraps
 this function setting up a Basemap first</li>
 </ul>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_quiver">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_quiver</tt><big>(</big><em>fld</em>, <em>symdir</em>, <em>downscale=1</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot2d_quiver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_quiver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put quivers on a 2D plot</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fld</strong> &#8211; Vector field to plot</li>
-<li><strong>symdir</strong> (<em>str</em>) &#8211; One of xyz for direction orthogonal to 2D plane</li>
-<li><strong>downscale</strong> (<em>int, optional</em>) &#8211; only quiver every Nth grid cell</li>
-<li><strong>kwargs</strong> &#8211; passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.quiver()</span></tt></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">There are some edge cases where downscale doesn&#8217;t work.</p>
-</div>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld: Vector field to plot
+symdir (str): One of xyz for direction orthogonal to 2D plane
+downscale (int, optional): only quiver every Nth grid cell
+kwargs: passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.quiver()</span></tt></dd>
+<dt>Note:</dt>
+<dd>There are some edge cases where downscale doesn&#8217;t work.</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_earth">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_earth</tt><big>(</big><em>plane_spec</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em>, <em>zorder=1</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_earth</tt><big>(</big><em>plane_spec</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em>, <em>zorder=10</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white Earth to show sunward direction</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>plane_spec</strong> &#8211; Specifies the plane for determining sunlit portion.
-This can be a <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> object to try to
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>plane_spec: Specifies the plane for determining sunlit portion.</dt>
+<dd>This can be a <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> object to try to
 auto-discover the plane and crd_system, or it can be a
-string like &#8220;y=0&#8221;.</li>
-<li><strong>axis</strong> (<em>matplotlib Axis</em>) &#8211; axis on which to plot</li>
-<li><strong>scale</strong> (<em>float, optional</em>) &#8211; scale of earth</li>
-<li><strong>rot</strong> (<em>float, optional</em>) &#8211; Rotation of day/night side... I forget all
-the details :(</li>
-<li><strong>daycol</strong> (<em>str, optional</em>) &#8211; color of dayside (matplotlib format)</li>
-<li><strong>nightcol</strong> (<em>str, optional</em>) &#8211; color of nightside (matplotlib format)</li>
-<li><strong>crd_system</strong> (<em>str, optional</em>) &#8211; &#8216;mhd&#8217; or &#8216;gse&#8217;, can usually be
-deduced from plane_spec if it&#8217;s a Field instance.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+string like &#8220;y=0&#8221;.</dd>
+</dl>
+<p>axis (matplotlib Axis): axis on which to plot
+scale (float, optional): scale of earth
+rot (float, optional): Rotation of day/night side... I forget all</p>
+<blockquote>
+<div>the details :(</div></blockquote>
+<p>daycol (str, optional): color of dayside (matplotlib format)
+nightcol (str, optional): color of nightside (matplotlib format)
+crd_system (str, optional): &#8216;mhd&#8217; or &#8216;gse&#8217;, can usually be</p>
+<blockquote class="last">
+<div>deduced from plane_spec if it&#8217;s a Field instance.</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_streamlines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_streamlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot lines on a matplotlib 3D plot, optionally colored by value</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (<em>list</em>) &#8211; A set of N lines. Elements should have the shape
-3xP where 3 is the axes zyx (in that order) and P is the
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>lines (list): A set of N lines. Elements should have the shape</dt>
+<dd>3xP where 3 is the axes zyx (in that order) and P is the
 number of points in the line. As an ndarray, the required
-shape is Nx3xP.</li>
-<li><strong>topology</strong> (<em>optional</em>) &#8211; Value used to color the lines. Should have
-length N.</li>
-<li><strong>ax</strong> (<em>matplotlib axis, optional</em>) &#8211; axis on which to plot</li>
-<li><strong>show</strong> (<em>bool, optional</em>) &#8211; plt.show() before returning</li>
-<li><strong>equal</strong> (<em>bool, optional</em>) &#8211; set 1:1 aspect ratio on axes</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+shape is Nx3xP.</dd>
+<dt>topology (optional): Value used to color the lines. Should have</dt>
+<dd>length N.</dd>
+</dl>
+<p class="last">ax (matplotlib axis, optional): axis on which to plot
+show (bool, optional): plt.show() before returning
+equal (bool, optional): set 1:1 aspect ratio on axes</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines2d">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_streamlines2d</tt><big>(</big><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#plot_streamlines2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project 3D lines onto a 2D plot</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (<em>list</em>) &#8211; A set of N lines. Elements should have the shape
-3xP where 3 is the axes zyx (in that order) and P is the
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>lines (list): A set of N lines. Elements should have the shape</dt>
+<dd>3xP where 3 is the axes zyx (in that order) and P is the
 number of points in the line. As an ndarray, the required
-shape is Nx3xP.</li>
-<li><strong>symdir</strong> (<em>str, optional</em>) &#8211; one of xyz for the plane on which to
-orthogonally project lines. Not needed if lines are shaped
-Nx2xP.</li>
-<li><strong>topology</strong> (<em>optional</em>) &#8211; Value used to color the lines. Should have
-length N.</li>
-<li><strong>ax</strong> (<em>matplotlib axis, optional</em>) &#8211; axis on which to plot</li>
-<li><strong>show</strong> (<em>bool, optional</em>) &#8211; plt.show() before returning</li>
-<li><strong>flip_plot</strong> (<em>bool, optional</em>) &#8211; swap plot&#8217;s x/y axes</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+shape is Nx3xP.</dd>
+<dt>symdir (str, optional): one of xyz for the plane on which to</dt>
+<dd>orthogonally project lines. Not needed if lines are shaped
+Nx2xP.</dd>
+<dt>topology (optional): Value used to color the lines. Should have</dt>
+<dd>length N.</dd>
+</dl>
+<p class="last">ax (matplotlib axis, optional): axis on which to plot
+show (bool, optional): plt.show() before returning
+flip_plot (bool, optional): swap plot&#8217;s x/y axes</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.scatter_3d">
 <tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">scatter_3d</tt><big>(</big><em>points</em>, <em>c='b'</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mpl.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.scatter_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot scattered points on a matplotlib 3d plot</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>points</strong> &#8211; something shaped 3xN for N points, where 3 are the
-zyx cartesian directions in that order</li>
-<li><strong>c</strong> (<em>str, optional</em>) &#8211; color (in matplotlib format)</li>
-<li><strong>ax</strong> (<em>matplotlib Axis, optional</em>) &#8211; axis on which to plot (should
-be a 3d axis)</li>
-<li><strong>show</strong> (<em>bool, optional</em>) &#8211; show</li>
-<li><strong>kwargs</strong> &#8211; passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.statter()</span></tt></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>points: something shaped 3xN for N points, where 3 are the</dt>
+<dd>zyx cartesian directions in that order</dd>
+</dl>
+<p>c (str, optional): color (in matplotlib format)
+ax (matplotlib Axis, optional): axis on which to plot (should</p>
+<blockquote>
+<div>be a 3d axis)</div></blockquote>
+<p class="last">show (bool, optional): show
+kwargs: passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.statter()</span></tt></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -536,36 +501,64 @@ be a 3d axis)</li>
 <div class="section" id="module-viscid.plot.mvi">
 <span id="viscid-plot-mvi-module"></span><h2>viscid.plot.mvi module<a class="headerlink" href="#module-viscid.plot.mvi" title="Permalink to this headline">¶</a></h2>
 <p>Convevience module for making 3d plots with Mayavi</p>
+<p>Note: you can&#8217;t set rc parameters for this module</p>
+<dl class="function">
+<dt id="viscid.plot.mvi.clear_data">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clear_data</tt><big>(</big><em>scenes=None</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workaround for Mayavi / VTK memory leak</p>
+<p>This is needed when Mayavi/VTK keeps a reference to source data
+when you would expect it to be freed like on a call to <cite>mlab.clf()</cite>
+or when removing sources from the pipeline.</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>This must be called when the pipeline still has the source, so
+before a call to <cite>mlab.clf()</cite>, etc.</dd>
+</dl>
+<ol class="arabic simple">
+<li>Set release_data_flag on all sources&#8217; data</li>
+<li>Remove reference to the data</li>
+<li>Remove the data source</li>
+</ol>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>scene (None, mayavi.core.scene.Scene, or &#8216;all&#8217;): if None, gets</dt>
+<dd>current scene; if Scene object, just that one; if &#8216;all&#8217;,
+act on all scenes in the current engine. Can also be a list
+of Scene objects</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.clf">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clf</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear source data, then clear figure</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="viscid.plot.mvi.field_to_cell_source">
 <tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_cell_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#field_to_cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_cell_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a field to a mayavi cell source</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi cell source</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld: field to convert</dd>
+<dt>Returns:</dt>
+<dd>mayavi cell source</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.field_to_point_source">
 <tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_point_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#field_to_point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_point_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a field to a mayavi source</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi point source</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld: field to convert</dd>
+<dt>Returns:</dt>
+<dd>mayavi point source</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -575,16 +568,12 @@ be a 3d axis)</li>
 <p>This dispatches to either <a class="reference internal" href="#viscid.plot.mvi.field_to_point_source" title="viscid.plot.mvi.field_to_point_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></tt></a> or
 <a class="reference internal" href="#viscid.plot.mvi.field_to_cell_source" title="viscid.plot.mvi.field_to_cell_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></tt></a> depending on the centering of
 <cite>fld</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi source</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld: field to convert</dd>
+<dt>Returns:</dt>
+<dd>mayavi source</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -593,59 +582,61 @@ be a 3d axis)</li>
 <dd><p>Switch to interactive interpreter</p>
 <p>This can be handy if you want to interact with a 3d plot using
 python.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local</strong> (<em>dict, optional</em>) &#8211; Local namespace for the interactive
-session. Usually you want <tt class="docutils literal"><span class="pre">interact(local=locals())</span></tt></td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>local (dict, optional): Local namespace for the interactive</dt>
+<dd>session. Usually you want <tt class="docutils literal"><span class="pre">interact(local=locals())</span></tt></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.mlab_earth">
 <tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">mlab_earth</tt><big>(</big><em>pipeline=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>res=15</em>, <em>crd_system='mhd'</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#mlab_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.mlab_earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white sphere (Earth) showing sunward direction</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>pipeline</strong> (<em>optional</em>) &#8211; Use if you want to plot using an existing
-pipeline</li>
-<li><strong>daycol</strong> (<em>tuple, optional</em>) &#8211; color of dayside (RGB)</li>
-<li><strong>nightcol</strong> (<em>tuple, optional</em>) &#8211; color of nightside (RGB)</li>
-<li><strong>res</strong> (<em>optional</em>) &#8211; rosolution of teh sphere</li>
-<li><strong>crd_system</strong> (<em>str, optional</em>) &#8211; &#8216;mhd&#8217; or &#8216;gse&#8217;, can be gotten from
-an openggcm field using <tt class="docutils literal"><span class="pre">fld.info[&quot;crd_system&quot;]</span></tt>.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>pipeline (optional): Use if you want to plot using an existing</dt>
+<dd>pipeline</dd>
+</dl>
+<p>daycol (tuple, optional): color of dayside (RGB)
+nightcol (tuple, optional): color of nightside (RGB)
+res (optional): rosolution of teh sphere
+crd_system (str, optional): &#8216;mhd&#8217; or &#8216;gse&#8217;, can be gotten from</p>
+<blockquote class="last">
+<div>an openggcm field using <tt class="docutils literal"><span class="pre">fld.meta[&quot;crd_system&quot;]</span></tt>.</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.plot_lines">
 <tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">plot_lines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 3D mayavi plot of lines</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> &#8211; list of lines. Each line should have shape 3xP for 3
-spatial dimensions and P points along the line</li>
-<li><strong>topology</strong> (<em>optional</em>) &#8211; an array of values that describe how to
-color the line.</li>
-<li><strong>kwargs</strong> &#8211; forwarded to <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></tt></li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first docutils">
+<dt>lines: list of lines. Each line should have shape 3xP for 3</dt>
+<dd>spatial dimensions and P points along the line</dd>
+<dt>topology (optional): an array of values that describe how to</dt>
+<dd>color the line.</dd>
+</dl>
+<p class="last">kwargs: forwarded to <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></tt></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.remove_source">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">remove_source</tt><big>(</big><em>src</em><big>)</big><a class="reference internal" href="_modules/viscid/plot/mvi.html#remove_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.remove_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Safely remove a specific vtk source</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>src (vtk_data_source): vtk data source to remove</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">

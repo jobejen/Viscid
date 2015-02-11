@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.grid &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.grid &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,234 +146,260 @@
 <hr/>
 
           
-  <h1>Source code for viscid.grid</h1><pre>
-#!/usr/bin/env python
-"""Grids contain fields and coordinates"""
+  <h1>Source code for viscid.grid</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;Grids contain fields and coordinates&quot;&quot;&quot;</span>
 
-from __future__ import print_function
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
-from viscid import field
-from viscid.bucket import Bucket
-from viscid.vutil import tree_prefix
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid.bucket</span> <span class="kn">import</span> <span class="n">Bucket</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">viscid.vutil</span> <span class="kn">import</span> <span class="n">tree_prefix</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator.evaluator</span> <span class="kn">import</span> <span class="n">evaluate</span>
 
-<div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid">[docs]</a>class Grid(object):
-    """Comptational grid container
+<div class="viewcode-block" id="Grid"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid">[docs]</a><span class="k">class</span> <span class="nc">Grid</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Computational grid container</span>
 
-    Grids contain fields and coordinates. Datasets recurse to grids
-    using ``__getitem__`` and get_field in order to find fields. Grids
-    can also calculate fields by defining ``_get_*`` methods.
+<span class="sd">    Grids contain fields and coordinates. Datasets recurse to grids</span>
+<span class="sd">    using ``__getitem__`` and get_field in order to find fields. Grids</span>
+<span class="sd">    can also calculate fields by defining ``_get_*`` methods.</span>
 
-    Attributes can be overridden globally to affect all data reads of
-    a given grid type. Subclasses of Grid document their own special
-    attributes. For example, one can change the default vector layout
-    with:
+<span class="sd">    Attributes can be overridden globally to affect all data reads of</span>
+<span class="sd">    a given grid type. Subclasses of Grid document their own special</span>
+<span class="sd">    attributes. For example, one can change the default vector layout</span>
+<span class="sd">    with:</span>
 
-        ``viscid.grid.Grid.force_vector_layout = LAYOUT_INTERLACED``
+<span class="sd">        ``viscid.grid.Grid.force_vector_layout = LAYOUT_INTERLACED``</span>
 
-    Attributes:
-        force_vecter_layout (``field.LAYOUT_*``): force all vectors to
-            be of a certain layout when they're created
-            (default: LAYOUT_DEFAULT)
-        longterm_field_caches (bool): If True, then when a field is
-            cached, it must be explicitly removed from memory with
-            "unload" or using the 'with' statemnt. If False,
-            "shell copies" of fields are made so that memory is freed
-            when the returned instance is garbage collected.
-            Default: False
-    """
-    topology_info = None
-    geometry_info = None
-    crds = None
-    fields = None
-    # so... not all grids have times? if we try to access time on a grid
-    # that doesnt have one, there is probably a bug somewhere
-    # time = None
+<span class="sd">    Attributes:</span>
+<span class="sd">        force_vecter_layout (``field.LAYOUT_*``): force all vectors to</span>
+<span class="sd">            be of a certain layout when they&#39;re created</span>
+<span class="sd">            (default: LAYOUT_DEFAULT)</span>
+<span class="sd">        longterm_field_caches (bool): If True, then when a field is</span>
+<span class="sd">            cached, it must be explicitly removed from memory with</span>
+<span class="sd">            &quot;unload&quot; or using the &#39;with&#39; statemnt. If False,</span>
+<span class="sd">            &quot;shell copies&quot; of fields are made so that memory is freed</span>
+<span class="sd">            when the returned instance is garbage collected.</span>
+<span class="sd">            Default: False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">topology_info</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">geometry_info</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_src_crds</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># so... not all grids have times? if we try to access time on a grid</span>
+    <span class="c"># that doesnt have one, there is probably a bug somewhere</span>
+    <span class="c"># time = None</span>
 
-    name = None
+    <span class="c"># these attributes are intended to control how fields are read</span>
+    <span class="c"># they can be customized by setting the class value, and inherited</span>
+    <span class="c"># by grids that get created in the future</span>
+    <span class="n">force_vector_layout</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">LAYOUT_DEFAULT</span>
+    <span class="n">longterm_field_caches</span> <span class="o">=</span> <span class="bp">False</span>
 
-    # these attributes are intended to control how fields are read
-    # they can be customized by setting the class value, and inherited
-    # by grids that get created in the future
-    force_vector_layout = field.LAYOUT_DEFAULT
-    longterm_field_caches = False
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">Bucket</span><span class="p">(</span><span class="n">ordered</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-    def __init__(self, name=None, **kwargs):
-        """ all kwargs are added to the grid as attributes """
-        self.name = name
-        self.fields = Bucket(ordered=True)
-
-        self.crds = None  # Coordinates()
-        for opt, value in kwargs.items():
-            setattr(self, opt, value)
-
-    @staticmethod
-<div class="viewcode-block" id="Grid.null_transform"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.null_transform">[docs]</a>    def null_transform(something):
-        return something
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Grid.null_transform"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.null_transform">[docs]</a>    <span class="k">def</span> <span class="nf">null_transform</span><span class="p">(</span><span class="n">something</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">something</span>
 </div>
-    @property
-<div class="viewcode-block" id="Grid.field_names"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.field_names">[docs]</a>    def field_names(self):
-        return self.fields.get_primary_handles()
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Grid.field_names"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.field_names">[docs]</a>    <span class="k">def</span> <span class="nf">field_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get_primary_handles</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">crds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">apply_reflections</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span>
 
-    # def set_time(self, time):
-    #     self.time = time
-</div>
-<div class="viewcode-block" id="Grid.set_crds"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.set_crds">[docs]</a>    def set_crds(self, crds_object):
-        self.crds = crds_object
-</div>
-<div class="viewcode-block" id="Grid.add_field"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.add_field">[docs]</a>    def add_field(self, *fields):
-        """ Note: in XDMF reader, the grid will NOT have crds when adding
-        fields, so any grid crd transforms won't be set
-        """
-        for f in fields:
-            if isinstance(f, field.VectorField):
-                f.layout = self.force_vector_layout
-            self.fields[f.name] = f
-</div>
-<div class="viewcode-block" id="Grid.unload"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.unload">[docs]</a>    def unload(self):
-        """ unload is meant to give children a chance to free caches, the idea
-        being that an unload will free memory, but all the functionality is
-        preserved, so data is accessable without an explicit reload
-        """
-        for fld in self.fields:
-            fld.unload()
-        # TODO: does anything else need to be unloaded in here?
-</div>
-<div class="viewcode-block" id="Grid.nr_times"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.nr_times">[docs]</a>    def nr_times(self, *args, **kwargs): #pylint: disable=W0613,R0201
-        return 1
-</div>
-<div class="viewcode-block" id="Grid.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.iter_times">[docs]</a>    def iter_times(self, *args, **kwargs): #pylint: disable=W0613
-        # FIXME: it is unclear to me what to do here, since a dataset
-        # may have &gt; 1 grid... and if so only the first will be returned...
-        # i guess there is some ambiguity if there is no temporal dataset...
-        with self as me:
-            yield me
-</div>
-<div class="viewcode-block" id="Grid.iter_fields"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.iter_fields">[docs]</a>    def iter_fields(self, named=None, **kwargs): #pylint: disable=W0613
-        """ iterate over fields in a grid, if named is given, it should be a
-        list of field names to iterate over
-        """
-        # Note: using 'with' here is better than making a shell copy
-        if named is not None:
-            for name in named:
-                with self.fields[name] as f:
-                    yield f
-        else:
-            for fld in self.fields:
-                with fld as f:
-                    yield f
-</div>
-<div class="viewcode-block" id="Grid.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.print_tree">[docs]</a>    def print_tree(self, depth=-1, prefix=""): #pylint: disable=W0613
-        self.fields.print_tree(prefix=prefix + tree_prefix)
+    <span class="nd">@crds.setter</span>
+<div class="viewcode-block" id="Grid.crds"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.crds">[docs]</a>    <span class="k">def</span> <span class="nf">crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span> <span class="o">=</span> <span class="n">val</span>
 
-    ##################################
-    ## Utility methods to get at crds
-    # these are the same as something like self.crds['xnc']
-    # or self.crds.get_crd()</div>
-<div class="viewcode-block" id="Grid.get_crd_nc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_nc">[docs]</a>    def get_crd_nc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2
-        """
-        return self.crds.get_nc(axis, shaped=shaped)
+    <span class="c"># def set_time(self, time):</span>
+    <span class="c">#     self.time = time</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crd_cc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_cc">[docs]</a>    def get_crd_cc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2
-        """
-        return self.crds.get_cc(axis, shaped=shaped)
+<div class="viewcode-block" id="Grid.set_crds"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.set_crds">[docs]</a>    <span class="k">def</span> <span class="nf">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crds_object</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crds</span> <span class="o">=</span> <span class="n">crds_object</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crd_ec"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_ec">[docs]</a>    def get_crd_ec(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2
-        """
-        return self.crds.get_ec(axis, shaped=shaped)
+<div class="viewcode-block" id="Grid.add_field"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.add_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">fields</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Note: in XDMF reader, the grid will NOT have crds when adding</span>
+<span class="sd">        fields, so any grid crd transforms won&#39;t be set</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">force_vector_layout</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prepare_child</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crd_fc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_fc">[docs]</a>    def get_crd_fc(self, axis, shaped=False):
-        """ returns a flat ndarray of coordinates along a given axis
-        axis can be crd name as string, or index, as in x==2, y==1, z==2
-        """
-        return self.crds.get_fc(axis, shaped=shaped)
-
-    ## these return all crd dimensions
-    # these are the same as something like self.crds.get_crds()</div>
-<div class="viewcode-block" id="Grid.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_nc">[docs]</a>    def get_crds_nc(self, axes=None, shaped=False):
-        """ returns all node centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True
-        """
-        return self.crds.get_crds_nc(axes=axes, shaped=shaped)
+<div class="viewcode-block" id="Grid.unload"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
+<span class="sd">        being that an unload will free memory, but all the functionality is</span>
+<span class="sd">        preserved, so data is accessable without an explicit reload</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="n">fld</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="c"># TODO: does anything else need to be unloaded in here?</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_cc">[docs]</a>    def get_crds_cc(self, axes=None, shaped=False):
-        """ returns all cell centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True
-        """
-        return self.crds.get_crds_cc(axes=axes, shaped=shaped)
+<div class="viewcode-block" id="Grid.nr_times"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.nr_times">[docs]</a>    <span class="k">def</span> <span class="nf">nr_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613,R0201</span>
+        <span class="k">return</span> <span class="mi">1</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_fc">[docs]</a>    def get_crds_fc(self, axes=None, shaped=False):
-        """ returns all face centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True
-        """
-        return self.crds.get_crds_fc(axes=axes, shaped=shaped)
+<div class="viewcode-block" id="Grid.iter_times"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
+        <span class="c"># FIXME: it is unclear to me what to do here, since a dataset</span>
+        <span class="c"># may have &gt; 1 grid... and if so only the first will be returned...</span>
+        <span class="c"># i guess there is some ambiguity if there is no temporal dataset...</span>
+        <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">me</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">me</span>
 </div>
-<div class="viewcode-block" id="Grid.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_ec">[docs]</a>    def get_crds_ec(self, axes=None, shaped=False):
-        """ returns all edge centered coords as a list of ndarrays, flat if
-        shaped==False, or shaped if shaped==True
-        """
-        return self.crds.get_crds_ec(axes=axes, shaped=shaped)
-
-    ##</div>
-<div class="viewcode-block" id="Grid.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_field">[docs]</a>    def get_field(self, fldname, time=None, force_longterm_caches=False):  # pylint: disable=unused-argument
-        try:
-            if force_longterm_caches or self.longterm_field_caches:
-                return self.fields[fldname]
-            else:
-                return self.fields[fldname].shell_copy(force=False)
-        except KeyError:
-            func = "_get_" + fldname
-            if hasattr(self, func):
-                return getattr(self, func)()
-            else:
-                raise KeyError("field not found")
+<div class="viewcode-block" id="Grid.get_times"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="Grid.get_grid"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_grid">[docs]</a>    def get_grid(self, time=None):  # pylint: disable=unused-argument
-        return self
+<div class="viewcode-block" id="Grid.get_time"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_times</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-    def __contains__(self, item):
-        return item in self.fields
-
-    def __len__(self):
-        return len(self.fields)
-
-<div class="viewcode-block" id="Grid.__getitem__"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.__getitem__">[docs]</a>    def __getitem__(self, item):
-        """ returns a field by name, or if no field is found, a coordinate by
-        name some crd identifier, see Coordinate.get_item for details
-        """
-        try:
-            return self.get_field(item)
-        except KeyError:
-            if self.crds is not None and item in self.crds:
-                return self.crds[item]
-            else:
-                raise KeyError(item)
+<div class="viewcode-block" id="Grid.iter_fields"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.iter_fields">[docs]</a>    <span class="k">def</span> <span class="nf">iter_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
+        <span class="sd">&quot;&quot;&quot; iterate over fields in a grid, if named is given, it should be a</span>
+<span class="sd">        list of field names to iterate over</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Note: using &#39;with&#39; here is better than making a shell copy</span>
+        <span class="k">if</span> <span class="n">named</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">named</span><span class="p">:</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">f</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">fld</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">f</span>
 </div>
-    def __setitem__(self, fldname, fld):
-        self.fields[fldname] = fld
+<div class="viewcode-block" id="Grid.print_tree"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.print_tree">[docs]</a>    <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">print_tree</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">tree_prefix</span><span class="p">)</span>
 
-    def __delitem__(self, fldname):
-        self.fields.__delitem__(fldname)
+    <span class="c">##################################</span>
+    <span class="c">## Utility methods to get at crds</span>
+    <span class="c"># these are the same as something like self._src_crds[&#39;xnc&#39;]</span>
+    <span class="c"># or self._src_crds.get_crd()</span></div>
+<div class="viewcode-block" id="Grid.get_crd_nc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
+<span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_nc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crd_cc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
+<span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_cc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crd_ec"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
+<span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_ec</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crd_fc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crd_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
+<span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_fc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 
-    def __str__(self):
-        return "&lt;Grid name={0}&gt;".format(self.name)
+    <span class="c">## these return all crd dimensions</span>
+    <span class="c"># these are the same as something like self._src_crds.get_crds()</span></div>
+<div class="viewcode-block" id="Grid.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns all node centered coords as a list of ndarrays, flat if</span>
+<span class="sd">        shaped==False, or shaped if shaped==True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns all cell centered coords as a list of ndarrays, flat if</span>
+<span class="sd">        shaped==False, or shaped if shaped==True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns all face centered coords as a list of ndarrays, flat if</span>
+<span class="sd">        shaped==False, or shaped if shaped==True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_fc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Grid.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_crds_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns all edge centered coords as a list of ndarrays, flat if</span>
+<span class="sd">        shaped==False, or shaped if shaped==True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_ec</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 
-    def __enter__(self):
-        return self
+    <span class="c">##</span></div>
+<div class="viewcode-block" id="Grid.get_field"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_longterm_caches</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                  <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">try_final_slice</span> <span class="o">=</span> <span class="bp">True</span>
 
-    def __exit__(self, typ, value, traceback):
-        self.unload()
-        return None
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">force_longterm_caches</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">longterm_field_caches</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">fldname</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">fldname</span><span class="p">]</span><span class="o">.</span><span class="n">shell_copy</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="s">&quot;_get_&quot;</span> <span class="o">+</span> <span class="n">fldname</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">)()</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">fldname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">result_name</span><span class="p">,</span> <span class="n">eqn</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">fldname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result_name</span><span class="p">,</span> <span class="n">eqn</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="n">slc</span><span class="p">)</span>
+                <span class="n">try_final_slice</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;field not found&quot;</span><span class="p">)</span>
 
-##
-## EOF
-##</div>
-</pre>
+        <span class="k">if</span> <span class="n">slc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">try_final_slice</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">slice_and_keep</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+</div>
+<div class="viewcode-block" id="Grid.get_grid"><a class="viewcode-back" href="../../viscid.html#viscid.grid.Grid.get_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns a field by name, or if no field is found, a coordinate by</span>
+<span class="sd">        name some crd identifier, see Coordinate.get_item for details</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">fld</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">fldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span>
+
+    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">__delitem__</span><span class="p">(</span><span class="n">fldname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;&lt;Grid name={0}&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>

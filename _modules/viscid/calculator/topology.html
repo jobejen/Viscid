@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.calculator.topology &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.calculator.topology &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,71 +146,71 @@
 <hr/>
 
           
-  <h1>Source code for viscid.calculator.topology</h1><pre>
-"""I don't know if this is worth keeping as its own module,
-TOPOLOGY_* is copied here so that one can import this module
-without needing to have built the cython module streamline.pyx
-"""
+  <h1>Source code for viscid.calculator.topology</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;I don&#39;t know if this is worth keeping as its own module,</span>
+<span class="sd">TOPOLOGY_* is copied here so that one can import this module</span>
+<span class="sd">without needing to have built the cython module streamline.pyx</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-TOPOLOGY_MS_NONE = 0  # no translation needed
-TOPOLOGY_MS_CLOSED = 1  # translated from 5, 6, 7(4|5|6)
-TOPOLOGY_MS_OPEN_NORTH = 2  # translated from 13 (8|5)
-TOPOLOGY_MS_OPEN_SOUTH = 4  # translated from 14 (8|6)
-TOPOLOGY_MS_SW = 8  # no translation needed
-# TOPOLOGY_MS_CYCLIC = 16  # no translation needed
-TOPOLOGY_MS_INVALID = [3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15]
-TOPOLOGY_MS_OTHER = range(32, 512)  # &gt;= 16
+<span class="n">TOPOLOGY_MS_NONE</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># no translation needed</span>
+<span class="n">TOPOLOGY_MS_CLOSED</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c"># translated from 5, 6, 7(4|5|6)</span>
+<span class="n">TOPOLOGY_MS_OPEN_NORTH</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c"># translated from 13 (8|5)</span>
+<span class="n">TOPOLOGY_MS_OPEN_SOUTH</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c"># translated from 14 (8|6)</span>
+<span class="n">TOPOLOGY_MS_SW</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c"># no translation needed</span>
+<span class="c"># TOPOLOGY_MS_CYCLIC = 16  # no translation needed</span>
+<span class="n">TOPOLOGY_MS_INVALID</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="c"># TOPOLOGY_MS_OTHER = list(range(32, 512))  # &gt;= 16</span>
 
-TOPOLOGY_G_NONE = 0
+<span class="n">TOPOLOGY_G_NONE</span> <span class="o">=</span> <span class="mi">0</span>
 
-color_map_msphere = {TOPOLOGY_MS_CLOSED: (0.0, 0.8, 0.0),
-                     TOPOLOGY_MS_OPEN_NORTH: (0.0, 0.0, 0.7),
-                     TOPOLOGY_MS_OPEN_SOUTH: (0.7, 0.0, 0.0),
-                     TOPOLOGY_MS_SW: (0.7, 0.7, 0.7)
-                    }
+<span class="n">color_map_msphere</span> <span class="o">=</span> <span class="p">{</span><span class="n">TOPOLOGY_MS_CLOSED</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                     <span class="n">TOPOLOGY_MS_OPEN_NORTH</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span>
+                     <span class="n">TOPOLOGY_MS_OPEN_SOUTH</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                     <span class="n">TOPOLOGY_MS_SW</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+                    <span class="p">}</span>
 
-color_map_generic = {}
+<span class="n">color_map_generic</span> <span class="o">=</span> <span class="p">{}</span>
 
-# for legacy reasons, make some aliases
-TOPOLOGY_NONE = TOPOLOGY_MS_NONE
-TOPOLOGY_CLOSED = TOPOLOGY_MS_CLOSED
-TOPOLOGY_OPEN_NORTH = TOPOLOGY_MS_OPEN_NORTH
-TOPOLOGY_OPEN_SOUTH = TOPOLOGY_MS_OPEN_SOUTH
-TOPOLOGY_SW = TOPOLOGY_MS_SW
-# TOPOLOGY_CYCLIC = TOPOLOGY_MS_CYCLIC
-TOPOLOGY_INVALID = TOPOLOGY_MS_INVALID
-TOPOLOGY_OTHER = TOPOLOGY_MS_OTHER
-color_map = color_map_msphere
+<span class="c"># for legacy reasons, make some aliases</span>
+<span class="n">TOPOLOGY_NONE</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_NONE</span>
+<span class="n">TOPOLOGY_CLOSED</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_CLOSED</span>
+<span class="n">TOPOLOGY_OPEN_NORTH</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_OPEN_NORTH</span>
+<span class="n">TOPOLOGY_OPEN_SOUTH</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_OPEN_SOUTH</span>
+<span class="n">TOPOLOGY_SW</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_SW</span>
+<span class="c"># TOPOLOGY_CYCLIC = TOPOLOGY_MS_CYCLIC</span>
+<span class="n">TOPOLOGY_INVALID</span> <span class="o">=</span> <span class="n">TOPOLOGY_MS_INVALID</span>
+<span class="c"># TOPOLOGY_OTHER = TOPOLOGY_MS_OTHER</span>
+<span class="n">color_map</span> <span class="o">=</span> <span class="n">color_map_msphere</span>
 
-<div class="viewcode-block" id="color_from_topology"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.topology.color_from_topology">[docs]</a>def color_from_topology(topology, topo_style="msphere"):
-    """Determine RGB from topology value
+<div class="viewcode-block" id="color_from_topology"><a class="viewcode-back" href="../../../viscid.calculator.html#viscid.calculator.topology.color_from_topology">[docs]</a><span class="k">def</span> <span class="nf">color_from_topology</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">topo_style</span><span class="o">=</span><span class="s">&quot;msphere&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Determine RGB from topology value</span>
 
-    Parameters:
-      topology (int): some value in
-          ``calculator.streamline.TOPOLOGY_*``
-      topo_style (string): msphere, or a dict with its own
-          mapping
+<span class="sd">    Parameters:</span>
+<span class="sd">      topology (int): some value in</span>
+<span class="sd">          ``calculator.streamline.TOPOLOGY_*``</span>
+<span class="sd">      topo_style (string): msphere, or a dict with its own</span>
+<span class="sd">          mapping</span>
 
-    Returns:
-        (R, G, B)
+<span class="sd">    Returns:</span>
+<span class="sd">        (R, G, B)</span>
 
-    Note:
-        to override this color scheme, just set
+<span class="sd">    Note:</span>
+<span class="sd">        to override this color scheme, just set</span>
 
-            topoloy.color_from_topology = some_function
-    """
-    if isinstance(topo_style, dict):
-        mapping = topo_style
-    elif topo_style == "msphere":
-        mapping = color_map_msphere
-    else:
-        mapping = color_map_generic
+<span class="sd">            topoloy.color_from_topology = some_function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topo_style</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">topo_style</span>
+    <span class="k">elif</span> <span class="n">topo_style</span> <span class="o">==</span> <span class="s">&quot;msphere&quot;</span><span class="p">:</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">color_map_msphere</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">color_map_generic</span>
 
-    try:
-        return mapping[topology]
-    except KeyError:
-        return (0.0, 0.0, 0.0)</div>
-</pre>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">topology</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span></div>
+</pre></div>
 
           <footer>
   <hr/>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Utilities &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>Command Line Utilities &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="index.html"/>
         <link rel="next" title="API Reference" href="modules.html"/>
         <link rel="prev" title="Calculator Examples" href="ex_calc.html"/> 
 
@@ -80,8 +80,8 @@
 <li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -91,11 +91,16 @@
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -104,8 +109,10 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -142,11 +149,29 @@
           
   <div class="section" id="command-line-utilities">
 <h1>Command Line Utilities<a class="headerlink" href="#command-line-utilities" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="p2d">
-<h2>p2d<a class="headerlink" href="#p2d" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">p2d</span></tt> is a command line script for quickly generating plots. Here is an example.</p>
-<p><tt class="docutils literal"><span class="pre">p2d</span> <span class="pre">-t</span> <span class="pre">30</span> <span class="pre">--slice</span> <span class="pre">z=0</span> <span class="pre">-p</span> <span class="pre">beta</span> <span class="pre">-o</span> <span class="pre">log</span> <span class="pre">-p</span> <span class="pre">jz</span> <span class="pre">-o</span> <span class="pre">lin_0</span> <span class="pre">-p</span> <span class="pre">psi</span> <span class="pre">-o</span> <span class="pre">style_contour,levels_30</span> <span class="pre">dip_0288_0.00500_0.50/*.3df.xdmf</span></tt></p>
-<img alt="_images/p2d_dip_0288.png" class="align-center" src="_images/p2d_dip_0288.png" />
+<div class="section" id="viscid-2d">
+<h2>viscid_2d<a class="headerlink" href="#viscid-2d" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">viscid_2d</span></tt> is a command line script for quickly generating 2D plots. In the following example, the <cite>-p</cite> options that have equations require that the evaluator is enabled in your viscidrc file (off by default for security reasons):</p>
+<div class="highlight-python"><div class="highlight"><pre>viscid_2d -o x_-15_10,y_-10_10,earth \
+  -p &#39;P=pp&#39; -o log \
+  -p &#39;^tmp=abs(psi)&#39; -o log,style_contour,levels_30,linewidths=0.8,colors=grey,linestyles_solid \
+  -p &#39;B$^2$=bx**2+by**2+bz**2&#39; -o log \
+  -p &#39;$\rho v^2$=rr*(vx**2+vy**2+vz**2)&#39; -o log \
+  --slice x=-20.0:15.0,y=0.0,z=-10.0:10.0 -t T1:00:00.0 -s 7,15 --tighten \
+  $DEV/src/Viscid/sample/*.py_0.xdmf
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/sample_2d.png"><img alt="_images/sample_2d.png" class="align-center" src="_images/sample_2d.png" style="width: 75%;" /></a>
+</div>
+<div class="section" id="viscid-ts">
+<h2>viscid_ts<a class="headerlink" href="#viscid-ts" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">viscid_ts</span></tt> is a script for quickly generating time series plots:</p>
+<div class="highlight-python"><div class="highlight"><pre>viscid_ts -p &#39;P=pp&#39; -o log -p &#39;B$_x$=bx&#39; -p &#39;|V|=sqrt(vx**2+vy**2+vz**2)&#39; \
+--slice x=9.5,y=0.0,z=0.0 --timeformat hms --rl -t T1:00:00.0:T1:20:00.0 \
+--nofname $MNT/trillian/scratch/da*e3/target/*.py_0.xdmf
+</pre></div>
+</div>
+<img alt="_images/sample_ts.png" class="align-center" src="_images/sample_ts.png" />
 </div>
 <div class="section" id="viscid-diff">
 <h2>viscid_diff<a class="headerlink" href="#viscid-diff" title="Permalink to this headline">¶</a></h2>
@@ -154,14 +179,19 @@
 <p><tt class="docutils literal"><span class="pre">viscid_diff</span> <span class="pre">--show</span> <span class="pre">*.3df.{000200,000201}.xdmf</span> <span class="pre">rr</span></tt></p>
 <img alt="_images/viscid_diff_ex.png" class="align-center" src="_images/viscid_diff_ex.png" />
 </div>
+<div class="section" id="athena2xdmf">
+<h2>athena2xdmf<a class="headerlink" href="#athena2xdmf" title="Permalink to this headline">¶</a></h2>
+<p>Convert athena data files to xdmf files.</p>
+</div>
 <div class="section" id="bitmaskbits">
 <h2>bitmaskbits<a class="headerlink" href="#bitmaskbits" title="Permalink to this headline">¶</a></h2>
 <p>Give it a number and it tells you which bits were on. Useful for decoding topology bitmasks.:</p>
-<div class="highlight-python"><pre>$ bitmaskbits 552
+<div class="highlight-python"><div class="highlight"><pre>$ bitmaskbits 552
 The following bits were on (bit, 2**bit)...
 3 (8)
 5 (32)
-9 (512)</pre>
+9 (512)
+</pre></div>
 </div>
 </div>
 </div>

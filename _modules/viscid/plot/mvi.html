@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mvi &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.plot.mvi &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,238 +146,310 @@
 <hr/>
 
           
-  <h1>Source code for viscid.plot.mvi</h1><pre>
-"""Convevience module for making 3d plots with Mayavi"""
-from __future__ import print_function
-import code
+  <h1>Source code for viscid.plot.mvi</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Convevience module for making 3d plots with Mayavi</span>
 
-import numpy as np
-from mayavi import mlab
-from mayavi.sources.vtk_data_source import VTKDataSource
-from mayavi.sources.builtin_surface import BuiltinSurface
-from tvtk.api import tvtk
+<span class="sd">Note: you can&#39;t set rc parameters for this module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">code</span>
 
-from viscid import field
-from viscid.calculator.topology import color_from_topology
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">mayavi</span> <span class="kn">import</span> <span class="n">mlab</span>
+<span class="kn">from</span> <span class="nn">mayavi.sources.vtk_data_source</span> <span class="kn">import</span> <span class="n">VTKDataSource</span>
+<span class="kn">from</span> <span class="nn">mayavi.sources.builtin_surface</span> <span class="kn">import</span> <span class="n">BuiltinSurface</span>
+<span class="kn">from</span> <span class="nn">tvtk.api</span> <span class="kn">import</span> <span class="n">tvtk</span>
 
-# def data_source(fld):
-#     """ get a data source from a scalar field """
-#     dat = tvtk.RectilinearGrid()
-#
-#     suffix = "cc" if fld.iscentered("Cell") else ""
-#     dat.x_coordinates = fld.crds['x' + suffix]
-#     dat.y_coordinates = fld.crds['y' + suffix]
-#     dat.z_coordinates = fld.crds['z' + suffix]
-#
-#     if isinstance(fld, field.ScalarField):
-#         dat.point_data.scalars = np.ravel(fld.dat)
-#         dat.point_data.scalars.name = fld.name
-#     elif isinstance(fld, field.VectorField):
-#         pass
-#
-#     return VTKDataSource(data=dat)
-#
-#     rr = tvtk.RectilinearGrid()
-#
-#     rr.point_data.scalars.name = 'rr'
-#     rr.dimensions = collection[0]['rr'].shape[::-1]
-#     #print(collection[0]['coords'][:])
-#     rr_src = VTKDataSource(data=rr)
-#
-#     b = tvtk.RectilinearGrid()
-#     bdata = np.empty((np.prod(collection[0]['bx'].shape), 3))
-#     for i in range(3):
-#         bdata[:,i] = np.asarray(collection[0]['b'][:,:,:,i],
-#                                 dtype='f').ravel()
-#     b.point_data.vectors = bdata
-#     b.dimensions = collection[0]['b'].shape[:-1][::-1]
-#
-#     b_src = VTKDataSource(data=b)
-#     collection.unload()
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator.topology</span> <span class="kn">import</span> <span class="n">color_from_topology</span>
 
-<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a>def field_to_source(fld):
-    """Convert a field to a mayavi source
+<span class="c"># def data_source(fld):</span>
+<span class="c">#     &quot;&quot;&quot; get a data source from a scalar field &quot;&quot;&quot;</span>
+<span class="c">#     dat = tvtk.RectilinearGrid()</span>
+<span class="c">#</span>
+<span class="c">#     suffix = &quot;cc&quot; if fld.iscentered(&quot;Cell&quot;) else &quot;&quot;</span>
+<span class="c">#     dat.x_coordinates = fld.crds[&#39;x&#39; + suffix]</span>
+<span class="c">#     dat.y_coordinates = fld.crds[&#39;y&#39; + suffix]</span>
+<span class="c">#     dat.z_coordinates = fld.crds[&#39;z&#39; + suffix]</span>
+<span class="c">#</span>
+<span class="c">#     if isinstance(fld, field.ScalarField):</span>
+<span class="c">#         dat.point_data.scalars = np.ravel(fld.dat)</span>
+<span class="c">#         dat.point_data.scalars.name = fld.name</span>
+<span class="c">#     elif isinstance(fld, field.VectorField):</span>
+<span class="c">#         pass</span>
+<span class="c">#</span>
+<span class="c">#     return VTKDataSource(data=dat)</span>
+<span class="c">#</span>
+<span class="c">#     rr = tvtk.RectilinearGrid()</span>
+<span class="c">#</span>
+<span class="c">#     rr.point_data.scalars.name = &#39;rr&#39;</span>
+<span class="c">#     rr.dimensions = collection[0][&#39;rr&#39;].shape[::-1]</span>
+<span class="c">#     #print(collection[0][&#39;coords&#39;][:])</span>
+<span class="c">#     rr_src = VTKDataSource(data=rr)</span>
+<span class="c">#</span>
+<span class="c">#     b = tvtk.RectilinearGrid()</span>
+<span class="c">#     bdata = np.empty((np.prod(collection[0][&#39;bx&#39;].shape), 3))</span>
+<span class="c">#     for i in range(3):</span>
+<span class="c">#         bdata[:,i] = np.asarray(collection[0][&#39;b&#39;][:,:,:,i],</span>
+<span class="c">#                                 dtype=&#39;f&#39;).ravel()</span>
+<span class="c">#     b.point_data.vectors = bdata</span>
+<span class="c">#     b.dimensions = collection[0][&#39;b&#39;].shape[:-1][::-1]</span>
+<span class="c">#</span>
+<span class="c">#     b_src = VTKDataSource(data=b)</span>
+<span class="c">#     collection.unload()</span>
 
-    This dispatches to either :meth:`field_to_point_source` or
-    :meth:`field_to_cell_source` depending on the centering of
-    `fld`.
+<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi source</span>
 
-    Parameters:
-        fld: field to convert
+<span class="sd">    This dispatches to either :meth:`field_to_point_source` or</span>
+<span class="sd">    :meth:`field_to_cell_source` depending on the centering of</span>
+<span class="sd">    `fld`.</span>
 
-    Returns:
-        mayavi source
-    """
-    if fld.iscentered("Node"):
-        return field_to_point_source(fld)
-    elif fld.iscentered("Cell"):
-        return field_to_cell_source(fld)
-    else:
-        raise NotImplementedError("cell / node only for now")
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld: field to convert</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        mayavi source</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">field_to_point_source</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">field_to_cell_source</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;cell / node only for now&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="field_to_point_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_point_source">[docs]</a>def field_to_point_source(fld):
-    """Convert a field to a mayavi source
+<div class="viewcode-block" id="field_to_point_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_point_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_point_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi source</span>
 
-    Parameters:
-        fld: field to convert
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld: field to convert</span>
 
-    Returns:
-        mayavi point source
-    """
-    grid, arr = _prep_field(fld)
-    dat_target = grid.point_data
+<span class="sd">    Returns:</span>
+<span class="sd">        mayavi point source</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span><span class="p">,</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">_prep_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+    <span class="n">dat_target</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">point_data</span>
 
-    if fld.iscentered("Cell"):
-        # grid.dimensions is x, y, z not z, y, x
-        grid.dimensions = tuple(fld.crds.shape_cc[::-1])
-        grid.x_coordinates = fld.get_crd_cc('x')
-        grid.y_coordinates = fld.get_crd_cc('y')
-        grid.z_coordinates = fld.get_crd_cc('z')
-    elif fld.iscentered("Node"):
-        # grid.dimensions is x, y, z not z, y, x
-        grid.dimensions = tuple(fld.crds.shape_nc[::-1])
-        grid.x_coordinates = fld.get_crd_nc('x')
-        grid.y_coordinates = fld.get_crd_nc('y')
-        grid.z_coordinates = fld.get_crd_nc('z')
-    else:
-        raise ValueError("cell or node only please")
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_cc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;cell or node only please&quot;</span><span class="p">)</span>
 
-    return _finalize_source(fld, arr, grid, dat_target)
+    <span class="k">return</span> <span class="n">_finalize_source</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">dat_target</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="field_to_cell_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_cell_source">[docs]</a>def field_to_cell_source(fld):
-    """Convert a field to a mayavi cell source
+<div class="viewcode-block" id="field_to_cell_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_cell_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_cell_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi cell source</span>
 
-    Parameters:
-        fld: field to convert
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld: field to convert</span>
 
-    Returns:
-        mayavi cell source
-    """
-    grid, arr = _prep_field(fld)
-    dat_target = grid.cell_data
+<span class="sd">    Returns:</span>
+<span class="sd">        mayavi cell source</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span><span class="p">,</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">_prep_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+    <span class="n">dat_target</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">cell_data</span>
 
-    if fld.iscentered("Cell"):
-        # grid.dimensions is x, y, z not z, y, x
-        grid.dimensions = tuple(fld.crds.shape_cc[::-1])
-        grid.x_coordinates = fld.get_crd_nc('x')
-        grid.y_coordinates = fld.get_crd_nc('y')
-        grid.z_coordinates = fld.get_crd_nc('z')
-    elif fld.iscentered("Node"):
-        raise NotImplementedError("can't do lossless cell data from nodes yet")
-    else:
-        raise ValueError("cell or node only please")
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+        <span class="c"># grid.dimensions is x, y, z not z, y, x</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_cc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">x_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">y_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">)</span>
+        <span class="n">grid</span><span class="o">.</span><span class="n">z_coordinates</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can&#39;t do lossless cell data from nodes yet&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;cell or node only please&quot;</span><span class="p">)</span>
 
-    return _finalize_source(fld, arr, grid, dat_target)
+    <span class="k">return</span> <span class="n">_finalize_source</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">dat_target</span><span class="p">)</span>
 </div>
-def _prep_field(fld):
-    grid = tvtk.RectilinearGrid()
+<span class="k">def</span> <span class="nf">_prep_field</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">tvtk</span><span class="o">.</span><span class="n">RectilinearGrid</span><span class="p">()</span>
 
-    if isinstance(fld, field.ScalarField):
-        arr = np.reshape(fld.data, (-1,))
-    elif isinstance(fld, field.VectorField):
-        arr = np.reshape(fld.data, (-1, 3))
-    else:
-        raise ValueError("Unexpected fld type: {0}".format(type(fld)))
-    # swap endian if needed
-    if str(arr.dtype).startswith("&gt;"):
-        arr = arr.byteswap().newbyteorder()
-    return grid, arr
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">field</span><span class="o">.</span><span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">field</span><span class="o">.</span><span class="n">LAYOUT_FLAT</span><span class="p">:</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">shape</span><span class="p">)),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unexpected fld type: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fld</span><span class="p">)))</span>
+    <span class="c"># swap endian if needed</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;&gt;&quot;</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">grid</span><span class="p">,</span> <span class="n">arr</span>
 
-def _finalize_source(fld, arr, grid, dat_target):
-    if isinstance(fld, field.ScalarField):
-        dat_target.scalars = arr
-        dat_target.scalars.name = fld.name
-    elif isinstance(fld, field.VectorField):
-        dat_target.vectors = arr
-        dat_target.vectors.name = fld.name
-    return VTKDataSource(data=grid)
+<span class="k">def</span> <span class="nf">_finalize_source</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">dat_target</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+        <span class="n">dat_target</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="n">arr</span>
+        <span class="n">dat_target</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">VectorField</span><span class="p">):</span>
+        <span class="n">dat_target</span><span class="o">.</span><span class="n">vectors</span> <span class="o">=</span> <span class="n">arr</span>
+        <span class="n">dat_target</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">return</span> <span class="n">VTKDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
 
-<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a>def plot_lines(lines, topology=None, scalar=None, **kwargs):
-    """Make 3D mayavi plot of lines
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a><span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scalar</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make 3D mayavi plot of lines</span>
 
-    Parameters:
-        lines: list of lines. Each line should have shape 3xP for 3
-            spatial dimensions and P points along the line
-        topology (optional): an array of values that describe how to
-            color the line.
-        kwargs: forwarded to :meth:`mayavi.mlab.plot3d`
-    """
-    if "color" not in kwargs and topology is not None:
-        if isinstance(topology, field.Field):
-            topology = topology.data.reshape(-1)
-        topo_color = True
-    else:
-        topo_color = False
+<span class="sd">    Parameters:</span>
+<span class="sd">        lines: list of lines. Each line should have shape 3xP for 3</span>
+<span class="sd">            spatial dimensions and P points along the line</span>
+<span class="sd">        topology (optional): an array of values that describe how to</span>
+<span class="sd">            color the line.</span>
+<span class="sd">        kwargs: forwarded to :meth:`mayavi.mlab.plot3d`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s">&quot;color&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">topology</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+            <span class="n">topology</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">False</span>
 
-    for i, line in enumerate(lines):
-        if topo_color:
-            kwargs["color"] = color_from_topology(topology[i])
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">topo_color</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_from_topology</span><span class="p">(</span><span class="n">topology</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
-        if scalar is not None:
-            mlab.plot3d(line[2], line[1], line[0], scalar, **kwargs)
-        else:
-            mlab.plot3d(line[2], line[1], line[0], **kwargs)
+        <span class="k">if</span> <span class="n">scalar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scalar</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a>def mlab_earth(pipeline=None, daycol=(1, 1, 1), nightcol=(0, 0, 0), res=15,
-               crd_system="mhd"):
-    """Plot a black and white sphere (Earth) showing sunward direction
+<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a><span class="k">def</span> <span class="nf">mlab_earth</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">daycol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nightcol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">res</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+               <span class="n">crd_system</span><span class="o">=</span><span class="s">&quot;mhd&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot a black and white sphere (Earth) showing sunward direction</span>
 
-    Parameters:
-        pipeline (optional): Use if you want to plot using an existing
-            pipeline
-        daycol (tuple, optional): color of dayside (RGB)
-        nightcol (tuple, optional): color of nightside (RGB)
-        res (optional): rosolution of teh sphere
-        crd_system (str, optional): 'mhd' or 'gse', can be gotten from
-            an openggcm field using ``fld.info["crd_system"]``.
-    """
-    if pipeline is None:
-        pipeline = mlab.pipeline
+<span class="sd">    Parameters:</span>
+<span class="sd">        pipeline (optional): Use if you want to plot using an existing</span>
+<span class="sd">            pipeline</span>
+<span class="sd">        daycol (tuple, optional): color of dayside (RGB)</span>
+<span class="sd">        nightcol (tuple, optional): color of nightside (RGB)</span>
+<span class="sd">        res (optional): rosolution of teh sphere</span>
+<span class="sd">        crd_system (str, optional): &#39;mhd&#39; or &#39;gse&#39;, can be gotten from</span>
+<span class="sd">            an openggcm field using ``fld.meta[&quot;crd_system&quot;]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pipeline</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">mlab</span><span class="o">.</span><span class="n">pipeline</span>
 
-    crd_system = crd_system.lower()
-    if crd_system == "mhd":
-        theta_dusk, theta_dawn = 270, 90
-    elif crd_system == "gse":
-        theta_dusk, theta_dawn = 90, 270
+    <span class="n">crd_system</span> <span class="o">=</span> <span class="n">crd_system</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">crd_system</span> <span class="o">==</span> <span class="s">&quot;mhd&quot;</span><span class="p">:</span>
+        <span class="n">theta_dusk</span><span class="p">,</span> <span class="n">theta_dawn</span> <span class="o">=</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">90</span>
+    <span class="k">elif</span> <span class="n">crd_system</span> <span class="o">==</span> <span class="s">&quot;gse&quot;</span><span class="p">:</span>
+        <span class="n">theta_dusk</span><span class="p">,</span> <span class="n">theta_dawn</span> <span class="o">=</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">270</span>
 
-    night = BuiltinSurface(source='sphere', name='night')
-    night.data_source.set(center=(0, 0, 0), radius=1.0, start_theta=theta_dusk,
-                          end_theta=theta_dawn, theta_resolution=res,
-                          phi_resolution=res)
-    pipeline.surface(night, color=nightcol)
+    <span class="n">night</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;night&#39;</span><span class="p">)</span>
+    <span class="n">night</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="n">theta_dusk</span><span class="p">,</span>
+                          <span class="n">end_theta</span><span class="o">=</span><span class="n">theta_dawn</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
+                          <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">night</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">nightcol</span><span class="p">)</span>
 
-    day = BuiltinSurface(source='sphere', name='day')
-    day.data_source.set(center=(0, 0, 0), radius=1.0, start_theta=theta_dawn,
-                        end_theta=theta_dusk, theta_resolution=res,
-                        phi_resolution=res)
-    pipeline.surface(day, color=daycol)
+    <span class="n">day</span> <span class="o">=</span> <span class="n">BuiltinSurface</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">&#39;sphere&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;day&#39;</span><span class="p">)</span>
+    <span class="n">day</span><span class="o">.</span><span class="n">data_source</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">start_theta</span><span class="o">=</span><span class="n">theta_dawn</span><span class="p">,</span>
+                        <span class="n">end_theta</span><span class="o">=</span><span class="n">theta_dusk</span><span class="p">,</span> <span class="n">theta_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span>
+                        <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">daycol</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.show">[docs]</a>def show(stop=True):
-    """Calls :meth:`mayavi.mlab.show(stop=stop)`"""
-    mlab.show(stop=stop)
+<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.show">[docs]</a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calls :meth:`mayavi.mlab.show(stop=stop)`&quot;&quot;&quot;</span>
+    <span class="n">mlab</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="interact"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.interact">[docs]</a>def interact(local=None):
-    """Switch to interactive interpreter
+<div class="viewcode-block" id="clf"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.clf">[docs]</a><span class="k">def</span> <span class="nf">clf</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Clear source data, then clear figure&quot;&quot;&quot;</span>
+    <span class="n">clear_data</span><span class="p">()</span>
+    <span class="n">mlab</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="remove_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.remove_source">[docs]</a><span class="k">def</span> <span class="nf">remove_source</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Safely remove a specific vtk source</span>
 
-    This can be handy if you want to interact with a 3d plot using
-    python.
+<span class="sd">    Args:</span>
+<span class="sd">        src (vtk_data_source): vtk data source to remove</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">release_data_flag</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">cell_scalars_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">cell_tensors_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">cell_vectors_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">point_scalars_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">point_tensors_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">point_vectors_name</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="n">src</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="clear_data"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.clear_data">[docs]</a><span class="k">def</span> <span class="nf">clear_data</span><span class="p">(</span><span class="n">scenes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Workaround for Mayavi / VTK memory leak</span>
 
-    Parameters:
-        local (dict, optional): Local namespace for the interactive
-            session. Usually you want ``interact(local=locals())``
-    """
-    banner = """Have some fun with mayavi :)
-    hints:
-        - use locals() to explore the namespace
-        - mlab.show(stop=True) or mvi.show() to interact with the plot/gui
-        - mayavi objects all have a trait_names() method
-        - Use Ctrl-D (eof) to end interaction """
-    code.interact(banner, local=local)
+<span class="sd">    This is needed when Mayavi/VTK keeps a reference to source data</span>
+<span class="sd">    when you would expect it to be freed like on a call to `mlab.clf()`</span>
+<span class="sd">    or when removing sources from the pipeline.</span>
 
-##
-## EOF
-##</div>
-</pre>
+<span class="sd">    Note:</span>
+<span class="sd">        This must be called when the pipeline still has the source, so</span>
+<span class="sd">        before a call to `mlab.clf()`, etc.</span>
+
+<span class="sd">    1. Set release_data_flag on all sources&#39; data</span>
+<span class="sd">    2. Remove reference to the data</span>
+<span class="sd">    3. Remove the data source</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        scene (None, mayavi.core.scene.Scene, or &#39;all&#39;): if None, gets</span>
+<span class="sd">            current scene; if Scene object, just that one; if &#39;all&#39;,</span>
+<span class="sd">            act on all scenes in the current engine. Can also be a list</span>
+<span class="sd">            of Scene objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">scenes</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scenes</span> <span class="o">=</span> <span class="p">[</span><span class="n">mlab</span><span class="o">.</span><span class="n">get_engine</span><span class="p">()</span><span class="o">.</span><span class="n">current_scene</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">scenes</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span><span class="p">:</span>
+        <span class="n">scenes</span> <span class="o">=</span> <span class="n">mlab</span><span class="o">.</span><span class="n">get_engine</span><span class="p">()</span><span class="o">.</span><span class="n">scenes</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scenes</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">scenes</span> <span class="o">=</span> <span class="p">[</span><span class="n">scenes</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">s</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scenes</span><span class="p">):</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scenes</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">children</span><span class="p">):</span>
+            <span class="n">remove_source</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="interact"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.interact">[docs]</a><span class="k">def</span> <span class="nf">interact</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Switch to interactive interpreter</span>
+
+<span class="sd">    This can be handy if you want to interact with a 3d plot using</span>
+<span class="sd">    python.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        local (dict, optional): Local namespace for the interactive</span>
+<span class="sd">            session. Usually you want ``interact(local=locals())``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">banner</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;Have some fun with mayavi :)</span>
+<span class="s">    hints:</span>
+<span class="s">        - use locals() to explore the namespace</span>
+<span class="s">        - mlab.show(stop=True) or mvi.show() to interact with the plot/gui</span>
+<span class="s">        - mayavi objects all have a trait_names() method</span>
+<span class="s">        - Use Ctrl-D (eof) to end interaction &quot;&quot;&quot;</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">banner</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">)</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>

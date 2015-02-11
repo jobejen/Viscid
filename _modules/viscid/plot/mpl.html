@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mpl &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.plot.mpl &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,852 +146,878 @@
 <hr/>
 
           
-  <h1>Source code for viscid.plot.mpl</h1><pre>
-"""Convenience module for making matplotlib plots
+  <h1>Source code for viscid.plot.mpl</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Convenience module for making matplotlib plots</span>
 
-Your best friend in this module is the :meth:`plot` function, but the
-best reference for all quirky options is :meth:`plot2d_field`.
-"""
-from __future__ import print_function
-from distutils.version import LooseVersion
+<span class="sd">Your best friend in this module is the :meth:`plot` function, but the</span>
+<span class="sd">best reference for all quirky options is :meth:`plot2d_field`.</span>
 
-import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-from matplotlib.colors import Normalize, LogNorm
-from mpl_toolkits.mplot3d import Axes3D #pylint: disable=W0611
-try:
-    from mpl_toolkits.basemap import Basemap
-    _HAS_BASEMAP = True
-except ImportError:
-    _HAS_BASEMAP = False
+<span class="sd">Note: you can&#39;t set rc parameters for this module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="kn">import</span> <span class="n">LooseVersion</span>
 
-from viscid import logger
-from viscid import field
-from viscid import coordinate
-from viscid.calculator import calc
-from viscid.calculator.topology import color_from_topology
-from viscid.compat import string_types
-# from viscid import vutil
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">LogNorm</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span> <span class="c">#pylint: disable=W0611</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
+    <span class="n">_HAS_BASEMAP</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_HAS_BASEMAP</span> <span class="o">=</span> <span class="bp">False</span>
 
-__mpl_ver__ = matplotlib.__version__
-has_colorbar_gridspec = LooseVersion(__mpl_ver__) &gt; LooseVersion("1.1.1")
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">calc</span>
+<span class="kn">from</span> <span class="nn">viscid.calculator.topology</span> <span class="kn">import</span> <span class="n">color_from_topology</span>
+<span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">vseaborn</span>
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot">[docs]</a>def plot(fld, selection=None, **kwargs):
-    """Plot a field by dispatching to the most appropiate funciton
-
-    * If fld has 1 spatial dimensions, call
-      :meth:`plot1d_field(fld[selection], **kwargs)`
-    * If fld has 2 spatial dimensions, call
-      :meth:`plot2d_field(fld[selection], **kwargs)`
-    * If fld is 2-D and has spherical coordinates (as is the case for
-      ionospheric fields), try to use :meth:`plot2d_mapfield` which
-      uses basemap to make its axes.
-
-    Parameters:
-        selection (optional): something that describes a field slice
-        kwargs: passed as keyword arguments to the actual plotting
-            function
-
-    Returns:
-        tuple: (plot, colorbar)
-            plot: matplotlib plot object
-            colorbar: matplotlib colorbar object
-
-    See Also:
-        * :meth:`plot1d_field`: target for 1d fields
-        * :meth:`plot2d_mapfield`: target for 2d spherical fields
-        * :meth:`plot2d_field`: target for 2d fields
+<span class="n">__mpl_ver__</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span>
+<span class="n">has_colorbar_gridspec</span> <span class="o">=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">__mpl_ver__</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s">&quot;1.1.1&quot;</span><span class="p">)</span>
+<span class="n">vseaborn</span><span class="o">.</span><span class="n">activate_from_viscid</span><span class="p">()</span>
 
 
-    Note:
-        Field slices are done using "slice_reduce", meaning extra
-        dimensions are reduced out.
-    """
-    if isinstance(fld, field.ScalarField):
-        fld = fld.slice_reduce(selection)
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot a field by dispatching to the most appropiate funciton</span>
 
-        if not isinstance(fld, field.ScalarField):
-            raise ValueError("Selection '{0}' sliced away too many "
-                             "dimensions".format(selection))
-        if fld.nr_sdims == 1:
-            return plot1d_field(fld, **kwargs)
-        elif fld.nr_sdims == 2:
-            if fld.is_spherical():
-                return plot2d_mapfield(fld, **kwargs)
-            return plot2d_field(fld, **kwargs)
-        else:
-            raise ValueError("mpl can only do 1-D or 2-D fields")
-    else:
-        raise TypeError("I can only do scalar fields right now")
+<span class="sd">    * If fld has 1 spatial dimensions, call</span>
+<span class="sd">      :meth:`plot1d_field(fld[selection], **kwargs)`</span>
+<span class="sd">    * If fld has 2 spatial dimensions, call</span>
+<span class="sd">      :meth:`plot2d_field(fld[selection], **kwargs)`</span>
+<span class="sd">    * If fld is 2-D and has spherical coordinates (as is the case for</span>
+<span class="sd">      ionospheric fields), try to use :meth:`plot2d_mapfield` which</span>
+<span class="sd">      uses basemap to make its axes.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        selection (optional): something that describes a field slice</span>
+<span class="sd">        kwargs: passed as keyword arguments to the actual plotting</span>
+<span class="sd">            function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: (plot, colorbar)</span>
+<span class="sd">            plot: matplotlib plot object</span>
+<span class="sd">            colorbar: matplotlib colorbar object</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        * :meth:`plot1d_field`: target for 1d fields</span>
+<span class="sd">        * :meth:`plot2d_mapfield`: target for 2d spherical fields</span>
+<span class="sd">        * :meth:`plot2d_field`: target for 2d fields</span>
+
+
+<span class="sd">    Note:</span>
+<span class="sd">        Field slices are done using &quot;slice_reduce&quot;, meaning extra</span>
+<span class="sd">        dimensions are reduced out.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+        <span class="n">fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">ScalarField</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Selection &#39;{0}&#39; sliced away too many &quot;</span>
+                             <span class="s">&quot;dimensions&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">plot1d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">is_spherical</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;mpl can only do 1-D or 2-D fields&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;I can only do scalar fields right now&quot;</span><span class="p">)</span>
 </div>
-def _parse_str(plot_opts):
-    """ opts string looks like 'log,x=-20_10', output is
-    [['log'], ['x', '-20', '10']] """
+<span class="k">def</span> <span class="nf">_parse_str</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; opts string looks like &#39;log,x=-20_10&#39;, output is</span>
+<span class="sd">    [[&#39;log&#39;], [&#39;x&#39;, &#39;-20&#39;, &#39;10&#39;]] &quot;&quot;&quot;</span>
 
-    if isinstance(plot_opts, str):
-        plot_opts = plot_opts.split(",")
-    elif plot_opts is None:
-        plot_opts = []
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">plot_opts</span> <span class="o">=</span> <span class="n">plot_opts</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">plot_opts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plot_opts</span> <span class="o">=</span> <span class="p">[]</span>
 
-    for i, opt in enumerate(plot_opts):
-        if isinstance(opt, str):
-            plot_opts[i] = opt.replace("=", "_").split("_")
-        elif not isinstance(plot_opts[i], (list, tuple)):
-            plot_opts[i] = [plot_opts[i]]
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">opt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">plot_opts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">,</span> <span class="s">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">plot_opts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">plot_opts</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
 
-    return plot_opts
+    <span class="n">plot_opts</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">plot_opts</span> <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">plot_opts</span>
 
-def _apply_parse_opts(plot_opts_str, fld, kwargs, axis=None):
-    """ modifies kwargs and returns a list of things to set after the fact
-    kwargs are things that get added as arguments to the plot command
-    plot_acts are set using plt.set(act[0], act[1], act[2]) """
+<span class="k">def</span> <span class="nf">_apply_parse_opts</span><span class="p">(</span><span class="n">plot_opts_str</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; modifies kwargs and returns a list of things to set after the fact</span>
+<span class="sd">    kwargs are things that get added as arguments to the plot command</span>
+<span class="sd">    plot_acts are set using plt.set(act[0], act[1], act[2]) &quot;&quot;&quot;</span>
 
-    plot_opts = _parse_str(plot_opts_str)
-    actions = []
+    <span class="n">plot_opts</span> <span class="o">=</span> <span class="n">_parse_str</span><span class="p">(</span><span class="n">plot_opts_str</span><span class="p">)</span>
+    <span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
 
-    if not axis:
-        axis = plt.gca()
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
-    for opt in plot_opts:
-        if opt[0] == "lin":
-            opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            actions.append([axis.set_xscale, ["linear"]])
-            actions.append([axis.set_yscale, ["linear"]])
+    <span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">plot_opts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;lin&quot;</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">o</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;linear&quot;</span><span class="p">]])</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;linear&quot;</span><span class="p">]])</span>
 
-            # scale will be centered around 0
-            if len(opt) == 2 and float(opt[1]) == 0.0:
-                absmax = calc.abs_max(fld)
-                opt = [opt[0], -1.0 * absmax, 1.0 * absmax]
+            <span class="c"># scale will be centered around 0</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">float</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">absmax</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">abs_max</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">absmax</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">absmax</span><span class="p">]</span>
 
-            if fld.nr_sdims == 1:
-                actions.append([axis.set_ylim, opt[1:]])
-            elif fld.nr_sdims == 2:
-                # plt.normalize is deprecated
-                # kwargs["norm"] = plt.normalize(*opt[1:])
-                kwargs["norm"] = Normalize(*opt[1:])
+            <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">,</span> <span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+            <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="c"># plt.normalize is deprecated</span>
+                <span class="c"># kwargs[&quot;norm&quot;] = plt.normalize(*opt[1:])</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="o">*</span><span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
-        elif opt[0] == "log":
-            opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            actions.append([axis.set_xscale, ["linear"]])
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;log&quot;</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">o</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;linear&quot;</span><span class="p">]])</span>
 
-            if fld.nr_sdims == 1:
-                actions.append([axis.set_yscale, ["log"]])
-                actions.append([axis.set_ylim, opt[1:]])
-            elif fld.nr_sdims == 2:
-                actions.append([axis.set_yscale, ["linear"]])
-                kwargs["norm"] = LogNorm(*opt[1:])
+            <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;log&quot;</span><span class="p">]])</span>
+                <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">,</span> <span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+            <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;linear&quot;</span><span class="p">]])</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LogNorm</span><span class="p">(</span><span class="o">*</span><span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
-        elif opt[0] == "loglog":
-            opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            actions.append([axis.set_xscale, ["log"]])
-            actions.append([axis.set_yscale, ["log"]])
-            if fld.nr_sdims == 2:
-                kwargs["norm"] = LogNorm(*opt[1:])
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;loglog&quot;</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">o</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;log&quot;</span><span class="p">]])</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;log&quot;</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;norm&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">LogNorm</span><span class="p">(</span><span class="o">*</span><span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
-        elif opt[0] == "x":
-            opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            # axis.set_xlim(*opt[1:])
-            actions.append([axis.set_xlim, opt[1:]])
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">o</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span>
+            <span class="c"># axis.set_xlim(*opt[1:])</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">,</span> <span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
 
-        elif opt[0] == "y":
-            opt = [float(o) if i &gt; 0 else o for i, o in enumerate(opt)]
-            # axis.set_ylim(*opt[1:])
-            actions.append([axis.set_ylim, opt[1:]])
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">o</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span>
+            <span class="c"># axis.set_ylim(*opt[1:])</span>
+            <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">,</span> <span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
 
-        elif opt[0] == "own":
-            logger.warn("own axis doesn't seem to work yet...")
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;own&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;own axis doesn&#39;t seem to work yet...&quot;</span><span class="p">)</span>
 
-        elif opt[0] == "ownx":
-            logger.warn("own axis doesn't seem to work yet...")
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;ownx&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;own axis doesn&#39;t seem to work yet...&quot;</span><span class="p">)</span>
 
-        elif opt[0] == "owny":
-            logger.warn("own axis doesn't seem to work yet...")
+        <span class="k">elif</span> <span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;owny&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;own axis doesn&#39;t seem to work yet...&quot;</span><span class="p">)</span>
 
-        else:
-            val = "_".join(opt[1:]).lower()
-            if val == "" or val == "true":
-                val = True
-            elif val == "false":
-                val = False
-            kwargs[opt[0]] = val
-            # logger.warn("Unknown plot option ({0}) didn't parse "
-            #              "correctly".format(opt[0]))
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="ow">or</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;true&quot;</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">elif</span> <span class="n">val</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;false&quot;</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="k">pass</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">opt</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="c"># logger.warn(&quot;Unknown plot option ({0}) didn&#39;t parse &quot;</span>
+            <span class="c">#              &quot;correctly&quot;.format(opt[0]))</span>
 
 
-    # things that i just want to be automagic...
-    # use seismic cmap if the data looks centered around 0
-    if "norm" in kwargs and "cmap" not in kwargs:
-        norm = kwargs["norm"]
-        if norm.vmin and norm.vmax and np.abs(norm.vmax + 1.0*norm.vmin) &lt; 1e-4:
-            kwargs["cmap"] = plt.get_cmap('seismic')
+    <span class="c"># things that i just want to be automagic...</span>
+    <span class="c"># use seismic cmap if the data looks centered around 0</span>
+    <span class="k">if</span> <span class="s">&quot;norm&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="s">&quot;cmap&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;norm&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">norm</span><span class="o">.</span><span class="n">vmin</span> <span class="ow">and</span> <span class="n">norm</span><span class="o">.</span><span class="n">vmax</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">vmax</span> <span class="o">+</span> <span class="mf">1.0</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">vmin</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;cmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">&#39;seismic&#39;</span><span class="p">)</span>
 
-    return axis, actions
+    <span class="k">return</span> <span class="n">axis</span><span class="p">,</span> <span class="n">actions</span>
 
-def _apply_actions(acts):
-    for act in acts:
-        act[0](*act[1])
+<span class="k">def</span> <span class="nf">_apply_actions</span><span class="p">(</span><span class="n">acts</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">acts</span><span class="p">:</span>
+        <span class="n">act</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">act</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<div class="viewcode-block" id="plot2d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_field">[docs]</a>def plot2d_field(fld, style="pcolormesh", ax=None, plot_opts=None,
-                 colorbar=True, mask_nan=False, do_labels=True, show=False,
-                 action_ax=None, scale=None, mod=None, extra_args=None,
-                 **kwargs):
-    """Plot a 2D Field using pcolormesh, contour, etc.
+<div class="viewcode-block" id="plot2d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_field">[docs]</a><span class="k">def</span> <span class="nf">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;pcolormesh&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">colorbar</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">do_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">action_ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mod</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">extra_args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot a 2D Field using pcolormesh, contour, etc.</span>
 
-    Parameters:
-        style (str, optional): One of pcolormesh, pcolor, contour, or
-            contourf
-        ax (matplotlib axis, optional): Plot in a specific axis object
-        plot_opts (str, optional): comma separated string of additional
-            options with underscore separated argument options. They are
-            summarized as follows...
+<span class="sd">    Parameters:</span>
+<span class="sd">        style (str, optional): One of pcolormesh, pcolor, contour, or</span>
+<span class="sd">            contourf</span>
+<span class="sd">        ax (matplotlib axis, optional): Plot in a specific axis object</span>
+<span class="sd">        plot_opts (str, optional): comma separated string of additional</span>
+<span class="sd">            options with underscore separated argument options. They are</span>
+<span class="sd">            summarized as follows...</span>
 
-            ================  ======================================
-            Option            Description
-            ================  ======================================
-            lin               Use a linear scale for data with two
-                              optional sub-options giving a range.
-                              ``lin_0`` has the special meaning to
-                              make the range symmetric about 0
-            log               Use a log scale, with two sub-options
-                              for the range
-            loglog            same as log, but also make coordinates
-                              log scaled
-            x                 Set limits of x axis using 2 manditory
-                              sub-options
-            y                 Set limits of y axis using 2 manditory
-                              sub-options
-            grid [#f1]_       plot lines showing grid cells
-            earth [#f1]_      plot a black and white Earth
-            equalaxis [#f1]_  Use 1:1 aspect ratio for grid cells
-                              (True by default)
-            flip_plot [#f1]_  flip x and y axes (2d fields only)
-            ================  ======================================
+<span class="sd">            ================  ======================================</span>
+<span class="sd">            Option            Description</span>
+<span class="sd">            ================  ======================================</span>
+<span class="sd">            lin               Use a linear scale for data with two</span>
+<span class="sd">                              optional sub-options giving a range.</span>
+<span class="sd">                              ``lin_0`` has the special meaning to</span>
+<span class="sd">                              make the range symmetric about 0</span>
+<span class="sd">            log               Use a log scale, with two sub-options</span>
+<span class="sd">                              for the range</span>
+<span class="sd">            loglog            same as log, but also make coordinates</span>
+<span class="sd">                              log scaled</span>
+<span class="sd">            x                 Set limits of x axis using 2 manditory</span>
+<span class="sd">                              sub-options</span>
+<span class="sd">            y                 Set limits of y axis using 2 manditory</span>
+<span class="sd">                              sub-options</span>
+<span class="sd">            grid [#f1]_       plot lines showing grid cells</span>
+<span class="sd">            earth [#f1]_      plot a black and white Earth</span>
+<span class="sd">            equalaxis [#f1]_  Use 1:1 aspect ratio for grid cells</span>
+<span class="sd">                              (True by default)</span>
+<span class="sd">            flip_plot [#f1]_  flip x and y axes (2d fields only)</span>
+<span class="sd">            masknan           if true, nan values are masked, so</span>
+<span class="sd">                              black if pcolor, or missing for</span>
+<span class="sd">                              countours</span>
+<span class="sd">            ================  ======================================</span>
 
-            .. [#f1] These options can be given as kwargs
+<span class="sd">            .. [#f1] These options can be given as kwargs</span>
 
-            If a plot_opt is not understood, it is added to kwargs.
-            Some plot_opt examples are:
-            * ``lin_-300_300,earth``
-            * ``log,x_-3_30,y_-10_10,cmap_afmhot``
-            * ``lin_0,x_-10_20,grid,earth``
-        kwargs: Some other keyword arguments are understood and
-            described below, and all others are passed as keyword
-            arguments to the matplotlib plotting functions. This way,
-            one can pass arguments like cmap and the like.
+<span class="sd">            If a plot_opt is not understood, it is added to kwargs.</span>
+<span class="sd">            Some plot_opt examples are:</span>
+<span class="sd">            * ``lin_-300_300,earth``</span>
+<span class="sd">            * ``log,x_-3_30,y_-10_10,cmap_afmhot``</span>
+<span class="sd">            * ``lin_0,x_-10_20,grid,earth``</span>
+<span class="sd">        kwargs: Some other keyword arguments are understood and</span>
+<span class="sd">            described below, and all others are passed as keyword</span>
+<span class="sd">            arguments to the matplotlib plotting functions. This way,</span>
+<span class="sd">            one can pass arguments like cmap and the like.</span>
 
-    Other Parameters:
-        colorbar (bool or dict): If dict, the items are passed to
-            plt.colorbar as keyword arguments
-        mask_nan (bool, optional): Plot a masked array
-        levels (int): Number of contours to follow (default: 10)
-        do_labels: automatically label x/y axes and color bar
-        show_grid (bool): Plot lines showing grid cells
-        earth (bool): Plot a black and white circle representing Earth
-            showing the sunlit half
-        show (bool, optional): Call pyplot.show before returning
-        action_ax: axis on which to call matplotlib functions... I
-            don't even remember why this was necessary
-        scale (float): multiply field by scalar before plotting, useful
-            for changing units
-        mod (list of floats): DEPRECATED, scale x and y axes by some
-            factor
-        extra_args (list): DEPRECATED, was used to pass args to
-            matplotlib functions, like contour levels, but there
-            is probably a better way to give these options
-    """
-    if fld.nr_sdims != 2:
-        raise RuntimeError("I will only contour a 2d field")
+<span class="sd">    Other Parameters:</span>
+<span class="sd">        colorbar (bool or dict): If dict, the items are passed to</span>
+<span class="sd">            plt.colorbar as keyword arguments</span>
+<span class="sd">        levels (int): Number of contours to follow (default: 10)</span>
+<span class="sd">        do_labels: automatically label x/y axes and color bar</span>
+<span class="sd">        show_grid (bool): Plot lines showing grid cells</span>
+<span class="sd">        earth (bool): Plot a black and white circle representing Earth</span>
+<span class="sd">            showing the sunlit half</span>
+<span class="sd">        show (bool, optional): Call pyplot.show before returning</span>
+<span class="sd">        action_ax: axis on which to call matplotlib functions... I</span>
+<span class="sd">            don&#39;t even remember why this was necessary</span>
+<span class="sd">        scale (float): multiply field by scalar before plotting, useful</span>
+<span class="sd">            for changing units</span>
+<span class="sd">        mod (list of floats): DEPRECATED, scale x and y axes by some</span>
+<span class="sd">            factor</span>
+<span class="sd">        extra_args (list): DEPRECATED, was used to pass args to</span>
+<span class="sd">            matplotlib functions, like contour levels, but there</span>
+<span class="sd">            is probably a better way to give these options</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I will only contour a 2d field&quot;</span><span class="p">)</span>
 
-    if extra_args is None:
-        extra_args = []
+    <span class="k">if</span> <span class="n">extra_args</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">[]</span>
 
-    if not ax:
-        ax = plt.gca()
-    if action_ax is None:
-        action_ax = ax
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">action_ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">action_ax</span> <span class="o">=</span> <span class="n">ax</span>
 
-    if colorbar:
-        if not isinstance(colorbar, dict):
-            colorbar = {}
-    else:
-        colorbar = None
+    <span class="c"># parse plot_opts and apply them</span>
+    <span class="n">ax</span><span class="p">,</span> <span class="n">actions</span> <span class="o">=</span> <span class="n">_apply_parse_opts</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
 
-    # parse plot_opts and apply them
-    ax, actions = _apply_parse_opts(plot_opts, fld, kwargs, ax)
+    <span class="n">colorbar</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;colorbar&quot;</span><span class="p">,</span> <span class="n">colorbar</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">colorbar</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colorbar</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">colorbar</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">colorbar</span> <span class="o">=</span> <span class="bp">None</span>
 
-    # make customizing plot type from command line possible
-    style = kwargs.pop("style", style)
-    earth = kwargs.pop("earth", False)
-    equalaxis = kwargs.pop("equalaxis", True)
-    flip_plot = kwargs.pop("flip_plot", False)
+    <span class="c"># make customizing plot type from command line possible</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;style&quot;</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+    <span class="n">earth</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;earth&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">equalaxis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;equalaxis&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">flip_plot</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;flip_plot&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">masknan</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;masknan&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
-    show_grid = kwargs.pop("show_grid", False)
-    show_grid = kwargs.pop("g", show_grid)
-    if show_grid:
-        kwargs["edgecolors"] = 'k'
-        kwargs["linewidths"] = 0.2
-        kwargs["antialiased"] = True
+    <span class="n">show_grid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;show_grid&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">show_grid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;g&quot;</span><span class="p">,</span> <span class="n">show_grid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show_grid</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;edgecolors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;k&#39;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;linewidths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.2</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;antialiased&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 
-    # THIS IS BACKWARD, on account of the convention for
-    # Coordinates where z, y, x is used since that is how
-    # xdmf data is
-    namey, namex = fld.crds.axes # fld.crds.get_culled_axes()
+    <span class="c"># THIS IS BACKWARD, on account of the convention for</span>
+    <span class="c"># Coordinates where z, y, x is used since that is how</span>
+    <span class="c"># xdmf data is</span>
+    <span class="n">namey</span><span class="p">,</span> <span class="n">namex</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span> <span class="c"># fld.crds.get_culled_axes()</span>
 
-    # pcolor mesh uses node coords, and cell data, if we have
-    # node data, fake it by using cell centered coords and
-    # trim the edges of the data... maybe i should just be
-    # extapolating the crds and keeping the edges...
-    if style in ["pcolormesh", "pcolor"]:
-        if fld.iscentered("Node"):
-            X, Y = fld.get_crds_cc((namex, namey))
-            # extrapolate the crds to plot the boundary cells
-            dx = X[1:] - X[:-1]
-            X = np.concatenate([[X[0] - dx[0]], X, [X[-1] + dx[-1]]])
-            dy = Y[1:] - Y[:-1]
-            Y = np.concatenate([[Y[0] - dy[0]], Y, [Y[-1] + dy[-1]]])
-        elif fld.iscentered("Cell"):
-            X, Y = fld.get_crds_nc((namex, namey))
-    else:
-        if fld.iscentered("Node"):
-            X, Y = fld.get_crds_nc((namex, namey))
-        elif fld.iscentered("Cell"):
-            X, Y = fld.get_crds_cc((namex, namey))
+    <span class="c"># pcolor mesh uses node coords, and cell data, if we have</span>
+    <span class="c"># node data, fake it by using cell centered coords and</span>
+    <span class="c"># trim the edges of the data... maybe i should just be</span>
+    <span class="c"># extapolating the crds and keeping the edges...</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;pcolormesh&quot;</span><span class="p">,</span> <span class="s">&quot;pcolor&quot;</span><span class="p">]:</span>
+        <span class="n">fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">as_cell_centered</span><span class="p">()</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">((</span><span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">((</span><span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">((</span><span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">))</span>
 
-    if kwargs.get('latlon', False):
-        # translate latitude from 0..180 to -90..90
-        X, Y = np.meshgrid(X, 90 - Y)
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;latlon&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="c"># translate latitude from 0..180 to -90..90</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">Y</span><span class="p">)</span>
 
-    dat = fld.data
-    if scale is not None:
-        dat *= scale
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">*=</span> <span class="n">scale</span>
 
-    if mod:
-        X *= mod[0]
-        Y *= mod[1]
+    <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">*=</span> <span class="n">mod</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">*=</span> <span class="n">mod</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    # print(x.shape, y.shape, fld.data.shape)
-    mask_nan = False
-    if mask_nan:
-        dat = np.ma.masked_where(np.isnan(dat), dat)
+    <span class="c"># print(x.shape, y.shape, fld.data.shape)</span>
+    <span class="k">if</span> <span class="n">masknan</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">dat</span><span class="p">),</span> <span class="n">dat</span><span class="p">)</span>
 
-    if equalaxis:
-        ax.axis('equal')
-    _apply_actions(actions)
+    <span class="k">if</span> <span class="n">equalaxis</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">_apply_actions</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
 
-    # ok, here's some raw hackery for contours
-    if style in ["contourf", "contour"]:
-        if len(extra_args) &gt; 0:
-            n = extra_args[0]
-        else:
-            n = 10
-        n = int(kwargs.pop("levels", n))
-        extra_args = [n] + extra_args[1:]
+    <span class="c"># ok, here&#39;s some raw hackery for contours</span>
+    <span class="k">if</span> <span class="n">style</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span> <span class="s">&quot;contour&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extra_args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">extra_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;levels&quot;</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra_args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
-        if "norm" in kwargs:
-            norm = kwargs["norm"]
-            norm.autoscale_None(dat)
+        <span class="k">if</span> <span class="s">&quot;norm&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;norm&quot;</span><span class="p">]</span>
+            <span class="n">norm</span><span class="o">.</span><span class="n">autoscale_None</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
 
-            if isinstance(norm, LogNorm):
-                extra_args[0] = np.logspace(np.log10(norm.vmin),
-                                            np.log10(norm.vmax), n)
-                if colorbar is not None and not "ticks" in colorbar:
-                    colorbar["ticks"] = matplotlib.ticker.LogLocator()
-            elif isinstance(norm, Normalize):
-                extra_args[0] = np.linspace(norm.vmin, norm.vmax, n)
-            else:
-                raise ValueError("I should never be here")
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">LogNorm</span><span class="p">):</span>
+                <span class="n">extra_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">vmin</span><span class="p">),</span>
+                                            <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">vmax</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">colorbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
+                    <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">):</span>
+                <span class="n">extra_args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">vmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;I should never be here&quot;</span><span class="p">)</span>
 
-    if flip_plot:
-        X, Y = Y.T, X.T
-        dat = dat.T
-        namex, namey = namey, namex
+    <span class="k">if</span> <span class="n">flip_plot</span><span class="p">:</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">dat</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span> <span class="o">=</span> <span class="n">namey</span><span class="p">,</span> <span class="n">namex</span>
 
-    if style == "pcolormesh":
-        p = action_ax.pcolormesh(X, Y, dat, *extra_args, **kwargs)
-    elif style == "contour":
-        p = action_ax.contour(X, Y, dat, *extra_args, **kwargs)
-        if "colors" in kwargs:
-            colorbar = None
-    elif style == "contourf":
-        p = action_ax.contourf(X, Y, dat, *extra_args, **kwargs)
-    elif style == "pcolor":
-        p = action_ax.pcolor(X, Y, dat, *extra_args, **kwargs)
-    else:
-        raise RuntimeError("I don't understand {0} 2d plot style".format(style))
+    <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;pcolormesh&quot;</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">action_ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;contour&quot;</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">action_ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;colors&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">colorbar</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;contourf&quot;</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">action_ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;pcolor&quot;</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">action_ax</span><span class="o">.</span><span class="n">pcolor</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="o">*</span><span class="n">extra_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I don&#39;t understand {0} 2d plot style&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">style</span><span class="p">))</span>
 
-    p.get_cmap().set_bad('k')
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">masknan</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">()</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="n">masknan</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">()</span><span class="o">.</span><span class="n">set_bad</span><span class="p">(</span><span class="s">&#39;k&#39;</span><span class="p">)</span>
 
-    # figure out the colorbar...
-    if colorbar is not None:
-        # unless otherwise specified, use_gridspec for
-        if not "use_gridspec" not in colorbar:
-            colorbar["use_gridspec"] = True
-        # ok, this way to pass options to colorbar is bad!!!
-        # but it's kind of the cleanest way to affect the colorbar?
-        if mask_nan and dat.mask.all():
-            cbar = None
-        else:
-            cbar = plt.colorbar(p, **colorbar)
-            if do_labels:
-                cbar.set_label(fld.pretty_name)
-    else:
-        cbar = None
+    <span class="c"># figure out the colorbar...</span>
+    <span class="k">if</span> <span class="n">colorbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c"># unless otherwise specified, use_gridspec for</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;use_gridspec&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
+            <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;use_gridspec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="c"># ok, this way to pass options to colorbar is bad!!!</span>
+        <span class="c"># but it&#39;s kind of the cleanest way to affect the colorbar?</span>
+        <span class="k">if</span> <span class="n">masknan</span> <span class="ow">and</span> <span class="n">dat</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">**</span><span class="n">colorbar</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+                <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">pretty_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
 
-    if do_labels:
-        plt.xlabel(namex)
-        plt.ylabel(namey)
+    <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">namey</span><span class="p">)</span>
 
-    # _apply_acts(acts)
+    <span class="c"># _apply_acts(acts)</span>
 
-    if earth:
-        plot_earth(fld, axis=action_ax)
-    if show:
-        mplshow()
-    return p, cbar
+    <span class="k">if</span> <span class="n">earth</span><span class="p">:</span>
+        <span class="n">plot_earth</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">action_ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">mplshow</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">cbar</span>
 </div>
-def _mlt_labels(longitude):
-    return "{0:g}".format(longitude * 24.0 / 360.0)
+<span class="k">def</span> <span class="nf">_mlt_labels</span><span class="p">(</span><span class="n">longitude</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;{0:g}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">longitude</span> <span class="o">*</span> <span class="mf">24.0</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="plot2d_mapfield"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_mapfield">[docs]</a>def plot2d_mapfield(fld, projection="polar", hemisphere="north",
-                    drawcoastlines=False, show_grid=True,
-                    lon_0=0.0, lat_0=None, bounding_lat=40.0,
-                    title=True, label_lat=True, label_mlt=True, **kwargs):
-    """Plot data on a map projection of a sphere
+<div class="viewcode-block" id="plot2d_mapfield"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_mapfield">[docs]</a><span class="k">def</span> <span class="nf">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&quot;polar&quot;</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&quot;north&quot;</span><span class="p">,</span>
+                    <span class="n">drawcoastlines</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show_grid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                    <span class="n">lon_0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lat_0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bounding_lat</span><span class="o">=</span><span class="mf">40.0</span><span class="p">,</span>
+                    <span class="n">title</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label_lat</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label_mlt</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot data on a map projection of a sphere</span>
 
-    The default projection is polar, but any other basemap projection
-    can be used.
+<span class="sd">    The default projection is polar, but any other basemap projection</span>
+<span class="sd">    can be used.</span>
 
-    Note:
-        Parameters are in degrees, but if the projection is 'polar',
-        then the plot is actually made in radians, which is important
-        if you want to annotate a plot.
+<span class="sd">    Note:</span>
+<span class="sd">        Parameters are in degrees, but if the projection is &#39;polar&#39;,</span>
+<span class="sd">        then the plot is actually made in radians, which is important</span>
+<span class="sd">        if you want to annotate a plot.</span>
 
-    Parameters:
-        fld (Field): field whose crds are spherical
-        projection (string): 'polar' or Basemap projection to use
-        hemisphere (string): 'north' or 'south'
-        drawcoastlines (bool): If projection is a basemap projection,
-            then draw coastlines, pretty cool, but not actually useful.
-            NOTE: coastlines do NOT reflect UT time; London is always
-            at midnight.
-        show_grid (bool): draw grid lines
-        lon_0 (float): center longitude (basemap projections only)
-        lat_0 (fload): center latitude (basemap projections only)
-        bounding_lat (float): bounding latitude (not for all
-            projections)
-        title (bool, str): put a specific title on the plot, or with
-            if a boolean, use the field's pretty_name.
-        label_lat (bool): label latitudes at 10, 20, 30 degrees. Note
-            that basemap projections won't label latitudes unless they
-            hit the edge of the plot.
-        label_mlt (bool): label magnetic local time
-        kwargs: either mapping keyword arguments, or those that
-            should be passed along to `plot2d_field`
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld (Field): field whose crds are spherical</span>
+<span class="sd">        projection (string): &#39;polar&#39; or Basemap projection to use</span>
+<span class="sd">        hemisphere (string): &#39;north&#39; or &#39;south&#39;</span>
+<span class="sd">        drawcoastlines (bool): If projection is a basemap projection,</span>
+<span class="sd">            then draw coastlines, pretty cool, but not actually useful.</span>
+<span class="sd">            NOTE: coastlines do NOT reflect UT time; London is always</span>
+<span class="sd">            at midnight.</span>
+<span class="sd">        show_grid (bool): draw grid lines</span>
+<span class="sd">        lon_0 (float): center longitude (basemap projections only)</span>
+<span class="sd">        lat_0 (fload): center latitude (basemap projections only)</span>
+<span class="sd">        bounding_lat (float): bounding latitude in degrees from the</span>
+<span class="sd">            nearest pole (not for all projections)</span>
+<span class="sd">        title (bool, str): put a specific title on the plot, or with</span>
+<span class="sd">            if a boolean, use the field&#39;s pretty_name.</span>
+<span class="sd">        label_lat (bool, str): label latitudes at 80, 70, 60 degrees</span>
+<span class="sd">            with sign indicating northern / southern hemisphere.</span>
+<span class="sd">            if label_lat is &#39;from_pole&#39;, then the labels are 10, 20,</span>
+<span class="sd">            30 for both hemispheres. Note that basemap projections</span>
+<span class="sd">            won&#39;t label latitudes unless they hit the edge of the plot.</span>
+<span class="sd">        label_mlt (bool): label magnetic local time</span>
+<span class="sd">        kwargs: either mapping keyword arguments, or those that</span>
+<span class="sd">            should be passed along to `plot2d_field`</span>
 
-    See Also:
-        * :meth:`plot2d_field`: `plot2d_mapfield` basically just wraps
-          this function setting up a Basemap first
-    """
-    hemisphere = hemisphere.lower().strip()
-    if hemisphere == "north":
-        # def_projection = "nplaea"
-        # def_boundinglat = 40.0
-        latlabel_arr = np.linspace(50.0, 80.0, 4)
-    elif hemisphere == "south":
-        # def_projection = "splaea"
-        # def_boundinglat = -40.0
-        # FIXME: should I be doing this?
-        if bounding_lat &gt; 0.0:
-            bounding_lat *= -1.0
-        latlabel_arr = -1.0 * np.linspace(50.0, 80.0, 4)
-    else:
-        raise ValueError("hemisphere is either 'north' or 'south'")
+<span class="sd">    See Also:</span>
+<span class="sd">        * :meth:`plot2d_field`: `plot2d_mapfield` basically just wraps</span>
+<span class="sd">          this function setting up a Basemap first</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hemisphere</span> <span class="o">=</span> <span class="n">hemisphere</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&quot;north&quot;</span><span class="p">:</span>
+        <span class="c"># def_projection = &quot;nplaea&quot;</span>
+        <span class="c"># def_boundinglat = 40.0</span>
+        <span class="n">latlabel_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&quot;south&quot;</span><span class="p">:</span>
+        <span class="c"># def_projection = &quot;splaea&quot;</span>
+        <span class="c"># def_boundinglat = -40.0</span>
+        <span class="c"># FIXME: should I be doing this?</span>
+        <span class="k">if</span> <span class="n">bounding_lat</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">bounding_lat</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="n">latlabel_arr</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;hemisphere is either &#39;north&#39; or &#39;south&#39;&quot;</span><span class="p">)</span>
 
-    # boundinglat = kwargs.pop("boundinglat", def_boundinglat)
-    # lon_0 = kwargs.pop("lon_0", 0.0)
-    # lat_0 = kwargs.pop("lat_0", None)
-    # drawcoastlines = kwargs.pop("drawcoastlines", False)
-    ax = kwargs.get("ax", None)
+    <span class="c"># boundinglat = kwargs.pop(&quot;boundinglat&quot;, def_boundinglat)</span>
+    <span class="c"># lon_0 = kwargs.pop(&quot;lon_0&quot;, 0.0)</span>
+    <span class="c"># lat_0 = kwargs.pop(&quot;lat_0&quot;, None)</span>
+    <span class="c"># drawcoastlines = kwargs.pop(&quot;drawcoastlines&quot;, False)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;ax&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
-    if projection != "polar" and not _HAS_BASEMAP:
-        print("NOTE: install the basemap for the desired spherical "
-              "projection; falling back to matplotlib's polar plot.")
-        projection = "polar"
+    <span class="k">if</span> <span class="n">projection</span> <span class="o">!=</span> <span class="s">&quot;polar&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_HAS_BASEMAP</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;NOTE: install the basemap for the desired spherical &quot;</span>
+              <span class="s">&quot;projection; falling back to matplotlib&#39;s polar plot.&quot;</span><span class="p">)</span>
+        <span class="n">projection</span> <span class="o">=</span> <span class="s">&quot;polar&quot;</span>
 
-    if projection == "polar":
-        if LooseVersion(__mpl_ver__) &lt; LooseVersion("1.1"):
-            raise RuntimeError("polar plots are annoying for matplotlib &lt; ",
-                               "version 1.1. Update your matplotlib and "
-                               "profit.")
+    <span class="k">if</span> <span class="n">projection</span> <span class="o">==</span> <span class="s">&quot;polar&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">__mpl_ver__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s">&quot;1.1&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;polar plots are annoying for matplotlib &lt; &quot;</span><span class="p">,</span>
+                               <span class="s">&quot;version 1.1. Update your matplotlib and &quot;</span>
+                               <span class="s">&quot;profit.&quot;</span><span class="p">)</span>
 
-        absboundinglat = np.abs(bounding_lat)
+        <span class="n">absboundinglat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">bounding_lat</span><span class="p">)</span>
 
-        if ax is None:
-            ax = plt.gca()
-        if not hasattr(ax, "set_thetagrids"):
-            ax = plt.subplot(*ax.get_geometry(), projection='polar')
-            logger.warn("Clobbering axis for subplot {0}; please give a polar "
-                        "axis to plot2d_mapfield if you indend to use it "
-                        "later.".format(ax.get_geometry()))
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">&quot;set_thetagrids&quot;</span><span class="p">):</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="o">*</span><span class="n">ax</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">(),</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;polar&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Clobbering axis for subplot {0}; please give a polar &quot;</span>
+                        <span class="s">&quot;axis to plot2d_mapfield if you indend to use it &quot;</span>
+                        <span class="s">&quot;later.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()))</span>
 
-        if hemisphere == "north":
-            sl_fld = fld["lat=:{0}".format(absboundinglat)]
-            maxlat = sl_fld.get_crd_nc('lat')[-1]
-        elif hemisphere == "south":
-            sl_fld = fld["lat={0}:".format(180.0 - absboundinglat)]["lat=::-1"]
-            maxlat = 180.0 - sl_fld.get_crd_nc('lat')[-1]
+        <span class="k">if</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&quot;north&quot;</span><span class="p">:</span>
+            <span class="n">sl_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="s">&quot;lat=:{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">absboundinglat</span><span class="p">)]</span>
+            <span class="n">maxlat</span> <span class="o">=</span> <span class="n">sl_fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;lat&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&quot;south&quot;</span><span class="p">:</span>
+            <span class="n">sl_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="s">&quot;lat={0}:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">180.0</span> <span class="o">-</span> <span class="n">absboundinglat</span><span class="p">)][</span><span class="s">&quot;lat=::-1&quot;</span><span class="p">]</span>
+            <span class="n">maxlat</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">-</span> <span class="n">sl_fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="s">&#39;lat&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        lat, lon = sl_fld.get_crds_nc(['lat', 'lon'])
-        new_lat = (np.pi / 180.0) * np.linspace(0.0, maxlat, len(lat))
-        # FIXME: Matt's code had a - 0.5 * (lon[1] - lon[0]) here...
-        # I'm omiting it
-        ax.set_theta_offset(-90 * np.pi / 180.0)
-        # new_lon = (lon - 90.0) * np.pi / 180.0
-        new_lon = lon * np.pi / 180.0
-        new_crds = coordinate.wrap_crds("nonuniform_spherical",
-                                        [('lat', new_lat), ('lon', new_lon)])
-        new_fld = fld.wrap(sl_fld.data, context=dict(crds=new_crds))
+        <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">sl_fld</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">([</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="s">&#39;lon&#39;</span><span class="p">])</span>
+        <span class="n">new_lat</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">maxlat</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="p">))</span>
+        <span class="c"># FIXME: Matt&#39;s code had a - 0.5 * (lon[1] - lon[0]) here...</span>
+        <span class="c"># I&#39;m omiting it</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_theta_offset</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+        <span class="c"># new_lon = (lon - 90.0) * np.pi / 180.0</span>
+        <span class="n">new_lon</span> <span class="o">=</span> <span class="n">lon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
+        <span class="n">new_crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_spherical&quot;</span><span class="p">,</span>
+                                        <span class="p">[(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="n">new_lat</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="n">new_lon</span><span class="p">)])</span>
+        <span class="n">new_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">sl_fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">crds</span><span class="o">=</span><span class="n">new_crds</span><span class="p">))</span>
 
-        # print(fld.get_crds())
+        <span class="c"># print(fld.get_crds())</span>
 
-        kwargs['ax'] = ax
-        kwargs['action_ax'] = ax
-        kwargs['do_labels'] = False
-        kwargs['equalaxis'] = False
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;ax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;action_ax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;do_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;equalaxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
-        ret = plot2d_field(new_fld, show_grid=False, **kwargs)
-        if title:
-            if not isinstance(title, string_types):
-                title = new_fld.pretty_name
-            plt.title(title)
-        if show_grid:
-            ax.grid(True)
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">new_fld</span><span class="p">,</span> <span class="n">show_grid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">new_fld</span><span class="o">.</span><span class="n">pretty_name</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">show_grid</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-            mlt_grid_pos = (0, 45, 90, 135, 180, 225, 270, 315)
-            mlt_labels = (24, 3, 6, 9, 12, 15, 18, 21)
-            if not label_mlt:
-                mlt_labels = []
-            ax.set_thetagrids(mlt_grid_pos, mlt_labels)
+            <span class="n">mlt_grid_pos</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">135</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">225</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">315</span><span class="p">)</span>
+            <span class="n">mlt_labels</span> <span class="o">=</span> <span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">label_mlt</span><span class="p">:</span>
+                <span class="n">mlt_labels</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_thetagrids</span><span class="p">(</span><span class="n">mlt_grid_pos</span><span class="p">,</span> <span class="n">mlt_labels</span><span class="p">)</span>
 
-            abs_grid_dr = 10
-            grid_dr = abs_grid_dr * np.sign(bounding_lat)
-            lat_grid_pos = np.arange(abs_grid_dr, absboundinglat, abs_grid_dr)
-            lat_labels = np.arange(grid_dr, bounding_lat, grid_dr)
-            if not label_lat:
-                lat_labels = []
-            ax.set_rgrids((np.pi / 180.0) * lat_grid_pos, lat_labels, fmt="%.0f")
-        else:
-            ax.grid(False)
-            ax.set_xticklabels([])
-            ax.set_yticklabels([])
-        return ret
+            <span class="n">abs_grid_dr</span> <span class="o">=</span> <span class="mi">10</span>
+            <span class="n">grid_dr</span> <span class="o">=</span> <span class="n">abs_grid_dr</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">bounding_lat</span><span class="p">)</span>
+            <span class="n">lat_grid_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">abs_grid_dr</span><span class="p">,</span> <span class="n">absboundinglat</span><span class="p">,</span> <span class="n">abs_grid_dr</span><span class="p">)</span>
+            <span class="n">lat_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">abs_grid_dr</span><span class="p">,</span> <span class="n">absboundinglat</span><span class="p">,</span> <span class="n">abs_grid_dr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">label_lat</span> <span class="o">==</span> <span class="s">&quot;from_pole&quot;</span><span class="p">:</span>
+                <span class="n">lat_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;{0:g}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lat_labels</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">label_lat</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&#39;north&#39;</span><span class="p">:</span>
+                    <span class="n">lat_labels</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">lat_labels</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">lat_labels</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span> <span class="o">+</span> <span class="n">lat_labels</span>
+                <span class="n">lat_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;{0:g}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lat_labels</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lat_labels</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_rgrids</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">lat_grid_pos</span><span class="p">,</span> <span class="n">lat_labels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+        <span class="k">return</span> <span class="n">ret</span>
 
-    else:
-        m = Basemap(projection=projection, lon_0=lon_0, lat_0=lat_0,
-                    boundinglat=bounding_lat, ax=ax)
-        kwargs['latlon'] = True
-        kwargs['action_ax'] = m
-        kwargs['do_labels'] = False
-        kwargs['equalaxis'] = False
-        ret = plot2d_field(fld, **kwargs)
-        if show_grid:
-            if label_lat:
-                lat_lables = [1, 1, 1, 1]
-            else:
-                lat_lables = [0, 0, 0, 0]
-            m.drawparallels(latlabel_arr, labels=lat_lables,
-                            linewidth=0.25)
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">Basemap</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">,</span> <span class="n">lon_0</span><span class="o">=</span><span class="n">lon_0</span><span class="p">,</span> <span class="n">lat_0</span><span class="o">=</span><span class="n">lat_0</span><span class="p">,</span>
+                    <span class="n">boundinglat</span><span class="o">=</span><span class="n">bounding_lat</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;latlon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;action_ax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;do_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;equalaxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">show_grid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label_lat</span><span class="p">:</span>
+                <span class="n">lat_lables</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lat_lables</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">drawparallels</span><span class="p">(</span><span class="n">latlabel_arr</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">lat_lables</span><span class="p">,</span>
+                            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
 
-            if label_mlt:
-                mlt_labels = [1, 1, 1, 1]
-            else:
-                mlt_labels = [0, 0, 0, 0]
-            m.drawmeridians(np.linspace(360.0, 0.0, 8, endpoint=False),
-                            labels=mlt_labels, fmt=_mlt_labels,
-                            linewidth=0.25)
-        if drawcoastlines:
-            m.drawcoastlines(linewidth=0.25)
-        return ret
-
-</div>
-<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a>def plot1d_field(fld, ax=None, plot_opts=None, show=False, mask_nan=False,
-                 do_labels=True, action_ax=None, **kwargs):
-    """Plot a 1D Field using lines
-
-    Parameters:
-        fld: Field to plot
-
-    See Also:
-        * :meth:`plot2d_field`: Describes plot_opts, and all other
-          keyword arguments
-    """
-    namex, = fld.crds.axes
-    if fld.iscentered("Node"):
-        x = fld.get_crd_nc(namex)
-    elif fld.iscentered("Cell"):
-        x = fld.get_crd_cc(namex)
-
-    ax, actions = _apply_parse_opts(plot_opts, fld, kwargs, ax)
-    if action_ax is None:
-        action_ax = ax
-
-    dat = fld.data
-    if mask_nan:
-        dat = np.ma.masked_where(np.isnan(dat), dat)
-
-    if "label" not in kwargs:
-        kwargs["label"] = fld.pretty_name
-
-    p = action_ax.plot(x, dat, **kwargs)
-    if do_labels:
-        plt.xlabel(namex)
-        plt.ylabel(fld.pretty_name)
-    _apply_actions(actions)
-
-    if show:
-        mplshow()
-    return p, None
-</div>
-<div class="viewcode-block" id="plot_streamlines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines">[docs]</a>def plot_streamlines(lines, topology=None, ax=None, show=True, equal=False,
-                     **kwargs):
-    """Plot lines on a matplotlib 3D plot, optionally colored by value
-
-    Parameters:
-        lines (list): A set of N lines. Elements should have the shape
-            3xP where 3 is the axes zyx (in that order) and P is the
-            number of points in the line. As an ndarray, the required
-            shape is Nx3xP.
-        topology (optional): Value used to color the lines. Should have
-            length N.
-        ax (matplotlib axis, optional): axis on which to plot
-        show (bool, optional): plt.show() before returning
-        equal (bool, optional): set 1:1 aspect ratio on axes
-    """
-    if not ax:
-        ax = plt.gca(projection='3d')
-
-    if "color" not in kwargs and topology is not None:
-        if isinstance(topology, field.Field):
-            topology = topology.data.reshape(-1)
-        topo_color = True
-    else:
-        topo_color = False
-
-    for i, line in enumerate(lines):
-        line = np.array(line, copy=False)
-        z = line[0]
-        y = line[1]
-        x = line[2]
-
-        if topo_color:
-            kwargs["color"] = color_from_topology(topology[i])
-        p = ax.plot(x, y, z, **kwargs)
-    if equal:
-        ax.axis("equal")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    if show:
-        plt.show()
-    return p, None
-</div>
-<div class="viewcode-block" id="plot_streamlines2d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines2d">[docs]</a>def plot_streamlines2d(lines, symdir=None, topology=None, ax=None,
-                       show=False, flip_plot=False, **kwargs):
-    """Project 3D lines onto a 2D plot
-
-    Parameters:
-        lines (list): A set of N lines. Elements should have the shape
-            3xP where 3 is the axes zyx (in that order) and P is the
-            number of points in the line. As an ndarray, the required
-            shape is Nx3xP.
-        symdir (str, optional): one of xyz for the plane on which to
-            orthogonally project lines. Not needed if lines are shaped
-            Nx2xP.
-        topology (optional): Value used to color the lines. Should have
-            length N.
-        ax (matplotlib axis, optional): axis on which to plot
-        show (bool, optional): plt.show() before returning
-        flip_plot (bool, optional): swap plot's x/y axes
-    """
-    if not ax:
-        ax = plt.gca()
-    p = None
-
-    if topology is not None:
-        if isinstance(topology, field.Field):
-            topology = topology.data.reshape(-1)
-        if not "color" in kwargs:
-            topo_color = True
-    else:
-        topo_color = False
-
-    for i, line in enumerate(lines):
-        line = np.array(line, copy=False)
-        if len(line) == 2:
-            x = line[1]
-            y = line[0]
-        elif symdir.lower() == "x":
-            x = line[1]
-            y = line[0]
-        elif symdir.lower() == "y":
-            x = line[2]
-            y = line[0]
-        elif symdir.lower() == "z":
-            x = line[2]
-            y = line[1]
-        else:
-            raise ValueError("For 3d lines, symdir should be x, y, or z")
-
-        if flip_plot:
-            x, y = y, x
-
-        if topo_color:
-            kwargs["color"] = color_from_topology(topology[i])
-        p = ax.plot(x, y, **kwargs)
-
-    if show:
-        plt.show()
-    return p, None
-</div>
-<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_quiver">[docs]</a>def plot2d_quiver(fld, symdir, downscale=1, **kwargs):
-    """Put quivers on a 2D plot
-
-    Parameters:
-        fld: Vector field to plot
-        symdir (str): One of xyz for direction orthogonal to 2D plane
-        downscale (int, optional): only quiver every Nth grid cell
-        kwargs: passed along to :meth:`plt.quiver`
-
-    Note:
-        There are some edge cases where downscale doesn't work.
-    """
-    # FIXME: with dowscale != 1, this reveals a problem when slice and
-    # downscaling a field; i think this is a prickley one
-    vx, vy, vz = fld.component_views()
-    x, y = fld.get_crds_cc(shaped=True)
-    if symdir.lower() == "x":
-        # x, y = ycc, zcc
-        pvx, pvy = vy, vz
-    elif symdir.lower() == "y":
-        # x, y = xcc, zcc
-        pvx, pvy = vx, vz
-    elif symdir.lower() == "z":
-        # x, y = xcc, ycc
-        pvx, pvy = vx, vy
-    X, Y = np.meshgrid(y, x)
-    if downscale != 1:
-        X = X[::downscale]
-        Y = Y[::downscale]
-        pvx = pvx[::downscale]
-        pvy = pvy[::downscale]
-    # print(X.shape, Y.shape, pvx.shape, pvy.shape)
-    return plt.quiver(X, Y, pvx, pvy, **kwargs)
-</div>
-<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.scatter_3d">[docs]</a>def scatter_3d(points, c='b', ax=None, show=True, equal=False, **kwargs):
-    """Plot scattered points on a matplotlib 3d plot
-
-    Parameters:
-        points: something shaped 3xN for N points, where 3 are the
-            zyx cartesian directions in that order
-        c (str, optional): color (in matplotlib format)
-        ax (matplotlib Axis, optional): axis on which to plot (should
-            be a 3d axis)
-        show (bool, optional): show
-        kwargs: passed along to :meth:`plt.statter`
-    """
-    if not ax:
-        ax = plt.gca(projection='3d')
-
-    z = points[0]
-    y = points[1]
-    x = points[2]
-    p = ax.scatter(x, y, z, c=c, **kwargs)
-    if equal:
-        ax.axis("equal")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    if show:
-        plt.show()
-    return p, None
+            <span class="k">if</span> <span class="n">label_mlt</span><span class="p">:</span>
+                <span class="n">mlt_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mlt_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">drawmeridians</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">360.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+                            <span class="n">labels</span><span class="o">=</span><span class="n">mlt_labels</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="n">_mlt_labels</span><span class="p">,</span>
+                            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">drawcoastlines</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">drawcoastlines</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
 
 </div>
-<div class="viewcode-block" id="mplshow"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.mplshow">[docs]</a>def mplshow():
-    """Calls :meth:`matplotlib.pyplot.show()`"""
-    # do i need to do anything special before i show?
-    # can't think of anything at this point...
-    plt.show()
+<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a><span class="k">def</span> <span class="nf">plot1d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">do_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">action_ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot a 1D Field using lines</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld: Field to plot</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        * :meth:`plot2d_field`: Describes plot_opts, and all other</span>
+<span class="sd">          keyword arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">namex</span><span class="p">,</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fld</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="p">,</span> <span class="n">actions</span> <span class="o">=</span> <span class="n">_apply_parse_opts</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">action_ax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">action_ax</span> <span class="o">=</span> <span class="n">ax</span>
+    <span class="n">masknan</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;masknan&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">if</span> <span class="n">masknan</span><span class="p">:</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">dat</span><span class="p">),</span> <span class="n">dat</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s">&quot;label&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">pretty_name</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">action_ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">pretty_name</span><span class="p">)</span>
+    <span class="n">_apply_actions</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">mplshow</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.tighten">[docs]</a>def tighten(**kwargs):
-    """Calls `matplotlib.pyplot.tight_layout(**kwargs)`"""
-    try:
-        plt.tight_layout(**kwargs)
-    except AttributeError:
-        logger.warn("No matplotlib tight layout support")
+<div class="viewcode-block" id="plot_streamlines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot lines on a matplotlib 3D plot, optionally colored by value</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        lines (list): A set of N lines. Elements should have the shape</span>
+<span class="sd">            3xP where 3 is the axes zyx (in that order) and P is the</span>
+<span class="sd">            number of points in the line. As an ndarray, the required</span>
+<span class="sd">            shape is Nx3xP.</span>
+<span class="sd">        topology (optional): Value used to color the lines. Should have</span>
+<span class="sd">            length N.</span>
+<span class="sd">        ax (matplotlib axis, optional): axis on which to plot</span>
+<span class="sd">        show (bool, optional): plt.show() before returning</span>
+<span class="sd">        equal (bool, optional): set 1:1 aspect ratio on axes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s">&#39;3d&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s">&quot;color&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="n">topology</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+            <span class="n">topology</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">topo_color</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_from_topology</span><span class="p">(</span><span class="n">topology</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">equal</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_earth">[docs]</a>def plot_earth(plane_spec, axis=None, scale=1.0, rot=0,
-               daycol='w', nightcol='k', crd_system="mhd",
-               zorder=1):
-    """Plot a black and white Earth to show sunward direction
+<div class="viewcode-block" id="plot_streamlines2d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines2d">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines2d</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">symdir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                       <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flip_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Project 3D lines onto a 2D plot</span>
 
-    Parameters:
-        plane_spec: Specifies the plane for determining sunlit portion.
-            This can be a :class:`viscid.field.Field` object to try to
-            auto-discover the plane and crd_system, or it can be a
-            string like "y=0".
-        axis (matplotlib Axis): axis on which to plot
-        scale (float, optional): scale of earth
-        rot (float, optional): Rotation of day/night side... I forget all
-            the details :(
-        daycol (str, optional): color of dayside (matplotlib format)
-        nightcol (str, optional): color of nightside (matplotlib format)
-        crd_system (str, optional): 'mhd' or 'gse', can usually be
-            deduced from plane_spec if it's a Field instance.
-    """
-    import matplotlib.patches as mpatches
+<span class="sd">    Parameters:</span>
+<span class="sd">        lines (list): A set of N lines. Elements should have the shape</span>
+<span class="sd">            3xP where 3 is the axes zyx (in that order) and P is the</span>
+<span class="sd">            number of points in the line. As an ndarray, the required</span>
+<span class="sd">            shape is Nx3xP.</span>
+<span class="sd">        symdir (str, optional): one of xyz for the plane on which to</span>
+<span class="sd">            orthogonally project lines. Not needed if lines are shaped</span>
+<span class="sd">            Nx2xP.</span>
+<span class="sd">        topology (optional): Value used to color the lines. Should have</span>
+<span class="sd">            length N.</span>
+<span class="sd">        ax (matplotlib axis, optional): axis on which to plot</span>
+<span class="sd">        show (bool, optional): plt.show() before returning</span>
+<span class="sd">        flip_plot (bool, optional): swap plot&#39;s x/y axes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="bp">None</span>
 
-    # this is kind of a hacky way to
-    if isinstance(plane_spec, field.Field):
-        crd_system = plane_spec.info.get("crd_system", crd_system)
+    <span class="k">if</span> <span class="n">topology</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">topology</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+            <span class="n">topology</span> <span class="o">=</span> <span class="n">topology</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">topo_color</span> <span class="o">=</span> <span class="bp">False</span>
 
-        # take only the 1st reduced.nr_sdims... this should just work
-        try:
-            plane, value = plane_spec.deep_meta["reduced"][0]
-        except KeyError:
-            logger.error("No reduced dims in the field, i don't know what 2d \n "
-                          "plane, we're in and can't figure out the size of earth.")
-            return None
-    else:
-        plane, value = [s.strip() for s in plane_spec.split("=")]
-        value = float(value)
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;z&quot;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;For 3d lines, symdir should be x, y, or z&quot;</span><span class="p">)</span>
 
-    if value**2 &gt;= scale**2:
-        return None
-    radius = np.sqrt(scale**2 - value**2)
+        <span class="k">if</span> <span class="n">flip_plot</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
 
-    if not axis:
-        axis = plt.gca()
+        <span class="k">if</span> <span class="n">topo_color</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_from_topology</span><span class="p">(</span><span class="n">topology</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    if crd_system == "gse":
-        rot = 180
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_quiver">[docs]</a><span class="k">def</span> <span class="nf">plot2d_quiver</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">symdir</span><span class="p">,</span> <span class="n">downscale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Put quivers on a 2D plot</span>
 
-    if plane == 'y' or plane == 'z':
-        axis.add_patch(mpatches.Wedge((0, 0), radius, 90 + rot, 270 + rot,
-                                      ec=nightcol, fc=daycol, zorder=zorder))
-        axis.add_patch(mpatches.Wedge((0, 0), radius, 270 + rot, 450 + rot,
-                                      ec=nightcol, fc=nightcol, zorder=zorder))
-    elif plane == 'x':
-        if value &lt; 0:
-            axis.add_patch(mpatches.Circle((0, 0), radius, ec=nightcol,
-                                           fc=daycol, zorder=zorder))
-        else:
-            axis.add_patch(mpatches.Circle((0, 0), radius, ec=nightcol,
-                                           fc=nightcol, zorder=zorder))
-    return None
+<span class="sd">    Parameters:</span>
+<span class="sd">        fld: Vector field to plot</span>
+<span class="sd">        symdir (str): One of xyz for direction orthogonal to 2D plane</span>
+<span class="sd">        downscale (int, optional): only quiver every Nth grid cell</span>
+<span class="sd">        kwargs: passed along to :meth:`plt.quiver`</span>
 
-##
-## EOF
-##</div>
-</pre>
+<span class="sd">    Note:</span>
+<span class="sd">        There are some edge cases where downscale doesn&#39;t work.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># FIXME: with dowscale != 1, this reveals a problem when slice and</span>
+    <span class="c"># downscaling a field; i think this is a prickley one</span>
+    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
+        <span class="c"># x, y = ycc, zcc</span>
+        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span>
+    <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
+        <span class="c"># x, y = xcc, zcc</span>
+        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vz</span>
+    <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;z&quot;</span><span class="p">:</span>
+        <span class="c"># x, y = xcc, ycc</span>
+        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">downscale</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
+        <span class="n">pvx</span> <span class="o">=</span> <span class="n">pvx</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
+        <span class="n">pvy</span> <span class="o">=</span> <span class="n">pvy</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
+    <span class="c"># print(X.shape, Y.shape, pvx.shape, pvy.shape)</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot scattered points on a matplotlib 3d plot</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        points: something shaped 3xN for N points, where 3 are the</span>
+<span class="sd">            zyx cartesian directions in that order</span>
+<span class="sd">        c (str, optional): color (in matplotlib format)</span>
+<span class="sd">        ax (matplotlib Axis, optional): axis on which to plot (should</span>
+<span class="sd">            be a 3d axis)</span>
+<span class="sd">        show (bool, optional): show</span>
+<span class="sd">        kwargs: passed along to :meth:`plt.statter`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s">&#39;3d&#39;</span><span class="p">)</span>
+
+    <span class="n">z</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">equal</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="mplshow"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.mplshow">[docs]</a><span class="k">def</span> <span class="nf">mplshow</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Calls :meth:`matplotlib.pyplot.show()`&quot;&quot;&quot;</span>
+    <span class="c"># do i need to do anything special before i show?</span>
+    <span class="c"># can&#39;t think of anything at this point...</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.tighten">[docs]</a><span class="k">def</span> <span class="nf">tighten</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calls `matplotlib.pyplot.tight_layout(**kwargs)`&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;No matplotlib tight layout support&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_earth">[docs]</a><span class="k">def</span> <span class="nf">plot_earth</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+               <span class="n">daycol</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">nightcol</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">crd_system</span><span class="o">=</span><span class="s">&quot;mhd&quot;</span><span class="p">,</span>
+               <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot a black and white Earth to show sunward direction</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        plane_spec: Specifies the plane for determining sunlit portion.</span>
+<span class="sd">            This can be a :class:`viscid.field.Field` object to try to</span>
+<span class="sd">            auto-discover the plane and crd_system, or it can be a</span>
+<span class="sd">            string like &quot;y=0&quot;.</span>
+<span class="sd">        axis (matplotlib Axis): axis on which to plot</span>
+<span class="sd">        scale (float, optional): scale of earth</span>
+<span class="sd">        rot (float, optional): Rotation of day/night side... I forget all</span>
+<span class="sd">            the details :(</span>
+<span class="sd">        daycol (str, optional): color of dayside (matplotlib format)</span>
+<span class="sd">        nightcol (str, optional): color of nightside (matplotlib format)</span>
+<span class="sd">        crd_system (str, optional): &#39;mhd&#39; or &#39;gse&#39;, can usually be</span>
+<span class="sd">            deduced from plane_spec if it&#39;s a Field instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">mpatches</span>
+
+    <span class="c"># this is kind of a hacky way to</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+        <span class="n">crd_system</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crd_system&quot;</span><span class="p">,</span> <span class="n">crd_system</span><span class="p">)</span>
+
+        <span class="c"># take only the 1st reduced.nr_sdims... this should just work</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plane</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">deep_meta</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;No reduced dims in the field, i don&#39;t know what 2d </span><span class="se">\n</span><span class="s"> &quot;</span>
+                          <span class="s">&quot;plane, we&#39;re in and can&#39;t figure out the size of earth.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plane</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">)]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">value</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;=</span> <span class="n">scale</span><span class="o">**</span><span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">scale</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">value</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">:</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">crd_system</span> <span class="o">==</span> <span class="s">&quot;gse&quot;</span><span class="p">:</span>
+        <span class="n">rot</span> <span class="o">=</span> <span class="mi">180</span>
+
+    <span class="k">if</span> <span class="n">plane</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span> <span class="ow">or</span> <span class="n">plane</span> <span class="o">==</span> <span class="s">&#39;z&#39;</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">90</span> <span class="o">+</span> <span class="n">rot</span><span class="p">,</span> <span class="mi">270</span> <span class="o">+</span> <span class="n">rot</span><span class="p">,</span>
+                                      <span class="n">ec</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">daycol</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">270</span> <span class="o">+</span> <span class="n">rot</span><span class="p">,</span> <span class="mi">450</span> <span class="o">+</span> <span class="n">rot</span><span class="p">,</span>
+                                      <span class="n">ec</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">plane</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span>
+                                           <span class="n">fc</span><span class="o">=</span><span class="n">daycol</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">axis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span>
+                                           <span class="n">fc</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">))</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>

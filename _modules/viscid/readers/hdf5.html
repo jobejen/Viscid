@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.hdf5 &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.readers.hdf5 &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,220 +146,222 @@
 <hr/>
 
           
-  <h1>Source code for viscid.readers.hdf5</h1><pre>
-from __future__ import print_function
-import os
+  <h1>Source code for viscid.readers.hdf5</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-from viscid import logger
-from viscid.readers import vfile
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
 
-try:
-    import h5py
-    HAS_H5PY = True
-except ImportError:
-    HAS_H5PY = False
-    logger.warn("h5py library not found, no hdf5 support.")
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">h5py</span>
+    <span class="n">HAS_H5PY</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HAS_H5PY</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;h5py library not found, no hdf5 support.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="H5pyDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper">[docs]</a>class H5pyDataWrapper(vfile.DataWrapper):
-    """  """
-    fname = None
-    loc = None
+<div class="viewcode-block" id="H5pyDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">H5pyDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
+    <span class="n">_hypersliceable</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># can read slices from disk</span>
 
-    _shape = None
-    _dtype = None
+    <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, fname, loc):
-        super(H5pyDataWrapper, self).__init__()
-        self.fname = fname
-        self.loc = loc
+    <span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def _get_info(self):
-        # this takes super long when reading 3 hrs worth of ggcm data
-        # over sshfs
-        # import pdb; pdb.set_trace()
-        try:
-            with h5py.File(self.fname, 'r') as f:
-                dset = f[self.loc]
-                self._shape = dset.shape
-                self._dtype = dset.dtype
-        except IOError as e:
-            logger.error("Problem opening hdf5 file, '{0}'".format(self.fname))
-            raise e
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">H5pyDataWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loc</span> <span class="o">=</span> <span class="n">loc</span>
 
-    @property
-<div class="viewcode-block" id="H5pyDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.shape">[docs]</a>    def shape(self):
-        """ only ask for this if you really need it; can be a speed problem
-        for large temporal datasets over sshfs """
-        if self._shape is None:
-            self._get_info()
-        return self._shape
+    <span class="k">def</span> <span class="nf">_read_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># this takes super long when reading 3 hrs worth of ggcm data</span>
+        <span class="c"># over sshfs</span>
+        <span class="c"># import pdb; pdb.set_trace()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">dset</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">shape</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Problem opening hdf5 file, &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="H5pyDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
+<span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
-    @property
-<div class="viewcode-block" id="H5pyDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.dtype">[docs]</a>    def dtype(self):
-        """ only ask for this if you really need it; can be a speed problem
-        for large temporal datasets over sshfs """
-        if self._dtype is None:
-            self._get_info()
-        return self._dtype
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="H5pyDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
+<span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
-<div class="viewcode-block" id="H5pyDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.wrap_func">[docs]</a>    def wrap_func(self, func_name, *args, **kwargs):
-        with h5py.File(self.fname, 'r') as f:
-            return getattr(f[self.loc], func_name)(*args, **kwargs)
+<div class="viewcode-block" id="H5pyDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">],</span> <span class="n">func_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-    def __array__(self, *args, **kwargs):
-        return self.wrap_func("__array__", *args, **kwargs)
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__array__&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="H5pyDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.read_direct">[docs]</a>    def read_direct(self, *args, **kwargs):
-        return self.wrap_func("read_direct", *args, **kwargs)
+<div class="viewcode-block" id="H5pyDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;read_direct&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="H5pyDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.len">[docs]</a>    def len(self):
-        return self.wrap_func("len")
+<div class="viewcode-block" id="H5pyDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.H5pyDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;len&quot;</span><span class="p">)</span>
 </div>
-    def __getitem__(self, item):
-        return self.wrap_func("__getitem__", item)
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__getitem__&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FileLazyHDF5"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileLazyHDF5">[docs]</a>class FileLazyHDF5(vfile.VFile):
-    """ This is for lazy wrapping an h5 file referred to by an xdmf file,
-    or anything else where you want to have a single file instance for a single
-    hdf5 file, but you don't want any parsing because you already know what's
-    going to be in the file. """
-    _detector = None
+<div class="viewcode-block" id="FileLazyHDF5"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileLazyHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileLazyHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is for lazy wrapping an h5 file referred to by an xdmf file,</span>
+<span class="sd">    or anything else where you want to have a single file instance for a single</span>
+<span class="sd">    hdf5 file, but you don&#39;t want any parsing because you already know what&#39;s</span>
+<span class="sd">    going to be in the file. &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="bp">None</span>
 
-    def __init__(self, fname, **kwargs):
-        assert(HAS_H5PY)
-        super(FileLazyHDF5, self).__init__(fname, **kwargs)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">HAS_H5PY</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileLazyHDF5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    def _parse(self):
-        pass
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="FileLazyHDF5.get_data"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileLazyHDF5.get_data">[docs]</a>    def get_data(self, handle):
-        return H5pyDataWrapper(self.fname, handle)
+<div class="viewcode-block" id="FileLazyHDF5.get_data"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileLazyHDF5.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">H5pyDataWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="FileHDF5"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5">[docs]</a>class FileHDF5(vfile.VFile): #pylint: disable=R0922
-    """ this is an abstract-ish class from which other types of hdf5 readers
-    should derrive """
-    _detector = r".*\.h5\s*$"
+<div class="viewcode-block" id="FileHDF5"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span> <span class="c">#pylint: disable=R0922</span>
+    <span class="sd">&quot;&quot;&quot; this is an abstract-ish class from which other types of hdf5 readers</span>
+<span class="sd">    should derrive &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.h5\s*$&quot;</span>
 
-    _CRDS_GROUP = "/crds"
-    _FLD_GROUPS = {"node": "/flds_nc",
-                   "cell": "/flds_cc",
-                   "face": "/flds_fc",
-                   "edge": "/flds_ec"}
+    <span class="n">_CRDS_GROUP</span> <span class="o">=</span> <span class="s">&quot;/crds&quot;</span>
+    <span class="n">_FLD_GROUPS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;node&quot;</span><span class="p">:</span> <span class="s">&quot;/flds_nc&quot;</span><span class="p">,</span>
+                   <span class="s">&quot;cell&quot;</span><span class="p">:</span> <span class="s">&quot;/flds_cc&quot;</span><span class="p">,</span>
+                   <span class="s">&quot;face&quot;</span><span class="p">:</span> <span class="s">&quot;/flds_fc&quot;</span><span class="p">,</span>
+                   <span class="s">&quot;edge&quot;</span><span class="p">:</span> <span class="s">&quot;/flds_ec&quot;</span><span class="p">}</span>
 
-    _XDMF_TEMPLATE_BEGIN = \
-"""&lt;?xml version='1.0' ?&gt;
-&lt;Xdmf xmlns:xi='http://www.w3.org/2001/XInclude' Version='2.0'&gt;
-&lt;Domain&gt;
-&lt;Grid GridType="Collection" CollectionType="Spatial"&gt;
-  &lt;Time Type="Single" Value="{time}" /&gt;
-"""
-    _XDMF_TEMPLATE_RECTILINEAR_GRID_BEGIN = \
-"""  &lt;Grid Name="{grid_name}" GridType="Uniform"&gt;
-    &lt;Topology TopologyType="3DRectMesh" Dimensions="{crd_dims}"/&gt;
-    &lt;Geometry GeometryType="VXVYVZ"&gt;
-    &lt;DataItem Name="VX" DataType="Float" Dimensions="{xdim}" Format="HDF"&gt;
-       {h5fname}:{xloc}
-    &lt;/DataItem&gt;
-    &lt;DataItem Name="VY" DataType="Float" Dimensions="{ydim}" Format="HDF"&gt;
-       {h5fname}:{yloc}
-    &lt;/DataItem&gt;
-    &lt;DataItem Name="VZ" DataType="Float" Dimensions="{zdim}" Format="HDF"&gt;
-       {h5fname}:{zloc}
-    &lt;/DataItem&gt;
-    &lt;/Geometry&gt;
-"""
-    _XDMF_TEMPLATE_ATTRIBUTE = \
-"""    &lt;Attribute Name="{fld_name}" AttributeType="{fld_type}" Center="{center}"&gt;
-      &lt;DataItem Dimensions="{fld_dims}" NumberType="{dtype}" Precision="{precision}" Format="HDF"&gt;
-        {h5fname}:{fld_loc}
-      &lt;/DataItem&gt;
-    &lt;/Attribute&gt;
-"""
-    _XDMF_TEMPLATE_GRID_END = \
-"""  &lt;/Grid&gt;
-"""
-    _XDMF_TEMPLATE_END = \
-"""&lt;/Grid&gt;
-&lt;/Domain&gt;
-&lt;/Xdmf&gt;
-"""
+    <span class="n">_XDMF_TEMPLATE_BEGIN</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;&lt;?xml version=&#39;1.0&#39; ?&gt;</span>
+<span class="sd">&lt;Xdmf xmlns:xi=&#39;http://www.w3.org/2001/XInclude&#39; Version=&#39;2.0&#39;&gt;</span>
+<span class="sd">&lt;Domain&gt;</span>
+<span class="sd">&lt;Grid GridType=&quot;Collection&quot; CollectionType=&quot;Spatial&quot;&gt;</span>
+<span class="sd">  &lt;Time Type=&quot;Single&quot; Value=&quot;{time}&quot; /&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">_XDMF_TEMPLATE_RECTILINEAR_GRID_BEGIN</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;  &lt;Grid Name=&quot;{grid_name}&quot; GridType=&quot;Uniform&quot;&gt;</span>
+<span class="sd">    &lt;Topology TopologyType=&quot;3DRectMesh&quot; Dimensions=&quot;{crd_dims}&quot;/&gt;</span>
+<span class="sd">    &lt;Geometry GeometryType=&quot;VXVYVZ&quot;&gt;</span>
+<span class="sd">    &lt;DataItem Name=&quot;VX&quot; DataType=&quot;Float&quot; Dimensions=&quot;{xdim}&quot; Format=&quot;HDF&quot;&gt;</span>
+<span class="sd">       {h5fname}:{xloc}</span>
+<span class="sd">    &lt;/DataItem&gt;</span>
+<span class="sd">    &lt;DataItem Name=&quot;VY&quot; DataType=&quot;Float&quot; Dimensions=&quot;{ydim}&quot; Format=&quot;HDF&quot;&gt;</span>
+<span class="sd">       {h5fname}:{yloc}</span>
+<span class="sd">    &lt;/DataItem&gt;</span>
+<span class="sd">    &lt;DataItem Name=&quot;VZ&quot; DataType=&quot;Float&quot; Dimensions=&quot;{zdim}&quot; Format=&quot;HDF&quot;&gt;</span>
+<span class="sd">       {h5fname}:{zloc}</span>
+<span class="sd">    &lt;/DataItem&gt;</span>
+<span class="sd">    &lt;/Geometry&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">_XDMF_TEMPLATE_ATTRIBUTE</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;    &lt;Attribute Name=&quot;{fld_name}&quot; AttributeType=&quot;{fld_type}&quot; Center=&quot;{center}&quot;&gt;</span>
+<span class="sd">      &lt;DataItem Dimensions=&quot;{fld_dims}&quot; NumberType=&quot;{dtype}&quot; Precision=&quot;{precision}&quot; Format=&quot;HDF&quot;&gt;</span>
+<span class="sd">        {h5fname}:{fld_loc}</span>
+<span class="sd">      &lt;/DataItem&gt;</span>
+<span class="sd">    &lt;/Attribute&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">_XDMF_TEMPLATE_GRID_END</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;  &lt;/Grid&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">_XDMF_TEMPLATE_END</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;&lt;/Grid&gt;</span>
+<span class="sd">&lt;/Domain&gt;</span>
+<span class="sd">&lt;/Xdmf&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-    def __init__(self, fname, **kwargs):
-        assert(HAS_H5PY)
-        super(FileHDF5, self).__init__(fname, **kwargs)
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">HAS_H5PY</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileHDF5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    def _parse(self):
-        raise NotImplementedError("Please load using the xdmf file")
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Please load using the xdmf file&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FileHDF5.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5.save">[docs]</a>    def save(self, fname=None, **kwargs):
-        """ save an instance of VFile, fname defaults to the name
-        of the file object as read """
-        if fname is None:
-            fname = self.fname
-        flds = list(self.iter_fields)
-        self.save_fields(fname, flds)
+<div class="viewcode-block" id="FileHDF5.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; save an instance of VFile, fname defaults to the name</span>
+<span class="sd">        of the file object as read &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>
+        <span class="n">flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">)</span>
 </div>
-    @classmethod
-<div class="viewcode-block" id="FileHDF5.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5.save_fields">[docs]</a>    def save_fields(cls, fname, flds, **kwargs):
-        """ save some fields using the format given by the class """
-        # FIXME: this is only good for writing cartesian rectilnear flds
-        # FIXME: axes are renamed if flds[0] is 1D or 2D
-        assert(len(flds) &gt; 0)
-        fname = os.path.expanduser(os.path.expandvars(fname))
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="FileHDF5.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.hdf5.FileHDF5.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; save some fields using the format given by the class &quot;&quot;&quot;</span>
+        <span class="c"># FIXME: this is only good for writing cartesian rectilnear flds</span>
+        <span class="c"># FIXME: axes are renamed if flds[0] is 1D or 2D</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
 
-        clist = flds[0].crds.get_clist()
-        crd_arrs = [np.array([0.0])] * 3
-        crd_names = ["z", "y", "x"]
-        for i, c in enumerate(clist):
-            crd_arrs[i] = c[1]
-        crd_shape = [len(arr) for arr in crd_arrs]
-        time = flds[0].time
+        <span class="n">clist</span> <span class="o">=</span> <span class="n">flds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">()</span>
+        <span class="n">crd_arrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])]</span> <span class="o">*</span> <span class="mi">3</span>
+        <span class="n">crd_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clist</span><span class="p">):</span>
+            <span class="n">crd_arrs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">crd_shape</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">crd_arrs</span><span class="p">]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">flds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span>
 
-        # write arrays to the hdf5 file
-        with h5py.File(fname, 'w') as f:
-            for axis_name, arr in zip(crd_names, crd_arrs):
-                loc = cls._CRDS_GROUP + '/' + axis_name
-                f[loc] = arr
+        <span class="c"># write arrays to the hdf5 file</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">crd_names</span><span class="p">,</span> <span class="n">crd_arrs</span><span class="p">):</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">axis_name</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span>
 
-            for fld in flds:
-                loc = cls._FLD_GROUPS[fld.center.lower()] + '/' + fld.name
-                f[loc] = fld.data
+            <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_FLD_GROUPS</span><span class="p">[</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
 
-        # now write an xdmf file
-        xdmf_fname = os.path.splitext(fname)[0] + ".xdmf"
-        relh5fname = "./" + os.path.basename(fname)
-        with open(xdmf_fname, 'w') as f:
-            xloc = cls._CRDS_GROUP + '/' + crd_names[2]
-            yloc = cls._CRDS_GROUP + '/' + crd_names[1]
-            zloc = cls._CRDS_GROUP + '/' + crd_names[0]
-            dim_str = " ".join([str(l) for l in crd_shape])
-            f.write(cls._XDMF_TEMPLATE_BEGIN.format(time=time))
-            f.write(cls._XDMF_TEMPLATE_RECTILINEAR_GRID_BEGIN.format(
-                    grid_name="vgrid", crd_dims=dim_str, h5fname=relh5fname,
-                    xdim=crd_shape[2], ydim=crd_shape[1], zdim=crd_shape[0],
-                    xloc=xloc, yloc=yloc, zloc=zloc))
+        <span class="c"># now write an xdmf file</span>
+        <span class="n">xdmf_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;.xdmf&quot;</span>
+        <span class="n">relh5fname</span> <span class="o">=</span> <span class="s">&quot;./&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xdmf_fname</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">xloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">yloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">zloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dim_str</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">crd_shape</span><span class="p">])</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_BEGIN</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_RECTILINEAR_GRID_BEGIN</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">grid_name</span><span class="o">=</span><span class="s">&quot;vgrid&quot;</span><span class="p">,</span> <span class="n">crd_dims</span><span class="o">=</span><span class="n">dim_str</span><span class="p">,</span> <span class="n">h5fname</span><span class="o">=</span><span class="n">relh5fname</span><span class="p">,</span>
+                    <span class="n">xdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ydim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">zdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">xloc</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span> <span class="n">yloc</span><span class="o">=</span><span class="n">yloc</span><span class="p">,</span> <span class="n">zloc</span><span class="o">=</span><span class="n">zloc</span><span class="p">))</span>
 
-            for fld in flds:
-                dt = fld.dtype.name.rstrip("0123456789").title()
-                precision = fld.dtype.itemsize
-                fld_dim_str = " ".join([str(l) for l in fld.shape])
-                loc = cls._FLD_GROUPS[fld.center.lower()] + '/' + fld.name
-                f.write(cls._XDMF_TEMPLATE_ATTRIBUTE.format(fld_name=fld.name,
-                        fld_type=fld.type, center=fld.center.title(),
-                        dtype=dt, precision=precision, fld_dims=fld_dim_str,
-                        h5fname=relh5fname, fld_loc=loc))
+            <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">:</span>
+                <span class="n">dt</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&quot;0123456789&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+                <span class="n">precision</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+                <span class="n">fld_dim_str</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">shape</span><span class="p">])</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_FLD_GROUPS</span><span class="p">[</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_ATTRIBUTE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fld_name</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">fld_type</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span> <span class="n">fld_dims</span><span class="o">=</span><span class="n">fld_dim_str</span><span class="p">,</span>
+                        <span class="n">h5fname</span><span class="o">=</span><span class="n">relh5fname</span><span class="p">,</span> <span class="n">fld_loc</span><span class="o">=</span><span class="n">loc</span><span class="p">))</span>
 
-            f.write(cls._XDMF_TEMPLATE_GRID_END)
-            f.write(cls._XDMF_TEMPLATE_END)
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_GRID_END</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_END</span><span class="p">)</span>
 
-##
-## EOF
-##</div></div>
-</pre>
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div></div>
+</pre></div>
 
           <footer>
   <hr/>

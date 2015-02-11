@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.vutil &mdash; Viscid 0.60.2 dev documentation</title>
+  <title>viscid.vutil &mdash; Viscid 0.70.0 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.60.2 dev',
+        VERSION:'0.70.0',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.60.2 dev documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,8 +79,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -90,11 +90,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#slicing-fields">Slicing Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
 </ul>
 </li>
@@ -103,8 +108,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#p2d">p2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
@@ -139,138 +146,451 @@
 <hr/>
 
           
-  <h1>Source code for viscid.vutil</h1><pre>
-#!/usr/bin/env python
+  <h1>Source code for viscid.vutil</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
 
-from __future__ import print_function
-# from itertools import islice
-from timeit import default_timer as time
-import subprocess as sub
-import logging
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">count</span>
+<span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">default_timer</span> <span class="k">as</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">subprocess</span> <span class="kn">as</span> <span class="nn">sub</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
-from viscid import logger
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">izip</span>
 
-tree_prefix = ".   "
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a>def find_field(vfile, fld_name_lst):
-    """ convenience function to get a field that could be called many things
-    returns the first fld_name in the list that is in the file """
-    for fld_name in fld_name_lst:
-        if fld_name in vfile:
-            return vfile[fld_name]
-    raise KeyError("file {0} contains none of {1}".format(vfile, fld_name_lst))
+<span class="n">tree_prefix</span> <span class="o">=</span> <span class="s">&quot;.   &quot;</span>
+
+<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; convenience function to get a field that could be called many things</span>
+<span class="sd">    returns the first fld_name in the list that is in the file &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">fld_name_lst</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">vfile</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vfile</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file {0} contains none of {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.split_floats">[docs]</a>def split_floats(arg_str):
-    return [float(s) for s in arg_str.split(',')]
+<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.split_floats">[docs]</a><span class="k">def</span> <span class="nf">split_floats</span><span class="p">(</span><span class="n">arg_str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">arg_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
 </div>
-<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_animate_arguments">[docs]</a>def add_animate_arguments(parser):
-    """ add common options for animating, you may want to make sure parser was
-    constructed with conflict_handler='resolve' """
-    anim = parser.add_argument_group("Options for creating animations")
-    anim.add_argument("-a", "--animate", default=None,
-                      help="animate results")
-    anim.add_argument("--prefix", default=None,
-                        help="Prefix of the output image filenames")
-    anim.add_argument('-r', '--rate', dest='framerate', type=int, default=5,
-                      help="animation frame rate (default 5).")
-    anim.add_argument('--qscale', dest='qscale', default='2',
-                      help="animation quality flag (default 2).")
-    anim.add_argument('-k', dest='keep', action='store_true',
-                      help="keep temporary files.")
-    return parser
+<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_animate_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_animate_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add common options for animating, you may want to make sure parser was</span>
+<span class="sd">    constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
+    <span class="n">anim</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for creating animations&quot;</span><span class="p">)</span>
+    <span class="n">anim</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-a&quot;</span><span class="p">,</span> <span class="s">&quot;--animate&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s">&quot;animate results&quot;</span><span class="p">)</span>
+    <span class="n">anim</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--prefix&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;Prefix of the output image filenames&quot;</span><span class="p">)</span>
+    <span class="n">anim</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-r&#39;</span><span class="p">,</span> <span class="s">&#39;--rate&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;framerate&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s">&quot;animation frame rate (default 5).&quot;</span><span class="p">)</span>
+    <span class="n">anim</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;--qscale&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;qscale&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;2&#39;</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s">&quot;animation quality flag (default 2).&quot;</span><span class="p">)</span>
+    <span class="n">anim</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-k&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;keep&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s">&quot;keep temporary files.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_mpl_output_arguments">[docs]</a>def add_mpl_output_arguments(parser):
-    """ add common options for tuning matplotlib output, you may want to make
-    sure parser was constructed with conflict_handler='resolve' """
-    mplargs = parser.add_argument_group("Options for tuning matplotlib")
-    mplargs.add_argument("-s", "--size", dest="plot_size", type=split_floats,
-                         default=None, help="size of mpl plot (inches)")
-    mplargs.add_argument("--dpi", dest="dpi", type=float, default=None,
-                         help="dpi of plot")
-    parser.add_argument("--prefix", default=None,
-                        help="Prefix of the output image filenames")
-    parser.add_argument("--format", "-f", default="png",
-                        help="output format, as in 'png'|'pdf'|...")
-    parser.add_argument('-w', '--show', dest='show', action="store_true",
-                        help="show plots with plt.show()")
-    return parser
+<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_mpl_output_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_mpl_output_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add common options for tuning matplotlib output, you may want to make</span>
+<span class="sd">    sure parser was constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
+    <span class="n">mplargs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for tuning matplotlib&quot;</span><span class="p">)</span>
+    <span class="n">mplargs</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-s&quot;</span><span class="p">,</span> <span class="s">&quot;--size&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;plot_size&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">split_floats</span><span class="p">,</span>
+                         <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;size of mpl plot (inches)&quot;</span><span class="p">)</span>
+    <span class="n">mplargs</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--dpi&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;dpi&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;dpi of plot&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--prefix&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;Prefix of the output image filenames&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--format&quot;</span><span class="p">,</span> <span class="s">&quot;-f&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;png&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;output format, as in &#39;png&#39;|&#39;pdf&#39;|...&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-w&#39;</span><span class="p">,</span> <span class="s">&#39;--show&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;show&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store_true&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&quot;show plots with plt.show()&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a>def common_argparse(parser, default_verb=0, logging_fmt=None):
-    """ add some common verbosity stuff to argparse, parse the
-    command line args, and setup the logging levels
-    parser should be an ArgumentParser instance, and kwargs
-    should be options that get passed to logger.basicConfig
-    returns the args namespace  """
-    general = parser.add_argument_group("Viscid general options")
-    general.add_argument("--log", action="store", type=str, default=None,
-                         help="Logging level (overrides verbosity)")
-    general.add_argument("-v", action="count", default=default_verb,
-                         help="increase verbosity")
-    general.add_argument("-q", action="count", default=0,
-                         help="decrease verbosity")
-    args = parser.parse_args()
+<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">default_verb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">logging_fmt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add some common verbosity stuff to argparse, parse the</span>
+<span class="sd">    command line args, and setup the logging levels</span>
+<span class="sd">    parser should be an ArgumentParser instance, and kwargs</span>
+<span class="sd">    should be options that get passed to logger.basicConfig</span>
+<span class="sd">    returns the args namespace  &quot;&quot;&quot;</span>
+    <span class="n">general</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Viscid general options&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;--log&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;Logging level (overrides verbosity)&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-v&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default_verb</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;increase verbosity&quot;</span><span class="p">)</span>
+    <span class="n">general</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&quot;-q&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;decrease verbosity&quot;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
-    # setup the logging level
-    if args.log is not None:
-        logger.setLevel(getattr(logging, args.log.upper()))
-    else:
-        # default = 30 WARNING
-        verb = args.v - args.q
-        logger.setLevel(int(30 - 10 * verb))
+    <span class="c"># setup the logging level</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># default = 30 WARNING</span>
+        <span class="n">verb</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">v</span> <span class="o">-</span> <span class="n">args</span><span class="o">.</span><span class="n">q</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">30</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">verb</span><span class="p">))</span>
 
-    # the 0th handler going to stderr should always be setup
-    if not logging_fmt:
-        logging_fmt = "(%(levelname)s): %(message)s"
-    logger.handlers[0].setFormatter(logging.Formatter(logging_fmt))
+    <span class="c"># the 0th handler going to stderr should always be setup</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">logging_fmt</span><span class="p">:</span>
+        <span class="n">logging_fmt</span> <span class="o">=</span> <span class="s">&quot;(</span><span class="si">%(levelname)s</span><span class="s">): </span><span class="si">%(message)s</span><span class="s">&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">logging_fmt</span><span class="p">))</span>
 
-    return args
+    <span class="k">return</span> <span class="n">args</span>
 </div>
-<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_animation">[docs]</a>def make_animation(args, program="ffmpeg"):
-    """ make animation by calling program (only ffmpeg works for now) using
-    args, which is a namespace filled by the argparse options from
-    add_animate_arguments. Plots are expected to be named
-    ${args.prefix}_000001.png where the number is in order from 1 up """
-    if args.animate:
-        if program == "ffmpeg":
-            sub.Popen("ffmpeg -r {0} -i {2}_%06d.png -pix_fmt yuv420p "
-                      "-qscale {1} {3}".format(args.framerate, args.qscale,
-                      args.prefix, args.animate), shell=True).communicate()
-    if args.animate is None and args.prefix is not None:
-        args.keep = True
-    if not args.keep:
-        sub.Popen("rm -f {0}_*.png".format(args.prefix),
-                  shell=True).communicate()
-    return None
+<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_animation">[docs]</a><span class="k">def</span> <span class="nf">make_animation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="s">&quot;ffmpeg&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; make animation by calling program (only ffmpeg works for now) using</span>
+<span class="sd">    args, which is a namespace filled by the argparse options from</span>
+<span class="sd">    add_animate_arguments. Plots are expected to be named</span>
+<span class="sd">    ${args.prefix}_000001.png where the number is in order from 1 up &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">animate</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">program</span> <span class="o">==</span> <span class="s">&quot;ffmpeg&quot;</span><span class="p">:</span>
+            <span class="n">sub</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s">&quot;ffmpeg -r {0} -i {2}_</span><span class="si">%06d</span><span class="s">.png -pix_fmt yuv420p &quot;</span>
+                      <span class="s">&quot;-qscale {1} {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">framerate</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">qscale</span><span class="p">,</span>
+                      <span class="n">args</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">animate</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">animate</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">prefix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">keep</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">keep</span><span class="p">:</span>
+        <span class="n">sub</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="s">&quot;rm -f {0}_*.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">prefix</span><span class="p">),</span>
+                  <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a>def subclass_spider(cls):
-    """ return recursive list of subclasses of cls (depth first) """
-    lst = [cls]
-    # reversed gives precedence to the more recently declared classes
-    for c in reversed(cls.__subclasses__()):
-        lst += subclass_spider(c)
-    return lst
+<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; return recursive list of subclasses of cls (depth first) &quot;&quot;&quot;</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls</span><span class="p">]</span>
+    <span class="c"># reversed gives precedence to the more recently declared classes</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()):</span>
+        <span class="n">lst</span> <span class="o">+=</span> <span class="n">subclass_spider</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lst</span>
 </div>
-<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a>def timereps(reps, func, *args, **kwargs):
-    arr = [None] * reps
-    for i in range(reps):
-        start = time()
-        func(*args, **kwargs)
-        end = time()
-        arr[i] = end - start
-    return min(arr), max(arr), sum(arr) / reps
+<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">reps</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">reps</span>
 </div>
-<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timeit">[docs]</a>def timeit(f, *args, **kwargs):
-    t0 = time()
-    ret = f(*args, **kwargs)
-    t1 = time()
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 
-    print("Took {0:.03g} secs.".format(t1 - t0))
-    return ret
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Took {0:.03g} secs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ret</span>
+</div>
+<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format time as a string</span>
 
-##
-## EOF
-##</div>
-</pre>
+<span class="sd">    Args:</span>
+<span class="sd">        t (float): time</span>
+<span class="sd">        style (str): for this method, can be::</span>
+<span class="sd">                style          |   time   | string</span>
+<span class="sd">                --------------------------------------------------</span>
+<span class="sd">                &#39;hms&#39;          | 90015.0  | &quot;25:00:15.000&quot;</span>
+<span class="sd">                &#39;hms&#39;          | 90000.0  | &quot;1 day 01:00:15.000&quot;</span>
+<span class="sd">                &#39;hmss&#39;         | 90015.0  | &quot;25:00:15.000 (90015)&quot;</span>
+<span class="sd">                &#39;dhms&#39;         |   900.0  | &quot;0 days 00:15:00.000&quot;</span>
+<span class="sd">                &#39;.02f&#39;         |   900.0  | &#39;900.00&#39;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s">&quot;hms&quot;</span> <span class="ow">in</span> <span class="n">style</span><span class="p">:</span>
+        <span class="n">days</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span> <span class="o">//</span> <span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">))</span>
+        <span class="n">hrs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">t</span> <span class="o">//</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">%</span> <span class="mi">24</span><span class="p">)</span>
+        <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">t</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="n">secs</span> <span class="o">=</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">60</span>
+
+        <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;dhms&quot;</span><span class="p">:</span>
+            <span class="n">daystr</span> <span class="o">=</span> <span class="s">&quot;day&quot;</span> <span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">&quot;days&quot;</span>
+            <span class="k">return</span> <span class="s">&quot;{0} {1}, {2}:{3:02d}:{4:04.01f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span>
+                                                            <span class="n">hrs</span><span class="p">,</span> <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">style</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;hms&quot;</span><span class="p">):</span>
+            <span class="n">hrs</span> <span class="o">+=</span> <span class="mi">24</span> <span class="o">*</span> <span class="n">days</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;{0:02d}:{1:02d}:{2:05.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hrs</span><span class="p">,</span> <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;hmss&quot;</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot; ({0:d})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">s</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unknown time style: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">style</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;none&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&quot;{0:{1}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="make_fwd_slice"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_fwd_slice">[docs]</a><span class="k">def</span> <span class="nf">make_fwd_slice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cull_second</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure slices go forward</span>
+
+<span class="sd">    This function returns two slices equivalent to `slices` such</span>
+<span class="sd">    that the first slice always goes forward. This is necessary because</span>
+<span class="sd">    h5py can&#39;t deal with reverse slices such as [::-1].</span>
+
+<span class="sd">    The optional `reverse` can be used to interpret a dimension as</span>
+<span class="sd">    flipped. This is used if the indices in a slice are based on a</span>
+<span class="sd">    coordinate array that has already been flipped. For instance, the</span>
+<span class="sd">    result is equivalent to `arr[::-1][slices]`, but in a way that can</span>
+<span class="sd">    be  handled by h5py. This lets us efficiently load small subsets</span>
+<span class="sd">    of large arrays on disk, which is most useful when the large array</span>
+<span class="sd">    is coming through sshfs.</span>
+
+<span class="sd">    Note: The only restriction on slices is that neither start nor stop</span>
+<span class="sd">        can be outide the range [-L, L].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        shape: shape of the array that is to be sliced</span>
+<span class="sd">        slices: a tuple of slices to work with</span>
+<span class="sd">        reverse (optional): list of bools that indicate if the</span>
+<span class="sd">            corresponding value in slices should be ineterpreted as</span>
+<span class="sd">            flipped</span>
+<span class="sd">        cull_second (bool, optional): iff True, remove elements of</span>
+<span class="sd">            the second slice for dimensions that don&#39;t exist after</span>
+<span class="sd">            the first slice has completed. This is only here for</span>
+<span class="sd">            a super-hacky case when slicing fields.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (first_slice, second_slice)</span>
+
+<span class="sd">        first_slice: a forward-only slice that retrieves the</span>
+<span class="sd">            desired elements of an array</span>
+<span class="sd">        second_slice: a slice that does [::1] or [::-1] as needed</span>
+<span class="sd">            to make the result equivalent to slices. If keep_all,</span>
+<span class="sd">            then this may contain None indicating that this</span>
+<span class="sd">            dimension no longer exists after the first slice.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt; a = np.arange(8)</span>
+<span class="sd">        &gt;&gt; first, second = make_fwd_slice(len(a),slice(None, None, -1))</span>
+<span class="sd">        &gt;&gt; (a[::-1] == a[first][second]).all()</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt; a = np.arange(4*5*6).reshape((4, 5, 6))</span>
+<span class="sd">        &gt;&gt; first, second = make_fwd_slice(a.shape,</span>
+<span class="sd">                                          [slice(None, -1, 1),</span>
+<span class="sd">                                           slice(-1, None, 1),</span>
+<span class="sd">                                           slice(-4, -1, 2)],</span>
+<span class="sd">                                          [True, True, True])</span>
+<span class="sd">        &gt;&gt; a1 = a[::-1, ::-1, ::-1][:-1, -1:, -4:-1:2]</span>
+<span class="sd">        &gt;&gt; a2 = a[first][second]</span>
+<span class="sd">        &gt;&gt; a1 == a2</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">reverse</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">shape</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="n">slices</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">reverse</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">]</span>
+
+    <span class="c"># ya know, lets just go through all the dimensions in shape</span>
+    <span class="c"># just to be safe and default to an empty slice / no reverse</span>
+    <span class="n">slices</span> <span class="o">=</span> <span class="n">slices</span> <span class="o">+</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">))</span>
+    <span class="n">reverse</span> <span class="o">=</span> <span class="n">reverse</span> <span class="o">+</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">reverse</span><span class="p">))</span>
+
+    <span class="n">first_slc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">second_slc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">first_slc</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">slc</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">rev</span> <span class="ow">in</span> <span class="n">izip</span><span class="p">(</span><span class="n">count</span><span class="p">(),</span> <span class="n">slices</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">reverse</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span> <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span> <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">L</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">+=</span> <span class="n">L</span>
+            <span class="k">if</span> <span class="n">stop</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">+=</span> <span class="n">L</span>
+
+            <span class="c"># sanity check the start/stop since we&#39;re gunna be playing</span>
+            <span class="c"># fast and loose with them</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">stop</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s">&quot;((start = {0}) or (stop = {1})) &lt; 0&quot;</span>
+                                 <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">L</span> <span class="ow">or</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="n">L</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s">&quot;((start={0}) or (stop={1})) &gt; (L={2})&quot;</span>
+                                 <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+
+            <span class="c"># now do the math of flipping the slice if needed, these branches</span>
+            <span class="c"># change start, stop, and step so they can be used to create a new</span>
+            <span class="c"># slice below</span>
+            <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="n">step</span>
+                    <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">start</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">start</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span>
+                        <span class="n">stop</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">stop</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="n">stop</span><span class="p">,</span> <span class="n">L</span> <span class="o">-</span> <span class="n">start</span>
+                    <span class="n">start</span> <span class="o">+=</span> <span class="p">((</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">%</span> <span class="n">step</span><span class="p">)</span>
+                    <span class="n">second_slc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">step</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="n">step</span>
+                <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">L</span> <span class="o">-</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="p">((</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">%</span> <span class="n">step</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="n">start</span> <span class="o">+=</span> <span class="p">((</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">%</span> <span class="n">step</span><span class="p">)</span>
+
+                <span class="n">second_slc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c"># check that our slice is valid</span>
+            <span class="k">assert</span> <span class="n">start</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">),</span> \
+                   <span class="s">&quot;start (={0}) is outside range&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">start</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">start</span> <span class="ow">and</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">L</span><span class="p">),</span> \
+                   <span class="s">&quot;start (={0}) is outside range&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">start</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">stop</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">stop</span>
+            <span class="k">assert</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+            <span class="n">second_slc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">rev</span><span class="p">:</span>
+                <span class="n">slc</span> <span class="o">=</span> <span class="p">(</span><span class="n">L</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">slc</span>
+
+        <span class="n">first_slc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">slc</span>
+
+    <span class="k">if</span> <span class="n">cull_second</span><span class="p">:</span>
+        <span class="n">second_slc</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">second_slc</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">first_slc</span><span class="p">,</span> <span class="n">second_slc</span>
+</div>
+<div class="viewcode-block" id="convert_floating_slice"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.convert_floating_slice">[docs]</a><span class="k">def</span> <span class="nf">convert_floating_slice</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Be able to slice using floats relative to an array</span>
+
+<span class="sd">    The idea is that [0.1, 0.2, 0.3, 0.4, 0.5, 0.6][0.2:0.6:2] should</span>
+<span class="sd">    be able to give you [0.2, 0.4, 0.6]. This function will handle all</span>
+<span class="sd">    the paticulars, like when to include what and what if step &lt; 1 etc.</span>
+
+<span class="sd">    The rules for when something is included are:</span>
+<span class="sd">        - The slice will never include elements whose value in arr</span>
+<span class="sd">          are &lt; start (or &gt; if the slice is backward)</span>
+<span class="sd">        - The slice will never include elements whose value in arr</span>
+<span class="sd">          are &gt; stop (or &lt; if the slice is backward)</span>
+<span class="sd">        - !! The slice WILL INCLUDE stop if you don&#39;t change endpoint.</span>
+<span class="sd">          This is different from normal slicing, but</span>
+<span class="sd">          it&#39;s more natural when specifying a slice as a float.</span>
+<span class="sd">          To this end, an epsilon tolerance can be given to</span>
+<span class="sd">          determine what&#39;s close enough.</span>
+<span class="sd">        - TODO: implement floating point steps, this is tricky</span>
+<span class="sd">          since arr need not be uniformly spaced, so step is</span>
+<span class="sd">          ambiguous in this case</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        arr (ndarray): filled with floats to do the lookup</span>
+<span class="sd">        start (None, int, float): like slice().start</span>
+<span class="sd">        stop (None, int, float): like slice().start</span>
+<span class="sd">        step (None, int, float): like slice().start</span>
+<span class="sd">        endpoint (bool): iff True then include stop in the slice.</span>
+<span class="sd">            Set to False to get python slicing symantics when it</span>
+<span class="sd">            comes to excluding stop, but fair warning, python</span>
+<span class="sd">            symantics feel awkward here. Consider the case</span>
+<span class="sd">            [0.1, 0.2, 0.3][:0.25]. If you think this should include</span>
+<span class="sd">            0.2, then leave keep endpoint=True.</span>
+<span class="sd">        tol (int): number of machine epsilons to consider</span>
+<span class="sd">            &quot;close enough&quot;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        start, stop, step after floating point vals have been</span>
+<span class="sd">        converted to integers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="n">tol</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c"># array is probably of type numpy.int*</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">_step</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">step</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">step</span>
+    <span class="n">epsilon_step</span> <span class="o">=</span> <span class="n">epsilon</span> <span class="k">if</span> <span class="n">_step</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">epsilon</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="n">epsilon_step</span>
+        <span class="k">if</span> <span class="n">epsilon_step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater_equal</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># start value is past the wrong end of the array</span>
+            <span class="k">if</span> <span class="n">epsilon_step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># start = -len(arr) - 1</span>
+                <span class="c"># having a value &lt; -len(arr) won&#39;t play</span>
+                <span class="c"># nice with make_fwd_slice, but in this</span>
+                <span class="c"># case, the slice will have no data, so...</span>
+                <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">step</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">arr</span> <span class="o">-</span> <span class="n">stop</span> <span class="o">-</span> <span class="n">epsilon_step</span>
+        <span class="k">if</span> <span class="n">epsilon_step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_greater_equal</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># stop value is past the wong end of the array</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">)))</span>
+                <span class="k">if</span> <span class="n">endpoint</span><span class="p">:</span>
+                    <span class="n">stop</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># stop value is past the wrong end of the array</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diff</span><span class="p">)))</span>
+                <span class="k">if</span> <span class="n">endpoint</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">stop</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">stop</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c"># 0 - 1 == -1 which would wrap to the end of</span>
+                        <span class="c"># of the array... instead, just make it None</span>
+                        <span class="n">stop</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span>
+</div>
+<div class="viewcode-block" id="make_slice_inclusive"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_slice_inclusive">[docs]</a><span class="k">def</span> <span class="nf">make_slice_inclusive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extend the end of a slice by 1 element</span>
+
+<span class="sd">    Chances are you don&#39;t want to use this function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        start (int, None): same as a slice.start</span>
+<span class="sd">        stop (int, None): same as a slice.stop</span>
+<span class="sd">        step (int, None): same as a slice.step</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (start, stop, step) To be given to slice()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">stop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span>
+
+    <span class="k">if</span> <span class="n">step</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">stop</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">stop</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
 
           <footer>
   <hr/>
