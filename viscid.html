@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid package &mdash; Viscid 0.70.1 documentation</title>
+  <title>viscid package &mdash; Viscid 0.70.2 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.70.1',
+        VERSION:'0.70.2',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.1 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.70.2 documentation" href="index.html"/>
         <link rel="up" title="API Reference" href="modules.html"/>
         <link rel="next" title="viscid.calculator package" href="viscid.calculator.html"/>
         <link rel="prev" title="API Reference" href="modules.html"/> 
@@ -937,6 +937,19 @@ convenience functions for creating fields similar to <cite>Numpy</cite>.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.field.Field.as_c_contiguous">
+<tt class="descname">as_c_contiguous</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.as_c_contiguous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.as_c_contiguous" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Field with c-contiguous data</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>If the data is not already in memory (cached), this
+function will trigger a load.</dd>
+<dt>Returns:</dt>
+<dd>Field or self</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="viscid.field.Field.as_cell_centered">
 <tt class="descname">as_cell_centered</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#Field.as_cell_centered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.as_cell_centered" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert field to cell centered field without discarding
@@ -1304,6 +1317,25 @@ using np.transpose(fld)</p>
 <dt id="viscid.field.VectorField">
 <em class="property">class </em><tt class="descclassname">viscid.field.</tt><tt class="descname">VectorField</tt><big>(</big><em>name</em>, <em>crds</em>, <em>data</em>, <em>center='Node'</em>, <em>time=0.0</em>, <em>meta=None</em>, <em>deep_meta=None</em>, <em>forget_source=False</em>, <em>pretty_name=None</em>, <em>post_reshape_transform_func=None</em>, <em>transform_func_kwargs=None</em>, <em>info=None</em>, <em>parents=None</em>, <em>_parent_field=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a></p>
+<dl class="method">
+<dt id="viscid.field.VectorField.as_interlaced">
+<tt class="descname">as_interlaced</tt><big>(</big><em>force_c_contiguous=True</em><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField.as_interlaced"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.as_interlaced" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an interlaced version of this field</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>This will trigger a data load if the data is not already
+in memory</dd>
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>force_c_contiguous: if data is not c contiguous, then wrap</dt>
+<dd>it in another np.array() call.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>self, or Field if</dd>
+</dl>
+</dd></dl>
+
 <dl class="method">
 <dt id="viscid.field.VectorField.component_fields">
 <tt class="descname">component_fields</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/field.html#VectorField.component_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.VectorField.component_fields" title="Permalink to this definition">¶</a></dt>
@@ -2115,6 +2147,11 @@ step (int, None): same as a slice.step</dd>
 <dl class="function">
 <dt id="viscid.vutil.split_floats">
 <tt class="descclassname">viscid.vutil.</tt><tt class="descname">split_floats</tt><big>(</big><em>arg_str</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#split_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.split_floats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.str_to_value">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">str_to_value</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="_modules/viscid/vutil.html#str_to_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.str_to_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">

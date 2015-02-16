@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.vutil &mdash; Viscid 0.70.1 documentation</title>
+  <title>viscid.vutil &mdash; Viscid 0.70.2 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.70.1',
+        VERSION:'0.70.2',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.1 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -276,6 +276,28 @@
     <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
 
     <span class="k">print</span><span class="p">(</span><span class="s">&quot;Took {0:.03g} secs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ret</span>
+</div>
+<div class="viewcode-block" id="str_to_value"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.str_to_value">[docs]</a><span class="k">def</span> <span class="nf">str_to_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="n">s_clean</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s_clean</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">s_clean</span> <span class="o">==</span> <span class="s">&quot;none&quot;</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">elif</span> <span class="n">s_clean</span> <span class="o">==</span> <span class="s">&quot;true&quot;</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">elif</span> <span class="n">s_clean</span> <span class="o">==</span> <span class="s">&quot;false&quot;</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">elif</span> <span class="n">s_clean</span> <span class="o">==</span> <span class="s">&quot;True&quot;</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s_clean</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s_clean</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
 <div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>

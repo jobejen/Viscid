@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.field &mdash; Viscid 0.70.1 documentation</title>
+  <title>viscid.field &mdash; Viscid 0.70.2 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.70.1',
+        VERSION:'0.70.2',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.1 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -725,6 +725,9 @@
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="n">nr_comp</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="n">nr_comps</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># FIXME, there should be a flag for whether or not this should</span>
+        <span class="c"># make a copy of the array if it&#39;s not contiguous in memory</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">reflect_fld_arr</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">),</span>
                                         <span class="n">nr_comp</span><span class="p">,</span> <span class="n">nr_comps</span><span class="p">)</span>
 
@@ -1226,6 +1229,28 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can&#39;t yet move {0} to node &quot;</span>
                                       <span class="s">&quot;centers&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Field.as_c_contiguous"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.as_c_contiguous">[docs]</a>    <span class="k">def</span> <span class="nf">as_c_contiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a Field with c-contiguous data</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            If the data is not already in memory (cached), this</span>
+<span class="sd">            function will trigger a load.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Field or self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">was_loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_loaded</span><span class="p">()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">was_loaded</span> <span class="ow">and</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ret</span>
 
     <span class="c">#######################</span>
     <span class="c">## emulate a container</span>
@@ -1473,6 +1498,41 @@
             <span class="n">slc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">lst</span>
+</div>
+<div class="viewcode-block" id="VectorField.as_interlaced"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.as_interlaced">[docs]</a>    <span class="k">def</span> <span class="nf">as_interlaced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c_contiguous</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get an interlaced version of this field</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This will trigger a data load if the data is not already</span>
+<span class="sd">            in memory</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force_c_contiguous: if data is not c contiguous, then wrap</span>
+<span class="sd">                it in another np.array() call.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            self, or Field if</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">was_loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_loaded</span>
+
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">force_c_contiguous</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;calling np.ascontiguousarray&quot;</span><span class="p">)</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;returning self&quot;</span><span class="p">)</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">force_layout</span><span class="o">=</span><span class="n">LAYOUT_INTERLACED</span><span class="p">)</span>
+            <span class="c"># the data load is going to wrap the array, i think it&#39;s</span>
+            <span class="c"># redundant to put an &quot;ascontiguousarray&quot; here</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">was_loaded</span> <span class="ow">and</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ret</span>
 </div></div>
 <div class="viewcode-block" id="MatrixField"><a class="viewcode-back" href="../../viscid.html#viscid.field.MatrixField">[docs]</a><span class="k">class</span> <span class="nc">MatrixField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;matrix&quot;</span>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.dataset &mdash; Viscid 0.70.1 documentation</title>
+  <title>viscid.dataset &mdash; Viscid 0.70.2 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.70.1',
+        VERSION:'0.70.2',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.1 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.2 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -162,6 +162,7 @@
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">viscid.bucket</span> <span class="kn">import</span> <span class="n">Bucket</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vutil</span>
 <span class="kn">from</span> <span class="nn">viscid.vutil</span> <span class="kn">import</span> <span class="n">tree_prefix</span><span class="p">,</span> <span class="n">convert_floating_slice</span>
 
 <div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../viscid.html#viscid.dataset.Dataset">[docs]</a><span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
@@ -430,7 +431,7 @@
 
         <span class="n">all_times</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">slc_str</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_times</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">all_times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;:&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">all_times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">vutil</span><span class="o">.</span><span class="n">str_to_value</span><span class="p">(</span><span class="n">all_times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c"># fill in implied slice colons, then replace them with something</span>
         <span class="c"># unique... like !!</span>
@@ -442,16 +443,7 @@
         <span class="n">ret</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_times</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;!!&quot;</span><span class="p">)</span>
         <span class="c"># convert empty -&gt; None, ints -&gt; ints and floats-&gt;floats</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
-                <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                        <span class="k">pass</span>
+            <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">vutil</span><span class="o">.</span><span class="n">str_to_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Could not decipher slice: {0}. Perhaps you&#39;re &quot;</span>
                              <span class="s">&quot;missing some letters in front of a time &quot;</span>
