@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.vfile &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.vfile &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -165,7 +165,7 @@
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 
-<div class="viewcode-block" id="DataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper">[docs]</a><span class="k">class</span> <span class="nc">DataWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DataWrapper"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper">[docs]</a><span class="k">class</span> <span class="nc">DataWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">_hypersliceable</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># can read slices from disk</span>
 
     <span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
@@ -176,27 +176,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="DataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="DataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="DataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.DataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="VFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile">[docs]</a><span class="k">class</span> <span class="nc">VFile</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile">[docs]</a><span class="k">class</span> <span class="nc">VFile</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic File</span>
 
 <span class="sd">    Note:</span>
@@ -237,7 +237,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">vfilebucket</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
-<div class="viewcode-block" id="VFile.load"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.load"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
         <span class="c">#self.unload()</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
@@ -245,11 +245,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">load_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="VFile.refresh"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.refresh"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c">#self.unload()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
 <span class="sd">        being that an unload will free memory, but all the functionality is</span>
 <span class="sd">        preserved, so data is accessable without an explicit reload</span>
@@ -258,22 +258,22 @@
 
     <span class="c"># some classy saving utility methods, should be sufficient to override</span>
     <span class="c"># save and save_fields</span></div>
-<div class="viewcode-block" id="VFile.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.save"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; save an instance of VFile, fname defaults to the name</span>
 <span class="sd">        of the file object as read &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.save_grid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_grid">[docs]</a>    <span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.save_grid"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.save_grid">[docs]</a>    <span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grd</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">())</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.save_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_field">[docs]</a>    <span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.save_field"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.save_field">[docs]</a>    <span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">[</span><span class="n">fld</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.save_fields"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; save some fields using the format given by the class &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
@@ -341,7 +341,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;override _parse to read a file&quot;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recursively detect a filetype using _detector regex string.</span>
 <span class="sd">        this is called recursively for all subclasses and results</span>
 <span class="sd">        further down the tree are given precedence.</span>
@@ -361,7 +361,7 @@
         <span class="k">return</span> <span class="bp">None</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Group File names</span>
 
 <span class="sd">        The default implementation just returns fnames, but some file</span>
@@ -379,11 +379,11 @@
         <span class="k">return</span> <span class="n">fnames</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.collective_name"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.vfile.VFile.collective_name">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.collective_name"><a class="viewcode-back" href="../../../viscid.readers.vfile.html#viscid.readers.vfile.VFile.collective_name">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters:</span>
 <span class="sd">            group: single file name or list of file names that would</span>
@@ -409,7 +409,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

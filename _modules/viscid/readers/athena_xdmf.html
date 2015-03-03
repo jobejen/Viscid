@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.athena_xdmf &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../../',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
+        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers.athena_xdmf</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <h1>Source code for viscid.readers.athena_xdmf</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">dataset</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">xdmf</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena</span>
+
+
+<div class="viewcode-block" id="AthenaFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.athena_xdmf.html#viscid.readers.athena_xdmf.AthenaFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">AthenaFileXDMF</span><span class="p">(</span><span class="n">athena</span><span class="o">.</span><span class="n">AthenaFile</span><span class="p">,</span> <span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;File type for Athena style convenience stuff</span>
+
+<span class="sd">    Makes AthenaGrid the default grid and handles grouping multiple</span>
+<span class="sd">    files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.([0-9]+)\.(ath.xdmf)\s*$&quot;</span>
+
+    <span class="n">_collection</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AthenaFileXDMF.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.athena_xdmf.html#viscid.readers.athena_xdmf.AthenaFileXDMF.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">athena</span><span class="o">.</span><span class="n">group_athena_files_common</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AthenaFileXDMF.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.athena_xdmf.html#viscid.readers.athena_xdmf.AthenaFileXDMF.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">athena</span><span class="o">.</span><span class="n">athena_collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span>
+                                                        <span class="n">fnames</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="AthenaFileXDMF.load"><a class="viewcode-back" href="../../../viscid.readers.athena_xdmf.html#viscid.readers.athena_xdmf.AthenaFileXDMF.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="p">[</span><span class="n">fname</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AthenaFileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="s">&#39;run&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</div>
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># assume we have a collection of temporal files, because why not</span>
+            <span class="n">data_temporal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset_type</span><span class="o">=</span><span class="s">&quot;temporal&quot;</span><span class="p">,</span>
+                                               <span class="n">name</span><span class="o">=</span><span class="s">&quot;AthenaXDMFTemporalCollection&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">:</span>
+                <span class="n">grids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">data_temporal</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">_grid</span> <span class="ow">in</span> <span class="n">grids</span><span class="p">:</span>
+                    <span class="n">data_temporal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">_grid</span><span class="p">)</span>
+            <span class="n">data_temporal</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">data_temporal</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">AthenaFileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

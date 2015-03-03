@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.athena_hst &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../../',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
+        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers.athena_hst</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <h1>Source code for viscid.readers.athena_hst</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot; Wrapper grid for some OpenGGCM convenience &quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+
+
+<div class="viewcode-block" id="AthenaHstFile"><a class="viewcode-back" href="../../../viscid.readers.athena_hst.html#viscid.readers.athena_hst.AthenaHstFile">[docs]</a><span class="k">class</span> <span class="nc">AthenaHstFile</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;An Athena binary file reader&quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(hst)\s*$&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Keyword Arguments:</span>
+<span class="sd">            float_type_name (str): should be &#39;f4&#39; or &#39;f8&#39; if you know</span>
+<span class="sd">                the data type of the file&#39;s data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AthenaHstFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># get field names from header</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">fld_names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">r&quot;\[[0-9]+\]=&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">fld_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">fld_names</span><span class="p">]</span>
+
+        <span class="c"># crds here are really times</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="p">[(</span><span class="s">&#39;t&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)])</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;AthenaHstGrid&quot;</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">crds</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fld_names</span><span class="p">)):</span>
+            <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_field</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="n">fld_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">crds</span><span class="p">,</span> <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                   <span class="n">center</span><span class="o">=</span><span class="s">&quot;Node&quot;</span><span class="p">)</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

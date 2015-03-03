@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.rc module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid package" href="viscid.html"/>
+        <link rel="next" title="viscid.tree module" href="viscid.tree.html"/>
+        <link rel="prev" title="viscid.parallel module" href="viscid.parallel.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.rc module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.rc">
+<span id="viscid-rc-module"></span><h1>viscid.rc module<a class="headerlink" href="#module-viscid.rc" title="Permalink to this headline">¶</a></h1>
+<p>Used for loading ~/.viscidrc</p>
+<p>An example rc file might contain the line:
+readers.openggcm.GGCMFile.read_log_file: true</p>
+<dl class="exception">
+<dt id="viscid.rc.RCPathError">
+<em class="property">exception </em><tt class="descclassname">viscid.rc.</tt><tt class="descname">RCPathError</tt><big>(</big><em>message=''</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#RCPathError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.RCPathError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<dl class="attribute">
+<dt id="viscid.rc.RCPathError.message">
+<tt class="descname">message</tt><em class="property"> = ''</em><a class="headerlink" href="#viscid.rc.RCPathError.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="viscid.rc.RCValueError">
+<em class="property">exception </em><tt class="descclassname">viscid.rc.</tt><tt class="descname">RCValueError</tt><big>(</big><em>message=''</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#RCValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.RCValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<dl class="attribute">
+<dt id="viscid.rc.RCValueError.message">
+<tt class="descname">message</tt><em class="property"> = ''</em><a class="headerlink" href="#viscid.rc.RCValueError.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.rc.load_rc_file">
+<tt class="descclassname">viscid.rc.</tt><tt class="descname">load_rc_file</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#load_rc_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.load_rc_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.rc.set_attribute">
+<tt class="descclassname">viscid.rc.</tt><tt class="descname">set_attribute</tt><big>(</big><em>path</em>, <em>value</em><big>)</big><a class="reference internal" href="_modules/viscid/rc.html#set_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.rc.set_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

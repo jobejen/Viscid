@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.numpy_binary &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.numpy_binary &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -164,7 +164,7 @@
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 
-<div class="viewcode-block" id="NPZDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">NPZDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">NPZDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
     <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">loc</span> <span class="o">=</span> <span class="bp">None</span>
@@ -191,7 +191,7 @@
             <span class="k">raise</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NPZDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
 <span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -199,31 +199,31 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="NPZDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
 <span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
-<div class="viewcode-block" id="NPZDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">],</span> <span class="n">func_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__array__&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NPZDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="NPZDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.NPZDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="NPZDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.NPZDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;len&quot;</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__getitem__&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FileNumpyNPZ"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ">[docs]</a><span class="k">class</span> <span class="nc">FileNumpyNPZ</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+<div class="viewcode-block" id="FileNumpyNPZ"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.FileNumpyNPZ">[docs]</a><span class="k">class</span> <span class="nc">FileNumpyNPZ</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; open an ascii file with viscid format, or if not specified, assume</span>
 <span class="sd">    it&#39;s in gnuplot format, gnuplot format not yet specified &quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(npz)\s*$&quot;</span>
@@ -295,14 +295,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FileNumpyNPZ.save"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="FileNumpyNPZ.save"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.FileNumpyNPZ.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fname</span>
         <span class="n">flds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="FileNumpyNPZ.save_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="FileNumpyNPZ.save_fields"><a class="viewcode-back" href="../../../viscid.readers.numpy_binary.html#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">flds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
         <span class="n">fld_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -342,7 +342,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

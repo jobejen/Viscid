@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.ggcm_xdmf &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.ggcm_xdmf &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -155,7 +155,7 @@
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">xdmf</span>
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">openggcm</span>
 
-<div class="viewcode-block" id="GGCMFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileXDMF</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFile</span><span class="p">,</span> <span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileXDMF</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFile</span><span class="p">,</span> <span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;File type for GGCM style convenience stuff</span>
 
 <span class="sd">    Attributes:</span>
@@ -172,7 +172,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GGCMFileXDMF.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileXDMF.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Group File names</span>
 
 <span class="sd">        The default implementation just returns fnames, but some file</span>
@@ -190,7 +190,7 @@
         <span class="k">return</span> <span class="n">openggcm</span><span class="o">.</span><span class="n">group_ggcm_files_common</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GGCMFileXDMF.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileXDMF.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="n">fname0</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname0</span><span class="p">)</span>
         <span class="n">run</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -198,7 +198,7 @@
         <span class="n">new_basename</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}.STAR.xdmf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">fldtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname0</span><span class="p">),</span> <span class="n">new_basename</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFileXDMF.load"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileXDMF.load"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMFileXDMF.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">fname</span> <span class="o">=</span> <span class="p">[</span><span class="n">fname</span><span class="p">]</span>
 
@@ -236,14 +236,14 @@
             <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="GGCMIonoFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMIonoFileXDMF</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMIonoFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMIonoFileXDMF</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Ionosphere Files&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(iof)(?:\.([0-9]{6}))?\.(xmf|xdmf)\s*$&quot;</span>
     <span class="n">_iono</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Grid</span>
 
 </div>
-<div class="viewcode-block" id="GGCMAncFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_xdmf.GGCMAncFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMAncFileXDMF</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMAncFileXDMF"><a class="viewcode-back" href="../../../viscid.readers.ggcm_xdmf.html#viscid.readers.ggcm_xdmf.GGCMAncFileXDMF">[docs]</a><span class="k">class</span> <span class="nc">GGCMAncFileXDMF</span><span class="p">(</span><span class="n">GGCMFileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Ancillary files; usually, these files have already been</span>
 <span class="sd">    converted to GSE&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(mp_info|topo)(?:\.([0-9]{6}))?\.(xmf|xdmf)\s*$&quot;</span>
@@ -254,7 +254,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

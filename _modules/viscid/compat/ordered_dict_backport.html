@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.compat.ordered_dict_backport &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.compat.ordered_dict_backport &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -163,7 +163,7 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="OrderedDict"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict">[docs]</a><span class="k">class</span> <span class="nc">OrderedDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict">[docs]</a><span class="k">class</span> <span class="nc">OrderedDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="s">&#39;Dictionary that remembers insertion order&#39;</span>
     <span class="c"># An inherited dict maps keys to values.</span>
     <span class="c"># The inherited dict provides __getitem__, __len__, __contains__, and get.</span>
@@ -226,7 +226,7 @@
             <span class="k">yield</span> <span class="n">curr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="OrderedDict.clear"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.clear"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.clear() -&gt; None.  Remove all items from od.&#39;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__map</span><span class="o">.</span><span class="n">itervalues</span><span class="p">():</span>
@@ -238,7 +238,7 @@
             <span class="k">pass</span>
         <span class="nb">dict</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.popitem"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.popitem">[docs]</a>    <span class="k">def</span> <span class="nf">popitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.popitem"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.popitem">[docs]</a>    <span class="k">def</span> <span class="nf">popitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">last</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;od.popitem() -&gt; (k, v), return and remove a (key, value) pair.</span>
 <span class="sd">        Pairs are returned in LIFO order if last is true or FIFO order if false.</span>
 
@@ -263,33 +263,33 @@
 
     <span class="c"># -- the following methods do not depend on the internal structure --</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.keys"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.keys"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.keys() -&gt; list of keys in od&#39;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.values"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.values"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.values() -&gt; list of values in od&#39;</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.items"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.items"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.items() -&gt; list of (key, value) pairs in od&#39;</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.iterkeys"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.iterkeys">[docs]</a>    <span class="k">def</span> <span class="nf">iterkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.iterkeys"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.iterkeys">[docs]</a>    <span class="k">def</span> <span class="nf">iterkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.iterkeys() -&gt; an iterator over the keys in od&#39;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.itervalues"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.itervalues">[docs]</a>    <span class="k">def</span> <span class="nf">itervalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.itervalues"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.itervalues">[docs]</a>    <span class="k">def</span> <span class="nf">itervalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.itervalues -&gt; an iterator over the values in od&#39;</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.iteritems"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.iteritems">[docs]</a>    <span class="k">def</span> <span class="nf">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.iteritems"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.iteritems">[docs]</a>    <span class="k">def</span> <span class="nf">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.iteritems -&gt; an iterator over the (key, value) items in od&#39;</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.update"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.update"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;od.update(E, **F) -&gt; None.  Update od from dict/iterable E and F.</span>
 
 <span class="sd">        If E is a dict instance, does:           for k in E: od[k] = E[k]</span>
@@ -324,7 +324,7 @@
 
     <span class="n">__marker</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
 
-<div class="viewcode-block" id="OrderedDict.pop"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">__marker</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.pop"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">__marker</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;od.pop(k[,d]) -&gt; v, remove specified key and return the corresponding value.</span>
 <span class="sd">        If key is not found, d is returned if given, otherwise KeyError is raised.</span>
 
@@ -337,7 +337,7 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">default</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.setdefault"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.setdefault">[docs]</a>    <span class="k">def</span> <span class="nf">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.setdefault"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.setdefault">[docs]</a>    <span class="k">def</span> <span class="nf">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="s">&#39;od.setdefault(k[,d]) -&gt; od.get(k,d), also set od[k]=d if k not in od&#39;</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -367,12 +367,12 @@
             <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="p">(</span><span class="n">items</span><span class="p">,),</span> <span class="n">inst_dict</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="p">(</span><span class="n">items</span><span class="p">,)</span>
 
-<div class="viewcode-block" id="OrderedDict.copy"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.copy"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&#39;od.copy() -&gt; a shallow copy of od&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="OrderedDict.fromkeys"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.fromkeys">[docs]</a>    <span class="k">def</span> <span class="nf">fromkeys</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.fromkeys"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.fromkeys">[docs]</a>    <span class="k">def</span> <span class="nf">fromkeys</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;OD.fromkeys(S[, v]) -&gt; New ordered dictionary with keys from S</span>
 <span class="sd">        and values equal to v (which defaults to None).</span>
 
@@ -396,15 +396,15 @@
 
     <span class="c"># -- the following methods are only used in Python 2.7 --</span>
 
-<div class="viewcode-block" id="OrderedDict.viewkeys"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.viewkeys">[docs]</a>    <span class="k">def</span> <span class="nf">viewkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.viewkeys"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.viewkeys">[docs]</a>    <span class="k">def</span> <span class="nf">viewkeys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&quot;od.viewkeys() -&gt; a set-like object providing a view on od&#39;s keys&quot;</span>
         <span class="k">return</span> <span class="n">KeysView</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.viewvalues"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.viewvalues">[docs]</a>    <span class="k">def</span> <span class="nf">viewvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.viewvalues"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.viewvalues">[docs]</a>    <span class="k">def</span> <span class="nf">viewvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&quot;od.viewvalues() -&gt; an object providing a view on od&#39;s values&quot;</span>
         <span class="k">return</span> <span class="n">ValuesView</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="OrderedDict.viewitems"><a class="viewcode-back" href="../../../viscid.compat.html#viscid.compat.ordered_dict_backport.OrderedDict.viewitems">[docs]</a>    <span class="k">def</span> <span class="nf">viewitems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderedDict.viewitems"><a class="viewcode-back" href="../../../viscid.compat.ordered_dict_backport.html#viscid.compat.ordered_dict_backport.OrderedDict.viewitems">[docs]</a>    <span class="k">def</span> <span class="nf">viewitems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s">&quot;od.viewitems() -&gt; a set-like object providing a view on od&#39;s items&quot;</span>
         <span class="k">return</span> <span class="n">ItemsView</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
 </pre></div>
@@ -413,7 +413,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

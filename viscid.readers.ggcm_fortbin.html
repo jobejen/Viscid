@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.ggcm_fortbin module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid.readers package" href="viscid.readers.html"/>
+        <link rel="next" title="viscid.readers.ggcm_jrrle module" href="viscid.readers.ggcm_jrrle.html"/>
+        <link rel="prev" title="viscid.readers.athena_xdmf module" href="viscid.readers.athena_xdmf.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers.ggcm_fortbin module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.readers.ggcm_fortbin">
+<span id="viscid-readers-ggcm-fortbin-module"></span><h1>viscid.readers.ggcm_fortbin module<a class="headerlink" href="#module-viscid.readers.ggcm_fortbin" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">FortbinDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em>, <em>file_position</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.expected_shape">
+<tt class="descname">expected_shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_position">
+<tt class="descname">file_position</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_wrapper">
+<tt class="descname">file_wrapper</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.fld_name">
+<tt class="descname">fld_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd>zyx shape since that&#8217;s the shape __array__ returns</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinIono</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinIono"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinMHD</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran" title="viscid.readers.openggcm.GGCMFileFortran"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFileFortran</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFortbinFileWrapper</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A File-like object for interfacing with OpenGGCM binary files</p>
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.fields_seen">
+<tt class="descname">fields_seen</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.fields_seen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">
+<tt class="descname">file_meta</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.file_meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">
+<tt class="descname">inquire</tt><big>(</big><em>fld_name</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">
+<tt class="descname">inquire_all_fields</tt><big>(</big><em>reinquire=False</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire_all_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">
+<tt class="descname">inquire_next</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.inquire_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the meta-data from the next field in the file</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>tuple (field name, dict of meta data) both
+of which will be None if there are no more Fields</dd>
+<dt>Note:</dt>
+<dd>After this operation is done, the file-pointer will be reset
+to the position it was before the inquiry.</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">
+<tt class="descname">isopen</tt><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.isopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">
+<tt class="descname">read_field</tt><big>(</big><em>fld_name</em>, <em>pos=None</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/ggcm_fortbin.html#GGCMFortbinFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a field given a seekable location</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>fld_name(str): name of field we&#8217;re expecting to read
+pos(int): position in file we can seek to</dd>
+<dt>Returns:</dt>
+<dd>tuple (field name, dict of meta data, array)</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.seen_all_fields">
+<tt class="descname">seen_all_fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.seen_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

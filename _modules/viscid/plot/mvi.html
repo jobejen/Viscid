@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mvi &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.plot.mvi &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -198,7 +198,7 @@
 <span class="c">#     b_src = VTKDataSource(data=b)</span>
 <span class="c">#     collection.unload()</span>
 
-<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<div class="viewcode-block" id="field_to_source"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.field_to_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi source</span>
 
 <span class="sd">    This dispatches to either :meth:`field_to_point_source` or</span>
@@ -218,7 +218,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;cell / node only for now&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="field_to_point_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_point_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_point_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<div class="viewcode-block" id="field_to_point_source"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.field_to_point_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_point_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi source</span>
 
 <span class="sd">    Parameters:</span>
@@ -247,7 +247,7 @@
 
     <span class="k">return</span> <span class="n">_finalize_source</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">dat_target</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="field_to_cell_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.field_to_cell_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_cell_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<div class="viewcode-block" id="field_to_cell_source"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.field_to_cell_source">[docs]</a><span class="k">def</span> <span class="nf">field_to_cell_source</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a field to a mayavi cell source</span>
 
 <span class="sd">    Parameters:</span>
@@ -300,7 +300,7 @@
         <span class="n">dat_target</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
     <span class="k">return</span> <span class="n">VTKDataSource</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
 
-<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.plot_lines">[docs]</a><span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scalar</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.plot_lines">[docs]</a><span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scalar</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make 3D mayavi plot of lines</span>
 
 <span class="sd">    Parameters:</span>
@@ -326,7 +326,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mlab</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.mlab_earth">[docs]</a><span class="k">def</span> <span class="nf">mlab_earth</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">daycol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nightcol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">res</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+<div class="viewcode-block" id="mlab_earth"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.mlab_earth">[docs]</a><span class="k">def</span> <span class="nf">mlab_earth</span><span class="p">(</span><span class="n">pipeline</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">daycol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nightcol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">res</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
                <span class="n">crd_system</span><span class="o">=</span><span class="s">&quot;mhd&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a black and white sphere (Earth) showing sunward direction</span>
 
@@ -360,16 +360,16 @@
                         <span class="n">phi_resolution</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
     <span class="n">pipeline</span><span class="o">.</span><span class="n">surface</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">daycol</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.show">[docs]</a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="show"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.show">[docs]</a><span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calls :meth:`mayavi.mlab.show(stop=stop)`&quot;&quot;&quot;</span>
     <span class="n">mlab</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="clf"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.clf">[docs]</a><span class="k">def</span> <span class="nf">clf</span><span class="p">():</span>
+<div class="viewcode-block" id="clf"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.clf">[docs]</a><span class="k">def</span> <span class="nf">clf</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Clear source data, then clear figure&quot;&quot;&quot;</span>
     <span class="n">clear_data</span><span class="p">()</span>
     <span class="n">mlab</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="remove_source"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.remove_source">[docs]</a><span class="k">def</span> <span class="nf">remove_source</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+<div class="viewcode-block" id="remove_source"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.remove_source">[docs]</a><span class="k">def</span> <span class="nf">remove_source</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely remove a specific vtk source</span>
 
 <span class="sd">    Args:</span>
@@ -390,7 +390,7 @@
     <span class="n">src</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
     <span class="n">src</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="clear_data"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.clear_data">[docs]</a><span class="k">def</span> <span class="nf">clear_data</span><span class="p">(</span><span class="n">scenes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="clear_data"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.clear_data">[docs]</a><span class="k">def</span> <span class="nf">clear_data</span><span class="p">(</span><span class="n">scenes</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Workaround for Mayavi / VTK memory leak</span>
 
 <span class="sd">    This is needed when Mayavi/VTK keeps a reference to source data</span>
@@ -428,7 +428,7 @@
         <span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="k">return</span>
 </div>
-<div class="viewcode-block" id="interact"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mvi.interact">[docs]</a><span class="k">def</span> <span class="nf">interact</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="interact"><a class="viewcode-back" href="../../../viscid.plot.mvi.html#viscid.plot.mvi.interact">[docs]</a><span class="k">def</span> <span class="nf">interact</span><span class="p">(</span><span class="n">local</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Switch to interactive interpreter</span>
 
 <span class="sd">    This can be handy if you want to interact with a 3d plot using</span>
@@ -455,7 +455,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

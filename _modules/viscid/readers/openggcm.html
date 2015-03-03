@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.openggcm &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.openggcm &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -168,19 +168,20 @@
     <span class="n">_has_numexpr</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span><span class="p">,</span> <span class="n">izip</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.vfile_bucket</span> <span class="kn">import</span> <span class="n">VFileBucket</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.ggcm_logfile</span> <span class="kn">import</span> <span class="n">GGCMLogFile</span>
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
 <span class="c"># from viscid.dataset import Dataset, DatasetTemporal</span>
 <span class="c"># from viscid.vutil import time_as_datetime, time_as_timedelta</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vutil</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">viscid.coordinate</span> <span class="kn">import</span> <span class="n">wrap_crds</span>
 <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">plasma</span>
 
 
-<div class="viewcode-block" id="find_file_uptree"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.find_file_uptree">[docs]</a><span class="k">def</span> <span class="nf">find_file_uptree</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="find_file_uptree"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.find_file_uptree">[docs]</a><span class="k">def</span> <span class="nf">find_file_uptree</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Find basename by going up the file tree</span>
 
 <span class="sd">    Keep going up a directory until you find one that has the file</span>
@@ -210,7 +211,7 @@
     <span class="k">return</span> <span class="n">find_file_uptree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">),</span> <span class="n">basename</span><span class="p">,</span>
                             <span class="n">_depth</span><span class="o">=</span><span class="p">(</span><span class="n">_depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="group_ggcm_files_common"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.group_ggcm_files_common">[docs]</a><span class="k">def</span> <span class="nf">group_ggcm_files_common</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="group_ggcm_files_common"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.group_ggcm_files_common">[docs]</a><span class="k">def</span> <span class="nf">group_ggcm_files_common</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
     <span class="n">infolst</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -251,7 +252,7 @@
 
 <span class="c"># these are just functions because refrences to instance methods can&#39;t be pickled,</span>
 <span class="c"># so grids couldn&#39;t be pickled over to other precesses</span></div>
-<div class="viewcode-block" id="mhd2gse_field_scalar_m1"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.mhd2gse_field_scalar_m1">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_scalar_m1</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="mhd2gse_field_scalar_m1"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.mhd2gse_field_scalar_m1">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_scalar_m1</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                             <span class="n">copy_on_transform</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
     <span class="c"># This is always copied since the -1.0 * arr will need new</span>
     <span class="c"># memory anyway</span>
@@ -266,7 +267,7 @@
         <span class="n">arr</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span>
     <span class="k">return</span> <span class="n">arr</span>
 </div>
-<div class="viewcode-block" id="mhd2gse_field_scalar"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.mhd2gse_field_scalar">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_scalar</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="mhd2gse_field_scalar"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.mhd2gse_field_scalar">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_scalar</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                          <span class="n">copy_on_transform</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="c"># Note: field._data will be set to whatever is returned (after</span>
     <span class="c"># being reshaped to the crd shape), so if you return a view,</span>
@@ -276,7 +277,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">arr</span>
 </div>
-<div class="viewcode-block" id="mhd2gse_field_vector"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.mhd2gse_field_vector">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_vector</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="mhd2gse_field_vector"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.mhd2gse_field_vector">[docs]</a><span class="k">def</span> <span class="nf">mhd2gse_field_vector</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">comp_slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                          <span class="n">copy_on_transform</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="n">layout</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">layout</span>
     <span class="n">shp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">crds</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -306,7 +307,7 @@
 <span class="c">#     return np.array(-1.0 * arr[::-1], copy=copy_on_transform)</span>
 
 </div>
-<div class="viewcode-block" id="GGCMGrid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMGrid">[docs]</a><span class="k">class</span> <span class="nc">GGCMGrid</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMGrid"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMGrid">[docs]</a><span class="k">class</span> <span class="nc">GGCMGrid</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot; This defines some cool openggcm convinience stuff...</span>
 <span class="sd">    The following attributes can be set by saying</span>
 
@@ -406,7 +407,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mhd_to_gse_on_read</span>
 
-<div class="viewcode-block" id="GGCMGrid.set_crds"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMGrid.set_crds">[docs]</a>    <span class="k">def</span> <span class="nf">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crds_object</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMGrid.set_crds"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMGrid.set_crds">[docs]</a>    <span class="k">def</span> <span class="nf">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crds_object</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do_mhd_to_gse_on_read</span><span class="p">():</span>
             <span class="c"># transform_dict = {}</span>
             <span class="c"># transform_dict[&#39;y&#39;] = mhd2gse_crds</span>
@@ -416,7 +417,7 @@
             <span class="n">crds_object</span><span class="o">.</span><span class="n">reflect_axes</span> <span class="o">=</span> <span class="s">&quot;xy&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">GGCMGrid</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">crds_object</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMGrid.add_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMGrid.add_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">fields</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMGrid.add_field"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMGrid.add_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">fields</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do_mhd_to_gse_on_read</span><span class="p">():</span>
                 <span class="c"># what a pain... vector components also need to be flipped</span>
@@ -537,7 +538,7 @@
         <span class="k">return</span> <span class="n">psi</span>
 
 </div>
-<div class="viewcode-block" id="GGCMFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFile">[docs]</a><span class="k">class</span> <span class="nc">GGCMFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFile"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFile">[docs]</a><span class="k">class</span> <span class="nc">GGCMFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Mixin some GGCM convenience stuff</span>
 
 <span class="sd">    Attributes:</span>
@@ -560,7 +561,7 @@
     <span class="n">_collection</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">vfilebucket</span> <span class="o">=</span> <span class="bp">None</span>
 
-<div class="viewcode-block" id="GGCMFile.read_logfile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFile.read_logfile">[docs]</a>    <span class="k">def</span> <span class="nf">read_logfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFile.read_logfile"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFile.read_logfile">[docs]</a>    <span class="k">def</span> <span class="nf">read_logfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_log_file</span><span class="p">:</span>
             <span class="n">log_basename</span> <span class="o">=</span> <span class="s">&quot;{0}.log&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_info</span><span class="p">(</span><span class="s">&#39;run&#39;</span><span class="p">))</span>
             <span class="c"># FYI, default max_depth should be 8</span>
@@ -571,6 +572,8 @@
                 <span class="n">log_fname</span> <span class="o">=</span> <span class="n">find_file_uptree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="s">&quot;log.txt&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">log_fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">log_fname</span> <span class="o">=</span> <span class="n">find_file_uptree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="s">&quot;log.log&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">log_fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">log_fname</span> <span class="o">=</span> <span class="n">find_file_uptree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="s">&quot;log&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">log_fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="s">&quot;_viscid_log_fname&quot;</span><span class="p">,</span> <span class="n">log_fname</span><span class="p">)</span>
@@ -638,33 +641,11 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            string or NotImplemented if style is not understood</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">style</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">style</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;ut&quot;</span><span class="p">):</span>
-            <span class="n">precision</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S.</span><span class="si">%f</span><span class="s">&quot;</span>
-            <span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">style</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">precision</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="n">fmt</span> <span class="o">=</span> <span class="n">opt</span>
-
-            <span class="k">if</span> <span class="n">fmt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%f</span><span class="s">&quot;</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">precision</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">fmt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">):</span>
-                        <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                <span class="k">elif</span> <span class="n">precision</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
-                    <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">precision</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="n">precision</span><span class="p">)</span>
-
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span>
-
+        <span class="k">if</span> <span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;ut&quot;</span><span class="p">):</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">dipoletime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_dipoletime_as_datetime</span><span class="p">()</span>
             <span class="n">ut_time</span> <span class="o">=</span> <span class="n">dipoletime</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_as_timedelta</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">ut_time</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)[:</span><span class="n">precision</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">vutil</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">ut_time</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">NotImplemented</span>
 
@@ -678,7 +659,7 @@
         <span class="k">return</span> <span class="bp">NotImplemented</span>
 
 </div>
-<div class="viewcode-block" id="GGCMFileFortran"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFileFortran">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortran</span><span class="p">(</span><span class="n">GGCMFile</span><span class="p">,</span> <span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileFortran"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortran</span><span class="p">(</span><span class="n">GGCMFile</span><span class="p">,</span> <span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
@@ -696,7 +677,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileFortran</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GGCMFileFortran.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFileFortran.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileFortran.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Group File names</span>
 
 <span class="sd">        The default implementation just returns fnames, but some file</span>
@@ -713,7 +694,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">group_ggcm_files_common</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFileFortran.load"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFileFortran.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileFortran.load"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="o">=</span> <span class="n">fname</span>
         <span class="k">else</span><span class="p">:</span>
@@ -762,7 +743,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">data_temporal</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GGCMFileFortran.make_crds"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFileFortran.make_crds">[docs]</a>    <span class="k">def</span> <span class="nf">make_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileFortran.make_crds"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran.make_crds">[docs]</a>    <span class="k">def</span> <span class="nf">make_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">(</span><span class="s">&#39;fieldtype&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;iof&#39;</span><span class="p">:</span>
             <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span> <span class="o">=</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">61</span>
             <span class="n">crdlst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="n">nlat</span><span class="p">]],</span>
@@ -773,7 +754,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_grid2</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="GGCMFileFortran.read_grid2"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.openggcm.GGCMFileFortran.read_grid2">[docs]</a>    <span class="k">def</span> <span class="nf">read_grid2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileFortran.read_grid2"><a class="viewcode-back" href="../../../viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran.read_grid2">[docs]</a>    <span class="k">def</span> <span class="nf">read_grid2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># TODO: iof files can be hacked in here</span>
         <span class="n">grid2_basename</span> <span class="o">=</span> <span class="s">&quot;{0}.grid2&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">find_info</span><span class="p">(</span><span class="s">&#39;run&#39;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid2</span> <span class="o">=</span> <span class="n">find_file_uptree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="n">grid2_basename</span><span class="p">)</span>
@@ -844,7 +825,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.parallel module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid package" href="viscid.html"/>
+        <link rel="next" title="viscid.rc module" href="viscid.rc.html"/>
+        <link rel="prev" title="viscid.grid module" href="viscid.grid.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.parallel module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.parallel">
+<span id="viscid-parallel-module"></span><h1>viscid.parallel module<a class="headerlink" href="#module-viscid.parallel" title="Permalink to this headline">¶</a></h1>
+<p>common tools for parallel processing</p>
+<dl class="class">
+<dt id="viscid.parallel.NoDaemonPool">
+<em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonPool</tt><big>(</big><em>processes=None</em>, <em>initializer=None</em>, <em>initargs=()</em>, <em>maxtasksperchild=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#NoDaemonPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.pool.Pool</span></tt></p>
+<p>I am vulnerable to armies of undead worker processes, chances
+are you don&#8217;t actually want to use me</p>
+<dl class="attribute">
+<dt id="viscid.parallel.NoDaemonPool.Process">
+<tt class="descname">Process</tt><a class="headerlink" href="#viscid.parallel.NoDaemonPool.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#viscid.parallel.NoDaemonProcess" title="viscid.parallel.NoDaemonProcess"><tt class="xref py py-class docutils literal"><span class="pre">NoDaemonProcess</span></tt></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.parallel.NoDaemonProcess">
+<em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonProcess</tt><big>(</big><em>group=None</em>, <em>target=None</em>, <em>name=None</em>, <em>args=()</em>, <em>kwargs={}</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#NoDaemonProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
+<p>Using this is probably a bad idea</p>
+<dl class="attribute">
+<dt id="viscid.parallel.NoDaemonProcess.daemon">
+<tt class="descname">daemon</tt><a class="headerlink" href="#viscid.parallel.NoDaemonProcess.daemon" title="Permalink to this definition">¶</a></dt>
+<dd><p>staticmethod(function) -&gt; method</p>
+<p>Convert a function to be a static method.</p>
+<p>A static method does not receive an implicit first argument.
+To declare a static method, use this idiom:</p>
+<blockquote>
+<div>class C:
+def f(arg1, arg2, ...): ...
+f = staticmethod(f)</div></blockquote>
+<p>It can be called either on the class (e.g. C.f()) or on an instance
+(e.g. C().f()).  The instance is ignored except for its class.</p>
+<p>Static methods in Python are similar to those found in Java or C++.
+For a more advanced concept, see the classmethod builtin.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.chunk_interslices">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_interslices</tt><big>(</big><em>nchunks</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_interslices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_interslices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make staggered chunks</p>
+<p>Similar to chunk_slices, but pick every nth element instead of
+getting a contiguous block for each chunk</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>nchunks: how many chunks to make</dd>
+<dt>Returns:</dt>
+<dd>a list of (start, stop, step) tuples with length nchunks</dd>
+<dt>Example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">chunk_slices</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.chunk_list">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_list</tt><big>(</big><em>seq</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chunk a list</p>
+<p>slice seq into chunks of nchunks size, seq can be a anything
+sliceable such as lists, numpy arrays, etc. These chunks will be
+&#8216;contiguous&#8217;, see <tt class="xref py py-meth docutils literal"><span class="pre">chunk_interslice()</span></tt> for picking every nth
+element.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>size: if given, set nchunks such that chunks have about &#8216;size&#8217;</dt>
+<dd>elements</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>nchunks slices of length N = (len(lst) // nchunks) or N - 1</dd>
+<dt>See Also:</dt>
+<dd>Use <tt class="xref py py-meth docutils literal"><span class="pre">chunk_iterator()</span></tt> to chunk up iterators</dd>
+<dt>Example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">it1</span><span class="p">,</span> <span class="n">it2</span><span class="p">,</span> <span class="n">it3</span> <span class="o">=</span> <span class="n">chunk_list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it1</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c"># 3 vals</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it2</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c"># 3 vals</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">it3</span> <span class="o">==</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>  <span class="c"># 2 vals</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.chunk_sizes">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_sizes</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_sizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>For chunking up lists, how big is each chunk</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">nel: how many elements are in one pass of the original list
+nchunks: is inferred from the length of iter_list
+size: if given, set nchunks such that chunks have about &#8216;size&#8217;</p>
+<blockquote class="last">
+<div>elements</div></blockquote>
+</dd>
+<dt>Returns:</dt>
+<dd>an ndarray of the number of elements in each chunk, this
+should be the same for chunk_list, chunk_slices and
+chunk_interslices</dd>
+<dt>Example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">nel1</span><span class="p">,</span> <span class="n">nel2</span> <span class="o">=</span> <span class="n">chunk_sizes</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nel1</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nel2</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.chunk_slices">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_slices</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#chunk_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make continuous chunks</p>
+<p>Get the slice info (can be unpacked and passed to the slice builtin
+as in slice(*ret[i])) for nchunks contiguous chunks in a list with
+nel elements</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><p class="first">nel: how many elements are in one pass of the original list
+nchunks: how many chunks to make
+size: if given, set nchunks such that chunks have about &#8216;size&#8217;</p>
+<blockquote class="last">
+<div>elements</div></blockquote>
+</dd>
+<dt>Returns:</dt>
+<dd>a list of (start, stop) tuples with length nchunks</dd>
+<dt>Example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sl1</span><span class="p">,</span> <span class="n">sl2</span> <span class="o">=</span> <span class="n">chunk_slices</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl1</span> <span class="o">==</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c"># 3 vals</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sl2</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c"># 2 vals</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.map">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">map</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>timeout=100000000.0</em>, <em>daemonic=True</em>, <em>pool=None</em>, <em>force_subprocess=False</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just like <tt class="docutils literal"><span class="pre">subprocessing.map</span></tt>?</p>
+<p>same as <a class="reference internal" href="#viscid.parallel.map_async" title="viscid.parallel.map_async"><tt class="xref py py-meth docutils literal"><span class="pre">map_async()</span></tt></a>, except it waits for the result to
+be ready and returns it</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.parallel.map_async">
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">map_async</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>daemonic=True</em>, <em>pool=None</em><big>)</big><a class="reference internal" href="_modules/viscid/parallel.html#map_async"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map_async" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap python&#8217;s <tt class="docutils literal"><span class="pre">map_async</span></tt></p>
+<p>This has some utility stuff like star passthrough</p>
+<p>Run func on nr_procs with arguments given by args_iter. args_iter
+should be an iterable of the list of arguments that can be unpacked
+for each invocation. kwargs are passed to func as keyword arguments</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>(tuple) (pool, multiprocessing.pool.AsyncResult)</dd>
+<dt>Note: daemonic can be set to False if one needs to spawn child</dt>
+<dd>processes in func, BUT this could be vulnerable to creating
+an undead army of worker processes, only use this if you
+really really need it, and know what you&#8217;re doing</dd>
+<dt>Example:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">,</span> <span class="n">letter</span><span class="p">:</span> <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="n">letter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">map_async</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">izip</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="s">&#39;abc&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mf">1e8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># the following is printed from 2 processes</span>
+<span class="go">0 a</span>
+<span class="go">1 b</span>
+<span class="go">2 c</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.field &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.field &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -176,7 +176,7 @@
 <span class="n">LAYOUT_SCALAR</span> <span class="o">=</span> <span class="s">&quot;scalar&quot;</span>
 <span class="n">LAYOUT_OTHER</span> <span class="o">=</span> <span class="s">&quot;other&quot;</span>
 
-<div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty">[docs]</a><span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">nr_comps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">LAYOUT_FLAT</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="empty"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.empty">[docs]</a><span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">nr_comps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">LAYOUT_FLAT</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;Cell&quot;</span><span class="p">,</span>
           <span class="n">dtype</span><span class="o">=</span><span class="s">&quot;float64&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Analogous to `numpy.empty` (uninitialized array)</span>
 
@@ -212,7 +212,7 @@
 
     <span class="k">return</span> <span class="n">wrap_field</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="empty_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.empty_like">[docs]</a><span class="k">def</span> <span class="nf">empty_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="empty_like"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.empty_like">[docs]</a><span class="k">def</span> <span class="nf">empty_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Analogous to `numpy.empty_like`</span>
 
 <span class="sd">    Makes a new, unitilialized :class:`Field`. Copies as much meta data</span>
@@ -232,7 +232,7 @@
     <span class="k">return</span> <span class="n">wrap_field</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
                       <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">fld</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="zeros_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.zeros_like">[docs]</a><span class="k">def</span> <span class="nf">zeros_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="zeros_like"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.zeros_like">[docs]</a><span class="k">def</span> <span class="nf">zeros_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Analogous to `numpy.zeros_like`</span>
 
 <span class="sd">    Returns:</span>
@@ -246,7 +246,7 @@
     <span class="k">return</span> <span class="n">wrap_field</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
                       <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">fld</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ones_like"><a class="viewcode-back" href="../../viscid.html#viscid.field.ones_like">[docs]</a><span class="k">def</span> <span class="nf">ones_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ones_like"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ones_like">[docs]</a><span class="k">def</span> <span class="nf">ones_like</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Analogous to `numpy.ones_like`</span>
 
 <span class="sd">    Returns:</span>
@@ -260,7 +260,7 @@
     <span class="k">return</span> <span class="n">wrap_field</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">dat</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
                       <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">fld</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="scalar_fields_to_vector"><a class="viewcode-back" href="../../viscid.html#viscid.field.scalar_fields_to_vector">[docs]</a><span class="k">def</span> <span class="nf">scalar_fields_to_vector</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fldlist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="scalar_fields_to_vector"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.scalar_fields_to_vector">[docs]</a><span class="k">def</span> <span class="nf">scalar_fields_to_vector</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fldlist</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert scaler fields to a vector field</span>
 
 <span class="sd">    Parameters:</span>
@@ -285,7 +285,7 @@
                          <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vfield</span>
 </div>
-<div class="viewcode-block" id="field_type"><a class="viewcode-back" href="../../viscid.html#viscid.field.field_type">[docs]</a><span class="k">def</span> <span class="nf">field_type</span><span class="p">(</span><span class="n">typ</span><span class="p">):</span>
+<div class="viewcode-block" id="field_type"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.field_type">[docs]</a><span class="k">def</span> <span class="nf">field_type</span><span class="p">(</span><span class="n">typ</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Lookup a Field type</span>
 
 <span class="sd">    The magic lookup happens when typ is a string, if typ is a class</span>
@@ -307,7 +307,7 @@
     <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Field type {0} not understood&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">typ</span><span class="p">))</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.wrap_field">[docs]</a><span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.wrap_field">[docs]</a><span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convenience script for wrapping ndarrays</span>
 
 <span class="sd">    Parameters:</span>
@@ -329,12 +329,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can not decipher field&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="rewrap_field"><a class="viewcode-back" href="../../viscid.html#viscid.field.rewrap_field">[docs]</a><span class="k">def</span> <span class="nf">rewrap_field</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<div class="viewcode-block" id="rewrap_field"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.rewrap_field">[docs]</a><span class="k">def</span> <span class="nf">rewrap_field</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">fld</span><span class="p">)(</span><span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
                     <span class="n">forget_source</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">_copy</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">fld</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
-<div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Leaf</span><span class="p">):</span>
+<div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Leaf</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;none&quot;</span>
     <span class="n">_CENTERING</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;node&#39;</span><span class="p">,</span> <span class="s">&#39;cell&#39;</span><span class="p">,</span> <span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="s">&#39;face&#39;</span><span class="p">,</span> <span class="s">&#39;edge&#39;</span><span class="p">]</span>
     <span class="n">_COMPONENT_NAMES</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
@@ -445,14 +445,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">forget_source</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.type"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.type">[docs]</a>    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.type"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.type">[docs]</a>    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span>
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_center</span>
     <span class="nd">@center.setter</span>
-<div class="viewcode-block" id="Field.center"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.center">[docs]</a>    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_center</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.center"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.center">[docs]</a>    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_center</span><span class="p">):</span>
         <span class="n">new_center</span> <span class="o">=</span> <span class="n">new_center</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">new_center</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CENTERING</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_center</span> <span class="o">=</span> <span class="n">new_center</span>
@@ -469,7 +469,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span>
 
     <span class="nd">@layout.setter</span>
-<div class="viewcode-block" id="Field.layout"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.layout">[docs]</a>    <span class="k">def</span> <span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_layout</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.layout"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.layout">[docs]</a>    <span class="k">def</span> <span class="nf">layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_layout</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; UNTESTED, unload data if layout changes &quot;&quot;&quot;</span>
         <span class="n">new_layout</span> <span class="o">=</span> <span class="n">new_layout</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_loaded</span><span class="p">():</span>
@@ -480,20 +480,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">None</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.nr_dims"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_dims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.nr_dims"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.nr_dims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns number of dims, this should be the number of dims of</span>
 <span class="sd">        the underlying data, but is assumed a priori so no data load is</span>
 <span class="sd">        done here &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">+</span> <span class="mi">1</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.nr_sdims"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_sdims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_sdims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.nr_sdims"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.nr_sdims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_sdims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; number of spatial dims, same as crds.nr_dims, does not</span>
 <span class="sd">        explicitly load the data &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">nr_dims</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.nr_comps"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_comps">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.nr_comps"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.nr_comps">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; how many components are there? Only inspects _src_data &quot;&quot;&quot;</span>
         <span class="c"># this gets # of comps from src_data, so layout is given as layout</span>
         <span class="c"># of src_data since it might not be loaded yet</span>
@@ -517,7 +517,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nr_comps</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.nr_comp"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.nr_comp">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.nr_comp"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.nr_comp">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; dimension of the components of the vector, loads the data if</span>
 <span class="sd">        self.layout does &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nr_comp</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -537,7 +537,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nr_comp</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.shape"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.shape"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns the shape of the underlying data, does not explicitly load</span>
 <span class="sd">        the data &quot;&quot;&quot;</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sshape</span>
@@ -549,7 +549,7 @@
         <span class="k">return</span> <span class="n">s</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.sshape"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.sshape">[docs]</a>    <span class="k">def</span> <span class="nf">sshape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.sshape"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.sshape">[docs]</a>    <span class="k">def</span> <span class="nf">sshape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; shape of spatial dimensions, does not include comps, and is not</span>
 <span class="sd">        the same shape as underlying array, does not load the data &quot;&quot;&quot;</span>
         <span class="c"># it is enforced that the cached data has a shape that agrees with</span>
@@ -565,17 +565,17 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">shape</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.size"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.size">[docs]</a>    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.size"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.size">[docs]</a>    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; how many values are in underlying data &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.ssize"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.ssize">[docs]</a>    <span class="k">def</span> <span class="nf">ssize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.ssize"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.ssize">[docs]</a>    <span class="k">def</span> <span class="nf">ssize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; how many values make up one component of the underlying data &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sshape</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="Field.dtype"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.dtype"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c"># print(type(self._src_data))</span>
         <span class="c"># dtype.name is for pruning endianness out of dtype</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -597,7 +597,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span>
 
     <span class="nd">@crds.setter</span>
-<div class="viewcode-block" id="Field.crds"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.crds">[docs]</a>    <span class="k">def</span> <span class="nf">crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.crds"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.crds">[docs]</a>    <span class="k">def</span> <span class="nf">crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span> <span class="o">=</span> <span class="n">val</span>
 </div>
@@ -609,7 +609,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_fill_cache</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span>
     <span class="nd">@data.setter</span>
-<div class="viewcode-block" id="Field.data"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.data"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.data">[docs]</a>    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dat</span><span class="p">):</span>
         <span class="c"># clean up</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span> <span class="o">=</span> <span class="bp">None</span>
@@ -620,7 +620,7 @@
         <span class="c"># self._translate_src_data()  # um, what&#39;s this for? looks dangerous</span>
         <span class="c"># do some sort of lazy pre-setup _src_data inspection?</span>
 </div>
-<div class="viewcode-block" id="Field.is_loaded"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_loaded">[docs]</a>    <span class="k">def</span> <span class="nf">is_loaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.is_loaded"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.is_loaded">[docs]</a>    <span class="k">def</span> <span class="nf">is_loaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 </div>
     <span class="k">def</span> <span class="nf">_purge_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -968,10 +968,10 @@
                 <span class="n">ret</span><span class="o">.</span><span class="n">deep_meta</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reduced</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-<div class="viewcode-block" id="Field.forget_source"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.forget_source">[docs]</a>    <span class="k">def</span> <span class="nf">forget_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.forget_source"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.forget_source">[docs]</a>    <span class="k">def</span> <span class="nf">forget_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_src_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 </div>
-<div class="viewcode-block" id="Field.slice"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.slice"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.slice">[docs]</a>    <span class="k">def</span> <span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Slice the field using a string like &quot;y=3:6:2,z=0&quot; or a standard</span>
 <span class="sd">        list of slice objects like one would give to numpy. In a string, i</span>
 <span class="sd">        means by index, and bare numbers mean by the index closest to that</span>
@@ -986,7 +986,7 @@
         <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">make_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_slice</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.slice_reduce"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice_reduce">[docs]</a>    <span class="k">def</span> <span class="nf">slice_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.slice_reduce"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.slice_reduce">[docs]</a>    <span class="k">def</span> <span class="nf">slice_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Slice the field, then go through all dims and look for dimensions</span>
 <span class="sd">        with only one coordinate. Reduce those dimensions out of the new</span>
 <span class="sd">        field &quot;&quot;&quot;</span>
@@ -996,7 +996,7 @@
                                                               <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_slice</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.slice_and_keep"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.slice_and_keep">[docs]</a>    <span class="k">def</span> <span class="nf">slice_and_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.slice_and_keep"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.slice_and_keep">[docs]</a>    <span class="k">def</span> <span class="nf">slice_and_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Slice the field, then go through dimensions that would be reduced</span>
 <span class="sd">        by a normal numpy slice (like saying &#39;z=0&#39;) and keep those dimensions</span>
 <span class="sd">        in the new field &quot;&quot;&quot;</span>
@@ -1006,7 +1006,7 @@
                                                             <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_slice</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.set_slice"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.set_slice">[docs]</a>    <span class="k">def</span> <span class="nf">set_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.set_slice"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.set_slice">[docs]</a>    <span class="k">def</span> <span class="nf">set_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Used for fld.__setitem__</span>
 
 <span class="sd">        NOTE:</span>
@@ -1022,18 +1022,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slices</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="Field.unload"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.unload"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; does not guarentee that the memory will be freed &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Field.istype"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.istype">[docs]</a>    <span class="k">def</span> <span class="nf">istype</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">type_str</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.istype"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.istype">[docs]</a>    <span class="k">def</span> <span class="nf">istype</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">type_str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_TYPE</span> <span class="o">==</span> <span class="n">type_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Field.iscentered"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.iscentered">[docs]</a>    <span class="k">def</span> <span class="nf">iscentered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center_str</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.iscentered"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.iscentered">[docs]</a>    <span class="k">def</span> <span class="nf">iscentered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center_str</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="n">center_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Field.iter_points"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
+<div class="viewcode-block" id="Field.iter_points"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
         <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">iter_points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
@@ -1055,62 +1055,62 @@
     <span class="c">## Utility methods to get at crds</span>
     <span class="c"># these are the same as something like self._src_crds[&#39;xnc&#39;]</span>
     <span class="c"># or self._src_crds.get_crd()</span>
-<div class="viewcode-block" id="Field.get_crd"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crd"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crd">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; return crd along axis with same centering as field</span>
 <span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2 &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crd_nc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crd_nc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crd_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
 <span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2 &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_nc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crd_cc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crd_cc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crd_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
 <span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2 &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_cc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crd_ec"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crd_ec"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crd_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
 <span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2 &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_ec</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crd_fc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crd_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crd_fc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crd_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns a flat ndarray of coordinates along a given axis</span>
 <span class="sd">        axis can be crd name as string, or index, as in x==2, y==1, z==2 &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_fc</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 
     <span class="c">## these return all crd dimensions</span>
     <span class="c"># these are the same as something like self._src_crds.get_crds()</span></div>
-<div class="viewcode-block" id="Field.get_crds"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crds"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crds">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; return all crds as list of ndarrays with same centering as field &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crds_nc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crds_nc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crds_nc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns all node centered coords as a list of ndarrays, flat if</span>
 <span class="sd">        shaped==False, or shaped if shaped==True &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crds_cc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crds_cc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crds_cc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns all cell centered coords as a list of ndarrays, flat if</span>
 <span class="sd">        shaped==False, or shaped if shaped==True &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crds_fc"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crds_fc"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crds_fc">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_fc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns all face centered coords as a list of ndarrays, flat if</span>
 <span class="sd">        shaped==False, or shaped if shaped==True &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_fc</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.get_crds_ec"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.get_crds_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.get_crds_ec"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.get_crds_ec">[docs]</a>    <span class="k">def</span> <span class="nf">get_crds_ec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; returns all edge centered coords as a list of ndarrays, flat if</span>
 <span class="sd">        shaped==False, or shaped if shaped==True &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_ec</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Field.is_spherical"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.is_spherical">[docs]</a>    <span class="k">def</span> <span class="nf">is_spherical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.is_spherical"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.is_spherical">[docs]</a>    <span class="k">def</span> <span class="nf">is_spherical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">is_spherical</span><span class="p">()</span>
 
     <span class="c">######################</span></div>
-<div class="viewcode-block" id="Field.shell_copy"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.shell_copy">[docs]</a>    <span class="k">def</span> <span class="nf">shell_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.shell_copy"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.shell_copy">[docs]</a>    <span class="k">def</span> <span class="nf">shell_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a field just like this one with a new cache</span>
 
 <span class="sd">        So, fields that belong to files are kept around for the</span>
@@ -1155,7 +1155,7 @@
     <span class="c">## convert centering</span>
     <span class="c"># Note: these are kind of specific to cartesian connected grids</span>
 </div>
-<div class="viewcode-block" id="Field.as_cell_centered"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.as_cell_centered">[docs]</a>    <span class="k">def</span> <span class="nf">as_cell_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.as_cell_centered"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.as_cell_centered">[docs]</a>    <span class="k">def</span> <span class="nf">as_cell_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert field to cell centered field without discarding</span>
 <span class="sd">        any data; this goes through hacky pains to make sure the data</span>
 <span class="sd">        is the same as self (including the state of cachedness)&quot;&quot;&quot;</span>
@@ -1196,7 +1196,7 @@
                                       <span class="s">&quot;centers&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">))</span>
 
 </div>
-<div class="viewcode-block" id="Field.as_node_centered"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.as_node_centered">[docs]</a>    <span class="k">def</span> <span class="nf">as_node_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.as_node_centered"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.as_node_centered">[docs]</a>    <span class="k">def</span> <span class="nf">as_node_centered</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Convert field to node centered field without discarding</span>
 <span class="sd">        any data;  this goes through hacky pains to make sure the data</span>
 <span class="sd">        is the same as self (including the state of cachedness)&quot;&quot;&quot;</span>
@@ -1230,7 +1230,7 @@
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;can&#39;t yet move {0} to node &quot;</span>
                                       <span class="s">&quot;centers&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="Field.as_c_contiguous"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.as_c_contiguous">[docs]</a>    <span class="k">def</span> <span class="nf">as_c_contiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.as_c_contiguous"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.as_c_contiguous">[docs]</a>    <span class="k">def</span> <span class="nf">as_c_contiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a Field with c-contiguous data</span>
 
 <span class="sd">        Note:</span>
@@ -1277,7 +1277,7 @@
         <span class="c"># dtype = None is ok, datatype won&#39;t change</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Field.wrap"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.wrap">[docs]</a>    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.wrap"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.wrap">[docs]</a>    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; arr is the data to wrap... context is exta deep_meta to pass</span>
 <span class="sd">        to the constructor. The return is just a number if arr is a</span>
 <span class="sd">        1 element ndarray, this is for ufuncs that reduce to a scalar &quot;&quot;&quot;</span>
@@ -1389,9 +1389,9 @@
     <span class="k">def</span> <span class="nf">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__invert__</span><span class="p">())</span>
 
-<div class="viewcode-block" id="Field.any"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.any">[docs]</a>    <span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.any"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.any">[docs]</a>    <span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">any</span><span class="p">()</span></div>
-<div class="viewcode-block" id="Field.all"><a class="viewcode-back" href="../../viscid.html#viscid.field.Field.all">[docs]</a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Field.all"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.Field.all">[docs]</a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
 </div>
     <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1408,26 +1408,26 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__ge__</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
 
 </div>
-<div class="viewcode-block" id="ScalarField"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField">[docs]</a><span class="k">class</span> <span class="nc">ScalarField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField">[docs]</a><span class="k">class</span> <span class="nc">ScalarField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;scalar&quot;</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ScalarField.nr_dims"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_dims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.nr_dims"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.nr_dims">[docs]</a>    <span class="k">def</span> <span class="nf">nr_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_sdims</span>
 
     <span class="c"># FIXME: there is probably a better way to deal with scalars not</span>
     <span class="c"># having a component dimension</span></div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ScalarField.nr_comp"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_comp">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.nr_comp"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.nr_comp">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Scalars have no components&quot;</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="ScalarField.nr_comps"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.nr_comps">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.nr_comps"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.nr_comps">[docs]</a>    <span class="k">def</span> <span class="nf">nr_comps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span>
 
     <span class="c"># no downsample / transpose / swap axes for vectors yet since that would</span>
     <span class="c"># have the added layer of checking the layout</span></div>
-<div class="viewcode-block" id="ScalarField.downsample"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.downsample">[docs]</a>    <span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.downsample"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.downsample">[docs]</a>    <span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; downsample the spatial dimensions by a factor of 2 &quot;&quot;&quot;</span>
         <span class="c"># FIXME: this implementation assumes a lot about the field</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sshape</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
@@ -1454,7 +1454,7 @@
         <span class="n">downcrds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="n">downclist</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">downdat</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;crds&quot;</span><span class="p">:</span> <span class="n">downcrds</span><span class="p">})</span>
 </div>
-<div class="viewcode-block" id="ScalarField.transpose"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">axes</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.transpose"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">axes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; same behavior as numpy transpose, alse accessable</span>
 <span class="sd">        using np.transpose(fld) &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="o">==</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1467,25 +1467,30 @@
         <span class="n">t_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">t_data</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;crds&quot;</span><span class="p">:</span> <span class="n">t_crds</span><span class="p">})</span>
 </div>
-<div class="viewcode-block" id="ScalarField.swap_axes"><a class="viewcode-back" href="../../viscid.html#viscid.field.ScalarField.swap_axes">[docs]</a>    <span class="k">def</span> <span class="nf">swap_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="ScalarField.swap_axes"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.swap_axes">[docs]</a>    <span class="k">def</span> <span class="nf">swap_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="n">new_clist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">()</span>
         <span class="n">new_clist</span><span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="n">new_clist</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_clist</span><span class="p">[</span><span class="n">b</span><span class="p">],</span> <span class="n">new_clist</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
         <span class="n">new_crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">new_clist</span><span class="p">)</span>
         <span class="n">new_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">swap_axes</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">{</span><span class="s">&quot;crds&quot;</span><span class="p">:</span> <span class="n">new_crds</span><span class="p">})</span>
-
+</div>
+<div class="viewcode-block" id="ScalarField.as_interlaced"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.ScalarField.as_interlaced">[docs]</a>    <span class="k">def</span> <span class="nf">as_interlaced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c_contiguous</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">force_c_contiguous</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_c_contiguous</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
 </div></div>
-<div class="viewcode-block" id="VectorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField">[docs]</a><span class="k">class</span> <span class="nc">VectorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+<div class="viewcode-block" id="VectorField"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.VectorField">[docs]</a><span class="k">class</span> <span class="nc">VectorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;vector&quot;</span>
     <span class="n">_COMPONENT_NAMES</span> <span class="o">=</span> <span class="s">&quot;xyzuvw&quot;</span>
 
-<div class="viewcode-block" id="VectorField.component_views"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_views">[docs]</a>    <span class="k">def</span> <span class="nf">component_views</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="VectorField.component_views"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.VectorField.component_views">[docs]</a>    <span class="k">def</span> <span class="nf">component_views</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; return numpy views to components individually, memory layout</span>
 <span class="sd">        of the original field is maintained &quot;&quot;&quot;</span>
         <span class="n">flds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">component_fields</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="VectorField.component_fields"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.component_fields">[docs]</a>    <span class="k">def</span> <span class="nf">component_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="VectorField.component_fields"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.VectorField.component_fields">[docs]</a>    <span class="k">def</span> <span class="nf">component_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span> <span class="ow">and</span>
             <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span>
             <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">Field</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_data</span><span class="p">])):</span>
@@ -1499,7 +1504,7 @@
             <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">lst</span>
 </div>
-<div class="viewcode-block" id="VectorField.as_interlaced"><a class="viewcode-back" href="../../viscid.html#viscid.field.VectorField.as_interlaced">[docs]</a>    <span class="k">def</span> <span class="nf">as_interlaced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c_contiguous</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="VectorField.as_interlaced"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.VectorField.as_interlaced">[docs]</a>    <span class="k">def</span> <span class="nf">as_interlaced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_c_contiguous</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get an interlaced version of this field</span>
 
 <span class="sd">        Note:</span>
@@ -1519,10 +1524,10 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">force_c_contiguous</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;calling np.ascontiguousarray&quot;</span><span class="p">)</span>
+                    <span class="c"># print(&quot;calling np.ascontiguousarray&quot;)</span>
                     <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="s">&quot;returning self&quot;</span><span class="p">)</span>
+                    <span class="c"># print(&quot;returning self&quot;)</span>
                     <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ctx</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">force_layout</span><span class="o">=</span><span class="n">LAYOUT_INTERLACED</span><span class="p">)</span>
@@ -1534,11 +1539,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ret</span>
 </div></div>
-<div class="viewcode-block" id="MatrixField"><a class="viewcode-back" href="../../viscid.html#viscid.field.MatrixField">[docs]</a><span class="k">class</span> <span class="nc">MatrixField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+<div class="viewcode-block" id="MatrixField"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.MatrixField">[docs]</a><span class="k">class</span> <span class="nc">MatrixField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;matrix&quot;</span>
 
 </div>
-<div class="viewcode-block" id="TensorField"><a class="viewcode-back" href="../../viscid.html#viscid.field.TensorField">[docs]</a><span class="k">class</span> <span class="nc">TensorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
+<div class="viewcode-block" id="TensorField"><a class="viewcode-back" href="../../viscid.field.html#viscid.field.TensorField">[docs]</a><span class="k">class</span> <span class="nc">TensorField</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;tensor&quot;</span>
 
 
@@ -1551,7 +1556,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

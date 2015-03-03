@@ -1,0 +1,403 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.athena_tab &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'../../../',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
+        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="../../../index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers.athena_tab</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <h1>Source code for viscid.readers.athena_tab</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Athena ascii file reader&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">takewhile</span><span class="p">,</span> <span class="n">count</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">viscid.readers.vfile_bucket</span> <span class="kn">import</span> <span class="n">VFileBucket</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">athena</span>
+<span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">dataset</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+
+
+<div class="viewcode-block" id="AthenaTabFile"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile">[docs]</a><span class="k">class</span> <span class="nc">AthenaTabFile</span><span class="p">(</span><span class="n">athena</span><span class="o">.</span><span class="n">AthenaFile</span><span class="p">,</span> <span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;An Athena ascii file reader&quot;&quot;&quot;</span>
+    <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.([0-9]{4})\.(tab)\s*$&quot;</span>
+
+    <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Cell&quot;</span>
+
+    <span class="n">_collection</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">_fld_list</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_crds</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">crds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fld_list</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">vfilebucket</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">VFileBucket</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fld_list</span> <span class="o">=</span> <span class="n">fld_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="n">crds</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">AthenaTabFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AthenaTabFile.group_fnames"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile.group_fnames">[docs]</a>    <span class="k">def</span> <span class="nf">group_fnames</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">athena</span><span class="o">.</span><span class="n">group_athena_files_common</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AthenaTabFile.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">athena</span><span class="o">.</span><span class="n">athena_collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span>
+                                                        <span class="n">fnames</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="AthenaTabFile.load"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span> <span class="o">=</span> <span class="p">[</span><span class="n">fname</span><span class="p">]</span>
+
+        <span class="n">fname0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fname1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+        <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="s">&#39;run&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">AthenaTabFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_header</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fld_list</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s">&#39;fld_names&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># load a single file</span>
+            <span class="n">_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">_grid</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># load each file, and add it to teh bucket</span>
+            <span class="n">data_temporal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset_type</span><span class="o">=</span><span class="s">&quot;temporal&quot;</span><span class="p">,</span>
+                                               <span class="n">name</span><span class="o">=</span><span class="s">&quot;AthenaTemporalCollection&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collection</span><span class="p">:</span>
+                <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                               <span class="n">file_type</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                                               <span class="n">crds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">,</span>
+                                               <span class="n">fld_list</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fld_list</span><span class="p">)</span>
+                <span class="n">data_temporal</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">data_temporal</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">data_temporal</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">parent_node</span><span class="p">):</span>
+        <span class="c"># we do minimal file parsing here for performance. we just</span>
+        <span class="c"># make data wrappers from the templates we got from the first</span>
+        <span class="c"># file in the group, and package them up into grids</span>
+
+        <span class="c"># find the time from the first field&#39;s meta data</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_header</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span>
+
+        <span class="n">_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_grid</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;&lt;AthenaGrid&gt;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="n">_grid</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="n">_grid</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">)</span>
+
+        <span class="c"># make a DataWrapper and a Field for each template that we</span>
+        <span class="c"># have from the first file that we parsed, then add it to</span>
+        <span class="c"># the _grid</span>
+        <span class="n">data_wrapper</span> <span class="o">=</span> <span class="n">AthenaTabDataWrapper</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fld_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_def_fld_center</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;cell&quot;</span><span class="p">:</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="o">.</span><span class="n">shape_cc</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="o">.</span><span class="n">shape_nc</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data_wrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_field</span><span class="p">(</span><span class="n">_grid</span><span class="p">,</span> <span class="s">&quot;Scalar&quot;</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crds</span><span class="p">,</span>
+                                   <span class="n">data</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_def_fld_center</span><span class="p">,</span>
+                                   <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">_grid</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_grid</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AthenaTabFile.parse_header"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile.parse_header">[docs]</a>    <span class="k">def</span> <span class="nf">parse_header</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">dims</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fld_names</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">takewhile</span><span class="p">(</span><span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">),</span> <span class="n">f</span><span class="p">):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&quot;#&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;Nx&#39;</span><span class="p">):</span>
+                    <span class="n">dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="s">&quot;Time&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="n">t</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&quot;Time\s*=\s*([0-9\.]+)&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c"># il y a level &amp; domain for SMR outptut, but i&#39;m ignoring them</span>
+
+                <span class="n">fns</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">r&quot;\[[0-9]+\]=&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="c"># print(&quot;line:&quot;, line, &#39;fns&#39;, fns)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c"># take off empty first element and strip the rest</span>
+                    <span class="n">fld_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">fn</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">fns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+            <span class="n">meta</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="c"># these dims are xyz... this is not the standard &#39;fortran ordering&#39;</span>
+            <span class="c"># zyx of the data that all the other readers use</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dims</span>
+            <span class="c"># the first 2 * len(dims) are coordinates</span>
+            <span class="n">meta</span><span class="p">[</span><span class="s">&#39;fld_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld_names</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">):]</span>
+
+        <span class="k">return</span> <span class="n">meta</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="AthenaTabFile.read_crds"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabFile.read_crds">[docs]</a>    <span class="k">def</span> <span class="nf">read_crds</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># dims are xyz order unlike all other interfaces</span>
+        <span class="k">if</span> <span class="n">dims</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">parse_header</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="s">&#39;dims&#39;</span><span class="p">]</span>
+        <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">))),</span>
+                         <span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ndmin</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">dxmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">cclist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nclist</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">count</span><span class="p">(),</span> <span class="n">dims</span><span class="p">,</span> <span class="s">&quot;xyz&quot;</span><span class="p">):</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dims</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">dims</span><span class="p">[:</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">cc</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="n">stop</span><span class="p">:</span><span class="n">step</span><span class="p">]</span>
+            <span class="n">dxmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dxmin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">cc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span> <span class="o">==</span> <span class="n">dim</span>
+            <span class="n">cclist</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="n">cc</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">cclist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">hd</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">cc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">hd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                <span class="n">cc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">hd</span><span class="p">,</span>
+                                <span class="n">cc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">hd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hd</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dxmin</span>
+                <span class="n">nc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">hd</span><span class="p">,</span> <span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hd</span><span class="p">])</span>
+            <span class="n">nclist</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">axis</span><span class="p">,</span> <span class="n">nc</span><span class="p">))</span>
+
+        <span class="c"># flip crds to zyx before wrapping</span>
+        <span class="k">return</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="n">nclist</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</div></div>
+<div class="viewcode-block" id="AthenaTabDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">AthenaTabDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fld_name</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">expected_shape</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">fld_number</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">expected_shape</span><span class="p">,</span> <span class="n">fld_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Lazy wrapper for a field in a Tab (athena ascii) file</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            expected_shape (tuple): shape of data in the file (zyx)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AthenaTabDataWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fld_name</span> <span class="o">=</span> <span class="n">fld_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span> <span class="o">=</span> <span class="n">expected_shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fld_number</span> <span class="o">=</span> <span class="n">fld_number</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AthenaTabDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AthenaTabDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;float32&quot;</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># the first 2 * nr_dims columns are for coordinates</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">fld_number</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="n">col</span><span class="p">,),</span> <span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">arr</span>
+
+<div class="viewcode-block" id="AthenaTabDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="AthenaTabDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.athena_tab.html#viscid.readers.athena_tab.AthenaTabDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div>
+</pre></div>
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

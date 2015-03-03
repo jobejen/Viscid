@@ -1,0 +1,215 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.readers.psc module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid.readers package" href="viscid.readers.html"/>
+        <link rel="next" title="viscid.readers.vfile module" href="viscid.readers.vfile.html"/>
+        <link rel="prev" title="viscid.readers.openggcm module" href="viscid.readers.openggcm.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.readers.psc module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.readers.psc">
+<span id="viscid-readers-psc-module"></span><h1>viscid.readers.psc module<a class="headerlink" href="#module-viscid.readers.psc" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viscid.readers.psc.PscFieldFile">
+<em class="property">class </em><tt class="descclassname">viscid.readers.psc.</tt><tt class="descname">PscFieldFile</tt><big>(</big><em>fname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/psc.html#PscFieldFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.psc.PscFieldFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.psc.PscGrid">
+<em class="property">class </em><tt class="descclassname">viscid.readers.psc.</tt><tt class="descname">PscGrid</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/psc.html#PscGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.psc.PscGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.psc.PscGrid.d_i">
+<tt class="descname">d_i</tt><em class="property"> = 1.0</em><a class="headerlink" href="#viscid.readers.psc.PscGrid.d_i" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.psc.PscGrid.downscale">
+<tt class="descname">downscale</tt><em class="property"> = 0</em><a class="headerlink" href="#viscid.readers.psc.PscGrid.downscale" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.psc.PscParticles">
+<em class="property">class </em><tt class="descclassname">viscid.readers.psc.</tt><tt class="descname">PscParticles</tt><big>(</big><em>path</em>, <em>step</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/psc.html#PscParticles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.psc.PscParticles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.psc.make_fname">
+<tt class="descclassname">viscid.readers.psc.</tt><tt class="descname">make_fname</tt><big>(</big><em>path</em>, <em>step</em>, <em>pfx='p'</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/psc.html#make_fname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.psc.make_fname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.readers.psc.open_psc_file">
+<tt class="descclassname">viscid.readers.psc.</tt><tt class="descname">open_psc_file</tt><big>(</big><em>path</em>, <em>step</em>, <em>pfx='p'</em><big>)</big><a class="reference internal" href="_modules/viscid/readers/psc.html#open_psc_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.psc.open_psc_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>WARNING: using this goes around the file bucket, be careful
+not to call this twice on the same file. Nothing bad will happen,
+you&#8217;ll just have 2 versions in memory.</p>
+</dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

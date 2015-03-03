@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.xdmf &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.xdmf &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -168,7 +168,7 @@
 <span class="c">#         nptype = np.dtype({&#39;Float&#39;: &#39;float&#39;, &#39;Int&#39;: &#39;int&#39;, &#39;UInt&#39;: &#39;unit&#39;,</span>
 <span class="c">#                &#39;Char&#39;: &#39;int&#39;, &#39;UChar&#39;: &#39;int&#39;}[numbertype] + str(8*precision))</span>
 
-<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; on init, parse an xdmf file into datasets, grids, and fields &quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(xmf|xdmf)\s*$&quot;</span>
     <span class="n">_xdmf_defaults</span> <span class="o">=</span> <span class="p">{</span>
@@ -230,9 +230,10 @@
             <span class="p">}</span>
         <span class="p">}</span>
 
+    <span class="n">h5_root_dir</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="c"># tree = None</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">h5_root_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; vfilebucket is a bucket for loading any hdf5 files. it can be</span>
 <span class="sd">        None if you want the bucket to be local to this Dataset, but if you&#39;re</span>
 <span class="sd">        loading a bunch of files, you should really be using a global bucket,</span>
@@ -242,6 +243,9 @@
             <span class="c"># gen an empty bucket on the fly if the calling script</span>
             <span class="c"># doesnt want a global bucket for all files</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">VFileBucket</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">h5_root_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">h5_root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">h5_root_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">h5_root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">h5_root_dir</span><span class="p">)</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">FileXDMF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -561,7 +565,11 @@
 
         <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s">&quot;HDF&quot;</span><span class="p">:</span>
             <span class="n">fname</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">fname</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+
+            <span class="c"># FIXME: startswith &#39;/&#39; is unix path name specific</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5_root_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5_root_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">fname</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
                 <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
             <span class="n">h5file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                                                 <span class="n">file_type</span><span class="o">=</span><span class="n">FileLazyHDF5</span><span class="p">)</span>
@@ -620,7 +628,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

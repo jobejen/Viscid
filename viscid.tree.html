@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.tree module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid package" href="viscid.html"/>
+        <link rel="next" title="viscid.verror module" href="viscid.verror.html"/>
+        <link rel="prev" title="viscid.rc module" href="viscid.rc.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.tree module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.tree">
+<span id="viscid-tree-module"></span><h1>viscid.tree module<a class="headerlink" href="#module-viscid.tree" title="Permalink to this headline">¶</a></h1>
+<p>Classes for elements along the tree from files to fields</p>
+<dl class="class">
+<dt id="viscid.tree.Leaf">
+<em class="property">class </em><tt class="descclassname">viscid.tree.</tt><tt class="descname">Leaf</tt><big>(</big><em>name=None</em>, <em>time=None</em>, <em>info=None</em>, <em>parents=None</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.tree.Node" title="viscid.tree.Node"><tt class="xref py py-class docutils literal"><span class="pre">viscid.tree.Node</span></tt></a></p>
+<p>Base class for fields</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.tree.Node">
+<em class="property">class </em><tt class="descclassname">viscid.tree.</tt><tt class="descname">Node</tt><big>(</big><em>name=None</em>, <em>time=None</em>, <em>info=None</em>, <em>parents=None</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base class for Datasets and Grids</p>
+<dl class="method">
+<dt id="viscid.tree.Node.find_info">
+<tt class="descname">find_info</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.find_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.find_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go through the parents (breadth first) and find the info</p>
+<dl class="docutils">
+<dt>Raises:</dt>
+<dd>KeyError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.find_info_owner">
+<tt class="descname">find_info_owner</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.find_info_owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.find_info_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go through the parents (breadth first) and find the info</p>
+<dl class="docutils">
+<dt>Raises:</dt>
+<dd>KeyError</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.format_time">
+<tt class="descname">format_time</tt><big>(</big><em>style='.02f'</em>, <em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.format_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.format_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format time as a string</p>
+<dl class="docutils">
+<dt>See Also:</dt>
+<dd><a class="reference internal" href="viscid.vutil.html#viscid.vutil.format_time" title="viscid.vutil.format_time"><tt class="xref py py-func docutils literal"><span class="pre">viscid.vutil.format_time()</span></tt></a></dd>
+<dt>Returns:</dt>
+<dd>string</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.get_all_info">
+<tt class="descname">get_all_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.get_all_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.get_all_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.get_info">
+<tt class="descname">get_info</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.get_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.get_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.has_info">
+<tt class="descname">has_info</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.has_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.has_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.tree.Node.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.tree.Node.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.tree.Node.parents">
+<tt class="descname">parents</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.tree.Node.parents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.prepare_child">
+<tt class="descname">prepare_child</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.prepare_child"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.prepare_child" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.print_info_tree">
+<tt class="descname">print_info_tree</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.print_info_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.print_info_tree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.set_info">
+<tt class="descname">set_info</tt><big>(</big><em>key</em>, <em>val</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.set_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.set_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.tree.Node.time">
+<tt class="descname">time</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.tree.Node.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.time_as_datetime">
+<tt class="descname">time_as_datetime</tt><big>(</big><em>time=None</em>, <em>epoch=None</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.time_as_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.time_as_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert floating point time to datetime</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>t (float): time
+epoch (datetime): if None, uses Jan 1 1970</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.time_as_timedelta">
+<tt class="descname">time_as_timedelta</tt><big>(</big><em>time=None</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.time_as_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.time_as_timedelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert floating point time to a timedelta</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.tree.Node.update_info">
+<tt class="descname">update_info</tt><big>(</big><em>key</em>, <em>val</em>, <em>fallback=True</em><big>)</big><a class="reference internal" href="_modules/viscid/tree.html#Node.update_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.tree.Node.update_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update an existing key if found, or fall back to add_info</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

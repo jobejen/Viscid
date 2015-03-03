@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reading/Plotting Examples &mdash; Viscid 0.70.1 documentation</title>
+  <title>Reading/Plotting Examples &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'./',
-        VERSION:'0.70.1',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.1 documentation" href="index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
         <link rel="next" title="Slicing Examples" href="ex_slicing.html"/>
         <link rel="prev" title="Custom Behavior (rc file)" href="custom_behavior.html"/> 
 
@@ -116,7 +116,7 @@
 <li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -149,14 +149,14 @@
           
   <div class="section" id="reading-plotting-examples">
 <h1>Reading/Plotting Examples<a class="headerlink" href="#reading-plotting-examples" title="Permalink to this headline">¶</a></h1>
-<p>The basic idea of Viscid is to convert data files to <a class="reference internal" href="viscid.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects and pass them to a convenience function for plotting. It is useful to note that Field objects have most of the same functionalty as Numpy&#8217;s <cite>ndarrays</cite>. That is, you can say:</p>
+<p>The basic idea of Viscid is to convert data files to <a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects and pass them to a convenience function for plotting. It is useful to note that Field objects have most of the same functionalty as Numpy&#8217;s <cite>ndarrays</cite>. That is, you can say:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">field_momentum</span> <span class="o">=</span> <span class="n">field_density</span> <span class="o">*</span> <span class="n">field_velocity</span>
 </pre></div>
 </div>
 <p>to do simple math using Numpy.</p>
 <div class="section" id="super-simple">
 <h2>Super Simple<a class="headerlink" href="#super-simple" title="Permalink to this headline">¶</a></h2>
-<p>Here, we just open up an OpenGGCM xdmf file and plot the plasma pressure with a log scale. For a better idea of the different plotting options, refer to <a class="reference internal" href="viscid.plot.html#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">viscid.plot.mpl.plot2d_field()</span></tt></a>.</p>
+<p>Here, we just open up an OpenGGCM xdmf file and plot the plasma pressure with a log scale. For a better idea of the different plotting options, refer to <a class="reference internal" href="viscid.plot.mpl.html#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">viscid.plot.mpl.plot2d_field()</span></tt></a>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">viscid</span>
 <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
 
@@ -263,7 +263,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

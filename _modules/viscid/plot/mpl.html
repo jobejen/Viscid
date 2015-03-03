@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.plot.mpl &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.plot.mpl &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -181,7 +181,7 @@
 <span class="n">vseaborn</span><span class="o">.</span><span class="n">activate_from_viscid</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a field by dispatching to the most appropiate funciton</span>
 
 <span class="sd">    * If fld has 1 spatial dimensions, call</span>
@@ -345,7 +345,7 @@
     <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">acts</span><span class="p">:</span>
         <span class="n">act</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">act</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<div class="viewcode-block" id="plot2d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_field">[docs]</a><span class="k">def</span> <span class="nf">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;pcolormesh&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="plot2d_field"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot2d_field">[docs]</a><span class="k">def</span> <span class="nf">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;pcolormesh&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">colorbar</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">do_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">action_ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mod</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">extra_args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -568,7 +568,7 @@
 <span class="k">def</span> <span class="nf">_mlt_labels</span><span class="p">(</span><span class="n">longitude</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&quot;{0:g}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">longitude</span> <span class="o">*</span> <span class="mf">24.0</span> <span class="o">/</span> <span class="mf">360.0</span><span class="p">)</span>
 
-<div class="viewcode-block" id="plot2d_mapfield"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_mapfield">[docs]</a><span class="k">def</span> <span class="nf">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&quot;polar&quot;</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&quot;north&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="plot2d_mapfield"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot2d_mapfield">[docs]</a><span class="k">def</span> <span class="nf">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&quot;polar&quot;</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&quot;north&quot;</span><span class="p">,</span>
                     <span class="n">drawcoastlines</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show_grid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                     <span class="n">lon_0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lat_0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bounding_lat</span><span class="o">=</span><span class="mf">40.0</span><span class="p">,</span>
                     <span class="n">title</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label_lat</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label_mlt</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -648,9 +648,9 @@
             <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">&quot;set_thetagrids&quot;</span><span class="p">):</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="o">*</span><span class="n">ax</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">(),</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;polar&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Clobbering axis for subplot {0}; please give a polar &quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Clobbering axis for subplot </span><span class="si">%s</span><span class="s">; please give a polar &quot;</span>
                         <span class="s">&quot;axis to plot2d_mapfield if you indend to use it &quot;</span>
-                        <span class="s">&quot;later.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()))</span>
+                        <span class="s">&quot;later.&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">hemisphere</span> <span class="o">==</span> <span class="s">&quot;north&quot;</span><span class="p">:</span>
             <span class="n">sl_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="s">&quot;lat=:{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">absboundinglat</span><span class="p">)]</span>
@@ -669,8 +669,6 @@
         <span class="n">new_crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_spherical&quot;</span><span class="p">,</span>
                                         <span class="p">[(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="n">new_lat</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="n">new_lon</span><span class="p">)])</span>
         <span class="n">new_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">sl_fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">crds</span><span class="o">=</span><span class="n">new_crds</span><span class="p">))</span>
-
-        <span class="c"># print(fld.get_crds())</span>
 
         <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;ax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;action_ax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ax</span>
@@ -740,7 +738,7 @@
         <span class="k">return</span> <span class="n">ret</span>
 
 </div>
-<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot1d_field">[docs]</a><span class="k">def</span> <span class="nf">plot1d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<div class="viewcode-block" id="plot1d_field"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot1d_field">[docs]</a><span class="k">def</span> <span class="nf">plot1d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                  <span class="n">do_labels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">action_ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a 1D Field using lines</span>
 
@@ -779,7 +777,7 @@
         <span class="n">mplshow</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot_streamlines"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_streamlines"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot_streamlines">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot lines on a matplotlib 3D plot, optionally colored by value</span>
 
@@ -821,7 +819,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot_streamlines2d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_streamlines2d">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines2d</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">symdir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_streamlines2d"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot_streamlines2d">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines2d</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">symdir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                        <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flip_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Project 3D lines onto a 2D plot</span>
 
@@ -879,7 +877,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot2d_quiver">[docs]</a><span class="k">def</span> <span class="nf">plot2d_quiver</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">symdir</span><span class="p">,</span> <span class="n">downscale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot2d_quiver">[docs]</a><span class="k">def</span> <span class="nf">plot2d_quiver</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">symdir</span><span class="p">,</span> <span class="n">downscale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Put quivers on a 2D plot</span>
 
 <span class="sd">    Parameters:</span>
@@ -913,7 +911,7 @@
     <span class="c"># print(X.shape, Y.shape, pvx.shape, pvy.shape)</span>
     <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot scattered points on a matplotlib 3d plot</span>
 
 <span class="sd">    Parameters:</span>
@@ -941,20 +939,20 @@
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 
 </div>
-<div class="viewcode-block" id="mplshow"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.mplshow">[docs]</a><span class="k">def</span> <span class="nf">mplshow</span><span class="p">():</span>
+<div class="viewcode-block" id="mplshow"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.mplshow">[docs]</a><span class="k">def</span> <span class="nf">mplshow</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Calls :meth:`matplotlib.pyplot.show()`&quot;&quot;&quot;</span>
     <span class="c"># do i need to do anything special before i show?</span>
     <span class="c"># can&#39;t think of anything at this point...</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.tighten">[docs]</a><span class="k">def</span> <span class="nf">tighten</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="tighten"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.tighten">[docs]</a><span class="k">def</span> <span class="nf">tighten</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calls `matplotlib.pyplot.tight_layout(**kwargs)`&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;No matplotlib tight layout support&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.html#viscid.plot.mpl.plot_earth">[docs]</a><span class="k">def</span> <span class="nf">plot_earth</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<div class="viewcode-block" id="plot_earth"><a class="viewcode-back" href="../../../viscid.plot.mpl.html#viscid.plot.mpl.plot_earth">[docs]</a><span class="k">def</span> <span class="nf">plot_earth</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">rot</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                <span class="n">daycol</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="n">nightcol</span><span class="o">=</span><span class="s">&#39;k&#39;</span><span class="p">,</span> <span class="n">crd_system</span><span class="o">=</span><span class="s">&quot;mhd&quot;</span><span class="p">,</span>
                <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a black and white Earth to show sunward direction</span>
@@ -1023,7 +1021,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

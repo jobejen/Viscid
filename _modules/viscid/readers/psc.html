@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.psc &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.psc &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -163,7 +163,7 @@
 <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">plasma</span>
 
 
-<div class="viewcode-block" id="PscGrid"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscGrid">[docs]</a><span class="k">class</span> <span class="nc">PscGrid</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
+<div class="viewcode-block" id="PscGrid"><a class="viewcode-back" href="../../../viscid.readers.psc.html#viscid.readers.psc.PscGrid">[docs]</a><span class="k">class</span> <span class="nc">PscGrid</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
     <span class="n">downscale</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">d_i</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c"># used to rescale from d_e (natural normalization) to d_i</span>
 
@@ -227,7 +227,7 @@
         <span class="k">return</span> <span class="n">plasma</span><span class="o">.</span><span class="n">calc_psi</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="PscFieldFile"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscFieldFile">[docs]</a><span class="k">class</span> <span class="nc">PscFieldFile</span><span class="p">(</span><span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=W0223</span>
+<div class="viewcode-block" id="PscFieldFile"><a class="viewcode-back" href="../../../viscid.readers.psc.html#viscid.readers.psc.PscFieldFile">[docs]</a><span class="k">class</span> <span class="nc">PscFieldFile</span><span class="p">(</span><span class="n">xdmf</span><span class="o">.</span><span class="n">FileXDMF</span><span class="p">):</span>  <span class="c"># pylint: disable=W0223</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*/)?(.*)fd(?:\.([0-9]{6}))?\.xdmf&quot;</span>
     <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">PscGrid</span>
 
@@ -236,7 +236,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">PscFieldFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.PscParticles">[docs]</a><span class="k">class</span> <span class="nc">PscParticles</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../viscid.readers.psc.html#viscid.readers.psc.PscParticles">[docs]</a><span class="k">class</span> <span class="nc">PscParticles</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">/prt.</span><span class="si">%06d</span><span class="s">_p</span><span class="si">%06d</span><span class="s">.h5&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;Opening &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">))</span>
@@ -251,14 +251,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_h5file</span><span class="p">[</span><span class="s">&quot;particles/p0/1d&quot;</span><span class="p">]</span>
 
 </div>
-<div class="viewcode-block" id="open_psc_file"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.open_psc_file">[docs]</a><span class="k">def</span> <span class="nf">open_psc_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="open_psc_file"><a class="viewcode-back" href="../../../viscid.readers.psc.html#viscid.readers.psc.open_psc_file">[docs]</a><span class="k">def</span> <span class="nf">open_psc_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; WARNING: using this goes around the file bucket, be careful</span>
 <span class="sd">    not to call this twice on the same file. Nothing bad will happen,</span>
 <span class="sd">    you&#39;ll just have 2 versions in memory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">PscFieldFile</span><span class="p">(</span><span class="n">make_fname</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="make_fname"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.psc.make_fname">[docs]</a><span class="k">def</span> <span class="nf">make_fname</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="make_fname"><a class="viewcode-back" href="../../../viscid.readers.psc.html#viscid.readers.psc.make_fname">[docs]</a><span class="k">def</span> <span class="nf">make_fname</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">pfx</span><span class="o">=</span><span class="s">&quot;p&quot;</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&quot;{0}/{1}fd.{2:.06d}.xdmf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pfx</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
 
 <span class="c">##</span>
@@ -270,7 +270,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

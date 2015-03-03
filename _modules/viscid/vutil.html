@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.vutil &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.vutil &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -155,6 +155,7 @@
 <span class="kn">import</span> <span class="nn">subprocess</span> <span class="kn">as</span> <span class="nn">sub</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">izip</span>
@@ -163,7 +164,7 @@
 
 <span class="n">tree_prefix</span> <span class="o">=</span> <span class="s">&quot;.   &quot;</span>
 
-<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
+<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; convenience function to get a field that could be called many things</span>
 <span class="sd">    returns the first fld_name in the list that is in the file &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">fld_name_lst</span><span class="p">:</span>
@@ -171,10 +172,10 @@
             <span class="k">return</span> <span class="n">vfile</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file {0} contains none of {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.split_floats">[docs]</a><span class="k">def</span> <span class="nf">split_floats</span><span class="p">(</span><span class="n">arg_str</span><span class="p">):</span>
+<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.split_floats">[docs]</a><span class="k">def</span> <span class="nf">split_floats</span><span class="p">(</span><span class="n">arg_str</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">arg_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
 </div>
-<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_animate_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_animate_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.add_animate_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_animate_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add common options for animating, you may want to make sure parser was</span>
 <span class="sd">    constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
     <span class="n">anim</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for creating animations&quot;</span><span class="p">)</span>
@@ -190,7 +191,7 @@
                       <span class="n">help</span><span class="o">=</span><span class="s">&quot;keep temporary files.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.add_mpl_output_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_mpl_output_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.add_mpl_output_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_mpl_output_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add common options for tuning matplotlib output, you may want to make</span>
 <span class="sd">    sure parser was constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
     <span class="n">mplargs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for tuning matplotlib&quot;</span><span class="p">)</span>
@@ -206,7 +207,7 @@
                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;show plots with plt.show()&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">default_verb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">logging_fmt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">default_verb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">logging_fmt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add some common verbosity stuff to argparse, parse the</span>
 <span class="sd">    command line args, and setup the logging levels</span>
 <span class="sd">    parser should be an ArgumentParser instance, and kwargs</span>
@@ -236,7 +237,7 @@
 
     <span class="k">return</span> <span class="n">args</span>
 </div>
-<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_animation">[docs]</a><span class="k">def</span> <span class="nf">make_animation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="s">&quot;ffmpeg&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_animation">[docs]</a><span class="k">def</span> <span class="nf">make_animation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="s">&quot;ffmpeg&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; make animation by calling program (only ffmpeg works for now) using</span>
 <span class="sd">    args, which is a namespace filled by the argparse options from</span>
 <span class="sd">    add_animate_arguments. Plots are expected to be named</span>
@@ -253,7 +254,7 @@
                   <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return recursive list of subclasses of cls (depth first) &quot;&quot;&quot;</span>
     <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls</span><span class="p">]</span>
     <span class="c"># reversed gives precedence to the more recently declared classes</span>
@@ -261,7 +262,7 @@
         <span class="n">lst</span> <span class="o">+=</span> <span class="n">subclass_spider</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lst</span>
 </div>
-<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">reps</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -270,7 +271,7 @@
         <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
     <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">reps</span>
 </div>
-<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -278,7 +279,7 @@
     <span class="k">print</span><span class="p">(</span><span class="s">&quot;Took {0:.03g} secs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
-<div class="viewcode-block" id="str_to_value"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.str_to_value">[docs]</a><span class="k">def</span> <span class="nf">str_to_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<div class="viewcode-block" id="str_to_value"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.str_to_value">[docs]</a><span class="k">def</span> <span class="nf">str_to_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">s</span>
     <span class="n">s_clean</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -300,8 +301,47 @@
                 <span class="k">pass</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
-<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="format_datetime"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.format_datetime">[docs]</a><span class="k">def</span> <span class="nf">format_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
+    <span class="sd">r&quot;&quot;&quot;Wrapper around datetime.datetime.strftime</span>
+
+<span class="sd">    This function allows one to specify the precision of fractional</span>
+<span class="sd">    seconds (mircoseconds) using something like &#39;%2f&#39; to round to</span>
+<span class="sd">    the nearest hundredth of a second.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dt (datetime.datetime): time to format</span>
+<span class="sd">        fmt (str): format string that strftime understands with the</span>
+<span class="sd">            addition of &#39;%\.?[0-9]f&#39; to the syntax.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">msec_fmt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">msec_fmt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&quot;%\.?([0-9]*)f&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;%\.?([0-9]*)f&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%f</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+
+    <span class="n">tstr</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span>
+
+    <span class="c"># now go back and for any %f -&gt; [0-9]{6}, reformat the precision</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">izip</span><span class="p">(</span><span class="n">msec_fmt</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="s">&quot;[0-9]{6}&quot;</span><span class="p">,</span> <span class="n">tstr</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">ffmt</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">it</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s">&quot;0.&quot;</span> <span class="o">+</span> <span class="n">tstr</span><span class="p">[</span><span class="n">a</span><span class="p">:</span><span class="n">b</span><span class="p">])</span>
+        <span class="n">ifmt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ffmt</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ffmt</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">6</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="s">&quot;{0:0.{1}f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">ifmt</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="n">tstr</span> <span class="o">=</span> <span class="n">tstr</span><span class="p">[:</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="n">tstr</span><span class="p">[</span><span class="n">b</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">tstr</span>
+</div>
+<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format time as a string</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        If t is a datetime.datetime instance, then this function</span>
+<span class="sd">        returns the result of format_datetime(t, style), which is</span>
+<span class="sd">        basically datetime.datetime.strftime</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        t (float): time</span>
@@ -315,33 +355,36 @@
 <span class="sd">                &#39;.02f&#39;         |   900.0  | &#39;900.00&#39;</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        string</span>
+<span class="sd">        str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">style</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="s">&quot;hms&quot;</span> <span class="ow">in</span> <span class="n">style</span><span class="p">:</span>
+    <span class="n">lstyle</span> <span class="o">=</span> <span class="n">style</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format_datetime</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s">&quot;hms&quot;</span> <span class="ow">in</span> <span class="n">lstyle</span><span class="p">:</span>
         <span class="n">days</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span> <span class="o">//</span> <span class="p">(</span><span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">))</span>
         <span class="n">hrs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">t</span> <span class="o">//</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">%</span> <span class="mi">24</span><span class="p">)</span>
         <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">t</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
         <span class="n">secs</span> <span class="o">=</span> <span class="n">t</span> <span class="o">%</span> <span class="mi">60</span>
 
-        <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;dhms&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lstyle</span> <span class="o">==</span> <span class="s">&quot;dhms&quot;</span><span class="p">:</span>
             <span class="n">daystr</span> <span class="o">=</span> <span class="s">&quot;day&quot;</span> <span class="k">if</span> <span class="n">days</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s">&quot;days&quot;</span>
             <span class="k">return</span> <span class="s">&quot;{0} {1}, {2}:{3:02d}:{4:04.01f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">daystr</span><span class="p">,</span>
                                                             <span class="n">hrs</span><span class="p">,</span> <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">style</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;hms&quot;</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="n">lstyle</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;hms&quot;</span><span class="p">):</span>
             <span class="n">hrs</span> <span class="o">+=</span> <span class="mi">24</span> <span class="o">*</span> <span class="n">days</span>
             <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;{0:02d}:{1:02d}:{2:05.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hrs</span><span class="p">,</span> <span class="n">mins</span><span class="p">,</span> <span class="n">secs</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;hmss&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lstyle</span> <span class="o">==</span> <span class="s">&quot;hmss&quot;</span><span class="p">:</span>
                 <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot; ({0:d})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">s</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unknown time style: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">style</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">style</span> <span class="o">==</span> <span class="s">&quot;none&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">lstyle</span> <span class="o">==</span> <span class="s">&quot;none&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s">&quot;{0:{1}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;should never be here&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="make_fwd_slice"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_fwd_slice">[docs]</a><span class="k">def</span> <span class="nf">make_fwd_slice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cull_second</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="make_fwd_slice"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_fwd_slice">[docs]</a><span class="k">def</span> <span class="nf">make_fwd_slice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cull_second</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make sure slices go forward</span>
 
 <span class="sd">    This function returns two slices equivalent to `slices` such</span>
@@ -398,8 +441,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">reverse</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">reverse</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">shape</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="n">slices</span><span class="p">]</span>
@@ -484,7 +526,7 @@
         <span class="n">second_slc</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">second_slc</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">first_slc</span><span class="p">,</span> <span class="n">second_slc</span>
 </div>
-<div class="viewcode-block" id="convert_floating_slice"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.convert_floating_slice">[docs]</a><span class="k">def</span> <span class="nf">convert_floating_slice</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="convert_floating_slice"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.convert_floating_slice">[docs]</a><span class="k">def</span> <span class="nf">convert_floating_slice</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                            <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Be able to slice using floats relative to an array</span>
 
@@ -581,7 +623,7 @@
 
     <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span>
 </div>
-<div class="viewcode-block" id="make_slice_inclusive"><a class="viewcode-back" href="../../viscid.html#viscid.vutil.make_slice_inclusive">[docs]</a><span class="k">def</span> <span class="nf">make_slice_inclusive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="make_slice_inclusive"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_slice_inclusive">[docs]</a><span class="k">def</span> <span class="nf">make_slice_inclusive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extend the end of a slice by 1 element</span>
 
 <span class="sd">    Chances are you don&#39;t want to use this function.</span>
@@ -618,7 +660,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>

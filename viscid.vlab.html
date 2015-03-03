@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>viscid.vlab module &mdash; Viscid 0.70.3 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'0.70.3',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+    <link rel="top" title="Viscid 0.70.3 documentation" href="index.html"/>
+        <link rel="up" title="viscid package" href="viscid.html"/>
+        <link rel="next" title="viscid.vutil module" href="viscid.vutil.html"/>
+        <link rel="prev" title="viscid.verror module" href="viscid.verror.html"/> 
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" class="icon icon-home"> Viscid</a>
+        <form class="wy-form" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search docs" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="philosophy.html#data-abstraction">Data Abstraction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#common-customizations">Common Customizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_reader.html">Reading/Plotting Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#super-simple">Super Simple</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_reader.html#playing-with-time">Playing with Time</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_slicing.html">Slicing Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#spatial-slices">Spatial Slices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_slicing.html#temporal-slices">Temporal Slices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_openggcm.html">OpenGGCM Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#time-series">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ex_calc.html">Calculator Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ex_calc.html#streamlines">Streamlines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-2d">viscid_2d</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-ts">viscid_ts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#viscid-diff">viscid_diff</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#athena2xdmf">athena2xdmf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line.html#bitmaskbits">bitmaskbits</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">viscid</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="/">Viscid</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <ul class="wy-breadcrumbs">
+  <li><a href="index.html">Docs</a> &raquo;</li>
+  <li><a href="">viscid.vlab module</a></li>
+  
+</ul>
+<hr/>
+
+          
+  <div class="section" id="module-viscid.vlab">
+<span id="viscid-vlab-module"></span><h1>viscid.vlab module<a class="headerlink" href="#module-viscid.vlab" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="viscid.vlab.follow_fluid">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">follow_fluid</tt><big>(</big><em>vfile</em>, <em>time_slice</em>, <em>initial_seeds</em>, <em>plot_function</em>, <em>stream_opts</em>, <em>add_seed_cadence=0.0</em>, <em>add_seed_pts=None</em>, <em>speed_scale=1.0</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#follow_fluid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.follow_fluid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trace fluid elements</p>
+<dl class="docutils">
+<dt>Note:</dt>
+<dd>you want speed_scale if say V is in km/s and x/y/z is in Re ;)</dd>
+<dt>Parameters:</dt>
+<dd><p class="first">vfile: a vFile object that we can call iter_times on
+time_slice: string, slice notation, like 1200:2400:1
+initial_seeds: any SeedGen object
+plot_function: function that is called each time step,</p>
+<blockquote>
+<div>arguments should be exactly: (i [int], grid, v [Vector
+Field], v_lines [result of streamline trace],
+root_seeds [SeedGen])</div></blockquote>
+<dl class="docutils">
+<dt>stream_opts: must have ds0 and max_length, maxit will be</dt>
+<dd>automatically calculated</dd>
+</dl>
+<p>add_seed_cadence: how often to add the add_seeds points
+add_seed_pts: an n x 3 ndarray of n points to add every</p>
+<blockquote>
+<div>add_seed_cadence (zyx)</div></blockquote>
+<p class="last">speed_scale: speed_scale * v should be in units of ds0 / dt</p>
+</dd>
+<dt>Returns:</dt>
+<dd>root points after following the fluid</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vlab.get_dipole">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">get_dipole</tt><big>(</big><em>m=None</em>, <em>l=None</em>, <em>h=None</em>, <em>n=None</em>, <em>twod=False</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#get_dipole"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.get_dipole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vlab.get_trilinear_field">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">get_trilinear_field</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#get_trilinear_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.get_trilinear_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vlab.multiplot">
+<tt class="descclassname">viscid.vlab.</tt><tt class="descname">multiplot</tt><big>(</big><em>file_</em>, <em>plot_vars</em>, <em>nprocs=1</em>, <em>time_slice=':'</em>, <em>global_popts=None</em>, <em>share_axes=False</em>, <em>show=False</em>, <em>kwopts=None</em><big>)</big><a class="reference internal" href="_modules/viscid/vlab.html#multiplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vlab.multiplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make lots of plots</p>
+<p>This is the function used by the <tt class="docutils literal"><span class="pre">p2d</span></tt> script. It may be useful
+to you.</p>
+</dd></dl>
+
+</div>
+
+
+          <footer>
+  <hr/>
+
+  <p>
+      &copy; Copyright 2015, Kristofor Maynard.
+  </p>
+
+  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+</body>
+</html>

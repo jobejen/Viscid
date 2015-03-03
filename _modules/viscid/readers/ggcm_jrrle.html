@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>viscid.readers.ggcm_jrrle &mdash; Viscid 0.70.2 documentation</title>
+  <title>viscid.readers.ggcm_jrrle &mdash; Viscid 0.70.3 documentation</title>
   
 
   
@@ -22,7 +22,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:'../../../',
-        VERSION:'0.70.2',
+        VERSION:'0.70.3',
         COLLAPSE_INDEX:false,
         FILE_SUFFIX:'.html',
         HAS_SOURCE:  true
@@ -43,7 +43,7 @@
   
 
   
-    <link rel="top" title="Viscid 0.70.2 documentation" href="../../../index.html"/>
+    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
         <link rel="up" title="viscid.readers" href="../readers.html"/> 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -115,7 +115,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Reference</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
 </ul>
 </li>
@@ -150,6 +150,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -162,7 +163,7 @@
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
 
-<div class="viewcode-block" id="GGCMFileJrrleMHD"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileJrrleMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileJrrleMHD"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileJrrleMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(p[xyz]_[0-9]+|3df)&quot;</span> \
                 <span class="s">r&quot;\.([0-9]{6})\s*$&quot;</span>
@@ -182,9 +183,8 @@
         <span class="c"># find the time from the first field&#39;s meta data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_file_wrapper</span> <span class="o">=</span> <span class="n">JrrleFileWrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_wrapper</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
-            <span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;timestr&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">int_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">int_time</span><span class="p">)</span>
 
         <span class="n">_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_grid</span><span class="p">(</span><span class="n">parent_node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;&lt;JrrleGrid&gt;&quot;</span><span class="p">,</span>
                                 <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">)</span>
@@ -213,8 +213,7 @@
             <span class="n">_grid</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_grid</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_make_template</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_make_template</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;read meta data for all fields in a file to get</span>
 <span class="sd">        a list of field names and shapes, all the required info</span>
 <span class="sd">        to make a JrrleDataWrapper</span>
@@ -222,14 +221,28 @@
         <span class="k">with</span> <span class="n">JrrleFileWrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">f</span><span class="o">.</span><span class="n">inquire_all_fields</span><span class="p">()</span>
             <span class="n">template</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">meta</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="k">for</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">fields_seen</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fld_name</span><span class="o">=</span><span class="n">fld_name</span><span class="p">,</span>
                          <span class="n">shape</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">])</span>
                 <span class="n">template</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">meta</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">timestr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;timestr&#39;</span><span class="p">])</span>
+                <span class="c"># WARNING: lstrip is &#39;character-wise&#39;, this works</span>
+                <span class="c"># cause the first thing we care about is a number</span>
+                <span class="n">timestr</span> <span class="o">=</span> <span class="n">timestr</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&quot;time=&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">timestr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">ut</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timestr</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">&quot;%Y:%m:</span><span class="si">%d</span><span class="s">:%H:%M:%S.</span><span class="si">%f</span><span class="s">&quot;</span><span class="p">)</span>
+                <span class="n">dipole_time</span> <span class="o">=</span> <span class="n">ut</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">dipole_time</span> <span class="o">=</span> <span class="n">dipole_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y:%m:</span><span class="si">%d</span><span class="s">:%H:%M:%S.</span><span class="si">%f</span><span class="s">&quot;</span><span class="p">)</span>
+                <span class="n">dipole_time</span> <span class="o">=</span> <span class="n">dipole_time</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_info</span><span class="p">(</span><span class="s">&quot;ggcm_dipole_dipoltime&quot;</span><span class="p">,</span> <span class="n">dipole_time</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">template</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GGCMFileJrrleMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileJrrleMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="n">fname0</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname0</span><span class="p">)</span>
         <span class="n">run</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -238,14 +251,14 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname0</span><span class="p">),</span> <span class="n">new_basename</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="GGCMFileJrrleIono"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleIono">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileJrrleIono</span><span class="p">(</span><span class="n">GGCMFileJrrleMHD</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileJrrleIono"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleIono">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileJrrleIono</span><span class="p">(</span><span class="n">GGCMFileJrrleMHD</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(iof)\.([0-9]{6})\s*$&quot;</span>
     <span class="n">_iono</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">Grid</span>
     <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Node&quot;</span>
 </div>
-<div class="viewcode-block" id="JrrleFileWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper">[docs]</a><span class="k">class</span> <span class="nc">JrrleFileWrapper</span><span class="p">(</span><span class="n">FortranFile</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleFileWrapper"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper">[docs]</a><span class="k">class</span> <span class="nc">JrrleFileWrapper</span><span class="p">(</span><span class="n">FortranFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface for actually opening / reading a jrrle file&quot;&quot;&quot;</span>
     <span class="n">_read_func</span> <span class="o">=</span> <span class="p">[</span><span class="n">_jrrle</span><span class="o">.</span><span class="n">read_jrrle1d</span><span class="p">,</span> <span class="n">_jrrle</span><span class="o">.</span><span class="n">read_jrrle2d</span><span class="p">,</span>
                   <span class="n">_jrrle</span><span class="o">.</span><span class="n">read_jrrle3d</span><span class="p">]</span>
@@ -258,7 +271,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">JrrleFileWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
-<div class="viewcode-block" id="JrrleFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">ndim</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">ndim</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read a field given a seekable location</span>
 
 <span class="sd">        Parameters:</span>
@@ -273,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_read_func</span><span class="p">[</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">meta</span><span class="p">,</span> <span class="n">arr</span>
 </div>
-<div class="viewcode-block" id="JrrleFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">reinquire</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -289,15 +302,18 @@
             <span class="c">#     print(last_seen, &quot;lives at&quot;, meta[&quot;file_position&quot;])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">advance_one_line</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="JrrleFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire">[docs]</a>    <span class="k">def</span> <span class="nf">inquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire">[docs]</a>    <span class="k">def</span> <span class="nf">inquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">meta</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">last_added</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">last_added</span><span class="p">][</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">advance_one_line</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">last_added</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">last_added</span><span class="p">][</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">advance_one_line</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c"># we haven&#39;t read any fields yet, that&#39;s ok</span>
 
             <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span><span class="p">:</span>
                 <span class="n">found_fld_name</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
@@ -308,7 +324,7 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file &#39;{0}&#39; has no field &#39;{1}&#39;&quot;</span>
                            <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="JrrleFileWrapper.inquire_next"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleFileWrapper.inquire_next"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collect the meta-data from the next field in the file</span>
 
 <span class="sd">        Returns:</span>
@@ -348,7 +364,7 @@
         <span class="k">return</span> <span class="n">vname</span><span class="p">,</span> <span class="n">meta</span>
 
 </div></div>
-<div class="viewcode-block" id="JrrleDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">JrrleDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">JrrleDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
     <span class="n">file_wrapper</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
@@ -369,7 +385,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span> <span class="o">=</span> <span class="n">expected_shape</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="JrrleDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
@@ -377,7 +393,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="JrrleDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;float32&quot;</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -396,10 +412,10 @@
                                <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
-<div class="viewcode-block" id="JrrleDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="JrrleDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="JrrleDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
@@ -426,7 +442,7 @@
   <hr/>
 
   <p>
-      &copy; Copyright 2013, Kristofor Maynard.
+      &copy; Copyright 2015, Kristofor Maynard.
   </p>
 
   <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
