@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.hdf5 module &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../index.html" />
+    <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
+    <link rel="next" title="viscid.readers.numpy_binary module" href="viscid.readers.numpy_binary.html" />
+    <link rel="prev" title="viscid.readers.ggcm_xdmf module" href="viscid.readers.ggcm_xdmf.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
+
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">viscid.readers.hdf5 module</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="module-viscid.readers.hdf5">
+<span id="viscid-readers-hdf5-module"></span><h1>viscid.readers.hdf5 module<a class="headerlink" href="#module-viscid.readers.hdf5" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viscid.readers.hdf5.FileHDF5">
+<em class="property">class </em><tt class="descclassname">viscid.readers.hdf5.</tt><tt class="descname">FileHDF5</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileHDF5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileHDF5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<p>this is an abstract-ish class from which other types of hdf5 readers
+should derrive</p>
+<dl class="method">
+<dt id="viscid.readers.hdf5.FileHDF5.save">
+<tt class="descname">save</tt><big>(</big><em>fname=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileHDF5.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileHDF5.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>save an instance of VFile, fname defaults to the name
+of the file object as read</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="viscid.readers.hdf5.FileHDF5.save_fields">
+<em class="property">classmethod </em><tt class="descname">save_fields</tt><big>(</big><em>fname</em>, <em>flds</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileHDF5.save_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileHDF5.save_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>save some fields using the format given by the class</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.hdf5.FileLazyHDF5">
+<em class="property">class </em><tt class="descclassname">viscid.readers.hdf5.</tt><tt class="descname">FileLazyHDF5</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileLazyHDF5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileLazyHDF5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<p>This is for lazy wrapping an h5 file referred to by an xdmf file,
+or anything else where you want to have a single file instance for a single
+hdf5 file, but you don&#8217;t want any parsing because you already know what&#8217;s
+going to be in the file.</p>
+<dl class="method">
+<dt id="viscid.readers.hdf5.FileLazyHDF5.get_data">
+<tt class="descname">get_data</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileLazyHDF5.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileLazyHDF5.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.hdf5.</tt><tt class="descname">H5pyDataWrapper</tt><big>(</big><em>fname</em>, <em>loc</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>only ask for this if you really need it; can be a speed problem
+for large temporal datasets over sshfs</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.fname">
+<tt class="descname">fname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.fname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.len">
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.loc">
+<tt class="descname">loc</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.loc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.read_direct">
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>only ask for this if you really need it; can be a speed problem
+for large temporal datasets over sshfs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.wrap_func">
+<tt class="descname">wrap_func</tt><big>(</big><em>func_name</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.wrap_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.wrap_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/api/viscid.readers.hdf5.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

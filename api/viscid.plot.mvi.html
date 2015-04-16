@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.plot.mvi module &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../index.html" />
+    <link rel="up" title="viscid.plot package" href="viscid.plot.html" />
+    <link rel="next" title="viscid.plot.vseaborn module" href="viscid.plot.vseaborn.html" />
+    <link rel="prev" title="viscid.plot.mpl module" href="viscid.plot.mpl.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
+
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">viscid.plot.mvi module</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="module-viscid.plot.mvi">
+<span id="viscid-plot-mvi-module"></span><h1>viscid.plot.mvi module<a class="headerlink" href="#module-viscid.plot.mvi" title="Permalink to this headline">¶</a></h1>
+<p>Convevience module for making 3d plots with Mayavi</p>
+<p>Note: you can&#8217;t set rc parameters for this module</p>
+<dl class="function">
+<dt id="viscid.plot.mvi.clear_data">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clear_data</tt><big>(</big><em>scenes=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workaround for Mayavi / VTK memory leak</p>
+<p>This is needed when Mayavi/VTK keeps a reference to source data
+when you would expect it to be freed like on a call to <cite>mlab.clf()</cite>
+or when removing sources from the pipeline.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This must be called when the pipeline still has the source, so
+before a call to <cite>mlab.clf()</cite>, etc.</p>
+</div>
+<ol class="arabic simple">
+<li>Set release_data_flag on all sources&#8217; data</li>
+<li>Remove reference to the data</li>
+<li>Remove the data source</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scene</strong> (<em>None, mayavi.core.scene.Scene, or &#8216;all&#8217;</em>) &#8211; if None, gets
+current scene; if Scene object, just that one; if &#8216;all&#8217;,
+act on all scenes in the current engine. Can also be a list
+of Scene objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.clf">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clf</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear source data, then clear figure</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.field_to_cell_source">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_cell_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_cell_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a mayavi cell source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi cell source</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.field_to_point_source">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_point_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_point_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a mayavi source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi point source</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.field_to_source">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a mayavi source</p>
+<p>This dispatches to either <a class="reference internal" href="#viscid.plot.mvi.field_to_point_source" title="viscid.plot.mvi.field_to_point_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></tt></a> or
+<a class="reference internal" href="#viscid.plot.mvi.field_to_cell_source" title="viscid.plot.mvi.field_to_cell_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></tt></a> depending on the centering of
+<cite>fld</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi source</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.interact">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">interact</tt><big>(</big><em>local=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#interact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.interact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to interactive interpreter</p>
+<p>This can be handy if you want to interact with a 3d plot using
+python.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local</strong> (<em>dict, optional</em>) &#8211; Local namespace for the interactive
+session. Usually you want <tt class="docutils literal"><span class="pre">interact(local=locals())</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.mlab_earth">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">mlab_earth</tt><big>(</big><em>pipeline=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>res=15</em>, <em>crd_system='mhd'</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#mlab_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.mlab_earth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a black and white sphere (Earth) showing sunward direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pipeline</strong> (<em>optional</em>) &#8211; Use if you want to plot using an existing
+pipeline</li>
+<li><strong>daycol</strong> (<em>tuple, optional</em>) &#8211; color of dayside (RGB)</li>
+<li><strong>nightcol</strong> (<em>tuple, optional</em>) &#8211; color of nightside (RGB)</li>
+<li><strong>res</strong> (<em>optional</em>) &#8211; rosolution of teh sphere</li>
+<li><strong>crd_system</strong> (<em>str, optional</em>) &#8211; &#8216;mhd&#8217; or &#8216;gse&#8217;, can be gotten from
+an openggcm field using <tt class="docutils literal"><span class="pre">fld.meta[&quot;crd_system&quot;]</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.plot_lines">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">plot_lines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make 3D mayavi plot of lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> &#8211; list of lines. Each line should have shape 3xP for 3
+spatial dimensions and P points along the line</li>
+<li><strong>topology</strong> (<em>optional</em>) &#8211; an array of values that describe how to
+color the line.</li>
+<li><strong>kwargs</strong> &#8211; forwarded to <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.remove_source">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">remove_source</tt><big>(</big><em>src</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#remove_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.remove_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Safely remove a specific vtk source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>src</strong> (<em>vtk_data_source</em>) &#8211; vtk data source to remove</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.show">
+<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">show</tt><big>(</big><em>stop=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.show(stop=stop)()</span></tt></p>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/api/viscid.plot.mvi.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,151 +1,164 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.70.3 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:'../../../',
-        VERSION:'0.70.3',
-        COLLAPSE_INDEX:false,
-        FILE_SUFFIX:'.html',
+        URL_ROOT:    '../../../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../../../index.html" />
+    <link rel="up" title="viscid.readers" href="../readers.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    
+  </head>
+  <body>
 
-  
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
 
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
 
-  
-    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
-        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav">
-
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
-        <form class="wy-form" action="../../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search docs" />
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
   <input type="hidden" name="check_keywords" value="yes" />
   <input type="hidden" name="area" value="default" />
 </form>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix">
-        
-        
-            <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
-</ul>
-</li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top">
-        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
-        <a href="/">Viscid</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <ul class="wy-breadcrumbs">
-  <li><a href="../../../index.html">Docs</a> &raquo;</li>
-  <li><a href="">viscid.readers.ggcm_fortbin</a></li>
-  
-</ul>
-<hr/>
-
           
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <h1>Source code for viscid.readers.ggcm_fortbin</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">struct</span>
@@ -165,7 +178,7 @@
 <span class="c"># raise NotImplementedError(&quot;fortbin reader is not at all&quot;)</span>
 
 
-<div class="viewcode-block" id="GGCMFileFortbinMHD"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileFortbinMHD"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(p[xyz]_[0-9]+|3df)&quot;</span> \
                 <span class="s">r&quot;\.([0-9]{6}).b\s*$&quot;</span>
@@ -246,7 +259,7 @@
         <span class="k">return</span> <span class="n">template</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="GGCMFileFortbinMHD.collective_name_from_group"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFileFortbinMHD.collective_name_from_group"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">[docs]</a>    <span class="k">def</span> <span class="nf">collective_name_from_group</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fnames</span><span class="p">):</span>
         <span class="n">fname0</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname0</span><span class="p">)</span>
         <span class="n">run</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">basename</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -255,7 +268,7 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fname0</span><span class="p">),</span> <span class="n">new_basename</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="GGCMFileFortbinIono"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinIono</span><span class="p">(</span><span class="n">GGCMFileFortbinMHD</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+<div class="viewcode-block" id="GGCMFileFortbinIono"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileFortbinIono</span><span class="p">(</span><span class="n">GGCMFileFortbinMHD</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot;Jimmy&#39;s run length encoding files&quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;^\s*(.*)\.(iof)\.([0-9]{6}).b\s*$&quot;</span>
     <span class="n">_iono</span> <span class="o">=</span> <span class="bp">True</span>
@@ -263,7 +276,7 @@
     <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Node&quot;</span>
 
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">[docs]</a><span class="k">class</span> <span class="nc">GGCMFortbinFileWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper">[docs]</a><span class="k">class</span> <span class="nc">GGCMFortbinFileWrapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A File-like object for interfacing with OpenGGCM binary files&quot;&quot;&quot;</span>
     <span class="n">_file</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">_endian</span> <span class="o">=</span> <span class="bp">None</span>
@@ -282,14 +295,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.file_meta"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">[docs]</a>    <span class="k">def</span> <span class="nf">file_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.file_meta"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">[docs]</a>    <span class="k">def</span> <span class="nf">file_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="c"># just opening the file makes it read the meta data</span>
                 <span class="k">pass</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read a field given a seekable location</span>
 
 <span class="sd">        Parameters:</span>
@@ -315,7 +328,7 @@
                            <span class="n">count</span><span class="o">=</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;nelem&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">meta</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">],</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">reinquire</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">seen_all_fields</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -328,7 +341,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">inquire_next</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_meta</span><span class="p">[</span><span class="s">&#39;nbytes&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">[docs]</a>    <span class="k">def</span> <span class="nf">inquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire">[docs]</a>    <span class="k">def</span> <span class="nf">inquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields_seen</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;file_position&#39;</span><span class="p">])</span>
@@ -351,7 +364,7 @@
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file &#39;{0}&#39; has no field &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_next"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.inquire_next"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.inquire_next">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Collect the meta-data from the next field in the file</span>
 
 <span class="sd">        Returns:</span>
@@ -379,7 +392,7 @@
 
         <span class="k">return</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">meta</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.open"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.open"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.open">[docs]</a>    <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;rb&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
@@ -390,10 +403,10 @@
                 <span class="k">raise</span> <span class="n">e</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.isopen"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">[docs]</a>    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.isopen"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">[docs]</a>    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="bp">None</span>
@@ -464,7 +477,7 @@
         <span class="k">except</span> <span class="n">struct</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="FortbinDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">FortbinDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">FortbinDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
     <span class="n">file_wrapper</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
@@ -487,7 +500,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">file_position</span> <span class="o">=</span> <span class="n">file_position</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
@@ -495,7 +508,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="FortbinDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.dtype"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;float32&quot;</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -513,10 +526,10 @@
                                <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FortbinDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.read_direct"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="FortbinDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.len"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
@@ -539,22 +552,24 @@
 <span class="c">##</span></div>
 </pre></div>
 
-          <footer>
-  <hr/>
-
-  <p>
-      &copy; Copyright 2015, Kristofor Maynard.
-  </p>
-
-  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
-</footer>
-        </div>
-      </div>
-
-    </section>
-
+    </div>
+      
   </div>
-  
-
-</body>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
 </html>

@@ -1,151 +1,164 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>viscid.vutil &mdash; Viscid 0.70.3 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.vutil &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:'../../',
-        VERSION:'0.70.3',
-        COLLAPSE_INDEX:false,
-        FILE_SUFFIX:'.html',
+        URL_ROOT:    '../../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    
+  </head>
+  <body>
 
-  
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
 
-  
-    <link rel="top" title="Viscid 0.70.3 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav">
-
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="../../index.html" class="icon icon-home"> Viscid</a>
-        <form class="wy-form" action="../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search docs" />
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
   <input type="hidden" name="check_keywords" value="yes" />
   <input type="hidden" name="area" value="default" />
 </form>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix">
-        
-        
-            <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#for-developers">For Developers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_calc.html">Calculator Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_calc.html#streamlines">Streamlines</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
-</ul>
-</li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top">
-        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
-        <a href="/">Viscid</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <ul class="wy-breadcrumbs">
-  <li><a href="../../index.html">Docs</a> &raquo;</li>
-  <li><a href="">viscid.vutil</a></li>
-  
-</ul>
-<hr/>
-
           
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <h1>Source code for viscid.vutil</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
 
@@ -164,7 +177,7 @@
 
 <span class="n">tree_prefix</span> <span class="o">=</span> <span class="s">&quot;.   &quot;</span>
 
-<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
+<div class="viewcode-block" id="find_field"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.find_field">[docs]</a><span class="k">def</span> <span class="nf">find_field</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; convenience function to get a field that could be called many things</span>
 <span class="sd">    returns the first fld_name in the list that is in the file &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">fld_name</span> <span class="ow">in</span> <span class="n">fld_name_lst</span><span class="p">:</span>
@@ -172,10 +185,10 @@
             <span class="k">return</span> <span class="n">vfile</span><span class="p">[</span><span class="n">fld_name</span><span class="p">]</span>
     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&quot;file {0} contains none of {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">fld_name_lst</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.split_floats">[docs]</a><span class="k">def</span> <span class="nf">split_floats</span><span class="p">(</span><span class="n">arg_str</span><span class="p">):</span>
+<div class="viewcode-block" id="split_floats"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.split_floats">[docs]</a><span class="k">def</span> <span class="nf">split_floats</span><span class="p">(</span><span class="n">arg_str</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">arg_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)]</span>
 </div>
-<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.add_animate_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_animate_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+<div class="viewcode-block" id="add_animate_arguments"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.add_animate_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_animate_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add common options for animating, you may want to make sure parser was</span>
 <span class="sd">    constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
     <span class="n">anim</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for creating animations&quot;</span><span class="p">)</span>
@@ -191,7 +204,7 @@
                       <span class="n">help</span><span class="o">=</span><span class="s">&quot;keep temporary files.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.add_mpl_output_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_mpl_output_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
+<div class="viewcode-block" id="add_mpl_output_arguments"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.add_mpl_output_arguments">[docs]</a><span class="k">def</span> <span class="nf">add_mpl_output_arguments</span><span class="p">(</span><span class="n">parser</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add common options for tuning matplotlib output, you may want to make</span>
 <span class="sd">    sure parser was constructed with conflict_handler=&#39;resolve&#39; &quot;&quot;&quot;</span>
     <span class="n">mplargs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&quot;Options for tuning matplotlib&quot;</span><span class="p">)</span>
@@ -207,7 +220,7 @@
                         <span class="n">help</span><span class="o">=</span><span class="s">&quot;show plots with plt.show()&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </div>
-<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">default_verb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">logging_fmt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="common_argparse"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.common_argparse">[docs]</a><span class="k">def</span> <span class="nf">common_argparse</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">default_verb</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">logging_fmt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; add some common verbosity stuff to argparse, parse the</span>
 <span class="sd">    command line args, and setup the logging levels</span>
 <span class="sd">    parser should be an ArgumentParser instance, and kwargs</span>
@@ -237,7 +250,7 @@
 
     <span class="k">return</span> <span class="n">args</span>
 </div>
-<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_animation">[docs]</a><span class="k">def</span> <span class="nf">make_animation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="s">&quot;ffmpeg&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="make_animation"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.make_animation">[docs]</a><span class="k">def</span> <span class="nf">make_animation</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">program</span><span class="o">=</span><span class="s">&quot;ffmpeg&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; make animation by calling program (only ffmpeg works for now) using</span>
 <span class="sd">    args, which is a namespace filled by the argparse options from</span>
 <span class="sd">    add_animate_arguments. Plots are expected to be named</span>
@@ -254,7 +267,7 @@
                   <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="subclass_spider"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.subclass_spider">[docs]</a><span class="k">def</span> <span class="nf">subclass_spider</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return recursive list of subclasses of cls (depth first) &quot;&quot;&quot;</span>
     <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls</span><span class="p">]</span>
     <span class="c"># reversed gives precedence to the more recently declared classes</span>
@@ -262,7 +275,7 @@
         <span class="n">lst</span> <span class="o">+=</span> <span class="n">subclass_spider</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lst</span>
 </div>
-<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="timereps"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.timereps">[docs]</a><span class="k">def</span> <span class="nf">timereps</span><span class="p">(</span><span class="n">reps</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">reps</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">reps</span><span class="p">):</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -271,7 +284,7 @@
         <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span>
     <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="nb">sum</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">reps</span>
 </div>
-<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -279,7 +292,7 @@
     <span class="k">print</span><span class="p">(</span><span class="s">&quot;Took {0:.03g} secs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
-<div class="viewcode-block" id="str_to_value"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.str_to_value">[docs]</a><span class="k">def</span> <span class="nf">str_to_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<div class="viewcode-block" id="str_to_value"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.str_to_value">[docs]</a><span class="k">def</span> <span class="nf">str_to_value</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="n">s</span>
     <span class="n">s_clean</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
@@ -301,7 +314,7 @@
                 <span class="k">pass</span>
     <span class="k">return</span> <span class="n">ret</span>
 </div>
-<div class="viewcode-block" id="format_datetime"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.format_datetime">[docs]</a><span class="k">def</span> <span class="nf">format_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
+<div class="viewcode-block" id="format_datetime"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.format_datetime">[docs]</a><span class="k">def</span> <span class="nf">format_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fmt</span><span class="p">):</span>
     <span class="sd">r&quot;&quot;&quot;Wrapper around datetime.datetime.strftime</span>
 
 <span class="sd">    This function allows one to specify the precision of fractional</span>
@@ -335,7 +348,7 @@
         <span class="n">tstr</span> <span class="o">=</span> <span class="n">tstr</span><span class="p">[:</span><span class="n">a</span><span class="p">]</span> <span class="o">+</span> <span class="n">f</span> <span class="o">+</span> <span class="n">tstr</span><span class="p">[</span><span class="n">b</span><span class="p">:]</span>
     <span class="k">return</span> <span class="n">tstr</span>
 </div>
-<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;.02f&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format time as a string</span>
 
 <span class="sd">    Note:</span>
@@ -384,7 +397,7 @@
         <span class="k">return</span> <span class="s">&quot;{0:{1}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;should never be here&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="make_fwd_slice"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_fwd_slice">[docs]</a><span class="k">def</span> <span class="nf">make_fwd_slice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cull_second</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="make_fwd_slice"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.make_fwd_slice">[docs]</a><span class="k">def</span> <span class="nf">make_fwd_slice</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cull_second</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make sure slices go forward</span>
 
 <span class="sd">    This function returns two slices equivalent to `slices` such</span>
@@ -399,7 +412,8 @@
 <span class="sd">    of large arrays on disk, which is most useful when the large array</span>
 <span class="sd">    is coming through sshfs.</span>
 
-<span class="sd">    Note: The only restriction on slices is that neither start nor stop</span>
+<span class="sd">    Note:</span>
+<span class="sd">        The only restriction on slices is that neither start nor stop</span>
 <span class="sd">        can be outide the range [-L, L].</span>
 
 <span class="sd">    Args:</span>
@@ -415,12 +429,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        (first_slice, second_slice)</span>
 
-<span class="sd">        first_slice: a forward-only slice that retrieves the</span>
-<span class="sd">            desired elements of an array</span>
-<span class="sd">        second_slice: a slice that does [::1] or [::-1] as needed</span>
-<span class="sd">            to make the result equivalent to slices. If keep_all,</span>
-<span class="sd">            then this may contain None indicating that this</span>
-<span class="sd">            dimension no longer exists after the first slice.</span>
+<span class="sd">        * first_slice: a forward-only slice that retrieves the</span>
+<span class="sd">          desired elements of an array</span>
+<span class="sd">        * second_slice: a slice that does [::1] or [::-1] as needed</span>
+<span class="sd">          to make the result equivalent to slices. If keep_all,</span>
+<span class="sd">          then this may contain None indicating that this</span>
+<span class="sd">          dimension no longer exists after the first slice.</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt; a = np.arange(8)</span>
@@ -430,10 +444,10 @@
 
 <span class="sd">        &gt;&gt; a = np.arange(4*5*6).reshape((4, 5, 6))</span>
 <span class="sd">        &gt;&gt; first, second = make_fwd_slice(a.shape,</span>
-<span class="sd">                                          [slice(None, -1, 1),</span>
-<span class="sd">                                           slice(-1, None, 1),</span>
-<span class="sd">                                           slice(-4, -1, 2)],</span>
-<span class="sd">                                          [True, True, True])</span>
+<span class="sd">        &gt;&gt;                                [slice(None, -1, 1),</span>
+<span class="sd">        &gt;&gt;                                 slice(-1, None, 1),</span>
+<span class="sd">        &gt;&gt;                                 slice(-4, -1, 2)],</span>
+<span class="sd">        &gt;&gt;                                [True, True, True])</span>
 <span class="sd">        &gt;&gt; a1 = a[::-1, ::-1, ::-1][:-1, -1:, -4:-1:2]</span>
 <span class="sd">        &gt;&gt; a2 = a[first][second]</span>
 <span class="sd">        &gt;&gt; a1 == a2</span>
@@ -526,7 +540,7 @@
         <span class="n">second_slc</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">second_slc</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">first_slc</span><span class="p">,</span> <span class="n">second_slc</span>
 </div>
-<div class="viewcode-block" id="convert_floating_slice"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.convert_floating_slice">[docs]</a><span class="k">def</span> <span class="nf">convert_floating_slice</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="convert_floating_slice"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.convert_floating_slice">[docs]</a><span class="k">def</span> <span class="nf">convert_floating_slice</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                            <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Be able to slice using floats relative to an array</span>
 
@@ -623,7 +637,7 @@
 
     <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span>
 </div>
-<div class="viewcode-block" id="make_slice_inclusive"><a class="viewcode-back" href="../../viscid.vutil.html#viscid.vutil.make_slice_inclusive">[docs]</a><span class="k">def</span> <span class="nf">make_slice_inclusive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="make_slice_inclusive"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.make_slice_inclusive">[docs]</a><span class="k">def</span> <span class="nf">make_slice_inclusive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extend the end of a slice by 1 element</span>
 
 <span class="sd">    Chances are you don&#39;t want to use this function.</span>
@@ -656,22 +670,24 @@
 <span class="c">##</span></div>
 </pre></div>
 
-          <footer>
-  <hr/>
-
-  <p>
-      &copy; Copyright 2015, Kristofor Maynard.
-  </p>
-
-  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
-</footer>
-        </div>
-      </div>
-
-    </section>
-
+    </div>
+      
   </div>
-  
-
-</body>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
 </html>

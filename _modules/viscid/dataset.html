@@ -1,151 +1,164 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>viscid.dataset &mdash; Viscid 0.70.3 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.dataset &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:'../../',
-        VERSION:'0.70.3',
-        COLLAPSE_INDEX:false,
-        FILE_SUFFIX:'.html',
+        URL_ROOT:    '../../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    
+  </head>
+  <body>
 
-  
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
 
-  
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
 
-  
-    <link rel="top" title="Viscid 0.70.3 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav">
-
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="../../index.html" class="icon icon-home"> Viscid</a>
-        <form class="wy-form" action="../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search docs" />
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
   <input type="hidden" name="check_keywords" value="yes" />
   <input type="hidden" name="area" value="default" />
 </form>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix">
-        
-        
-            <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../installation.html#for-developers">For Developers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../philosophy.html#data-abstraction">Data Abstraction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_reader.html">Reading/Plotting Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#super-simple">Super Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_openggcm.html">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#time-series">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../ex_calc.html">Calculator Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../ex_calc.html#streamlines">Streamlines</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-2d">viscid_2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-ts">viscid_ts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#viscid-diff">viscid_diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#athena2xdmf">athena2xdmf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../command_line.html#bitmaskbits">bitmaskbits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../viscid.html">viscid package</a></li>
-</ul>
-</li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top">
-        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
-        <a href="/">Viscid</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <ul class="wy-breadcrumbs">
-  <li><a href="../../index.html">Docs</a> &raquo;</li>
-  <li><a href="">viscid.dataset</a></li>
-  
-</ul>
-<hr/>
-
           
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <h1>Source code for viscid.dataset</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
 <span class="sd">&quot;&quot;&quot; test docstring &quot;&quot;&quot;</span>
@@ -165,7 +178,7 @@
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vutil</span>
 <span class="kn">from</span> <span class="nn">viscid.vutil</span> <span class="kn">import</span> <span class="n">tree_prefix</span><span class="p">,</span> <span class="n">convert_floating_slice</span>
 
-<div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset">[docs]</a><span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset">[docs]</a><span class="k">class</span> <span class="nc">Dataset</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Datasets contain grids or other datasets</span>
 
 <span class="sd">    Note:</span>
@@ -190,16 +203,16 @@
 <span class="sd">        tree, from vfile all the way down to fields</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Dataset</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">Bucket</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">Bucket</span><span class="p">(</span><span class="n">ordered</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">None</span>
 
-<div class="viewcode-block" id="Dataset.add"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.add"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prepare_child</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">child</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
         <span class="k">if</span> <span class="n">set_active</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="n">child</span>
 </div>
-<div class="viewcode-block" id="Dataset.unload"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.unload"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
 <span class="sd">        being that an unload will free memory, but all the functionality is</span>
 <span class="sd">        preserved, so data is accessable without an explicit reload</span>
@@ -211,12 +224,12 @@
     <span class="c"># def remove_all_items(self):</span>
     <span class="c">#     raise NotImplementedError()</span>
 </div>
-<div class="viewcode-block" id="Dataset.activate"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_handle</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.activate"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child_handle</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; it may not look like it, but this will recursively look</span>
 <span class="sd">        in my active child for the handle because it uses getitem &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="Dataset.activate_time"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.activate_time"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; this is basically &#39;activate&#39; except it specifically picks out</span>
 <span class="sd">        temporal datasets, and does all children, not just the active child &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
@@ -225,7 +238,7 @@
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">pass</span>
 </div>
-<div class="viewcode-block" id="Dataset.nr_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.nr_times">[docs]</a>    <span class="k">def</span> <span class="nf">nr_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.nr_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.nr_times">[docs]</a>    <span class="k">def</span> <span class="nf">nr_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">nr_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
@@ -233,7 +246,7 @@
                 <span class="k">pass</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I find no temporal datasets&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.iter_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.iter_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
@@ -241,16 +254,16 @@
                 <span class="k">pass</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I find no temporal datasets&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.get_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.get_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.get_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.get_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">slice_str</span><span class="o">=</span><span class="n">slice_str</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="Dataset.get_time"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.get_time"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Dataset has no time slices&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.iter_fields"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.iter_fields">[docs]</a>    <span class="k">def</span> <span class="nf">iter_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.iter_fields"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.iter_fields">[docs]</a>    <span class="k">def</span> <span class="nf">iter_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; generator for fields in the active dataset,</span>
 <span class="sd">        this will recurse down to a grid &quot;&quot;&quot;</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
@@ -261,7 +274,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="n">named</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.print_tree"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.print_tree">[docs]</a>    <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.print_tree"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.print_tree">[docs]</a>    <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="n">prefix</span> <span class="o">+=</span> <span class="n">tree_prefix</span>
@@ -282,7 +295,7 @@
     <span class="c">#     else:</span>
     <span class="c">#         return self.active_grid</span>
 </div>
-<div class="viewcode-block" id="Dataset.get_field"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.get_field"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
 
@@ -292,7 +305,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="n">slc</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.get_grid"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.get_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.get_grid"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.get_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span>
 
@@ -302,11 +315,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Dataset.get_child"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.Dataset.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.get_child"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; get a child from this Dataset,  &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 </div>
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="Dataset.__getitem__"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.Dataset.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; if a child exists with handle, return it, else ask</span>
 <span class="sd">        the active child if it knows what you want &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
@@ -315,7 +328,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">()</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="n">child</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
@@ -351,7 +364,7 @@
     <span class="c">#     raise NotImplementedError()</span>
 
 </div>
-<div class="viewcode-block" id="DatasetTemporal"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal">[docs]</a><span class="k">class</span> <span class="nc">DatasetTemporal</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal">[docs]</a><span class="k">class</span> <span class="nc">DatasetTemporal</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Note:</span>
 <span class="sd">        Datasets should probably be created using a vfile&#39;s</span>
@@ -369,7 +382,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c"># self._all_times = []</span>
 
-<div class="viewcode-block" id="DatasetTemporal.add"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.add"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">set_active</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">time</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -384,7 +397,7 @@
         <span class="k">if</span> <span class="n">set_active</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="n">child</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.unload"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.unload"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
 <span class="sd">        being that an unload will free memory, but all the functionality is</span>
 <span class="sd">        preserved, so data is accessable without an explicit reload</span>
@@ -393,10 +406,10 @@
             <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
         <span class="c"># TODO: does anything else need to be unloaded in here?</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.activate"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.activate"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">active_child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.activate_time"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.activate_time"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.activate_time">[docs]</a>    <span class="k">def</span> <span class="nf">activate_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; this is basically &#39;activate&#39; except it specifically picks out</span>
 <span class="sd">        temporal datasets &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
@@ -533,12 +546,12 @@
                 <span class="n">child_iter_lst</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="n">s</span><span class="p">]])</span>
         <span class="k">return</span> <span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">child_iter_lst</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DatasetTemporal.nr_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.nr_times">[docs]</a>    <span class="k">def</span> <span class="nf">nr_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.nr_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.nr_times">[docs]</a>    <span class="k">def</span> <span class="nf">nr_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="n">slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slice_time</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
         <span class="n">child_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_slice_to_iterator</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">child_iterator</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.iter_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.iter_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.iter_times">[docs]</a>    <span class="k">def</span> <span class="nf">iter_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="n">slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slice_time</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)</span>
         <span class="n">child_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_slice_to_iterator</span><span class="p">(</span><span class="n">slc</span><span class="p">)</span>
 
@@ -546,16 +559,16 @@
             <span class="k">with</span> <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">as</span> <span class="n">target</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">target</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_times"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.get_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.get_times"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.get_times">[docs]</a>    <span class="k">def</span> <span class="nf">get_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">slice_str</span><span class="o">=</span><span class="n">slice_str</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_time"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.get_time"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slice_str</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_times</span><span class="p">(</span><span class="n">slice_str</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="c">## ok, that&#39;s enough for the time stuff</span>
     <span class="c">########################################</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.iter_fields"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.iter_fields">[docs]</a>    <span class="k">def</span> <span class="nf">iter_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.iter_fields"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.iter_fields">[docs]</a>    <span class="k">def</span> <span class="nf">iter_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; generator for fields in the active dataset,</span>
 <span class="sd">        this will recurse down to a grid &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -569,7 +582,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">iter_fields</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">named</span><span class="o">=</span><span class="n">named</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.print_tree"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.print_tree">[docs]</a>    <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.print_tree"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.print_tree">[docs]</a>    <span class="k">def</span> <span class="nf">print_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="n">prefix</span> <span class="o">+=</span> <span class="n">tree_prefix</span>
@@ -582,7 +595,7 @@
             <span class="k">if</span> <span class="n">depth</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">child</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">print_tree</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">tree_prefix</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_field"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.get_field"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
@@ -595,7 +608,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_grid"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.get_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.get_grid"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.get_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recurse down active children to get a field &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
@@ -608,7 +621,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">get_grid</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="DatasetTemporal.get_child"><a class="viewcode-back" href="../../viscid.dataset.html#viscid.dataset.DatasetTemporal.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="DatasetTemporal.get_child"><a class="viewcode-back" href="../../api/viscid.dataset.html#viscid.dataset.DatasetTemporal.get_child">[docs]</a>    <span class="k">def</span> <span class="nf">get_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; if item is an int and &lt; len(children), it is an index in a list,</span>
 <span class="sd">        else I will find the cloest time to float(item) &quot;&quot;&quot;</span>
         <span class="c"># print(&quot;&gt;&gt; get_child:&quot;, item)</span>
@@ -675,22 +688,24 @@
     <span class="c">#         pass</span></div>
 </pre></div>
 
-          <footer>
-  <hr/>
-
-  <p>
-      &copy; Copyright 2015, Kristofor Maynard.
-  </p>
-
-  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
-</footer>
-        </div>
-      </div>
-
-    </section>
-
+    </div>
+      
   </div>
-  
-
-</body>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
 </html>

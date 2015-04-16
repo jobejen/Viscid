@@ -1,151 +1,164 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>viscid.readers.hdf5 &mdash; Viscid 0.70.3 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.hdf5 &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:'../../../',
-        VERSION:'0.70.3',
-        COLLAPSE_INDEX:false,
-        FILE_SUFFIX:'.html',
+        URL_ROOT:    '../../../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../../../index.html" />
+    <link rel="up" title="viscid.readers" href="../readers.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    
+  </head>
+  <body>
 
-  
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
 
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
 
-  
-    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
-        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav">
-
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
-        <form class="wy-form" action="../../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search docs" />
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
   <input type="hidden" name="check_keywords" value="yes" />
   <input type="hidden" name="area" value="default" />
 </form>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix">
-        
-        
-            <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
-</ul>
-</li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top">
-        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
-        <a href="/">Viscid</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <ul class="wy-breadcrumbs">
-  <li><a href="../../../index.html">Docs</a> &raquo;</li>
-  <li><a href="">viscid.readers.hdf5</a></li>
-  
-</ul>
-<hr/>
-
           
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <h1>Source code for viscid.readers.hdf5</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -162,7 +175,7 @@
     <span class="n">HAS_H5PY</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;h5py library not found, no hdf5 support.&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="H5pyDataWrapper"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">H5pyDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper">[docs]</a><span class="k">class</span> <span class="nc">H5pyDataWrapper</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">DataWrapper</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
     <span class="n">_hypersliceable</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># can read slices from disk</span>
 
@@ -191,7 +204,7 @@
             <span class="k">raise</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="H5pyDataWrapper.shape"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper.shape"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
 <span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -199,31 +212,31 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="H5pyDataWrapper.dtype"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper.dtype"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; only ask for this if you really need it; can be a speed problem</span>
 <span class="sd">        for large temporal datasets over sshfs &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_read_info</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
 </div>
-<div class="viewcode-block" id="H5pyDataWrapper.wrap_func"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper.wrap_func"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.wrap_func">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">loc</span><span class="p">],</span> <span class="n">func_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__array__&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="H5pyDataWrapper.read_direct"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper.read_direct"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.read_direct">[docs]</a>    <span class="k">def</span> <span class="nf">read_direct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;read_direct&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="H5pyDataWrapper.len"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="H5pyDataWrapper.len"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.H5pyDataWrapper.len">[docs]</a>    <span class="k">def</span> <span class="nf">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;len&quot;</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_func</span><span class="p">(</span><span class="s">&quot;__getitem__&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FileLazyHDF5"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.FileLazyHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileLazyHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+<div class="viewcode-block" id="FileLazyHDF5"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.FileLazyHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileLazyHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; This is for lazy wrapping an h5 file referred to by an xdmf file,</span>
 <span class="sd">    or anything else where you want to have a single file instance for a single</span>
 <span class="sd">    hdf5 file, but you don&#39;t want any parsing because you already know what&#39;s</span>
@@ -237,11 +250,11 @@
     <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="FileLazyHDF5.get_data"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.FileLazyHDF5.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+<div class="viewcode-block" id="FileLazyHDF5.get_data"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.FileLazyHDF5.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">H5pyDataWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="FileHDF5"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span> <span class="c">#pylint: disable=R0922</span>
+<div class="viewcode-block" id="FileHDF5"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5">[docs]</a><span class="k">class</span> <span class="nc">FileHDF5</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span> <span class="c">#pylint: disable=R0922</span>
     <span class="sd">&quot;&quot;&quot; this is an abstract-ish class from which other types of hdf5 readers</span>
 <span class="sd">    should derrive &quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.h5\s*$&quot;</span>
@@ -297,7 +310,7 @@
     <span class="k">def</span> <span class="nf">_parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Please load using the xdmf file&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FileHDF5.save"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="FileHDF5.save"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; save an instance of VFile, fname defaults to the name</span>
 <span class="sd">        of the file object as read &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -306,7 +319,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="FileHDF5.save_fields"><a class="viewcode-back" href="../../../viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="FileHDF5.save_fields"><a class="viewcode-back" href="../../../api/viscid.readers.hdf5.html#viscid.readers.hdf5.FileHDF5.save_fields">[docs]</a>    <span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; save some fields using the format given by the class &quot;&quot;&quot;</span>
         <span class="c"># FIXME: this is only good for writing cartesian rectilnear flds</span>
         <span class="c"># FIXME: axes are renamed if flds[0] is 1D or 2D</span>
@@ -363,22 +376,24 @@
 <span class="c">##</span></div></div>
 </pre></div>
 
-          <footer>
-  <hr/>
-
-  <p>
-      &copy; Copyright 2015, Kristofor Maynard.
-  </p>
-
-  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
-</footer>
-        </div>
-      </div>
-
-    </section>
-
+    </div>
+      
   </div>
-  
-
-</body>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
 </html>

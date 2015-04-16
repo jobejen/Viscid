@@ -1,151 +1,164 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>viscid.readers.xdmf &mdash; Viscid 0.70.3 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-
-  
-  
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.xdmf &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:'../../../',
-        VERSION:'0.70.3',
-        COLLAPSE_INDEX:false,
-        FILE_SUFFIX:'.html',
+        URL_ROOT:    '../../../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../../../index.html" />
+    <link rel="up" title="viscid.readers" href="../readers.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-    
+  </head>
+  <body>
 
-  
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
 
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
 
-  
-    <link rel="top" title="Viscid 0.70.3 documentation" href="../../../index.html"/>
-        <link rel="up" title="viscid.readers" href="../readers.html"/> 
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav">
-
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        <a href="../../../index.html" class="icon icon-home"> Viscid</a>
-        <form class="wy-form" action="../../../search.html" method="get">
-  <input type="text" name="q" placeholder="Search docs" />
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
   <input type="hidden" name="check_keywords" value="yes" />
   <input type="hidden" name="area" value="default" />
 </form>
-      </div>
-
-      <div class="wy-menu wy-menu-vertical" data-spy="affix">
-        
-        
-            <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#for-developers">For Developers</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../philosophy.html#data-abstraction">Data Abstraction</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#common-customizations">Common Customizations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-grid-grid">viscid.grid.Grid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../custom_behavior.html#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_reader.html">Reading/Plotting Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#super-simple">Super Simple</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#two-plots-one-figure">Two Plots, One Figure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_reader.html#playing-with-time">Playing with Time</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_slicing.html">Slicing Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#spatial-slices">Spatial Slices</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_slicing.html#temporal-slices">Temporal Slices</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_openggcm.html">OpenGGCM Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#gse-coordinates">GSE coordinates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#time-series">Time Series</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_openggcm.html#ionosphere-files">Ionosphere Files</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../ex_calc.html">Calculator Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../ex_calc.html#streamlines">Streamlines</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-2d">viscid_2d</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-ts">viscid_ts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#viscid-diff">viscid_diff</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#athena2xdmf">athena2xdmf</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../command_line.html#bitmaskbits">bitmaskbits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">viscid</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../viscid.html">viscid package</a></li>
-</ul>
-</li>
-</ul>
-
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top">
-        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
-        <a href="/">Viscid</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <ul class="wy-breadcrumbs">
-  <li><a href="../../../index.html">Docs</a> &raquo;</li>
-  <li><a href="">viscid.readers.xdmf</a></li>
-  
-</ul>
-<hr/>
-
           
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
   <h1>Source code for viscid.readers.xdmf</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
 <span class="c"># FIXME: the timetype=list does not work for the amr sample, goto line 177</span>
@@ -162,13 +175,14 @@
 <span class="kn">from</span> <span class="nn">viscid.readers.vfile_bucket</span> <span class="kn">import</span> <span class="n">VFileBucket</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.hdf5</span> <span class="kn">import</span> <span class="n">FileLazyHDF5</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">amr_grid</span>
 
 <span class="c"># class XDMFDataItem(data_item.DataItem):</span>
 <span class="c">#     def set_precision():</span>
 <span class="c">#         nptype = np.dtype({&#39;Float&#39;: &#39;float&#39;, &#39;Int&#39;: &#39;int&#39;, &#39;UInt&#39;: &#39;unit&#39;,</span>
 <span class="c">#                &#39;Char&#39;: &#39;int&#39;, &#39;UChar&#39;: &#39;int&#39;}[numbertype] + str(8*precision))</span>
 
-<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../api/viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; on init, parse an xdmf file into datasets, grids, and fields &quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(xmf|xdmf)\s*$&quot;</span>
     <span class="n">_xdmf_defaults</span> <span class="o">=</span> <span class="p">{</span>
@@ -231,6 +245,7 @@
         <span class="p">}</span>
 
     <span class="n">h5_root_dir</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_last_amr_skeleton</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># experimental, should be moved</span>
     <span class="c"># tree = None</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">h5_root_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -337,10 +352,9 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Unknown collection type </span><span class="si">%s</span><span class="s">, ignoring grid&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="p">)</span>
 
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">subgrid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./Grid&quot;</span><span class="p">)):</span>
-
                 <span class="n">t</span> <span class="o">=</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">times</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span> <span class="k">else</span> <span class="n">time</span>
                 <span class="c"># print(subgrid, grd, t)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_parse_grid</span><span class="p">(</span><span class="n">subgrid</span><span class="p">,</span> <span class="n">parent_node</span><span class="o">=</span><span class="n">grd</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parse_grid</span><span class="p">(</span><span class="n">subgrid</span><span class="p">,</span> <span class="n">parent_node</span><span class="o">=</span><span class="n">grd</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">grd</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">grd</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
@@ -382,6 +396,20 @@
                 <span class="n">grd</span><span class="o">.</span><span class="n">geometry_info</span> <span class="o">=</span> <span class="n">geoattrs</span>
             <span class="k">if</span> <span class="n">crds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">grd</span><span class="o">.</span><span class="n">set_crds</span><span class="p">(</span><span class="n">crds</span><span class="p">)</span>
+
+            <span class="c"># EXPERIMENTAL AMR support, _last_amr_grid shouldn&#39;t be an attribute</span>
+            <span class="c"># of self, since that will only remember the most recently generated</span>
+            <span class="c"># amr grid, but that&#39;s ok for now</span>
+            <span class="c"># if gt == &quot;Uniform&quot;:</span>
+            <span class="c">#     print(&quot;&gt;!&quot;, crds._TYPE, crds.xl_nc, grd.time)</span>
+            <span class="c">#     print(&quot;&gt;!?&quot;, type(parent_node), parent_node.children._ordered,</span>
+            <span class="c">#           len(parent_node.children))</span>
+            <span class="k">if</span> <span class="n">gt</span> <span class="o">==</span> <span class="s">&quot;Collection&quot;</span> <span class="ow">and</span> <span class="n">ct</span> <span class="o">==</span> <span class="s">&quot;Spatial&quot;</span><span class="p">:</span>
+                <span class="n">grd</span><span class="p">,</span> <span class="n">is_amr</span> <span class="o">=</span> <span class="n">amr_grid</span><span class="o">.</span><span class="n">dataset_to_amr_grid</span><span class="p">(</span><span class="n">grd</span><span class="p">,</span>
+                                                           <span class="bp">self</span><span class="o">.</span><span class="n">_last_amr_skeleton</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_amr</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_last_amr_skeleton</span> <span class="o">=</span> <span class="n">grd</span><span class="o">.</span><span class="n">skeleton</span>
+
             <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">parent_node</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">grd</span><span class="p">)</span>
 
@@ -437,6 +465,7 @@
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;XDMF format error: Coords not specified &quot;</span>
                                    <span class="s">&quot;for {0} dimesions&quot;</span>
                                    <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">crdlookup</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&quot;full_arrays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 
         <span class="k">elif</span> <span class="n">geotype</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;VXVYVZ&quot;</span><span class="p">:</span>
             <span class="n">crdlookup</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;z&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
@@ -451,12 +480,13 @@
                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;XDMF format error: Coords not specified &quot;</span>
                                    <span class="s">&quot;for {0} dimesions&quot;</span>
                                    <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">crdlookup</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&quot;full_arrays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 
         <span class="k">elif</span> <span class="n">geotype</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;ORIGIN_DXDYDZ&quot;</span><span class="p">:</span>
             <span class="c"># this is for grids with uniform spacing</span>
             <span class="n">dataitems</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&quot;./DataItem&quot;</span><span class="p">)</span>
-            <span class="n">data_o</span><span class="p">,</span> <span class="n">attrs_o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">data_dx</span><span class="p">,</span> <span class="n">attrs_dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">data_o</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">data_dx</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_dataitem</span><span class="p">(</span><span class="n">dataitems</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">dtyp</span> <span class="o">=</span> <span class="n">data_o</span><span class="o">.</span><span class="n">dtype</span>
             <span class="n">nstr</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="k">if</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;Dimensions&quot;</span><span class="p">]:</span>
@@ -468,18 +498,23 @@
             <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nstr</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
             <span class="n">crdlist</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">crd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">]):</span>
-                <span class="n">crd_arr</span> <span class="o">=</span> <span class="n">data_dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtyp</span><span class="p">)</span> <span class="o">+</span> <span class="n">data_o</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">n_nc</span><span class="p">,</span> <span class="n">n_cc</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">crd_arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">data_o</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data_o</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">n_cc</span> <span class="o">*</span> <span class="n">data_dx</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">n_nc</span><span class="p">]</span>
                 <span class="n">crdlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">crd</span><span class="p">,</span> <span class="n">crd_arr</span><span class="p">)</span>
-
+            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&quot;dtype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtyp</span>
+            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&quot;full_arrays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Invalid GeometryType: </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">geotype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;3DCoRectMesh&#39;</span><span class="p">,</span> <span class="s">&#39;2DCoRectMesh&#39;</span><span class="p">]:</span>
             <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;uniform_cartesian&quot;</span>
         <span class="k">elif</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;3DRectMesh&#39;</span><span class="p">,</span> <span class="s">&#39;2DRectMesh&#39;</span><span class="p">]:</span>
-            <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;nonuniform_cartesian&quot;</span>
+            <span class="k">if</span> <span class="n">crdkwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;full_arrays&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">):</span>
+                <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;nonuniform_cartesian&quot;</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c"># HACK, hopefully not used ever</span>
+                <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;uniform_cartesian&quot;</span>
         <span class="k">elif</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;2DSMesh&#39;</span><span class="p">]:</span>
-            <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;nonuniform_spherical&quot;</span>
+            <span class="n">crdtype</span> <span class="o">=</span> <span class="s">&quot;uniform_spherical&quot;</span>  <span class="c"># HACK!</span>
             <span class="c">######## this doesn&#39;t quite work, but it&#39;s too heavy to be useful</span>
             <span class="c">######## anyway... if we assume a 2d spherical grid spans the</span>
             <span class="c">######## whole sphere, and radius doesnt matter, all we need are</span>
@@ -516,7 +551,7 @@
             <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">topoattrs</span><span class="p">[</span><span class="s">&quot;Dimensions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)]</span>
             <span class="n">crdlist</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">,</span> <span class="n">nlat</span><span class="p">]],</span>
                        <span class="p">[</span><span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">360.0</span><span class="p">,</span> <span class="n">nlon</span><span class="p">]]]</span>
-            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&#39;fill_by_linspace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">crdkwargs</span><span class="p">[</span><span class="s">&quot;full_arrays&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
         <span class="k">elif</span> <span class="n">topotype</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;3DSMesh&#39;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;3D spherical grids not yet supported&quot;</span><span class="p">)</span>
@@ -552,8 +587,8 @@
 
         <span class="n">numbertype</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;NumberType&quot;</span><span class="p">]</span>
         <span class="n">precision</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Precision&quot;</span><span class="p">]</span>
-        <span class="n">nptype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">({</span><span class="s">&#39;Float&#39;</span><span class="p">:</span> <span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;Int&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="s">&#39;UInt&#39;</span><span class="p">:</span> <span class="s">&#39;unit&#39;</span><span class="p">,</span>
-            <span class="s">&#39;Char&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">,</span> <span class="s">&#39;UChar&#39;</span><span class="p">:</span> <span class="s">&#39;int&#39;</span><span class="p">}[</span><span class="n">numbertype</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">precision</span><span class="p">))</span>
+        <span class="n">nptype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">({</span><span class="s">&#39;Float&#39;</span><span class="p">:</span> <span class="s">&#39;f&#39;</span><span class="p">,</span> <span class="s">&#39;Int&#39;</span><span class="p">:</span> <span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="s">&#39;UInt&#39;</span><span class="p">:</span> <span class="s">&#39;u&#39;</span><span class="p">,</span>
+            <span class="s">&#39;Char&#39;</span><span class="p">:</span> <span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="s">&#39;UChar&#39;</span><span class="p">:</span> <span class="s">&#39;u&#39;</span><span class="p">}[</span><span class="n">numbertype</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">))</span>
 
         <span class="n">fmt</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="s">&quot;Format&quot;</span><span class="p">]</span>
 
@@ -624,22 +659,24 @@
 <span class="c">##</span>
 </pre></div>
 
-          <footer>
-  <hr/>
-
-  <p>
-      &copy; Copyright 2015, Kristofor Maynard.
-  </p>
-
-  <a href="https://www.github.com/snide/sphinx_rtd_theme">Sphinx theme</a> provided by <a href="http://www.readthedocs.org">Read the Docs</a>
-</footer>
-        </div>
-      </div>
-
-    </section>
-
+    </div>
+      
   </div>
-  
-
-</body>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
 </html>

@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.readers.ggcm_jrrle module &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../index.html" />
+    <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
+    <link rel="next" title="viscid.readers.ggcm_logfile module" href="viscid.readers.ggcm_logfile.html" />
+    <link rel="prev" title="viscid.readers.ggcm_fortbin module" href="viscid.readers.ggcm_fortbin.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
+
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">viscid.readers.ggcm_jrrle module</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="module-viscid.readers.ggcm_jrrle">
+<span id="viscid-readers-ggcm-jrrle-module"></span><h1>viscid.readers.ggcm_jrrle module<a class="headerlink" href="#module-viscid.readers.ggcm_jrrle" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleIono">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">GGCMFileJrrleIono</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleIono"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleIono" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD" title="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">GGCMFileJrrleMHD</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleMHD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran" title="viscid.readers.openggcm.GGCMFileFortran"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFileFortran</span></tt></a></p>
+<p>Jimmy&#8217;s run length encoding files</p>
+<dl class="classmethod">
+<dt id="viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group">
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#GGCMFileJrrleMHD.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">JrrleDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype">
+<tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.expected_shape">
+<tt class="descname">expected_shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.file_wrapper">
+<tt class="descname">file_wrapper</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.filename">
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.fld_name">
+<tt class="descname">fld_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.len">
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct">
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">zyx shape since that&#8217;s the shape __array__ returns</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper">
+<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_jrrle.</tt><tt class="descname">JrrleFileWrapper</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">viscid.readers._fortfile_wrapper.FortranFile</span></tt></p>
+<p>Interface for actually opening / reading a jrrle file</p>
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.fields_seen">
+<tt class="descname">fields_seen</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.fields_seen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire">
+<tt class="descname">inquire</tt><big>(</big><em>fld_name</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields">
+<tt class="descname">inquire_all_fields</tt><big>(</big><em>reinquire=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire_all_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next">
+<tt class="descname">inquire_next</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.inquire_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect the meta-data from the next field in the file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tuple (field name, dict of meta data) both
+of which will be None if there are no more Fields</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">After this operation is done, the file-pointer will be reset
+to the position it was before the inquiry.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field">
+<tt class="descname">read_field</tt><big>(</big><em>fld_name</em>, <em>ndim</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_jrrle.html#JrrleFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a field given a seekable location</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>loc</strong> (<em>int</em>) &#8211; position in file we can seek to</li>
+<li><strong>ndim</strong> (<em>int</em>) &#8211; dimensionality of field</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple (field name, dict of meta data, array)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.ggcm_jrrle.JrrleFileWrapper.seen_all_fields">
+<tt class="descname">seen_all_fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_jrrle.JrrleFileWrapper.seen_all_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/api/viscid.readers.ggcm_jrrle.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

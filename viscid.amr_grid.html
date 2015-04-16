@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.amr_grid module &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
+
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">viscid.amr_grid module</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="module-viscid.amr_grid">
+<span id="viscid-amr-grid-module"></span><h1>viscid.amr_grid module<a class="headerlink" href="#module-viscid.amr_grid" title="Permalink to this headline">¶</a></h1>
+<p>AMR tools</p>
+<dl class="class">
+<dt id="viscid.amr_grid.AMRGrid">
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRGrid</tt><big>(</big><em>dset</em>, <em>skeleton=None</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="api/viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a></p>
+<p>The AMRGrid contains a list of patches</p>
+<dl class="method">
+<dt id="viscid.amr_grid.AMRGrid.get_field">
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em>, <em>force_longterm_caches=False</em>, <em>slc=None</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRGrid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.get_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRGrid.skeleton">
+<tt class="descname">skeleton</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRGrid.skeleton" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.amr_grid.AMRPatch">
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRPatch</tt><big>(</big><em>crds</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRPatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.L">
+<tt class="descname">L</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.all_neighbors">
+<tt class="descname">all_neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.all_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRPatch.find_relationships">
+<tt class="descname">find_relationships</tt><big>(</big><em>patch</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRPatch.find_relationships"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch.find_relationships" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.n">
+<tt class="descname">n</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.n" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.neighbors">
+<tt class="descname">neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRPatch.reset_neighbors">
+<tt class="descname">reset_neighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRPatch.reset_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch.reset_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRPatch.set_neighbors">
+<tt class="descname">set_neighbors</tt><big>(</big><em>relationship_dict</em>, <em>all_neighbors_list</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRPatch.set_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch.set_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.xh">
+<tt class="descname">xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.xl">
+<tt class="descname">xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRPatch.xm">
+<tt class="descname">xm</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.amr_grid.AMRSkeleton">
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRSkeleton</tt><big>(</big><em>dset</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Organizes the neighbor relationships of AMR grids</p>
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.L">
+<tt class="descname">L</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.L" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.all_neighbors_index">
+<tt class="descname">all_neighbors_index</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.all_neighbors_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRSkeleton.compatable_with">
+<tt class="descname">compatable_with</tt><big>(</big><em>dset</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton.compatable_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.compatable_with" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRSkeleton.discover_neighbors">
+<tt class="descname">discover_neighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton.discover_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.discover_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.global_xh">
+<tt class="descname">global_xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.global_xl">
+<tt class="descname">global_xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.neighbors_index">
+<tt class="descname">neighbors_index</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.neighbors_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRSkeleton.patch_by_loc">
+<tt class="descname">patch_by_loc</tt><big>(</big><em>loc</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton.patch_by_loc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.patch_by_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns index of patch that contans loc</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRSkeleton.patch_by_loc2">
+<tt class="descname">patch_by_loc2</tt><big>(</big><em>loc</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton.patch_by_loc2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.patch_by_loc2" title="Permalink to this definition">¶</a></dt>
+<dd><p>slower implementation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.patches">
+<tt class="descname">patches</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.patches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.amr_grid.AMRSkeleton.tell_patches_about_neighbors">
+<tt class="descname">tell_patches_about_neighbors</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#AMRSkeleton.tell_patches_about_neighbors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.tell_patches_about_neighbors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.xh">
+<tt class="descname">xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.xl">
+<tt class="descname">xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_grid.AMRSkeleton.xm">
+<tt class="descname">xm</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.amr_grid.dataset_to_amr_grid">
+<tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">dataset_to_amr_grid</tt><big>(</big><em>dset</em>, <em>template_skeleton=None</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_grid.html#dataset_to_amr_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.dataset_to_amr_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to divine AMR-ness from a Dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dset</strong> (<a class="reference internal" href="api/viscid.dataset.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a>) &#8211; Should be a
+collection of grids that could represet a series of
+patches in an AMR hierarchy.</li>
+<li><strong>patch_list</strong> (<tt class="xref py py-class docutils literal"><span class="pre">AMRTemplate</span></tt>) &#8211; a guess at how patches
+are arranged for speedup. Allows us not to have to re-build
+the neighbor relationships if we&#8217;ve seen this patch
+layout before</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">AMRGrid if dset looks like an AMR hierarchy, or dset itself
+otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/viscid.amr_grid.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

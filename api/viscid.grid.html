@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>viscid.grid module &mdash; Viscid 0.80.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.80.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.0 documentation" href="../index.html" />
+    <link rel="up" title="viscid package" href="viscid.html" />
+    <link rel="next" title="viscid.parallel module" href="viscid.parallel.html" />
+    <link rel="prev" title="viscid.field module" href="viscid.field.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Viscid</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Tutorial <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../installation.html">Installation</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../plot_options.html">Plot Options</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a role="button"
+         id="dLabelNavLinxToc"
+         data-toggle="dropdown"
+         data-target="#"
+         href="#">Examples <b class="caret"></b></a>
+      <ul class="dropdown-menu navlinktoc"
+          role="menu">
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/plotting.html">Plotting</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/slicing.html">Slicing</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/calc.html">Calculator</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
+          </li>
+      </ul>
+    </li>
+
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Viscid API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">viscid.grid module</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      
+  <div class="section" id="module-viscid.grid">
+<span id="viscid-grid-module"></span><h1>viscid.grid module<a class="headerlink" href="#module-viscid.grid" title="Permalink to this headline">¶</a></h1>
+<p>Grids contain fields and coordinates</p>
+<dl class="class">
+<dt id="viscid.grid.Grid">
+<em class="property">class </em><tt class="descclassname">viscid.grid.</tt><tt class="descname">Grid</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.tree.html#viscid.tree.Node" title="viscid.tree.Node"><tt class="xref py py-class docutils literal"><span class="pre">viscid.tree.Node</span></tt></a></p>
+<p>Computational grid container</p>
+<p>Grids contain fields and coordinates. Datasets recurse to grids
+using <tt class="docutils literal"><span class="pre">__getitem__</span></tt> and get_field in order to find fields. Grids
+can also calculate fields by defining <tt class="docutils literal"><span class="pre">_get_*</span></tt> methods.</p>
+<p>Attributes can be overridden globally to affect all data reads of
+a given grid type. Subclasses of Grid document their own special
+attributes. For example, one can change the default vector layout
+with:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">viscid.grid.Grid.force_vector_layout</span> <span class="pre">=</span> <span class="pre">LAYOUT_INTERLACED</span></tt></div></blockquote>
+<dl class="attribute">
+<dt id="viscid.grid.Grid.force_vecter_layout">
+<tt class="descname">force_vecter_layout</tt><a class="headerlink" href="#viscid.grid.Grid.force_vecter_layout" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">field.LAYOUT_*</span></tt></p>
+<p>force all vectors to
+be of a certain layout when they&#8217;re created
+(default: LAYOUT_DEFAULT)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.longterm_field_caches">
+<tt class="descname">longterm_field_caches</tt><a class="headerlink" href="#viscid.grid.Grid.longterm_field_caches" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em></p>
+<p>If True, then when a field is
+cached, it must be explicitly removed from memory with
+&#8220;unload&#8221; or using the &#8216;with&#8217; statemnt. If False,
+&#8220;shell copies&#8221; of fields are made so that memory is freed
+when the returned instance is garbage collected.
+Default: False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.__getitem__">
+<tt class="descname">__getitem__</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a field by name, or if no field is found, a coordinate by
+name some crd identifier, see Coordinate.get_item for details</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.add_field">
+<tt class="descname">add_field</tt><big>(</big><em>*fields</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Note: in XDMF reader, the grid will NOT have crds when adding
+fields, so any grid crd transforms won&#8217;t be set</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.crds">
+<tt class="descname">crds</tt><a class="reference internal" href="../_modules/viscid/grid.html#Grid.crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.field_names">
+<tt class="descname">field_names</tt><a class="reference internal" href="../_modules/viscid/grid.html#Grid.field_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.field_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.fields">
+<tt class="descname">fields</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.force_vector_layout">
+<tt class="descname">force_vector_layout</tt><em class="property"> = 'none'</em><a class="headerlink" href="#viscid.grid.Grid.force_vector_layout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.geometry_info">
+<tt class="descname">geometry_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.geometry_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crd_cc">
+<tt class="descname">get_crd_cc</tt><big>(</big><em>axis</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crd_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crd_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a flat ndarray of coordinates along a given axis
+axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crd_ec">
+<tt class="descname">get_crd_ec</tt><big>(</big><em>axis</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crd_ec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crd_ec" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a flat ndarray of coordinates along a given axis
+axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crd_fc">
+<tt class="descname">get_crd_fc</tt><big>(</big><em>axis</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crd_fc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crd_fc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a flat ndarray of coordinates along a given axis
+axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crd_nc">
+<tt class="descname">get_crd_nc</tt><big>(</big><em>axis</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crd_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crd_nc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a flat ndarray of coordinates along a given axis
+axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crds_cc">
+<tt class="descname">get_crds_cc</tt><big>(</big><em>axes=None</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crds_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crds_cc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all cell centered coords as a list of ndarrays, flat if
+shaped==False, or shaped if shaped==True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crds_ec">
+<tt class="descname">get_crds_ec</tt><big>(</big><em>axes=None</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crds_ec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crds_ec" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all edge centered coords as a list of ndarrays, flat if
+shaped==False, or shaped if shaped==True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crds_fc">
+<tt class="descname">get_crds_fc</tt><big>(</big><em>axes=None</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crds_fc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crds_fc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all face centered coords as a list of ndarrays, flat if
+shaped==False, or shaped if shaped==True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_crds_nc">
+<tt class="descname">get_crds_nc</tt><big>(</big><em>axes=None</em>, <em>shaped=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_crds_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_crds_nc" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all node centered coords as a list of ndarrays, flat if
+shaped==False, or shaped if shaped==True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_field">
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em>, <em>force_longterm_caches=False</em>, <em>slc=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_grid">
+<tt class="descname">get_grid</tt><big>(</big><em>time=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_grid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_time">
+<tt class="descname">get_time</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.get_times">
+<tt class="descname">get_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.get_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.get_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.iter_fields">
+<tt class="descname">iter_fields</tt><big>(</big><em>named=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.iter_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.iter_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterate over fields in a grid, if named is given, it should be a
+list of field names to iterate over</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.iter_times">
+<tt class="descname">iter_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.iter_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.iter_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descname">longterm_field_caches</tt><em class="property"> = False</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.nr_times">
+<tt class="descname">nr_times</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.nr_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.nr_times" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="viscid.grid.Grid.null_transform">
+<em class="property">static </em><tt class="descname">null_transform</tt><big>(</big><em>something</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.null_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.null_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.print_tree">
+<tt class="descname">print_tree</tt><big>(</big><em>depth=-1</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.print_tree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.set_crds">
+<tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.set_crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.grid.Grid.topology_info">
+<tt class="descname">topology_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.topology_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.unload" title="Permalink to this definition">¶</a></dt>
+<dd><p>unload is meant to give children a chance to free caches, the idea
+being that an unload will free memory, but all the functionality is
+preserved, so data is accessable without an explicit reload</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="../_sources/api/viscid.grid.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Kristofor Maynard.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
