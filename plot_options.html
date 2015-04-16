@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Plot Options &mdash; Viscid 0.80.1 documentation</title>
+    <title>Plot Options &mdash; Viscid 0.80.2 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.1',
+        VERSION:     '0.80.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.1 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.2 documentation" href="index.html" />
     <link rel="next" title="Command Line Utilities" href="command_line.html" />
     <link rel="prev" title="Custom Behavior (rc file)" href="custom_behavior.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -179,14 +179,18 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Any options that Viscid does not understand are passed to the matplotlib function that actually plots the data (<cite>pyplot.plot</cite>, <cite>pyplot.pcolormesh</cite>, <cite>pyplot.contourf</cite>, etc).</p>
 </div>
-<p>Multiple arguments are given to keywords as a tuple, such as:</p>
+<p>Multiple arguments are given to keywords as a tuple:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;lin&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="s">&#39;gridec&#39;</span><span class="p">:</span> <span class="s">&#39;k&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>or to the plot_opts string using underscores for separation:</p>
+<p>All options can be passed as strings with one of two formats. First, the string can be a list of comma separated options with underscore separatod arguments:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">plot_opts</span> <span class="o">=</span> <span class="s">&quot;lin_-1.0_1.0, gridec_k&quot;</span>
 <span class="c"># also, any &#39;=&#39; will be substituted with a &#39;_&#39; to aid readability</span>
 <span class="n">plot_opts</span> <span class="o">=</span> <span class="s">&quot;lin=-1.0_1.0, gridec=k&quot;</span>
+</pre></div>
+</div>
+<p><strong>If</strong> PyYaml is available, plot options can be given between curly brackets using Yaml syntax. Note that the colon must be followed by a space in Yaml syntax.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plot_opts</span> <span class="o">=</span> <span class="s">&quot;{lin: [1.0, 1.0], gridec: k}&quot;</span>
 </pre></div>
 </div>
 <p>Here are some options that should work for all functions:</p>

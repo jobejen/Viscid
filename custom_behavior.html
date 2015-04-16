@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.1 documentation</title>
+    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.2 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.1',
+        VERSION:     '0.80.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.1 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.2 documentation" href="index.html" />
     <link rel="next" title="Plot Options" href="plot_options.html" />
     <link rel="prev" title="Philosophy" href="philosophy.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,38 +174,38 @@
 <p>Some classes have attributes that customize how specific files, datasets and grids behave. These attributes can be set globally, or on a per-instance basis. An instance picks up the value from the class when it&#8217;s created, so changing things globally is recommended before any files are loaded. These attributes can also be set from <cite>~/.viscidrc</cite>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The rc file is in a modified JSON format. Unlike standard JSON, you can include comments using &#8216;#&#8217; or &#8216;//&#8217; as well as trailing commas as in Python.</p>
+<p class="last">By default, Viscid tries to parse the rc file with PyYaml. If PyYaml is not installed, it parses using a modified JSON format. Unlike standard JSON, you can include comments using &#8216;#&#8217; or &#8216;//&#8217; as well as trailing commas.</p>
 </div>
 <p>Here is an example rc file,</p>
-<div class="highlight-json"><div class="highlight"><pre># ~/.viscidrc
-{
-  ### For Everything
-  ## use shell copies so we don&#39;t have to call unload()
-  &quot;grid.Grid.longterm_field_caches&quot;: false
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># ~/.viscidrc</span>
+<span class="p-Indicator">{</span>
+  <span class="c1">### For Everything</span>
+  <span class="c1">## use shell copies so we don&#39;t have to call unload()</span>
+  <span class="s">&quot;grid.Grid.longterm_field_caches&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span>
 
-  ### for OpenGGCM
-  ## try to get extra run information
-  &quot;readers.openggcm.GGCMFile.read_log_file&quot;: true
-  ## everyone likes GSE coords :)
-  &quot;readers.openggcm.GGCMGrid.mhd_to_gse_on_read&quot;: &quot;auto&quot;
+  <span class="c1">### for OpenGGCM</span>
+  <span class="c1">## try to get extra run information</span>
+  <span class="s">&quot;readers.openggcm.GGCMFile.read_log_file&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span>
+  <span class="c1">## everyone likes GSE coords :)</span>
+  <span class="s">&quot;readers.openggcm.GGCMGrid.mhd_to_gse_on_read&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;auto&quot;</span>
 
-  ### For Athena
-  ## this doesn&#39;t work for some reason
-  # &quot;readers.athena_bin.AthenaBinFileWrapper.var_type&quot;: &quot;prim&quot;
+  <span class="c1">### For Athena</span>
+  <span class="c1">## this doesn&#39;t work for some reason</span>
+  <span class="c1"># &quot;readers.athena_bin.AthenaBinFileWrapper.var_type&quot;: &quot;prim&quot;</span>
 
-  # evaluator control for security
-  &quot;calculator.evaluator.enabled&quot;: false
+  <span class="c1"># evaluator control for security</span>
+  <span class="s">&quot;calculator.evaluator.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span>
 
-  # pretty plotting
-  &quot;plot.vseaborn.enabled&quot;: true
-  &quot;plot.vseaborn.context&quot;: &quot;poster&quot;
-  &quot;plot.vseaborn.style&quot;: &quot;ticks&quot;
-  &quot;plot.vseaborn.palette&quot;: [&quot;husl&quot;, 8]
-  # &quot;plot.vseaborn.palette&quot;: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]]
-  # &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;cubehelix&quot;}
-  # &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;jet&quot;}
-  &quot;plot.vseaborn.rc&quot;: {&quot;image.cmap&quot;: &quot;cubehelix&quot;}
-}
+  <span class="c1"># pretty plotting</span>
+  <span class="s">&quot;plot.vseaborn.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span>
+  <span class="nv">&quot;plot.vseaborn.context&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;poster&quot;</span>
+  <span class="s">&quot;plot.vseaborn.style&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;ticks&quot;</span>
+  <span class="s">&quot;plot.vseaborn.palette&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;husl&quot;</span><span class="p-Indicator">,</span> <span class="nv">8</span><span class="p-Indicator">]</span>
+  <span class="c1"># &quot;plot.vseaborn.palette&quot;: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]]</span>
+  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;cubehelix&quot;}</span>
+  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;jet&quot;}</span>
+  <span class="s">&quot;plot.vseaborn.rc&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span><span class="s">&quot;image.cmap&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;cubehelix&quot;</span><span class="p-Indicator">}</span>
+<span class="p-Indicator">}</span>
 </pre></div>
 </div>
 <div class="section" id="common-customizations">
