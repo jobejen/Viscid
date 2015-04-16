@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl &mdash; Viscid 0.80.2 documentation</title>
+    <title>viscid.plot.mpl &mdash; Viscid 0.80.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.2',
+        VERSION:     '0.80.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.3 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -185,7 +185,6 @@
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
-<span class="c"># from viscid import amr_field</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
 <span class="kn">from</span> <span class="nn">viscid.calculator.topology</span> <span class="kn">import</span> <span class="n">color_from_topology</span>
 <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">vseaborn</span>
@@ -318,7 +317,7 @@
 <span class="sd">        norm_dict: will look like {&#39;crdscale&#39;: &#39;lin&#39;|&#39;log&#39;,</span>
 <span class="sd">                                   &#39;vscale&#39;: &#39;lin&#39;|&#39;log&#39;,</span>
 <span class="sd">                                   &#39;clim&#39;: [None|number, None|number],</span>
-<span class="sd">                                   &#39;symmetric&#39;: True|False}</span>
+<span class="sd">                                   &#39;symetric&#39;: True|False}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
@@ -348,7 +347,7 @@
     <span class="n">norm_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;crdscale&#39;</span><span class="p">:</span> <span class="s">&#39;lin&#39;</span><span class="p">,</span>
                  <span class="s">&#39;vscale&#39;</span><span class="p">:</span> <span class="s">&#39;lin&#39;</span><span class="p">,</span>
                  <span class="s">&#39;clim&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
-                 <span class="s">&#39;symmetric&#39;</span><span class="p">:</span> <span class="bp">False</span>
+                 <span class="s">&#39;symetric&#39;</span><span class="p">:</span> <span class="bp">False</span>
                 <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;logscale&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
@@ -367,20 +366,31 @@
         <span class="n">opt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;lin&#39;</span><span class="p">)</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;lin&#39;</span>
         <span class="k">if</span> <span class="n">opt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">elif</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt</span><span class="p">]</span>
             <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">opt</span>
     <span class="k">if</span> <span class="s">&quot;log&quot;</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
         <span class="n">opt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;log&#39;</span>
         <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt</span><span class="p">]</span>
             <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">opt</span>
     <span class="k">if</span> <span class="s">&quot;loglog&quot;</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
         <span class="n">opt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;loglog&#39;</span><span class="p">)</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;crdscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;log&#39;</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;log&#39;</span>
         <span class="k">if</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt</span><span class="p">]</span>
             <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">opt</span>
+
+    <span class="c"># replace &#39;None&#39; or &#39;none&#39; with None in clim, this is kinda hacky, non?</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;None&quot;</span><span class="p">,</span> <span class="s">&quot;none&quot;</span><span class="p">]:</span>
+            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="k">return</span> <span class="n">actions</span><span class="p">,</span> <span class="n">norm_dict</span>
 
@@ -670,7 +680,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">namey</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">earth</span><span class="p">:</span>
-        <span class="n">plot_earth</span><span class="p">(</span><span class="n">block0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">plot_earth</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="n">mplshow</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">cbar</span>
@@ -1139,16 +1149,21 @@
     <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">mpatches</span>
 
     <span class="c"># this is kind of a hacky way to</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
-        <span class="n">crd_system</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crd_system&quot;</span><span class="p">,</span> <span class="n">crd_system</span><span class="p">)</span>
-
-        <span class="c"># take only the 1st reduced.nr_sdims... this should just work</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">plane</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">deep_meta</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;No reduced dims in the field, i don&#39;t know what 2d </span><span class="se">\n</span><span class="s"> &quot;</span>
-                         <span class="s">&quot;plane, we&#39;re in and can&#39;t figure out the size of earth.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="s">&quot;blocks&quot;</span><span class="p">):</span>
+        <span class="c"># this is for both Fields and AMRFields</span>
+        <span class="n">crd_system</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crd_system&quot;</span><span class="p">,</span> <span class="n">crd_system</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+            <span class="c"># take only the 1st reduced.nr_sdims... this should just work</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">plane</span><span class="p">,</span> <span class="n">_value</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">deep_meta</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;No reduced dims in the field, i don&#39;t know what &quot;</span>
+                             <span class="s">&quot;2d </span><span class="se">\n</span><span class="s">plane, we&#39;re in and can&#39;t figure out the &quot;</span>
+                             <span class="s">&quot;size of earth.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">plane</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">)]</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
