@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>OpenGGCM Examples &mdash; Viscid 0.80.3 documentation</title>
+    <title>OpenGGCM Examples &mdash; Viscid 0.80.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.3',
+        VERSION:     '0.80.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.3 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.4 documentation" href="../index.html" />
     <link rel="up" title="Examples" href="index.html" />
     <link rel="next" title="Viscid API" href="../api/index.html" />
     <link rel="prev" title="Calculator Examples" href="calc.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.3</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -237,15 +237,29 @@
 
 <span class="n">fac_tot</span> <span class="o">=</span> <span class="mf">1e9</span> <span class="o">*</span> <span class="n">iono_file</span><span class="p">[</span><span class="s">&quot;fac_tot&quot;</span><span class="p">]</span>
 
-<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fac_tot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&quot;north&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span>
-         <span class="n">plot_opts</span><span class="o">=</span><span class="s">&quot;lin_-300_300&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s">&quot;both&quot;</span><span class="p">,</span>
-         <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">drawcoastlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plot_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s">&quot;polar&quot;</span><span class="p">,</span>
+                 <span class="n">lin</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span>
+                 <span class="n">bounding_lat</span><span class="o">=</span><span class="mf">35.0</span><span class="p">,</span>
+                 <span class="n">drawcoastlines</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>  <span class="c"># for basemap only, probably will never be used</span>
+                 <span class="n">title</span><span class="o">=</span><span class="s">&quot;Total FAC</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>  <span class="c"># make a title, or if a string, use the string as title</span>
+                 <span class="n">gridec</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span>
+                 <span class="n">label_lat</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">label_mlt</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">colorbar</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c"># pad the colorbar away from the plot</span>
+                <span class="p">)</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;polar&#39;</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fac_tot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&#39;north&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_args</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">&#39;(a)&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">&quot;axes fraction&quot;</span><span class="p">,</span>
+             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s">&#39;polar&#39;</span><span class="p">)</span>
 <span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fac_tot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">hemisphere</span><span class="o">=</span><span class="s">&quot;south&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span>
-         <span class="n">plot_opts</span><span class="o">=</span><span class="s">&quot;lin_-300_300&quot;</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s">&quot;both&quot;</span><span class="p">,</span>
-         <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">drawcoastlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">)</span>
+         <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s">&quot;both&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_args</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">&#39;(b)&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">&quot;axes fraction&quot;</span><span class="p">,</span>
+             <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
 <span class="n">mpl</span><span class="o">.</span><span class="n">tighten</span><span class="p">()</span>
 </pre></div>
 </div>
