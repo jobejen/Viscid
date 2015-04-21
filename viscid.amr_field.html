@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.amr_field module &mdash; Viscid 0.80.4 documentation</title>
+    <title>viscid.amr_field module &mdash; Viscid 0.80.5 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.4',
+        VERSION:     '0.80.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.4 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.5 documentation" href="index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -171,7 +171,7 @@ around a lot of Field functionality.</p>
 </div>
 <dl class="class">
 <dt id="viscid.amr_field.AMRField">
-<em class="property">class </em><tt class="descclassname">viscid.amr_field.</tt><tt class="descname">AMRField</tt><big>(</big><em>fields</em>, <em>skeleton</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.amr_field.</tt><tt class="descname">AMRField</tt><big>(</big><em>fields</em>, <em>skeleton</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Field-like</p>
 <p>Contains an AMRSkeleton and a list of Fields. This mimiks a Field,
@@ -183,18 +183,18 @@ containing the result. This will not work for special methods since
 python will not send those through __getattr__ or __getattribute__.</p>
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.__exit__">
-<tt class="descname">__exit__</tt><big>(</big><em>typ</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__exit__</tt><big>(</big><em>typ</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
 <dd><p>unload the data</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.all">
-<tt class="descname">all</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">all</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.any">
-<tt class="descname">any</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">any</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -214,29 +214,29 @@ python will not send those through __getattr__ or __getattribute__.</p>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice">
-<tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice_and_keep">
-<tt class="descname">slice_and_keep</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.slice_and_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">slice_and_keep</tt><big>(</big><em>selection</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice_reduce">
-<tt class="descname">slice_reduce</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">slice_reduce</tt><big>(</big><em>selection</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.wrap_special_method">
-<tt class="descname">wrap_special_method</tt><big>(</big><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#AMRField.wrap_special_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.wrap_special_method" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">wrap_special_method</tt><big>(</big><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#viscid.amr_field.AMRField.wrap_special_method" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.amr_field.is_list_of_fields">
-<tt class="descclassname">viscid.amr_field.</tt><tt class="descname">is_list_of_fields</tt><big>(</big><em>lst</em><big>)</big><a class="reference internal" href="_modules/viscid/amr_field.html#is_list_of_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.amr_field.</tt><tt class="descname">is_list_of_fields</tt><big>(</big><em>lst</em><big>)</big><a class="headerlink" href="#viscid.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

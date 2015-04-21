@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.xdmf &mdash; Viscid 0.80.4 documentation</title>
+    <title>viscid.readers.xdmf &mdash; Viscid 0.80.5 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.4',
+        VERSION:     '0.80.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.4 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.5 documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,15 +174,15 @@
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.vfile_bucket</span> <span class="kn">import</span> <span class="n">VFileBucket</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.hdf5</span> <span class="kn">import</span> <span class="n">FileLazyHDF5</span>
+<span class="kn">from</span> <span class="nn">viscid.readers.amr</span> <span class="kn">import</span> <span class="n">amr_grid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
-<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">amr_grid</span>
 
 <span class="c"># class XDMFDataItem(data_item.DataItem):</span>
 <span class="c">#     def set_precision():</span>
 <span class="c">#         nptype = np.dtype({&#39;Float&#39;: &#39;float&#39;, &#39;Int&#39;: &#39;int&#39;, &#39;UInt&#39;: &#39;unit&#39;,</span>
 <span class="c">#                &#39;Char&#39;: &#39;int&#39;, &#39;UChar&#39;: &#39;int&#39;}[numbertype] + str(8*precision))</span>
 
-<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../api/viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>
+<div class="viewcode-block" id="FileXDMF"><a class="viewcode-back" href="../../../api/viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF">[docs]</a><span class="k">class</span> <span class="nc">FileXDMF</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
     <span class="sd">&quot;&quot;&quot; on init, parse an xdmf file into datasets, grids, and fields &quot;&quot;&quot;</span>
     <span class="n">_detector</span> <span class="o">=</span> <span class="s">r&quot;.*\.(xmf|xdmf)\s*$&quot;</span>
     <span class="n">_xdmf_defaults</span> <span class="o">=</span> <span class="p">{</span>

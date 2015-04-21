@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate &mdash; Viscid 0.80.4 documentation</title>
+    <title>viscid.coordinate &mdash; Viscid 0.80.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.80.4',
+        VERSION:     '0.80.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.4 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.80.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -226,6 +226,7 @@
 </div></div>
 <div class="viewcode-block" id="StructuredCrds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds">[docs]</a><span class="k">class</span> <span class="nc">StructuredCrds</span><span class="p">(</span><span class="n">Coordinates</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;structured&quot;</span>
+    <span class="n">_INIT_FULL_ARRAYS</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">_CENTER</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;none&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;node&quot;</span><span class="p">:</span> <span class="s">&quot;nc&quot;</span><span class="p">,</span> <span class="s">&quot;cell&quot;</span><span class="p">:</span> <span class="s">&quot;cc&quot;</span><span class="p">,</span>
                <span class="s">&quot;face&quot;</span><span class="p">:</span> <span class="s">&quot;fc&quot;</span><span class="p">,</span> <span class="s">&quot;edge&quot;</span><span class="p">:</span> <span class="s">&quot;ec&quot;</span><span class="p">}</span>
     <span class="n">SUFFIXES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_CENTER</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -523,7 +524,7 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="ow">and</span> \
                        <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
-                        <span class="n">extent</span><span class="p">[</span><span class="n">dind</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
+                        <span class="n">extent</span><span class="p">[:,</span> <span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;floats only&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -534,7 +535,7 @@
                     <span class="n">extent</span><span class="p">[:,</span> <span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">sel</span>
 
         <span class="c"># enforce that the values are increasing</span>
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">extent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">extent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">]:</span>
                 <span class="n">extent</span><span class="p">[:,</span> <span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">extent</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">]</span>
 
@@ -598,6 +599,43 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">_native_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">slc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a sliced crd array to construct crds of same type</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis: something __getitem__ will understand to pull</span>
+<span class="sd">                out a single coordinate axis</span>
+<span class="sd">            slc (slice): Should be a valid slice of ints</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A sliced single coordinate array that __init__ understands</span>
+<span class="sd">            by default</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">slc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">slc</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StructuredCrds.extend_by_half"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.extend_by_half">[docs]</a>    <span class="k">def</span> <span class="nf">extend_by_half</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extend coordinates half a grid cell in all directions</span>
+
+<span class="sd">        Used for turning node centered fields to cell centered without</span>
+<span class="sd">        changing the data, just the coordinates.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New coordinates instance with same type as self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="n">crds_cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">crds_cc</span><span class="p">):</span>
+            <span class="n">dxl</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">dxh</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">crds_cc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dxl</span><span class="p">],</span>
+                                         <span class="n">x</span><span class="p">,</span>
+                                         <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dxh</span><span class="p">]])</span>
+        <span class="n">new_clist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span> <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">crds_cc</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">new_clist</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="StructuredCrds.make_slice"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.make_slice">[docs]</a>    <span class="k">def</span> <span class="nf">make_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Turns a slice string into a slice (should be private?)</span>
 
@@ -627,7 +665,7 @@
 <span class="sd">            tuple (slices, slcrds, reduced)</span>
 <span class="sd">            slices: list of slice objects, one for each axis in self</span>
 <span class="sd">            slcrds: a clist for what the coords will be after the</span>
-<span class="sd">                slice (always full_arrays)</span>
+<span class="sd">                slice</span>
 <span class="sd">            reduced: a list of (axis, location) pairs of which axes</span>
 <span class="sd">            are sliced out</span>
 
@@ -647,7 +685,8 @@
         <span class="k">for</span> <span class="n">dind</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
                 <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-                <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nc</span><span class="p">(</span><span class="n">axis</span><span class="p">)]</span>
+                <span class="c"># slcrds[dind] = [axis, self.get_nc(axis)]</span>
+                <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="bp">None</span><span class="p">)]</span>
                 <span class="k">continue</span>
 
             <span class="n">sel</span> <span class="o">=</span> <span class="n">selection</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
@@ -716,7 +755,8 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">crd_slc</span> <span class="o">=</span> <span class="n">slc</span>
             <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">slc</span>
-            <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">crd_slc</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+            <span class="c"># slcrds[dind] = [axis, self[axis][crd_slc].reshape(-1)]</span>
+            <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">crd_slc</span><span class="p">)]</span>
 
         <span class="c"># remove dimensions that were sliced out</span>
         <span class="n">slcrds</span> <span class="o">=</span> <span class="p">[</span><span class="n">crd</span> <span class="k">for</span> <span class="n">crd</span> <span class="ow">in</span> <span class="n">slcrds</span> <span class="k">if</span> <span class="n">crd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
@@ -775,6 +815,11 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">crd</span> <span class="o">=</span> <span class="n">crd_nc</span><span class="p">[</span><span class="n">loc_ind</span><span class="p">:</span><span class="n">loc_ind</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
                     <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">loc_ind</span><span class="p">,</span> <span class="n">loc_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="c"># FIXME: this is a terrible way to hack a uniform</span>
+                <span class="c"># xl, xh, nx type clist</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_INIT_FULL_ARRAYS</span><span class="p">:</span>
+                    <span class="n">crd</span> <span class="o">=</span> <span class="p">[</span><span class="n">crd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">crd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">loc_ind</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                     <span class="n">crd</span> <span class="o">=</span> <span class="n">crd_nc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
@@ -782,6 +827,10 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">crd</span> <span class="o">=</span> <span class="n">crd_nc</span><span class="p">[</span><span class="n">loc_ind</span><span class="p">:</span><span class="n">loc_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
                     <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">loc_ind</span><span class="p">,</span> <span class="n">loc_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c"># FIXME: this is a terrible way to hack a uniform</span>
+                <span class="c"># xl, xh, nx type clist</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_INIT_FULL_ARRAYS</span><span class="p">:</span>
+                    <span class="n">crd</span> <span class="o">=</span> <span class="p">[</span><span class="n">crd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">crd</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">]</span>
 
             <span class="n">slices</span><span class="p">[</span><span class="n">axis_ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">slc</span>
             <span class="n">crdlst</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">axis_ind</span><span class="p">,</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="n">crd</span><span class="p">])</span>
@@ -801,7 +850,7 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice_reduce"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.slice_reduce">[docs]</a>    <span class="k">def</span> <span class="nf">slice_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get crds that describe a slice (subset) of this grid. Go</span>
@@ -813,7 +862,7 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice_keep"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.slice_keep">[docs]</a>    <span class="k">def</span> <span class="nf">slice_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_slice_keep</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span>
@@ -821,7 +870,7 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crd"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.get_crd">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;if axis is not specified, return all coords,</span>
@@ -1034,6 +1083,7 @@
 </div>
 <div class="viewcode-block" id="UniformCrds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds">[docs]</a><span class="k">class</span> <span class="nc">UniformCrds</span><span class="p">(</span><span class="n">StructuredCrds</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;uniform&quot;</span>
+    <span class="n">_INIT_FULL_ARRAYS</span> <span class="o">=</span> <span class="bp">False</span>
 
     <span class="n">_nc_linspace_args</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">_cc_linspace_args</span> <span class="o">=</span> <span class="bp">None</span>
@@ -1068,11 +1118,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
 
         <span class="k">if</span> <span class="n">full_arrays</span><span class="p">:</span>
-            <span class="n">_nc_linspace_args</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">r&quot;DEPRECATION WARNING: full arrays for uniform crds\n&quot;</span>
+                  <span class="s">r&quot;                     shouldn&#39;t be used due to finite\n&quot;</span>
+                  <span class="s">r&quot;                     precision errors&quot;</span><span class="p">)</span>
+            <span class="n">_nc_linspace_args</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># pylint: disable=unreachable</span>
             <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">init_clist</span><span class="p">:</span>
                 <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
                 <span class="n">diff</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">arr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="c"># This allclose is the problem... when slicing, it doesn&#39;t</span>
+                <span class="c"># always pass</span>
+                <span class="n">atol</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">diff</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">diff</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Crds are not uniform&quot;</span><span class="p">)</span>
                 <span class="n">_nc_linspace_args</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1136,20 +1192,20 @@
 
 <div class="viewcode-block" id="UniformCrds.get_min_dx"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.get_min_dx">[docs]</a>    <span class="k">def</span> <span class="nf">get_min_dx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a minimum cell width for each axis&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_min_dx_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_dx_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">min_dx_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_dx_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="UniformCrds.get_xl"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.get_xl">[docs]</a>    <span class="k">def</span> <span class="nf">get_xl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_xl_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xl_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xl_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xl_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="UniformCrds.get_xh"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.get_xh">[docs]</a>    <span class="k">def</span> <span class="nf">get_xh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_xh_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xh_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">xh_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xh_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="UniformCrds.get_L"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.get_L">[docs]</a>    <span class="k">def</span> <span class="nf">get_L</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get lengths&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_L_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_L_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pull_out_axes</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">L_nc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L_cc</span><span class="p">],</span> <span class="n">axes</span><span class="p">,</span>
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="UniformCrds.nr_points"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">):</span>
@@ -1159,6 +1215,46 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_nc</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">size_cc</span>
+</div>
+    <span class="k">def</span> <span class="nf">_native_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">slc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a sliced crd array to construct crds of same type</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis: something __getitem__ will understand to pull</span>
+<span class="sd">                out a single coordinate axis</span>
+<span class="sd">            slc (slice): Should be a valid slice of ints</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A sliced single coordinate array that __init__ understands</span>
+<span class="sd">            by default</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># inds = list(range(self.shape))</span>
+        <span class="k">if</span> <span class="n">slc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">proxy_crd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">proxy_crd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">)[</span><span class="n">slc</span><span class="p">]</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">proxy_crd</span><span class="p">)</span>
+        <span class="n">xl</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">xh</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">nx</span><span class="p">]</span>
+
+<div class="viewcode-block" id="UniformCrds.extend_by_half"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.extend_by_half">[docs]</a>    <span class="k">def</span> <span class="nf">extend_by_half</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extend coordinates half a grid cell in all directions</span>
+
+<span class="sd">        Used for turning node centered fields to cell centered without</span>
+<span class="sd">        changing the data, just the coordinates.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New coordinates instance with same type as self</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
+        <span class="n">xl</span><span class="p">,</span> <span class="n">xh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xl</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xh</span><span class="p">()</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">xh</span> <span class="o">-</span> <span class="n">xl</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_nc</span>
+        <span class="n">xl</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span>
+        <span class="n">xh</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span>
+        <span class="n">nx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_nc</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">new_clist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ax</span><span class="p">,</span> <span class="p">[</span><span class="n">xl</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">xh</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">nx</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="n">new_clist</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="UniformCrds.get_clist"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.get_clist">[docs]</a>    <span class="k">def</span> <span class="nf">get_clist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">full_arrays</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">full_arrays</span><span class="p">:</span>

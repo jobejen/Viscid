@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.field &mdash; Viscid 0.80.4 documentation</title>
+    <title>viscid.field &mdash; Viscid 0.80.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.80.4',
+        VERSION:     '0.80.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.4 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.80.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -750,7 +750,7 @@
         <span class="c"># FIXME, there should be a flag for whether or not this should</span>
         <span class="c"># make a copy of the array if it&#39;s not contiguous in memory</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">reflect_fld_arr</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">),</span>
-                                        <span class="n">nr_comp</span><span class="p">,</span> <span class="n">nr_comps</span><span class="p">)</span>
+                                             <span class="n">nr_comp</span><span class="p">,</span> <span class="n">nr_comps</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_reshape_transform_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_reshape_transform_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span>
@@ -883,8 +883,7 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_data</span><span class="p">[</span><span class="n">comp_slc</span><span class="p">]</span>
 
         <span class="c"># coord transforms are not copied on purpose</span>
-        <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span>
-                                    <span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
 
         <span class="c"># be intelligent here, if we haven&#39;t loaded the data and</span>
         <span class="c"># the source is an h5py-like source, we don&#39;t have to read</span>
@@ -1015,7 +1014,7 @@
         <span class="n">cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">)</span>
         <span class="n">selection</span><span class="p">,</span> <span class="n">comp_slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
         <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">make_slice_reduce</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span>
-                                                              <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
+                                                                   <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_slice</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Field.slice_and_keep"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.field.Field.slice_and_keep">[docs]</a>    <span class="k">def</span> <span class="nf">slice_and_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
@@ -1025,7 +1024,8 @@
         <span class="n">cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">)</span>
         <span class="n">selection</span><span class="p">,</span> <span class="n">comp_slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
         <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">make_slice_keep</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span>
-                                                            <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
+                                                                 <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
+        <span class="c"># print(&quot;??&quot;, type(self._src_crds), crdlst)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finalize_slice</span><span class="p">(</span><span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Field.set_slice"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.field.Field.set_slice">[docs]</a>    <span class="k">def</span> <span class="nf">set_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -1128,6 +1128,11 @@
 <span class="sd">        shaped==False, or shaped if shaped==True &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_crds_ec</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="n">shaped</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="Field.get_clist"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.field.Field.get_clist">[docs]</a>    <span class="k">def</span> <span class="nf">get_clist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;I&#39;m not sure anybody should use this since a clist is kind</span>
+<span class="sd">        of an internal thing used for creating new coordinate instances&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Field.is_spherical"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.field.Field.is_spherical">[docs]</a>    <span class="k">def</span> <span class="nf">is_spherical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">is_spherical</span><span class="p">()</span>
 
@@ -1186,16 +1191,7 @@
 
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&#39;node&#39;</span><span class="p">):</span>
             <span class="c"># construct new crds</span>
-            <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">axes</span>
-            <span class="n">crds_cc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">crds_cc</span><span class="p">):</span>
-                <span class="n">dxl</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">dxh</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-                <span class="n">crds_cc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dxl</span><span class="p">],</span>
-                                             <span class="n">x</span><span class="p">,</span>
-                                             <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dxh</span><span class="p">]])</span>
-            <span class="n">new_clist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ax</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span> <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">nc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">crds_cc</span><span class="p">)]</span>
-            <span class="n">new_crds</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="p">)(</span><span class="n">new_clist</span><span class="p">,</span> <span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">new_crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">extend_by_half</span><span class="p">()</span>
 
             <span class="c"># this is similar to a shell copy, but it&#39;s intimately</span>
             <span class="c"># linked to self as a parent</span>

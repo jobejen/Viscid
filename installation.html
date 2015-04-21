@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Installation &mdash; Viscid 0.80.4 documentation</title>
+    <title>Installation &mdash; Viscid 0.80.5 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.4',
+        VERSION:     '0.80.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.4 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.5 documentation" href="index.html" />
     <link rel="next" title="Philosophy" href="philosophy.html" />
     <link rel="prev" title="Welcome to Viscid’s documentation!" href="index.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -172,15 +172,15 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Python 2.6+</li>
-<li>numpy (required... for everything)</li>
-<li>h5py (required, for reading hdf5 files)</li>
-<li>matplotlib (optional, if you import viscid.plot.mpl)</li>
-<li>mayavi2 (optional, if you import viscid.plot.mvi)</li>
-<li>numexpr (optional, for the calculator.necalc module)</li>
-<li>cython &gt; 0.17 (optional, only if you want to edit the cython code)</li>
-</ul>
+<p>Dependencies:
++ Python 2.6+ and 3.3+
++ numpy (required... for everything)
++ h5py (optional, if reading hdf5 files)
++ matplotlib (optional, if you import viscid.plot.mpl)
++ mayavi2 (optional, if you import viscid.plot.mvi)
++ numexpr (optional, for the calculator.necalc module)
++ cython &gt; 0.17 (optional, only if you want to edit the cython code)
++ PyYaml (optional, rc file and plot options can parse using yaml)</p>
 <p>The optional calculator modules (necalc and cycalc) are all dispatched through
 calculator.calc, and it is intelligent enough not to use a library that is not
 installed.</p>
