@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.5 documentation</title>
+    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.6 documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.5',
+        VERSION:     '0.80.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.5 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.6 documentation" href="index.html" />
     <link rel="next" title="Plot Options" href="plot_options.html" />
     <link rel="prev" title="Philosophy" href="philosophy.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -119,7 +119,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/index.html">Viscid API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/viscid.html">viscid package</a></li>
 </ul>
 </ul>
 </li>
@@ -135,6 +135,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Custom Behavior (rc file)</a><ul>
 <li><a class="reference internal" href="#common-customizations">Common Customizations</a></li>
+<li><a class="reference internal" href="#viscid-plot-cmaps-extra-cmaps-default-cmap">viscid.plot.cmaps.extra_cmaps.default_cmap</a></li>
 <li><a class="reference internal" href="#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li><a class="reference internal" href="#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li><a class="reference internal" href="#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -196,20 +197,28 @@
   <span class="c1"># evaluator control for security</span>
   <span class="s">&quot;calculator.evaluator.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span>
 
+  <span class="c1"># note, the redhelix colormap is defined in viscid.plot.cmaps.extra_cmaps</span>
+  <span class="s">&quot;plot.cmaps.extra_cmaps.default_cmap&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;redhelix&quot;</span><span class="p-Indicator">,</span>
+
   <span class="c1"># pretty plotting</span>
   <span class="s">&quot;plot.vseaborn.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span>
   <span class="nv">&quot;plot.vseaborn.context&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;poster&quot;</span>
   <span class="s">&quot;plot.vseaborn.style&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;ticks&quot;</span>
   <span class="s">&quot;plot.vseaborn.palette&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;husl&quot;</span><span class="p-Indicator">,</span> <span class="nv">8</span><span class="p-Indicator">]</span>
   <span class="c1"># &quot;plot.vseaborn.palette&quot;: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]]</span>
-  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;cubehelix&quot;}</span>
-  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;jet&quot;}</span>
-  <span class="s">&quot;plot.vseaborn.rc&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span><span class="s">&quot;image.cmap&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;cubehelix&quot;</span><span class="p-Indicator">}</span>
+  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;redhelix&quot;}</span>
 <span class="p-Indicator">}</span>
 </pre></div>
 </div>
 <div class="section" id="common-customizations">
 <h2>Common Customizations<a class="headerlink" href="#common-customizations" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="viscid-plot-cmaps-extra-cmaps-default-cmap">
+<h2>viscid.plot.cmaps.extra_cmaps.default_cmap<a class="headerlink" href="#viscid-plot-cmaps-extra-cmaps-default-cmap" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>default_cmap</strong>: Changes the default color maps for plots made using
+<a class="reference internal" href="api/viscid.plot.mpl.html#module-viscid.plot.mpl" title="viscid.plot.mpl"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mpl</span></tt></a></li>
+</ul>
 </div>
 <div class="section" id="viscid-grid-grid">
 <h2>viscid.grid.Grid<a class="headerlink" href="#viscid-grid-grid" title="Permalink to this headline">¶</a></h2>
