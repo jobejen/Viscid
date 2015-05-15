@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.ggcm_fortbin module &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.readers.ggcm_fortbin module &mdash; Viscid 0.80.7 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.6',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.readers.ggcm_jrrle module" href="viscid.readers.ggcm_jrrle.html" />
     <link rel="prev" title="viscid.readers.athena_xdmf module" href="viscid.readers.athena_xdmf.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -78,6 +78,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -119,6 +122,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extending_readers.html">Extending Readers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
 </ul>
@@ -170,6 +174,7 @@
 <dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper">
 <em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">FortbinDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em>, <em>file_position</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<p>Interface for lazily pointing to a field in a binary file</p>
 <dl class="attribute">
 <dt id="viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">
 <tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/ggcm_fortbin.html#FortbinDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
@@ -229,14 +234,14 @@
 <dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinIono">
 <em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinIono</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinIono"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinIono" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD</span></tt></a></p>
-<p>Jimmy&#8217;s run length encoding files</p>
+<p>Binary files</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD">
 <em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_fortbin.</tt><tt class="descname">GGCMFileFortbinMHD</tt><big>(</big><em>filename</em>, <em>vfilebucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFileFortran" title="viscid.readers.openggcm.GGCMFileFortran"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFileFortran</span></tt></a></p>
-<p>Jimmy&#8217;s run length encoding files</p>
+<p>Binary files</p>
 <dl class="classmethod">
 <dt id="viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group">
 <em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_fortbin.html#GGCMFileFortbinMHD.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_fortbin.GGCMFileFortbinMHD.collective_name_from_group" title="Permalink to this definition">¶</a></dt>

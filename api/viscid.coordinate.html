@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate module &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.coordinate module &mdash; Viscid 0.80.7 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.6',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.dataset module" href="viscid.dataset.html" />
     <link rel="prev" title="viscid.bucket module" href="viscid.bucket.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -78,6 +78,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -119,6 +122,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extending_readers.html">Extending Readers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
 </ul>
@@ -196,6 +200,11 @@ with uniform coordinates</dd>
 <tt class="descname">as_coordinates</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.as_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="viscid.coordinate.Coordinates.crdtype">
+<tt class="descname">crdtype</tt><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates.crdtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.crdtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="viscid.coordinate.Coordinates.is_spherical">
 <tt class="descname">is_spherical</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates.is_spherical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.is_spherical" title="Permalink to this definition">¶</a></dt>
@@ -204,11 +213,6 @@ with uniform coordinates</dd>
 <dl class="classmethod">
 <dt id="viscid.coordinate.Coordinates.istype">
 <em class="property">classmethod </em><tt class="descname">istype</tt><big>(</big><em>type_str</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates.istype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.istype" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="viscid.coordinate.Coordinates.type">
-<tt class="descname">type</tt><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates.type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -225,7 +229,7 @@ with uniform coordinates</dd>
 <dd><p>Bases: <a class="reference internal" href="#viscid.coordinate.StructuredCrds" title="viscid.coordinate.StructuredCrds"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.StructuredCrds</span></tt></a></p>
 <dl class="method">
 <dt id="viscid.coordinate.NonuniformCrds.get_clist">
-<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#NonuniformCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformCrds.get_clist" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=True</em>, <em>center='node'</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#NonuniformCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.NonuniformCrds.get_clist" title="Permalink to this definition">¶</a></dt>
 <dd><p>??</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -348,7 +352,7 @@ axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
 
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.get_clist">
-<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_clist" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=True</em>, <em>center='node'</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_clist" title="Permalink to this definition">¶</a></dt>
 <dd><p>??</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -758,7 +762,7 @@ changing the data, just the coordinates.</p>
 
 <dl class="method">
 <dt id="viscid.coordinate.UniformCrds.get_clist">
-<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.get_clist" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_clist</tt><big>(</big><em>axes=None</em>, <em>slc=None</em>, <em>full_arrays=False</em>, <em>center='node'</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.get_clist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.get_clist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -838,8 +842,28 @@ changing the data, just the coordinates.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="viscid.coordinate.arrays2crds">
+<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">arrays2crds</tt><big>(</big><em>crd_arrs</em>, <em>crd_names='zyxwvu'</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#arrays2crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.arrays2crds" title="Permalink to this definition">¶</a></dt>
+<dd><p>make either uniform or nonuniform coordnates given full arrays</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>crd_arrs</strong> (<em>array-like</em>) &#8211; for n-dimensional crds, supply a list
+of n ndarrays</li>
+<li><strong>crd_names</strong> (<em>iterable</em>) &#8211; names of coordinates in the same order
+as crd_arrs. Should always be in zyx order.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="viscid.coordinate.wrap_crds">
-<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">wrap_crds</tt><big>(</big><em>typ</em>, <em>clist</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#wrap_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.wrap_crds" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.coordinate.</tt><tt class="descname">wrap_crds</tt><big>(</big><em>crdtype</em>, <em>clist</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#wrap_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.wrap_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

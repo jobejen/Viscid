@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.amr.amr_field module &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.amr_field module &mdash; Viscid 0.80.7 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.6',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,10 +29,10 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../index.html" />
-    <link rel="up" title="viscid.readers.amr package" href="viscid.readers.amr.html" />
-    <link rel="next" title="viscid.readers.amr.amr_grid module" href="viscid.readers.amr.amr_grid.html" />
-    <link rel="prev" title="viscid.readers.amr package" href="viscid.readers.amr.html" />
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="up" title="viscid package" href="viscid.html" />
+    <link rel="next" title="viscid.amr_grid module" href="viscid.amr_grid.html" />
+    <link rel="prev" title="viscid.readers.xdmf module" href="viscid.readers.xdmf.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -78,6 +78,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -119,6 +122,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extending_readers.html">Extending Readers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
 </ul>
@@ -134,7 +138,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">viscid.readers.amr.amr_field module</a></li>
+<li><a class="reference internal" href="#">viscid.amr_field module</a></li>
 </ul>
 </ul>
 </li>
@@ -164,8 +168,8 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="module-viscid.readers.amr.amr_field">
-<span id="viscid-readers-amr-amr-field-module"></span><h1>viscid.readers.amr.amr_field module<a class="headerlink" href="#module-viscid.readers.amr.amr_field" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-viscid.amr_field">
+<span id="viscid-amr-field-module"></span><h1>viscid.amr_field module<a class="headerlink" href="#module-viscid.amr_field" title="Permalink to this headline">¶</a></h1>
 <p>For fields that consist of a list of fields + an AMRSkeleton</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -173,8 +177,8 @@
 around a lot of Field functionality.</p>
 </div>
 <dl class="class">
-<dt id="viscid.readers.amr.amr_field.AMRField">
-<em class="property">class </em><tt class="descclassname">viscid.readers.amr.amr_field.</tt><tt class="descname">AMRField</tt><big>(</big><em>fields</em>, <em>skeleton</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField">
+<em class="property">class </em><tt class="descclassname">viscid.amr_field.</tt><tt class="descname">AMRField</tt><big>(</big><em>fields</em>, <em>skeleton</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Field-like</p>
 <p>Contains an AMRSkeleton and a list of Fields. This mimiks a Field,
@@ -185,24 +189,24 @@ try to runtime-wrap that method and return a new AMRField or a list
 containing the result. This will not work for special methods since
 python will not send those through __getattr__ or __getattribute__.</p>
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.__exit__">
-<tt class="descname">__exit__</tt><big>(</big><em>typ</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.__exit__">
+<tt class="descname">__exit__</tt><big>(</big><em>exc_type</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
 <dd><p>unload the data</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.all">
-<tt class="descname">all</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.all">
+<tt class="descname">all</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.any">
-<tt class="descname">any</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.any">
+<tt class="descname">any</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.block_indices">
-<tt class="descname">block_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.block_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.block_indices" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.block_indices">
+<tt class="descname">block_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.block_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.block_indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the indices of the patches that overlap selection
 :param selection: anything that can slice a field</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -216,50 +220,50 @@ python will not send those through __getattr__ or __getattribute__.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="viscid.readers.amr.amr_field.AMRField.blocks">
-<tt class="descname">blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.blocks" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.blocks">
+<tt class="descname">blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.blocks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="viscid.readers.amr.amr_field.AMRField.nr_blocks">
-<tt class="descname">nr_blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.nr_blocks" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.nr_blocks">
+<tt class="descname">nr_blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.nr_blocks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.patch_indices">
-<tt class="descname">patch_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.patch_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.patch_indices" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.patch_indices">
+<tt class="descname">patch_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.patch_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.patch_indices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="viscid.readers.amr.amr_field.AMRField.skeleton">
-<tt class="descname">skeleton</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.skeleton" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.skeleton">
+<tt class="descname">skeleton</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.skeleton" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.slice">
-<tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.slice">
+<tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.slice_and_keep">
-<tt class="descname">slice_and_keep</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.slice_and_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.slice_and_keep">
+<tt class="descname">slice_and_keep</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_and_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.slice_reduce">
-<tt class="descname">slice_reduce</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.slice_reduce">
+<tt class="descname">slice_reduce</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.readers.amr.amr_field.AMRField.wrap_special_method">
-<tt class="descname">wrap_special_method</tt><big>(</big><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#AMRField.wrap_special_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.AMRField.wrap_special_method" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.wrap_special_method">
+<tt class="descname">wrap_special_method</tt><big>(</big><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.wrap_special_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.wrap_special_method" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.readers.amr.amr_field.is_list_of_fields">
-<tt class="descclassname">viscid.readers.amr.amr_field.</tt><tt class="descname">is_list_of_fields</tt><big>(</big><em>lst</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/amr/amr_field.html#is_list_of_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.amr.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.is_list_of_fields">
+<tt class="descclassname">viscid.amr_field.</tt><tt class="descname">is_list_of_fields</tt><big>(</big><em>lst</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#is_list_of_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -277,7 +281,7 @@ python will not send those through __getattr__ or __getattribute__.</p>
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/api/viscid.readers.amr.amr_field.txt"
+  <a href="../_sources/api/viscid.amr_field.txt"
      rel="nofollow">Source</a>
 </div>
       

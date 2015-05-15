@@ -6,33 +6,32 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.amr.cyamr module &mdash; Viscid 0.80.6 documentation</title>
+    <title>Extending Readers &mdash; Viscid 0.80.7 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.80.6',
+        URL_ROOT:    './',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../index.html" />
-    <link rel="up" title="viscid.readers.amr package" href="viscid.readers.amr.html" />
-    <link rel="next" title="viscid.readers.ascii module" href="viscid.readers.ascii.html" />
-    <link rel="prev" title="viscid.readers.amr.amr_grid module" href="viscid.readers.amr.amr_grid.html" />
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.7 documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples/index.html" />
+    <link rel="prev" title="Command Line Utilities" href="command_line.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,9 +49,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../index.html">
+        <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -68,16 +67,19 @@
       <ul class="dropdown-menu navlinktoc"
           role="menu">
           <li class="toctree-l1">
-            <a class="reference internal", href="../installation.html">Installation</a>
+            <a class="reference internal", href="installation.html">Installation</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../custom_behavior.html">RC file</a>
+            <a class="reference internal", href="custom_behavior.html">RC file</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../plot_options.html">Plot Options</a>
+            <a class="reference internal", href="plot_options.html">Plot Options</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+            <a class="reference internal", href="command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="#">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -90,16 +92,16 @@
       <ul class="dropdown-menu navlinktoc"
           role="menu">
           <li class="toctree-l1">
-            <a class="reference internal", href="../examples/plotting.html">Plotting</a>
+            <a class="reference internal", href="examples/plotting.html">Plotting</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../examples/slicing.html">Slicing</a>
+            <a class="reference internal", href="examples/slicing.html">Slicing</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../examples/calc.html">Calculator</a>
+            <a class="reference internal", href="examples/calc.html">Calculator</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
+            <a class="reference internal", href="examples/openggcm.html">OpenGGCM</a>
           </li>
       </ul>
     </li>
@@ -110,17 +112,18 @@
      id="dLabelGlobalToc"
      data-toggle="dropdown"
      data-target="#"
-     href="../index.html">Site <b class="caret"></b></a>
+     href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Extending Readers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/viscid.html">viscid package</a></li>
 </ul>
 </ul>
 </li>
@@ -134,7 +137,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">viscid.readers.amr.cyamr module</a></li>
+<li><a class="reference internal" href="#">Extending Readers</a></li>
 </ul>
 </ul>
 </li>
@@ -148,7 +151,7 @@
 
           
             
-<form class="navbar-form navbar-right" action="../search.html" method="get">
+<form class="navbar-form navbar-right" action="search.html" method="get">
  <div class="form-group">
   <input type="text" name="q" class="form-control" placeholder="Search" />
  </div>
@@ -164,8 +167,9 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="module-viscid.readers.amr.cyamr">
-<span id="viscid-readers-amr-cyamr-module"></span><h1>viscid.readers.amr.cyamr module<a class="headerlink" href="#module-viscid.readers.amr.cyamr" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="extending-readers">
+<h1>Extending Readers<a class="headerlink" href="#extending-readers" title="Permalink to this headline">¶</a></h1>
+<p>TODO: show how to make changes to a reader</p>
 </div>
 
 
@@ -181,7 +185,7 @@
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/api/viscid.readers.amr.cyamr.txt"
+  <a href="_sources/extending_readers.txt"
      rel="nofollow">Source</a>
 </div>
       

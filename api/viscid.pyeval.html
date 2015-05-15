@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.parsers.pyeval module &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.pyeval module &mdash; Viscid 0.80.7 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.6',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,10 +29,10 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../index.html" />
-    <link rel="up" title="viscid.parsers package" href="viscid.parsers.html" />
-    <link rel="next" title="viscid.parsers.vjson module" href="viscid.parsers.vjson.html" />
-    <link rel="prev" title="viscid.parsers package" href="viscid.parsers.html" />
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="up" title="viscid package" href="viscid.html" />
+    <link rel="next" title="viscid.tree module" href="viscid.tree.html" />
+    <link rel="prev" title="viscid.parallel module" href="viscid.parallel.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -78,6 +78,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -119,6 +122,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extending_readers.html">Extending Readers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="viscid.html">viscid package</a></li>
 </ul>
@@ -134,7 +138,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">viscid.parsers.pyeval module</a></li>
+<li><a class="reference internal" href="#">viscid.pyeval module</a></li>
 </ul>
 </ul>
 </li>
@@ -164,25 +168,25 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="module-viscid.parsers.pyeval">
-<span id="viscid-parsers-pyeval-module"></span><h1>viscid.parsers.pyeval module<a class="headerlink" href="#module-viscid.parsers.pyeval" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-viscid.pyeval">
+<span id="viscid-pyeval-module"></span><h1>viscid.pyeval module<a class="headerlink" href="#module-viscid.pyeval" title="Permalink to this headline">¶</a></h1>
 <p>Deserialize a string using literal_eval</p>
 <p>This is more than just literal_eval in that strings don&#8217;t need quotes
 and true/false are mapped to True/False</p>
 <dl class="exception">
-<dt id="viscid.parsers.pyeval.PyEvalError">
-<em class="property">exception </em><tt class="descclassname">viscid.parsers.pyeval.</tt><tt class="descname">PyEvalError</tt><big>(</big><em>message=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/parsers/pyeval.html#PyEvalError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parsers.pyeval.PyEvalError" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.pyeval.PyEvalError">
+<em class="property">exception </em><tt class="descclassname">viscid.pyeval.</tt><tt class="descname">PyEvalError</tt><big>(</big><em>message=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/pyeval.html#PyEvalError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.pyeval.PyEvalError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
 <dl class="attribute">
-<dt id="viscid.parsers.pyeval.PyEvalError.message">
-<tt class="descname">message</tt><em class="property"> = ''</em><a class="headerlink" href="#viscid.parsers.pyeval.PyEvalError.message" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.pyeval.PyEvalError.message">
+<tt class="descname">message</tt><em class="property"> = ''</em><a class="headerlink" href="#viscid.pyeval.PyEvalError.message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.parsers.pyeval.parse">
-<tt class="descclassname">viscid.parsers.pyeval.</tt><tt class="descname">parse</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../_modules/viscid/parsers/pyeval.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parsers.pyeval.parse" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.pyeval.parse">
+<tt class="descclassname">viscid.pyeval.</tt><tt class="descname">parse</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../_modules/viscid/pyeval.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.pyeval.parse" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -200,7 +204,7 @@ and true/false are mapped to True/False</p>
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/api/viscid.parsers.pyeval.txt"
+  <a href="../_sources/api/viscid.pyeval.txt"
      rel="nofollow">Source</a>
 </div>
       

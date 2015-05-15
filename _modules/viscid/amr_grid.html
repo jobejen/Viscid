@@ -6,31 +6,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.amr.amr_grid &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.amr_grid &mdash; Viscid 0.80.7 documentation</title>
     
-    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.2.0/flatly/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../../',
-        VERSION:     '0.80.6',
+        URL_ROOT:    '../../',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../../_static/js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../../../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../../../../index.html" />
-    <link rel="up" title="Module code" href="../../../index.html" />
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../../index.html" />
+    <link rel="up" title="viscid" href="../viscid.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -48,9 +48,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../../../../index.html">
+        <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -66,16 +66,19 @@
       <ul class="dropdown-menu navlinktoc"
           role="menu">
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../installation.html">Installation</a>
+            <a class="reference internal", href="../../installation.html">Installation</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../custom_behavior.html">RC file</a>
+            <a class="reference internal", href="../../custom_behavior.html">RC file</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../plot_options.html">Plot Options</a>
+            <a class="reference internal", href="../../plot_options.html">Plot Options</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../command_line.html">Command Line Tools</a>
+            <a class="reference internal", href="../../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -88,16 +91,16 @@
       <ul class="dropdown-menu navlinktoc"
           role="menu">
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../examples/plotting.html">Plotting</a>
+            <a class="reference internal", href="../../examples/plotting.html">Plotting</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../examples/slicing.html">Slicing</a>
+            <a class="reference internal", href="../../examples/slicing.html">Slicing</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../examples/calc.html">Calculator</a>
+            <a class="reference internal", href="../../examples/calc.html">Calculator</a>
           </li>
           <li class="toctree-l1">
-            <a class="reference internal", href="../../../../examples/openggcm.html">OpenGGCM</a>
+            <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
           </li>
       </ul>
     </li>
@@ -108,17 +111,18 @@
      id="dLabelGlobalToc"
      data-toggle="dropdown"
      data-target="#"
-     href="../../../../index.html">Site <b class="caret"></b></a>
+     href="../../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../philosophy.html">Philosophy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../plot_options.html">Plot Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../command_line.html">Command Line Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../examples/index.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../api/viscid.html">viscid package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plot_options.html">Plot Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../extending_readers.html">Extending Readers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/viscid.html">viscid package</a></li>
 </ul>
 </ul>
 </li>
@@ -143,7 +147,7 @@
 
           
             
-<form class="navbar-form navbar-right" action="../../../../search.html" method="get">
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
  <div class="form-group">
   <input type="text" name="q" class="form-control" placeholder="Search" />
  </div>
@@ -159,7 +163,7 @@
   <div class="row">
     <div class="col-md-12">
       
-  <h1>Source code for viscid.readers.amr.amr_grid</h1><div class="highlight"><pre>
+  <h1>Source code for viscid.amr_grid</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;AMR tools&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
@@ -168,10 +172,10 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">viscid.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
-<span class="kn">from</span> <span class="nn">viscid.readers.amr.amr_field</span> <span class="kn">import</span> <span class="n">AMRField</span>
-<span class="kn">from</span> <span class="nn">viscid.readers.amr</span> <span class="kn">import</span> <span class="n">cyamr</span>
+<span class="kn">from</span> <span class="nn">viscid.amr_field</span> <span class="kn">import</span> <span class="n">AMRField</span>
+<span class="c"># from viscid import cyamr</span>
 
-<div class="viewcode-block" id="dataset_to_amr_grid"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.dataset_to_amr_grid">[docs]</a><span class="k">def</span> <span class="nf">dataset_to_amr_grid</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">template_skeleton</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="dataset_to_amr_grid"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.dataset_to_amr_grid">[docs]</a><span class="k">def</span> <span class="nf">dataset_to_amr_grid</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">template_skeleton</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Try to divine AMR-ness from a Dataset</span>
 
 <span class="sd">    Args:</span>
@@ -201,7 +205,7 @@
     <span class="k">return</span> <span class="n">grid</span><span class="p">,</span> <span class="bp">True</span>
 
 </div>
-<div class="viewcode-block" id="AMRSkeleton"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton">[docs]</a><span class="k">class</span> <span class="nc">AMRSkeleton</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton">[docs]</a><span class="k">class</span> <span class="nc">AMRSkeleton</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Organizes the neighbor relationships of AMR grids&quot;&quot;&quot;</span>
     <span class="n">patches</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">neighbors_index</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># list of dicts, parallel with patches</span>
@@ -247,7 +251,7 @@
 
         <span class="c"># self.discover_neighbors()</span>
 
-<div class="viewcode-block" id="AMRSkeleton.compatable_with"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton.compatable_with">[docs]</a>    <span class="k">def</span> <span class="nf">compatable_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton.compatable_with"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.compatable_with">[docs]</a>    <span class="k">def</span> <span class="nf">compatable_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset</span><span class="p">):</span>
         <span class="c"># TODO: i should make /store a hash for this</span>
         <span class="c"># t0 = default_timer()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
@@ -265,7 +269,7 @@
         <span class="c"># print(&quot;&gt;&gt; compatable   {0:g} secs&quot;.format(t1 - t0))</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-<div class="viewcode-block" id="AMRSkeleton.discover_neighbors"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton.discover_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">discover_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton.discover_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.discover_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">discover_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xm</span><span class="o">=</span><span class="p">[],</span> <span class="n">xp</span><span class="o">=</span><span class="p">[],</span> <span class="n">ym</span><span class="o">=</span><span class="p">[],</span> <span class="n">yp</span><span class="o">=</span><span class="p">[],</span> <span class="n">zm</span><span class="o">=</span><span class="p">[],</span> <span class="n">zp</span><span class="o">=</span><span class="p">[])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">]</span>
@@ -285,7 +289,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tell_patches_about_neighbors</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="AMRSkeleton.tell_patches_about_neighbors"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton.tell_patches_about_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">tell_patches_about_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton.tell_patches_about_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.tell_patches_about_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">tell_patches_about_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">neighbors_dict</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span><span class="p">):</span>
             <span class="c"># print(&quot;&gt;&gt;&quot;, i, neighbors_dict)</span>
             <span class="n">_d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -296,7 +300,7 @@
             <span class="n">_l</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_neighbors</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="n">_l</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="AMRSkeleton.patch_by_loc"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton.patch_by_loc">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton.patch_by_loc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.patch_by_loc">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;returns index of patch that contans loc&quot;&quot;&quot;</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
         <span class="n">contains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loc</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xm</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -309,7 +313,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">nonzero_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="AMRSkeleton.patch_by_loc2"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRSkeleton.patch_by_loc2">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRSkeleton.patch_by_loc2"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.patch_by_loc2">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;slower implementation&quot;&quot;&quot;</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
@@ -327,7 +331,7 @@
 <span class="c"># SLICING NOTES: have field level parsing of slices that raise a ValueError</span>
 <span class="c"># if the slices are ints (slice by index)</span>
 </div></div>
-<div class="viewcode-block" id="AMRGrid"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRGrid">[docs]</a><span class="k">class</span> <span class="nc">AMRGrid</span><span class="p">(</span><span class="n">Grid</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRGrid"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid">[docs]</a><span class="k">class</span> <span class="nc">AMRGrid</span><span class="p">(</span><span class="n">Grid</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The AMRGrid contains a list of patches&quot;&quot;&quot;</span>
     <span class="n">skeleton</span> <span class="o">=</span> <span class="bp">None</span>
 
@@ -377,10 +381,26 @@
         <span class="c">#     for fld in g.fields.values():</span>
         <span class="c">#         self.fields</span>
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AMRGrid.xl_nc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xl_nc">[docs]</a>    <span class="k">def</span> <span class="nf">xl_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xl</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AMRGrid.xh_nc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xh_nc">[docs]</a>    <span class="k">def</span> <span class="nf">xh_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xh</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AMRGrid.xl_cc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xl_cc">[docs]</a>    <span class="k">def</span> <span class="nf">xl_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;You probably want xl_nc for an amr grid&quot;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AMRGrid.xh_cc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xh_cc">[docs]</a>    <span class="k">def</span> <span class="nf">xh_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;You probably want xh_nc for an amr grid&quot;</span><span class="p">)</span>
+
     <span class="c"># def _make_amr_field(self):</span>
     <span class="c">#     fld = AMRField()</span>
-
-<div class="viewcode-block" id="AMRGrid.get_field"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRGrid.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_longterm_caches</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+</div>
+<div class="viewcode-block" id="AMRGrid.get_field"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_longterm_caches</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                   <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
         <span class="n">fld_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">assert</span> <span class="n">force_longterm_caches</span> <span class="o">==</span> <span class="bp">False</span>  <span class="c"># FIXME</span>
@@ -393,7 +413,7 @@
         <span class="k">return</span> <span class="n">amr_fld</span>
 
 </div></div>
-<div class="viewcode-block" id="AMRPatch"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRPatch">[docs]</a><span class="k">class</span> <span class="nc">AMRPatch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRPatch"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRPatch">[docs]</a><span class="k">class</span> <span class="nc">AMRPatch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">xl</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">xh</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">xm</span> <span class="o">=</span> <span class="bp">None</span>
@@ -418,15 +438,15 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_neighbors</span><span class="p">()</span>
 
-<div class="viewcode-block" id="AMRPatch.reset_neighbors"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRPatch.reset_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">reset_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRPatch.reset_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRPatch.reset_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">reset_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xm</span><span class="o">=</span><span class="p">[],</span> <span class="n">xp</span><span class="o">=</span><span class="p">[],</span> <span class="n">ym</span><span class="o">=</span><span class="p">[],</span> <span class="n">yp</span><span class="o">=</span><span class="p">[],</span> <span class="n">zm</span><span class="o">=</span><span class="p">[],</span> <span class="n">zp</span><span class="o">=</span><span class="p">[])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors</span> <span class="o">=</span> <span class="p">[]</span>
 </div>
-<div class="viewcode-block" id="AMRPatch.set_neighbors"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRPatch.set_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">set_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationship_dict</span><span class="p">,</span> <span class="n">all_neighbors_list</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRPatch.set_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRPatch.set_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">set_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relationship_dict</span><span class="p">,</span> <span class="n">all_neighbors_list</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="n">relationship_dict</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors</span> <span class="o">=</span> <span class="n">all_neighbors_list</span>
 </div>
-<div class="viewcode-block" id="AMRPatch.find_relationships"><a class="viewcode-back" href="../../../../api/viscid.readers.amr.amr_grid.html#viscid.readers.amr.amr_grid.AMRPatch.find_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">find_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
+<div class="viewcode-block" id="AMRPatch.find_relationships"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRPatch.find_relationships">[docs]</a>    <span class="k">def</span> <span class="nf">find_relationships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patch</span><span class="p">):</span>
         <span class="c"># if r &gt; 0, it&#39;s a p relationship for self, eles it&#39;s an m</span>
         <span class="n">rel_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">xm</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xm</span>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl &mdash; Viscid 0.80.6 documentation</title>
+    <title>viscid.plot.mpl &mdash; Viscid 0.80.7 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.6',
+        VERSION:     '0.80.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,8 +29,8 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.6 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" />
+    <link rel="top" title="Viscid 0.80.7 documentation" href="../../../index.html" />
+    <link rel="up" title="viscid" href="../../viscid.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.6</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -76,6 +76,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../../../command_line.html">Command Line Tools</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../extending_readers.html">Extending Readers</a>
           </li>
       </ul>
     </li>
@@ -117,6 +120,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line.html">Command Line Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../extending_readers.html">Extending Readers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/viscid.html">viscid package</a></li>
 </ul>
@@ -182,21 +186,22 @@
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_BASEMAP</span> <span class="o">=</span> <span class="bp">False</span>
 
-<span class="kn">from</span> <span class="nn">viscid.parsers</span> <span class="kn">import</span> <span class="n">pyeval</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">pyeval</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">coordinate</span>
 <span class="kn">from</span> <span class="nn">viscid.calculator.topology</span> <span class="kn">import</span> <span class="n">color_from_topology</span>
-<span class="kn">from</span> <span class="nn">viscid.plot.cmaps</span> <span class="kn">import</span> <span class="n">extra_cmaps</span>
+<span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl_extra</span>
 <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">vseaborn</span>
 
 <span class="n">__mpl_ver__</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span>
 <span class="n">has_colorbar_gridspec</span> <span class="o">=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">__mpl_ver__</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s">&quot;1.1.1&quot;</span><span class="p">)</span>
 <span class="n">vseaborn</span><span class="o">.</span><span class="n">activate_from_viscid</span><span class="p">()</span>
 
-<span class="k">if</span> <span class="n">extra_cmaps</span><span class="o">.</span><span class="n">default_cmap</span><span class="p">:</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;image.cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">extra_cmaps</span><span class="o">.</span><span class="n">default_cmap</span>
+<span class="k">if</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_cmap</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;image.cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_cmap</span>
+
 
 <div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot a field by dispatching to the most appropiate funciton</span>
@@ -243,7 +248,9 @@
             <span class="k">return</span> <span class="n">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;mpl can only do 1-D or 2-D fields&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;mpl can only do 1-D or 2-D fields. Either slice the&quot;</span>
+                         <span class="s">&quot;field yourself, or use the selection keyword &quot;</span>
+                         <span class="s">&quot;argument&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="plot_opts_to_kwargs"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot_opts_to_kwargs">[docs]</a><span class="k">def</span> <span class="nf">plot_opts_to_kwargs</span><span class="p">(</span><span class="n">plot_opts</span><span class="p">,</span> <span class="n">plot_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Turn plot options from string to items in plot_kwargs</span>
@@ -319,9 +326,9 @@
 <span class="sd">            to unpack when calling that function</span>
 
 <span class="sd">        norm_dict: will look like {&#39;crdscale&#39;: &#39;lin&#39;|&#39;log&#39;,</span>
-<span class="sd">                                   &#39;vscale&#39;: &#39;lin&#39;|&#39;log&#39;,</span>
+<span class="sd">                                   &#39;vscale&#39;: &#39;lin&#39;|&#39;log|none&#39;,</span>
 <span class="sd">                                   &#39;clim&#39;: [None|number, None|number],</span>
-<span class="sd">                                   &#39;symetric&#39;: True|False}</span>
+<span class="sd">                                   &#39;symmetric&#39;: True|False}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
@@ -351,7 +358,7 @@
     <span class="n">norm_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;crdscale&#39;</span><span class="p">:</span> <span class="s">&#39;lin&#39;</span><span class="p">,</span>
                  <span class="s">&#39;vscale&#39;</span><span class="p">:</span> <span class="s">&#39;lin&#39;</span><span class="p">,</span>
                  <span class="s">&#39;clim&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
-                 <span class="s">&#39;symetric&#39;</span><span class="p">:</span> <span class="bp">False</span>
+                 <span class="s">&#39;symmetric&#39;</span><span class="p">:</span> <span class="bp">False</span>
                 <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;logscale&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
@@ -361,16 +368,22 @@
         <span class="n">clim</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;clim&#39;</span><span class="p">)</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][:</span><span class="nb">len</span><span class="p">(</span><span class="n">clim</span><span class="p">)]</span> <span class="o">=</span> <span class="n">clim</span>
 
-    <span class="n">sym</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;symetric&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s">&quot;vmin&quot;</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
+        <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;vmin&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s">&quot;vmax&quot;</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
+        <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;vmax&#39;</span><span class="p">)</span>
+
+    <span class="n">sym</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;symmetric&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     <span class="n">sym</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;sym&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sym</span>
-    <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sym</span>
+    <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sym</span>
 
     <span class="c"># parse shorthands for specifying color scale</span>
     <span class="k">if</span> <span class="s">&quot;lin&quot;</span> <span class="ow">in</span> <span class="n">plot_kwargs</span><span class="p">:</span>
         <span class="n">opt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;lin&#39;</span><span class="p">)</span>
         <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;lin&#39;</span>
         <span class="k">if</span> <span class="n">opt</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">elif</span> <span class="n">opt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">opt</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt</span><span class="p">]</span>
@@ -396,6 +409,10 @@
         <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;None&quot;</span><span class="p">,</span> <span class="s">&quot;none&quot;</span><span class="p">]:</span>
             <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
 
+    <span class="c"># hack so that the value axis is not rescaled</span>
+    <span class="k">if</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;norescale&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
     <span class="k">return</span> <span class="n">actions</span><span class="p">,</span> <span class="n">norm_dict</span>
 
 <span class="k">def</span> <span class="nf">_apply_actions</span><span class="p">(</span><span class="n">acts</span><span class="p">):</span>
@@ -404,6 +421,28 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">act_args</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="n">act_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">act_args</span><span class="p">]</span>
         <span class="n">act</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">act_args</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_apply_axfmt</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">majorfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">minorfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">majorloc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">minorloc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">which_axes</span><span class="o">=</span><span class="s">&quot;xy&quot;</span><span class="p">):</span>
+    <span class="n">ax_axes</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">majorfmt</span> <span class="o">==</span> <span class="s">&quot;steve&quot;</span><span class="p">:</span>
+        <span class="n">majorfmt</span> <span class="o">=</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">steve_axfmt</span>
+    <span class="k">if</span> <span class="n">minorfmt</span> <span class="o">==</span> <span class="s">&quot;steve&quot;</span><span class="p">:</span>
+        <span class="n">minorfmt</span> <span class="o">=</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">steve_axfmt</span>
+
+    <span class="k">for</span> <span class="n">axis_name</span> <span class="ow">in</span> <span class="n">which_axes</span><span class="p">:</span>
+        <span class="n">_axis</span> <span class="o">=</span> <span class="n">ax_axes</span><span class="p">[</span><span class="n">axis_name</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">majorfmt</span><span class="p">:</span>
+            <span class="n">_axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">majorfmt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">minorfmt</span><span class="p">:</span>
+            <span class="n">_axis</span><span class="o">.</span><span class="n">set_minor_formatter</span><span class="p">(</span><span class="n">minorfmt</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">majorloc</span><span class="p">:</span>
+            <span class="n">_axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">majorloc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">minorloc</span><span class="p">:</span>
+            <span class="n">_axis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">minorloc</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">_plot2d_single</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span>
                    <span class="n">masknan</span><span class="p">,</span> <span class="n">latlon</span><span class="p">,</span> <span class="n">flip_plot</span><span class="p">,</span> <span class="n">patchec</span><span class="p">,</span> <span class="n">patchlw</span><span class="p">,</span> <span class="n">patchaa</span><span class="p">,</span>
@@ -524,10 +563,13 @@
     <span class="n">masknan</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;masknan&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
     <span class="n">flip_plot</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;flip_plot&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     <span class="n">flip_plot</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;flipplot&quot;</span><span class="p">,</span> <span class="n">flip_plot</span><span class="p">)</span>
-    <span class="n">do_labels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;do_labels&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-    <span class="n">do_labels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;dolabels&quot;</span><span class="p">,</span> <span class="n">do_labels</span><span class="p">)</span>
+    <span class="n">nolabels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;nolabels&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;xlabel&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">ylabel</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;ylabel&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">majorfmt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;majorfmt&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_majorfmt</span><span class="p">)</span>
+    <span class="n">minorfmt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;minorfmt&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_minorfmt</span><span class="p">)</span>
+    <span class="n">majorloc</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;majorloc&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_majorloc</span><span class="p">)</span>
+    <span class="n">minorloc</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;minorloc&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_minorloc</span><span class="p">)</span>
     <span class="n">show</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;show&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
     <span class="c"># 2d plot options</span>
@@ -591,17 +633,17 @@
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">vmin</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">vmax</span><span class="p">):</span>
             <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: All-Nan encountered in Field,&quot;</span><span class="p">,</span> <span class="n">block0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1e38</span><span class="p">,</span> <span class="mf">1e38</span>
-            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
         <span class="k">if</span> <span class="n">vscale</span> <span class="o">==</span> <span class="s">&quot;lin&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]:</span>
                 <span class="n">maxval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">vmin</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
                 <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">maxval</span>
                 <span class="n">vmax</span> <span class="o">=</span> <span class="o">+</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">maxval</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">vscale</span> <span class="o">==</span> <span class="s">&quot;log&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Can&#39;t use symetric color bar with logscale&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Can&#39;t use symmetric color bar with logscale&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">vmax</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: Using log scale on a field with no positive &quot;</span>
                       <span class="s">&quot;values&quot;</span><span class="p">)</span>
@@ -611,12 +653,13 @@
                       <span class="s">&quot;values. Only plotting 4 decades.&quot;</span><span class="p">)</span>
                 <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">vmax</span> <span class="o">/</span> <span class="mf">1e4</span><span class="p">,</span> <span class="n">vmax</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">vscale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">norm</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unknown norm vscale: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vscale</span><span class="p">))</span>
 
-        <span class="k">if</span> <span class="s">&quot;cmap&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plot_kwargs</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">vmax</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vmin</span><span class="p">):</span>
-            <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s">&#39;seismic&#39;</span><span class="p">)</span>
-        <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span>
+        <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;norm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">):</span>
             <span class="n">vscale</span> <span class="o">=</span> <span class="s">&quot;lin&quot;</span>
@@ -625,6 +668,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Unrecognized norm type: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">norm</span><span class="p">)))</span>
         <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="n">vmax</span>
+
+    <span class="k">if</span> <span class="s">&quot;cmap&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plot_kwargs</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">vmax</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">vmin</span><span class="p">):</span>
+        <span class="c"># by default, the symmetric_cmap is seismic (blue-&gt;white-&gt;red)</span>
+        <span class="k">if</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">symmetric_cmap</span><span class="p">:</span>
+            <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;cmap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">mpl_extra</span><span class="o">.</span><span class="n">symmetric_cmap</span><span class="p">)</span>
+        <span class="n">symmetric_vlims</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">symmetric_vlims</span> <span class="o">=</span> <span class="bp">False</span>
 
     <span class="c"># ok, here&#39;s some hackery for contours</span>
     <span class="k">if</span> <span class="n">style</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span> <span class="s">&quot;contour&quot;</span><span class="p">]:</span>
@@ -666,28 +717,41 @@
         <span class="c"># unless otherwise specified, use_gridspec for colorbar</span>
         <span class="k">if</span> <span class="s">&quot;use_gridspec&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
             <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;use_gridspec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+
         <span class="k">if</span> <span class="n">vscale</span> <span class="o">==</span> <span class="s">&quot;log&quot;</span> <span class="ow">and</span> <span class="n">colorbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
             <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">symmetric_vlims</span> <span class="ow">and</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
+            <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">()</span>
+
+        <span class="n">cbarfmt</span> <span class="o">=</span> <span class="n">colorbar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;format&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_cbarfmt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cbarfmt</span> <span class="o">==</span> <span class="s">&quot;steve&quot;</span><span class="p">:</span>
+            <span class="n">cbarfmt</span> <span class="o">=</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">steve_cbarfmt</span>
+        <span class="k">if</span> <span class="n">cbarfmt</span><span class="p">:</span>
+            <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;format&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cbarfmt</span>
+
         <span class="c"># ok, this way to pass options to colorbar is bad!!!</span>
         <span class="c"># but it&#39;s kind of the cleanest way to affect the colorbar?</span>
         <span class="k">if</span> <span class="n">masknan</span> <span class="ow">and</span> <span class="n">all_masked</span><span class="p">:</span>
             <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">**</span><span class="n">colorbar</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">nolabels</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">cbarlabel</span><span class="p">:</span>
                     <span class="n">cbarlabel</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">pretty_name</span>
                 <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">cbarlabel</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
 
-    <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nolabels</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">xlabel</span><span class="p">:</span>
             <span class="n">xlabel</span> <span class="o">=</span> <span class="n">namex</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">ylabel</span><span class="p">:</span>
             <span class="n">ylabel</span> <span class="o">=</span> <span class="n">namey</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">namey</span><span class="p">)</span>
+
+    <span class="n">_apply_axfmt</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">majorfmt</span><span class="o">=</span><span class="n">majorfmt</span><span class="p">,</span> <span class="n">minorfmt</span><span class="o">=</span><span class="n">minorfmt</span><span class="p">,</span>
+                 <span class="n">majorloc</span><span class="o">=</span><span class="n">majorloc</span><span class="p">,</span> <span class="n">minorloc</span><span class="o">=</span><span class="n">minorloc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">earth</span><span class="p">:</span>
         <span class="n">plot_earth</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
@@ -804,7 +868,7 @@
                                                   <span class="nb">len</span><span class="p">(</span><span class="n">new_lon</span><span class="p">)])])</span>
         <span class="n">new_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">sl_fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">crds</span><span class="o">=</span><span class="n">new_crds</span><span class="p">))</span>
 
-        <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;do_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;dolabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;nolabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;equalaxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">new_fld</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
 
@@ -848,7 +912,7 @@
         <span class="n">m</span> <span class="o">=</span> <span class="n">Basemap</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">,</span> <span class="n">lon_0</span><span class="o">=</span><span class="n">lon_0</span><span class="p">,</span> <span class="n">lat_0</span><span class="o">=</span><span class="n">lat_0</span><span class="p">,</span>
                     <span class="n">boundinglat</span><span class="o">=</span><span class="n">bounding_lat</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
         <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;latlon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;do_labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;nolabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;equalaxis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">action_ax</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">axgridec</span><span class="p">:</span>
@@ -895,10 +959,13 @@
     <span class="c"># everywhere options</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;scale&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">masknan</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;masknan&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-    <span class="n">do_labels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;do_labels&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-    <span class="n">do_labels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;dolabels&quot;</span><span class="p">,</span> <span class="n">do_labels</span><span class="p">)</span>
+    <span class="n">nolabels</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;nolabels&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;xlabel&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">ylabel</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;ylabel&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">majorfmt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;majorfmt&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_majorfmt</span><span class="p">)</span>
+    <span class="n">minorfmt</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;minorfmt&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_minorfmt</span><span class="p">)</span>
+    <span class="n">majorloc</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;majorloc&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_majorloc</span><span class="p">)</span>
+    <span class="n">minorloc</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;minorloc&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_minorloc</span><span class="p">)</span>
     <span class="n">show</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;show&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 
     <span class="c"># 1d plot options</span>
@@ -935,22 +1002,26 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s">&#39;log&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symetric&#39;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;log scale can&#39;t be symetric about 0&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;log scale can&#39;t be symmetric about 0&quot;</span><span class="p">)</span>
         <span class="n">maxval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">dat</span><span class="p">)),</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dat</span><span class="p">)))</span>
         <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="o">-</span><span class="n">maxval</span><span class="p">,</span> <span class="n">maxval</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;vscale&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">))</span>
 
     <span class="c">########################</span>
     <span class="c"># apply labels and such</span>
-    <span class="k">if</span> <span class="n">do_labels</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nolabels</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">xlabel</span> <span class="o">=</span> <span class="n">namex</span>
         <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">ylabel</span> <span class="o">=</span> <span class="n">label</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+
+    <span class="n">_apply_axfmt</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">majorfmt</span><span class="o">=</span><span class="n">majorfmt</span><span class="p">,</span> <span class="n">minorfmt</span><span class="o">=</span><span class="n">minorfmt</span><span class="p">,</span>
+                 <span class="n">majorloc</span><span class="o">=</span><span class="n">majorloc</span><span class="p">,</span> <span class="n">minorloc</span><span class="o">=</span><span class="n">minorloc</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">legend</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">legend</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
