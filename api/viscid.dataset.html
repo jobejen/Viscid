@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.dataset module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.dataset module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.field module" href="viscid.field.html" />
     <link rel="prev" title="viscid.coordinate module" href="viscid.coordinate.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -221,6 +221,12 @@ temporal datasets, and does all children, not just the active child</p>
 <tt class="descname">children</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.children" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="viscid.dataset.Dataset.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#Dataset.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all childrens&#8217; caches</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.dataset.Dataset.crds">
 <tt class="descname">crds</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.crds" title="Permalink to this definition">¶</a></dt>
@@ -281,18 +287,15 @@ this will recurse down to a grid</p>
 <tt class="descname">print_tree</tt><big>(</big><em>depth=-1</em>, <em>prefix=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#Dataset.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="viscid.dataset.Dataset.remove_all_items">
+<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#Dataset.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.dataset.Dataset.topology_info">
 <tt class="descname">topology_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.dataset.Dataset.topology_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.dataset.Dataset.unload">
-<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#Dataset.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.Dataset.unload" title="Permalink to this definition">¶</a></dt>
-<dd><p>unload is meant to give children a chance to free caches, the idea
-being that an unload will free memory, but all the functionality is
-preserved, so data is accessable without an explicit reload</p>
-</dd></dl>
 
 </dd></dl>
 
@@ -322,6 +325,12 @@ temporal datasets</p>
 <dt id="viscid.dataset.DatasetTemporal.add">
 <tt class="descname">add</tt><big>(</big><em>child</em>, <em>set_active=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#DatasetTemporal.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.add" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.dataset.DatasetTemporal.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#DatasetTemporal.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all childrens&#8217; caches</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="viscid.dataset.DatasetTemporal.get_child">
@@ -375,12 +384,9 @@ this will recurse down to a grid</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.dataset.DatasetTemporal.unload">
-<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#DatasetTemporal.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.unload" title="Permalink to this definition">¶</a></dt>
-<dd><p>unload is meant to give children a chance to free caches, the idea
-being that an unload will free memory, but all the functionality is
-preserved, so data is accessable without an explicit reload</p>
-</dd></dl>
+<dt id="viscid.dataset.DatasetTemporal.remove_all_items">
+<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/dataset.html#DatasetTemporal.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dataset.DatasetTemporal.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

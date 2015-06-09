@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.7 documentation</title>
+    <title>Custom Behavior (rc file) &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="index.html" />
     <link rel="next" title="Plot Options" href="plot_options.html" />
     <link rel="prev" title="Philosophy" href="philosophy.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -139,7 +139,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Custom Behavior (rc file)</a><ul>
 <li><a class="reference internal" href="#common-customizations">Common Customizations</a></li>
-<li><a class="reference internal" href="#viscid-plot-extra-cmaps-default-cmap">viscid.plot.extra_cmaps.default_cmap</a></li>
+<li><a class="reference internal" href="#viscid-plot-mpl-extra">viscid.plot.mpl_extra</a></li>
 <li><a class="reference internal" href="#viscid-grid-grid">viscid.grid.Grid</a></li>
 <li><a class="reference internal" href="#viscid-readers-openggcm-ggcmgrid">viscid.readers.openggcm.GGCMGrid</a></li>
 <li><a class="reference internal" href="#viscid-readers-openggcm-ggcmfile">viscid.readers.openggcm.GGCMFile</a></li>
@@ -186,44 +186,52 @@
 <span class="p-Indicator">{</span>
   <span class="c1">### For Everything</span>
   <span class="c1">## use shell copies so we don&#39;t have to call unload()</span>
-  <span class="s">&quot;grid.Grid.longterm_field_caches&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span>
+  <span class="s">&quot;grid.Grid.longterm_field_caches&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span><span class="p-Indicator">,</span>
 
   <span class="c1">### for OpenGGCM</span>
   <span class="c1">## try to get extra run information</span>
-  <span class="s">&quot;readers.openggcm.GGCMFile.read_log_file&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span>
+  <span class="s">&quot;readers.openggcm.GGCMFile.read_log_file&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span><span class="p-Indicator">,</span>
   <span class="c1">## everyone likes GSE coords :)</span>
-  <span class="s">&quot;readers.openggcm.GGCMGrid.mhd_to_gse_on_read&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;auto&quot;</span>
+  <span class="s">&quot;readers.openggcm.GGCMGrid.mhd_to_gse_on_read&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;auto&quot;</span><span class="p-Indicator">,</span>
 
   <span class="c1">### For Athena</span>
   <span class="c1">## this doesn&#39;t work for some reason</span>
-  <span class="c1"># &quot;readers.athena_bin.AthenaBinFileWrapper.var_type&quot;: &quot;prim&quot;</span>
+  <span class="c1"># &quot;readers.athena_bin.AthenaBinFileWrapper.var_type&quot;: &quot;prim&quot;,</span>
 
   <span class="c1"># evaluator control for security</span>
-  <span class="s">&quot;calculator.evaluator.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span>
+  <span class="s">&quot;calculator.evaluator.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">false</span><span class="p-Indicator">,</span>
 
   <span class="c1"># note, the redhelix colormap is defined in viscid.plot.mpl_extra</span>
   <span class="s">&quot;plot.mpl_extra.default_cmap&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;redhelix&quot;</span><span class="p-Indicator">,</span>
+  <span class="s">&quot;plot.mpl_extra.symmetric_cmap&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;seismic&quot;</span><span class="p-Indicator">,</span>
   <span class="s">&quot;plot.mpl_extra.default_cbarfmt&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;steve&quot;</span><span class="p-Indicator">,</span>
   <span class="s">&quot;plot.mpl_extra.default_majorfmt&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;steve&quot;</span><span class="p-Indicator">,</span>
 
   <span class="c1"># pretty plotting</span>
-  <span class="s">&quot;plot.vseaborn.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span>
-  <span class="nv">&quot;plot.vseaborn.context&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;poster&quot;</span>
-  <span class="s">&quot;plot.vseaborn.style&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;ticks&quot;</span>
-  <span class="s">&quot;plot.vseaborn.palette&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;husl&quot;</span><span class="p-Indicator">,</span> <span class="nv">8</span><span class="p-Indicator">]</span>
-  <span class="c1"># &quot;plot.vseaborn.palette&quot;: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]]</span>
-  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01, &quot;image.cmap&quot;: &quot;redhelix&quot;}</span>
+  <span class="s">&quot;plot.vseaborn.enabled&quot;</span><span class="p-Indicator">:</span> <span class="nv">true</span><span class="p-Indicator">,</span>
+  <span class="s">&quot;plot.vseaborn.context&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;poster&quot;</span><span class="p-Indicator">,</span>
+  <span class="s">&quot;plot.vseaborn.style&quot;</span><span class="p-Indicator">:</span> <span class="s">&quot;ticks&quot;</span><span class="p-Indicator">,</span>
+  <span class="s">&quot;plot.vseaborn.palette&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;husl&quot;</span><span class="p-Indicator">,</span> <span class="nv">8</span><span class="p-Indicator">],</span>
+  <span class="c1"># &quot;plot.vseaborn.palette&quot;: [[&quot;#9b59b6&quot;, &quot;#3498db&quot;, &quot;#95a5a6&quot;, &quot;#e74c3c&quot;, &quot;#34495e&quot;, &quot;#2ecc71&quot;]],</span>
+  <span class="c1"># &quot;plot.vseaborn.rc&quot;: {&quot;lines.markeredgewidth&quot;: 0.01},</span>
 <span class="p-Indicator">}</span>
 </pre></div>
 </div>
 <div class="section" id="common-customizations">
 <h2>Common Customizations<a class="headerlink" href="#common-customizations" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="viscid-plot-extra-cmaps-default-cmap">
-<h2>viscid.plot.extra_cmaps.default_cmap<a class="headerlink" href="#viscid-plot-extra-cmaps-default-cmap" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="viscid-plot-mpl-extra">
+<h2>viscid.plot.mpl_extra<a class="headerlink" href="#viscid-plot-mpl-extra" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><strong>default_cmap</strong>: Changes the default color maps for plots made using
 <a class="reference internal" href="api/viscid.plot.mpl.html#module-viscid.plot.mpl" title="viscid.plot.mpl"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mpl</span></tt></a></li>
+<li><strong>symmetric_cmap</strong>: Changes the default color maps for plots that are
+symmetric about 0</li>
+<li><strong>default_cbarfmt</strong>: Change the default tick formatter for colbars</li>
+<li><strong>default_majorfmt</strong>: Change the default major tick formatter for axes</li>
+<li><strong>default_minorfmt</strong>: Change the default major tick formatter for axes</li>
+<li><strong>default_majorloc</strong>: Change the default major tick locator for axes</li>
+<li><strong>default_minorloc</strong>: Change the default major tick locator for axes</li>
 </ul>
 </div>
 <div class="section" id="viscid-grid-grid">

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.grid module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.grid module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.parallel module" href="viscid.parallel.html" />
     <link rel="prev" title="viscid.field module" href="viscid.field.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -200,7 +200,7 @@ be of a certain layout when they&#8217;re created
 <dd><p><em>bool</em></p>
 <p>If True, then when a field is
 cached, it must be explicitly removed from memory with
-&#8220;unload&#8221; or using the &#8216;with&#8217; statemnt. If False,
+&#8220;clear_cache&#8221; or using the &#8216;with&#8217; statemnt. If False,
 &#8220;shell copies&#8221; of fields are made so that memory is freed
 when the returned instance is garbage collected.
 Default: False</p>
@@ -218,6 +218,12 @@ name some crd identifier, see Coordinate.get_item for details</p>
 <tt class="descname">add_field</tt><big>(</big><em>*fields</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.add_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: in XDMF reader, the grid will NOT have crds when adding
 fields, so any grid crd transforms won&#8217;t be set</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.grid.Grid.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>clear the cache on all child fields</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -354,6 +360,11 @@ list of field names to iterate over</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.grid.Grid.remove_all_items">
+<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.grid.Grid.set_crds">
 <tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.set_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -362,14 +373,6 @@ list of field names to iterate over</p>
 <dt id="viscid.grid.Grid.topology_info">
 <tt class="descname">topology_info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.grid.Grid.topology_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.grid.Grid.unload">
-<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/grid.html#Grid.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.grid.Grid.unload" title="Permalink to this definition">¶</a></dt>
-<dd><p>unload is meant to give children a chance to free caches, the idea
-being that an unload will free memory, but all the functionality is
-preserved, so data is accessable without an explicit reload</p>
-</dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.grid.Grid.xh_cc">

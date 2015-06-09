@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.extra_cmaps module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.compat.element_tree module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,10 +29,10 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
-    <link rel="up" title="viscid.plot package" href="viscid.plot.html" />
-    <link rel="next" title="viscid.plot.mpl module" href="viscid.plot.mpl.html" />
-    <link rel="prev" title="viscid.plot.cubehelix module" href="viscid.plot.cubehelix.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
+    <link rel="up" title="viscid.compat package" href="viscid.compat.html" />
+    <link rel="next" title="viscid.compat.ordered_dict_backport module" href="viscid.compat.ordered_dict_backport.html" />
+    <link rel="prev" title="viscid.compat package" href="viscid.compat.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -138,7 +138,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">viscid.plot.extra_cmaps module</a></li>
+<li><a class="reference internal" href="#">viscid.compat.element_tree module</a></li>
 </ul>
 </ul>
 </li>
@@ -168,28 +168,32 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="module-viscid.plot.extra_cmaps">
-<span id="viscid-plot-extra-cmaps-module"></span><h1>viscid.plot.extra_cmaps module<a class="headerlink" href="#module-viscid.plot.extra_cmaps" title="Permalink to this headline">¶</a></h1>
-<p>Register some perceptual colormaps with matplotlib</p>
-<p>The cubehelix colormaps are good for the colorblind because lightness
-monotonically increases throughout the scale. These maps also guard
-against levels appearing in the data due to a local maxima in the
-lightness of that color in the color map.</p>
-<p>The additional color maps are:</p>
-<ul class="simple">
-<li><strong>cubeYF</strong>: My attempt to replicate the cubeYF map described at
-<a class="reference external" href="https://mycarta.wordpress.com/2013/02/21/perceptual-rainbow-palette-the-method/">mycarta</a>.</li>
-<li><strong>coolhelix</strong>: From bordeax to cool white, counter-clockwise in hue</li>
-<li><strong>redhelix</strong>: From red to cyan, counter-clockwise in hue</li>
-<li><strong>bloodhelix</strong>: Same as redhelix, but with gamma == 1, so the
-intensity ramp is more linear instead of power law</li>
+  <div class="section" id="module-viscid.compat.element_tree">
+<span id="viscid-compat-element-tree-module"></span><h1>viscid.compat.element_tree module<a class="headerlink" href="#module-viscid.compat.element_tree" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="viscid.compat.element_tree.parse">
+<tt class="descclassname">viscid.compat.element_tree.</tt><tt class="descname">parse</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/element_tree.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.element_tree.parse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.compat.element_tree.xinclude">
+<tt class="descclassname">viscid.compat.element_tree.</tt><tt class="descname">xinclude</tt><big>(</big><em>tree</em>, <em>base_url=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/element_tree.html#xinclude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.element_tree.xinclude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tree</strong> (<em>Tree</em>) &#8211; The object returned by parse</li>
+<li><strong>base_url</strong> (<em>str</em>) &#8211; Interpret xinclude paths relative to this</li>
+<li><strong>**kwargs</strong> &#8211; passed to _xdmf_include.include</li>
 </ul>
-<p>All of the above maps should have &#8216;_r&#8217; variants as well. In addition,
-this module has an attribute cmapname_rgb with the rgba ndarray data.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The <strong>default_cmap</strong> attribute is intended to be set via the rc file.</p>
-</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
@@ -205,7 +209,7 @@ this module has an attribute cmapname_rgb with the rgba ndarray data.</p>
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/api/viscid.plot.extra_cmaps.txt"
+  <a href="../_sources/api/viscid.compat.element_tree.txt"
      rel="nofollow">Source</a>
 </div>
       

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.coordinate &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../index.html" />
     <link rel="up" title="viscid" href="../viscid.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -192,7 +192,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span><span class="p">,</span> <span class="n">izip</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vutil</span>
 
 
@@ -258,7 +258,7 @@
 <div class="viewcode-block" id="Coordinates.is_spherical"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.Coordinates.is_spherical">[docs]</a>    <span class="k">def</span> <span class="nf">is_spherical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;spherical&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span>
 </div>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="Coordinates.as_coordinates"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.Coordinates.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -376,18 +376,14 @@
 
 <div class="viewcode-block" id="StructuredCrds.clear_crds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.clear_crds">[docs]</a>    <span class="k">def</span> <span class="nf">clear_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds_nc</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
         <span class="c"># for d in self.axes:</span>
         <span class="c">#     for sfx in self.SUFFIXES:</span>
         <span class="c">#         self.__crds[d + sfx] = None</span>
         <span class="c">#         self.__crds[d.upper() + sfx] = None</span>
 </div>
-    <span class="k">def</span> <span class="nf">_purge_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StructuredCrds.clear_cache"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.clear_cache">[docs]</a>    <span class="k">def</span> <span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__crds</span> <span class="o">=</span> <span class="bp">None</span>
-
-<div class="viewcode-block" id="StructuredCrds.unload"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; does not guarentee that the memory will be freed &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_purge_cache</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.set_crds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.set_crds">[docs]</a>    <span class="k">def</span> <span class="nf">set_crds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clist</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; called with a list of lists:</span>
@@ -407,7 +403,8 @@
 <span class="sd">            Coordinates with reflections applied</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reflect_axes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(),</span> <span class="n">has_cc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">has_cc</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(),</span> <span class="n">has_cc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">has_cc</span><span class="p">,</span>
+                              <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span>
 </div>
@@ -554,27 +551,31 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_slice_extent"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.get_slice_extent">[docs]</a>    <span class="k">def</span> <span class="nf">get_slice_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; work in progress &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;work in progress&quot;&quot;&quot;</span>
         <span class="c"># print(&quot;get slice extent::&quot;, selection)</span>
+        <span class="n">float_err_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Can only get the extent of slices by location, aka &quot;</span>
+                         <span class="s">&quot;&#39;x = 0f&#39; or field[&#39;0f&#39;]&quot;</span><span class="p">)</span>
         <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
         <span class="n">extent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f&#39;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">dind</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
-                <span class="n">sel</span> <span class="o">=</span> <span class="n">selection</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">slc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selection</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">slc</span> <span class="o">!=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">):</span>
+                <span class="n">slc</span> <span class="o">=</span> <span class="n">vutil</span><span class="o">.</span><span class="n">convert_deprecated_floats</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="s">&quot;slc&quot;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="ow">and</span> \
-                       <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
-                        <span class="n">extent</span><span class="p">[:,</span> <span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">float_err_msg</span> <span class="o">+</span> <span class="s">&quot;:: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slc</span><span class="p">))</span>
+
+                <span class="n">split_slc</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">split_slc</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;f&#39;</span><span class="p">:</span>
+                        <span class="n">split_slc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;floats only&quot;</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                        <span class="n">sel</span> <span class="o">=</span> <span class="p">[</span><span class="n">sel</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sel</span><span class="p">]):</span>
-                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;floats only&quot;</span><span class="p">)</span>
-                    <span class="n">extent</span><span class="p">[:,</span> <span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">sel</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">float_err_msg</span> <span class="o">+</span> <span class="s">&quot;:: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_slc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;get_slice_extent doesn&#39;t work &quot;</span>
+                                              <span class="s">&quot;with stride yet&quot;</span><span class="p">)</span>
+                <span class="n">extent</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">split_slc</span>
 
         <span class="c"># enforce that the values are increasing</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">extent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -584,62 +585,32 @@
         <span class="k">return</span> <span class="n">extent</span>
 </div>
     <span class="k">def</span> <span class="nf">_parse_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; parse a selection string or dict. integers are interpreted</span>
-<span class="sd">        as indices, floats are interpreted as coordinates... ex:</span>
-<span class="sd">        selection = &#39;y=12.32,z=-1.0&#39; is line of data</span>
-<span class="sd">        closest to (x, y=12.32, z=-1.0)</span>
-<span class="sd">        selection = {&#39;y=12:14,z=1 is the slice [:,12:14,1]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># parse string to dict if necessary</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">selection</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="p">(</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">selection</span><span class="p">}</span>
-        <span class="k">elif</span> <span class="n">selection</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{}</span>
+        <span class="c"># SIDE-EFFECT: selection won&#39;t have any whitespace</span>
+        <span class="c"># parse selection if it&#39;s a string into a list of selections</span>
+        <span class="c"># that are in the same order as the dimensions of self</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">selection</span><span class="p">:</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
-            <span class="n">sel</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)):</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;=&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">s</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-                <span class="c"># this extra : split is for asking for a subset in one</span>
-                <span class="c"># dimension</span>
-                <span class="n">dim</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="n">slclst</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+            <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span>
+            <span class="c"># kill all whitespace</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">selection</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+            <span class="n">split_sel</span> <span class="o">=</span> <span class="n">selection</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">single_sel</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">split_sel</span><span class="p">):</span>
+                <span class="k">if</span> <span class="s">&quot;=&quot;</span> <span class="ow">in</span> <span class="n">single_sel</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="p">,</span> <span class="n">slc</span> <span class="o">=</span> <span class="n">single_sel</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;=&quot;</span><span class="p">)</span>
+                    <span class="n">slices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ax</span><span class="p">)]</span> <span class="o">=</span> <span class="n">slc</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># it&#39;s probably not wise to use this branch</span>
+                    <span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">single_sel</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="n">slices</span>
 
-                <span class="c"># if number ends in i or j, cast to int as index, else leave</span>
-                <span class="c"># as float to denote a crd... also, if it&#39;s the 3rd value then</span>
-                <span class="c"># it&#39;s a stride... cant really have a float stride can we</span>
-                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slclst</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                            <span class="n">slclst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-                <span class="n">sel</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">slclst</span>
-            <span class="k">return</span> <span class="n">sel</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-            <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="c"># put &#39;:&#39; slices in for an Ellipsis</span>
-                <span class="n">i</span> <span class="o">=</span> <span class="n">selection</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">Ellipsis</span><span class="p">)</span>
-                <span class="n">sln</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="n">selection</span> <span class="o">=</span> <span class="n">selection</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">sln</span> <span class="o">+</span> <span class="n">selection</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="n">selection</span><span class="p">]</span>
+        <span class="n">selection</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">))</span>
 
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">selection</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">selection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">Ellipsis</span><span class="p">:</span>
-                        <span class="n">selection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="k">pass</span>
-
-            <span class="k">for</span> <span class="n">sel</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes</span><span class="p">):</span>
-                <span class="n">ret</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">sel</span>
-            <span class="k">return</span> <span class="n">ret</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">selection</span>
 
     <span class="k">def</span> <span class="nf">_native_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">slc</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a sliced crd array to construct crds of same type</span>
@@ -681,18 +652,18 @@
 <div class="viewcode-block" id="StructuredCrds.make_slice"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.make_slice">[docs]</a>    <span class="k">def</span> <span class="nf">make_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Turns a slice string into a slice (should be private?)</span>
 
-<span class="sd">        Slices should be made using the normal ``field[selecton]``</span>
+<span class="sd">        Slices should be made using the normal ``field[selection]``</span>
 <span class="sd">        syntax. This function is more for internal use; however it</span>
 <span class="sd">        does document the slice string syntax.</span>
 
-<span class="sd">        In practice, selection can be a string like &quot;y=3:6:2,z=0.0&quot;</span>
-<span class="sd">        where integers indicate an index as opposed to floats</span>
-<span class="sd">        which slice by crd value. The example slice would be the 3rd</span>
-<span class="sd">        and 5th crds in y, and the z = 0.0 plane. Selection can also</span>
-<span class="sd">        be the usual tuple of slice objects / integers like one would</span>
-<span class="sd">        give to numpy.</span>
+<span class="sd">        In practice, selection can be a string like</span>
+<span class="sd">        &quot;y = 3:6:2, z = 0.0f&quot; where integers indicate an index as</span>
+<span class="sd">        opposed to floats followed by an &#39;f&#39; which slice by crd value.</span>
+<span class="sd">        The example slice would be the 3rd and 5th crds in y, and the</span>
+<span class="sd">        z = 0.0 plane. Selection can also be the usual tuple of slice</span>
+<span class="sd">        objects / integers like one would give to numpy.</span>
 
-<span class="sd">        &quot;y=3:6:2,z=0.0&quot; will give (if z[32] is closest to z=0.0)::</span>
+<span class="sd">        &quot;y = 3:6:2, z = 0.0&quot; will give (if z[32] is closest to z=0.0)::</span>
 
 <span class="sd">            ([slice(None), slice(3, 6, 2), 32],</span>
 <span class="sd">             [[&#39;x&#39;, ndarray(all nc x crds)], [&#39;y&#39;, array(y[3], y[5])]],</span>
@@ -700,7 +671,7 @@
 <span class="sd">            )</span>
 
 <span class="sd">        Parameters:</span>
-<span class="sd">            selecton (str): slice string</span>
+<span class="sd">            selection (int, str, slice): slice string</span>
 <span class="sd">            cc (bool): cell centered slice</span>
 
 <span class="sd">        Returns:</span>
@@ -716,98 +687,58 @@
 <span class="sd">        Note: cc is necessary for finding the closest plane, otherwise it</span>
 <span class="sd">            might be off by half a grid cell</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># this turns all types of selection input styles into a selection dict</span>
-        <span class="c"># which looks like {&#39;axis&#39;: (start,stop?,step?), ...}</span>
-        <span class="c"># where start /step are optional and start / stop can be floats which</span>
-        <span class="c"># indicate that we need to lookup the index</span>
+        <span class="c"># print(&quot;&gt; make slice&quot;, selection)</span>
+        <span class="c"># parse selection if it&#39;s a string into a list of selections where</span>
+        <span class="c"># the axes are in the same order as self.axes</span>
         <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-        <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span>
-        <span class="n">slcrds</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span>
+
+        <span class="k">if</span> <span class="n">cc</span><span class="p">:</span>
+            <span class="n">crd_arrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">crd_arrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crds_nc</span><span class="p">()</span>
+
+        <span class="n">slices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">vutil</span><span class="o">.</span><span class="n">to_slices</span><span class="p">(</span><span class="n">crd_arrs</span><span class="p">,</span> <span class="n">selection</span><span class="p">))</span>
+
+        <span class="c"># Figure out what the selection is doing. If the slice reduces</span>
+        <span class="c"># out a dimension, put it in reduced. Also apply the slices to</span>
+        <span class="c"># the coordinate arrays so they can be used in to create new</span>
+        <span class="c"># fields later on.</span>
+        <span class="n">sliced_clist</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">reduced</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c"># go through all axes and see if they are selected</span>
-        <span class="k">for</span> <span class="n">dind</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
-                <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
-                <span class="c"># slcrds[dind] = [axis, self.get_nc(axis)]</span>
-                <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="bp">None</span><span class="p">)]</span>
-                <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">slc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-            <span class="n">sel</span> <span class="o">=</span> <span class="n">selection</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+                <span class="n">sss</span> <span class="o">=</span> <span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">s</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&quot;__index__&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sss</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;bad sss:&quot;</span><span class="p">,</span> <span class="n">sss</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">))</span> <span class="ow">or</span> \
-                   <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
-                    <span class="n">sel</span> <span class="o">=</span> <span class="p">[</span><span class="n">sel</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sel</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">sel</span><span class="o">.</span><span class="n">step</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">slc</span> <span class="o">=</span> <span class="n">sel</span>
+                <span class="n">crd_slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+                <span class="c"># if we&#39;re doing a cc slice, there needs to be one more nc crd</span>
+                <span class="c"># than data element, so add an extra node to slc.stop</span>
+                <span class="k">if</span> <span class="n">cc</span> <span class="ow">and</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">step</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">newstop</span> <span class="o">=</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">newstop</span> <span class="o">=</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="k">else</span><span class="p">:</span>  <span class="c"># slc.stop &lt; 0</span>
+                        <span class="c"># this will slice crds nc, so if we&#39;re going backward,</span>
+                        <span class="c"># the extra crd will be included</span>
+                        <span class="c"># print(&quot;am i used?&quot;, crd_slc.step)</span>
+                        <span class="n">newstop</span> <span class="o">=</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">stop</span>
+                    <span class="n">crd_slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">crd_slc</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">newstop</span><span class="p">,</span> <span class="n">crd_slc</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+                <span class="n">sliced_clist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">crd_slc</span><span class="p">)])</span>
 
-            <span class="c"># expect val to be a list to describe start, stop, stride</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span>
-                <span class="n">sel</span> <span class="o">=</span> <span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="s">&quot;__index__&quot;</span><span class="p">):</span>
+                <span class="n">reduced</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">slc</span><span class="p">)])</span>
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-                <span class="c"># do plane finding if vals are floats for the first two</span>
-                <span class="c"># elements only, the third would be a stride, no lookup</span>
-                <span class="c"># necessary</span>
-                <span class="k">if</span> <span class="n">cc</span><span class="p">:</span>
-                    <span class="n">crd_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cc</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">crd_arr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nc</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">)):</span>
-                        <span class="n">sel</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">crd_arr</span> <span class="o">-</span> <span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">sel</span> <span class="o">=</span> <span class="n">vutil</span><span class="o">.</span><span class="n">convert_floating_slice</span><span class="p">(</span><span class="n">crd_arr</span><span class="p">,</span> <span class="o">*</span><span class="n">sel</span><span class="p">)</span>
-
-                <span class="c"># ok, if one value specified, numpy semantics say reduce that</span>
-                <span class="c"># dimension out</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">ind</span> <span class="o">=</span> <span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-                    <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind</span>
-                    <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-                    <span class="k">if</span> <span class="n">cc</span><span class="p">:</span>
-                        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cc</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nc</span><span class="p">(</span><span class="n">axis</span><span class="p">)[</span><span class="n">ind</span><span class="p">]</span>
-                    <span class="n">reduced</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">axis</span><span class="p">,</span> <span class="n">loc</span><span class="p">])</span>
-
-                    <span class="c"># we set slices, slcrds, and reduced and there needs be no</span>
-                    <span class="c"># extra cc logic to extend the slice stop since there are</span>
-                    <span class="c"># no more coords in this dimension</span>
-                    <span class="k">continue</span>
-
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                    <span class="n">slc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">sel</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
-
-            <span class="c"># if we&#39;re doing a cc slice, there needs to be one more node</span>
-            <span class="c"># than data element, so add an extra node to slc.stop</span>
-            <span class="k">if</span> <span class="n">cc</span> <span class="ow">and</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">newstop</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span>
-                <span class="k">else</span><span class="p">:</span>  <span class="c"># slc.stop &lt; 0</span>
-                    <span class="c"># this will slice crds nc, so if we&#39;re going backward, the</span>
-                    <span class="c"># extra crd will be included</span>
-                    <span class="n">newstop</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span>
-                <span class="n">crd_slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">slc</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">newstop</span><span class="p">,</span> <span class="n">slc</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">crd_slc</span> <span class="o">=</span> <span class="n">slc</span>
-            <span class="n">slices</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="n">slc</span>
-            <span class="c"># slcrds[dind] = [axis, self[axis][crd_slc].reshape(-1)]</span>
-            <span class="n">slcrds</span><span class="p">[</span><span class="n">dind</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">axis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_native_slice</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">crd_slc</span><span class="p">)]</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">()</span>
 
-        <span class="c"># remove dimensions that were sliced out</span>
-        <span class="n">slcrds</span> <span class="o">=</span> <span class="p">[</span><span class="n">crd</span> <span class="k">for</span> <span class="n">crd</span> <span class="ow">in</span> <span class="n">slcrds</span> <span class="k">if</span> <span class="n">crd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
-
-        <span class="c"># print(&quot;MAKE SLICE : slices&quot;, slices, &quot;crdlst&quot;, slcrds,</span>
-        <span class="c">#       &quot;reduced&quot;, reduced)</span>
-        <span class="k">return</span> <span class="n">slices</span><span class="p">,</span> <span class="n">slcrds</span><span class="p">,</span> <span class="n">reduced</span>
+        <span class="c"># print(&quot;&lt; slice made&quot;, slices)</span>
+        <span class="k">return</span> <span class="n">slices</span><span class="p">,</span> <span class="n">sliced_clist</span><span class="p">,</span> <span class="n">reduced</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.make_slice_reduce"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.make_slice_reduce">[docs]</a>    <span class="k">def</span> <span class="nf">make_slice_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;make slice, and reduce dims that were not explicitly sliced&quot;&quot;&quot;</span>
@@ -894,7 +825,7 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice_reduce"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.slice_reduce">[docs]</a>    <span class="k">def</span> <span class="nf">slice_reduce</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get crds that describe a slice (subset) of this grid. Go</span>
@@ -906,7 +837,7 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.slice_keep"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.slice_keep">[docs]</a>    <span class="k">def</span> <span class="nf">slice_keep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="n">slices</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">reduced</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_slice_keep</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span>
@@ -914,7 +845,28 @@
         <span class="c"># pass through if nothing happened</span>
         <span class="k">if</span> <span class="n">slices</span> <span class="o">==</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span>
-        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="StructuredCrds.slice_interp"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.slice_interp">[docs]</a>    <span class="k">def</span> <span class="nf">slice_interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_slice_keep</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)</span>
+
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+
+        <span class="c"># for slices that were specified using a float, set that crd</span>
+        <span class="c"># to the desired float instead of the nearest crd as does slice_keep</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">slc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">selection</span><span class="p">):</span>
+            <span class="n">slc</span> <span class="o">=</span> <span class="n">vutil</span><span class="o">.</span><span class="n">convert_deprecated_floats</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="s">&quot;slc&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slc</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">slc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;f&#39;</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">slc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cc</span><span class="p">:</span>
+                    <span class="n">dxh</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">crdlst</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">crdlst</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">crdlst</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="o">-</span> <span class="n">dxh</span>
+                    <span class="n">crdlst</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="n">dxh</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c"># FIXME: I don&#39;t think this is right</span>
+                    <span class="n">crdlst</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">return</span> <span class="n">wrap_crds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_TYPE</span><span class="p">,</span> <span class="n">crdlst</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="StructuredCrds.get_crd"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.StructuredCrds.get_crd">[docs]</a>    <span class="k">def</span> <span class="nf">get_crd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;if axis is not specified, return all coords,</span>
@@ -1277,10 +1229,14 @@
             <span class="n">proxy_crd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">proxy_crd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crd</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">)[</span><span class="n">slc</span><span class="p">]</span>
-        <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">proxy_crd</span><span class="p">)</span>
-        <span class="n">xl</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">xh</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">nx</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">proxy_crd</span><span class="p">)</span>
+            <span class="n">xl</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">xh</span> <span class="o">=</span> <span class="n">proxy_crd</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">nx</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy_crd</span>
 
 <div class="viewcode-block" id="UniformCrds.extend_by_half"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.coordinate.UniformCrds.extend_by_half">[docs]</a>    <span class="k">def</span> <span class="nf">extend_by_half</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Extend coordinates half a grid cell in all directions</span>

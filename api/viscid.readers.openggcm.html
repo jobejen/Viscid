@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.openggcm module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.openggcm module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.readers.psc module" href="viscid.readers.psc.html" />
     <link rel="prev" title="viscid.readers.numpy_binary module" href="viscid.readers.numpy_binary.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -197,17 +197,12 @@ watched_classes`. Defaults to False for performance.</p>
 <tt class="descname">read_logfile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFile.read_logfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_logfile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="viscid.readers.openggcm.GGCMFile.vfilebucket">
-<tt class="descname">vfilebucket</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.vfilebucket" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.openggcm.GGCMFileFortran">
-<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFileFortran</tt><big>(</big><em>fname</em>, <em>vfilebucket=None</em>, <em>crds=None</em>, <em>fld_templates=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFileFortran</tt><big>(</big><em>fname</em>, <em>crds=None</em>, <em>fld_templates=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></tt></a></p>
 <p>An abstract class from which jrrle and fortbin files are derived</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

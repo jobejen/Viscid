@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.hdf5 module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.hdf5 module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.readers.numpy_binary module" href="viscid.readers.numpy_binary.html" />
     <link rel="prev" title="viscid.readers.ggcm_xdmf module" href="viscid.readers.ggcm_xdmf.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -176,6 +176,11 @@
 <dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
 <p>this is an abstract-ish class from which other types of hdf5 readers
 should derrive</p>
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.FileHDF5.SAVE_ONLY">
+<tt class="descname">SAVE_ONLY</tt><em class="property"> = True</em><a class="headerlink" href="#viscid.readers.hdf5.FileHDF5.SAVE_ONLY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="viscid.readers.hdf5.FileHDF5.save">
 <tt class="descname">save</tt><big>(</big><em>fname=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#FileHDF5.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.FileHDF5.save" title="Permalink to this definition">¶</a></dt>
@@ -208,8 +213,18 @@ going to be in the file.</p>
 
 <dl class="class">
 <dt id="viscid.readers.hdf5.H5pyDataWrapper">
-<em class="property">class </em><tt class="descclassname">viscid.readers.hdf5.</tt><tt class="descname">H5pyDataWrapper</tt><big>(</big><em>fname</em>, <em>loc</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.readers.hdf5.</tt><tt class="descname">H5pyDataWrapper</tt><big>(</big><em>fname</em>, <em>loc</em>, <em>comp_dim=None</em>, <em>comp_idx=None</em>, <em>transpose=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.comp_dim">
+<tt class="descname">comp_dim</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.comp_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.comp_idx">
+<tt class="descname">comp_idx</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.comp_idx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.readers.hdf5.H5pyDataWrapper.dtype">
 <tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
@@ -222,11 +237,6 @@ for large temporal datasets over sshfs</p>
 <tt class="descname">fname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.fname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="viscid.readers.hdf5.H5pyDataWrapper.len">
-<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.len" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="attribute">
 <dt id="viscid.readers.hdf5.H5pyDataWrapper.loc">
 <tt class="descname">loc</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.loc" title="Permalink to this definition">¶</a></dt>
@@ -234,7 +244,7 @@ for large temporal datasets over sshfs</p>
 
 <dl class="method">
 <dt id="viscid.readers.hdf5.H5pyDataWrapper.read_direct">
-<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">read_direct</tt><big>(</big><em>arr</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -244,9 +254,9 @@ for large temporal datasets over sshfs</p>
 for large temporal datasets over sshfs</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="viscid.readers.hdf5.H5pyDataWrapper.wrap_func">
-<tt class="descname">wrap_func</tt><big>(</big><em>func_name</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/hdf5.html#H5pyDataWrapper.wrap_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.wrap_func" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="viscid.readers.hdf5.H5pyDataWrapper.transpose">
+<tt class="descname">transpose</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.hdf5.H5pyDataWrapper.transpose" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

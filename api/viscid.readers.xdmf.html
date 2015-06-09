@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.xdmf module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.xdmf module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.amr_field module" href="viscid.amr_field.html" />
     <link rel="prev" title="viscid.readers.vfile_bucket module" href="viscid.readers.vfile_bucket.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -172,8 +172,8 @@
 <span id="viscid-readers-xdmf-module"></span><h1>viscid.readers.xdmf module<a class="headerlink" href="#module-viscid.readers.xdmf" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.readers.xdmf.FileXDMF">
-<em class="property">class </em><tt class="descclassname">viscid.readers.xdmf.</tt><tt class="descname">FileXDMF</tt><big>(</big><em>fname</em>, <em>vfilebucket=None</em>, <em>h5_root_dir=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/xdmf.html#FileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.xdmf.FileXDMF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.xdmf.</tt><tt class="descname">FileXDMF</tt><big>(</big><em>fname</em>, <em>h5_root_dir=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/xdmf.html#FileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.xdmf.FileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></tt></a></p>
 <p>on init, parse an xdmf file into datasets, grids, and fields</p>
 <dl class="attribute">
 <dt id="viscid.readers.xdmf.FileXDMF.h5_root_dir">

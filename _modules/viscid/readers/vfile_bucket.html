@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.vfile_bucket &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.vfile_bucket &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -168,14 +168,13 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
 <span class="kn">from</span> <span class="nn">viscid.bucket</span> <span class="kn">import</span> <span class="n">Bucket</span>
 <span class="kn">from</span> <span class="nn">viscid.readers.vfile</span> <span class="kn">import</span> <span class="n">VFile</span>
-<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-
+<span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">string_types</span>
+<span class="kn">from</span> <span class="nn">viscid.vutil</span> <span class="kn">import</span> <span class="n">slice_globbed_filenames</span>
 
 <div class="viewcode-block" id="VFileBucket"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket">[docs]</a><span class="k">class</span> <span class="nc">VFileBucket</span><span class="p">(</span><span class="n">Bucket</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; manages open files, create / get with get_file_bucket() as you</span>
@@ -200,11 +199,12 @@
             <span class="k">return</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fls</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Loaded &gt; 1 file for &#39;{0}&#39;, did you mean to call &quot;</span>
-                            <span class="s">&quot;load_files()?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Loaded &gt; 1 file for </span><span class="si">%s</span><span class="s">, did you mean to call &quot;</span>
+                            <span class="s">&quot;load_files()?&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">fls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.load_files"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.load_files">[docs]</a>    <span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="VFileBucket.load_files"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.load_files">[docs]</a>    <span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">file_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                   <span class="n">_add_ref</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Load files, and add them to the bucket</span>
 
 <span class="sd">        Initialize obj before it&#39;s put into the list, whatever is returned</span>
@@ -232,12 +232,18 @@
         <span class="c"># glob and convert to absolute paths</span>
         <span class="n">globbed_fnames</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
-            <span class="n">expanded_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
-            <span class="n">absfname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">expanded_fname</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s">&#39;*&#39;</span> <span class="ow">in</span> <span class="n">absfname</span> <span class="ow">or</span> <span class="s">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">absfname</span><span class="p">:</span>
-                <span class="n">globbed_fnames</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span><span class="n">absfname</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">globbed_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">absfname</span><span class="p">]</span>
+            <span class="n">slglob</span> <span class="o">=</span> <span class="n">slice_globbed_filenames</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slglob</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                <span class="n">slglob</span> <span class="o">=</span> <span class="p">[</span><span class="n">slglob</span><span class="p">]</span>
+            <span class="n">globbed_fnames</span> <span class="o">+=</span> <span class="n">slglob</span>
+            <span class="c"># print(&quot;&gt;&gt;&quot;, fname)</span>
+            <span class="c"># print(&quot;==&quot;, globbed_fnames)</span>
+            <span class="c"># expanded_fname = os.path.expanduser(os.path.expandvars(fname))</span>
+            <span class="c"># absfname = os.path.abspath(expanded_fname)</span>
+            <span class="c"># if &#39;*&#39; in absfname or &#39;?&#39; in absfname:</span>
+            <span class="c">#     globbed_fnames += glob(absfname)</span>
+            <span class="c"># else:</span>
+            <span class="c">#     globbed_fnames += [absfname]</span>
             <span class="c"># Is it necessary to recall abspath here? We did it before</span>
             <span class="c"># the glob to make sure it didn&#39;t start with a &#39;.&#39; since that</span>
             <span class="c"># tells glob not to fill wildcards</span>
@@ -266,26 +272,20 @@
         <span class="k">for</span> <span class="n">ftype</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">types_detected</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">]</span>
             <span class="c"># group all file names of a given type</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">groups</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">group_fnames</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="c"># can&#39;t group fnames for this type, that&#39;s ok</span>
-                <span class="n">groups</span> <span class="o">=</span> <span class="n">names</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">group_fnames</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 
             <span class="c"># iterate all the groups and add them</span>
             <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
                 <span class="n">f</span> <span class="o">=</span> <span class="bp">None</span>
 
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">handle_name</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                    <span class="n">handle_name</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">handle_name</span> <span class="o">=</span> <span class="n">ftype</span><span class="o">.</span><span class="n">collective_name</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
 
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">handle_name</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">f</span> <span class="o">=</span> <span class="n">ftype</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                        <span class="n">f</span> <span class="o">=</span> <span class="n">ftype</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">parent_bucket</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                        <span class="n">f</span><span class="o">.</span><span class="n">handle_name</span> <span class="o">=</span> <span class="n">handle_name</span>
                     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                         <span class="n">s</span> <span class="o">=</span> <span class="s">&quot; IOError on file: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
                         <span class="n">s</span> <span class="o">+=</span> <span class="s">&quot;              File Type: {0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">handle_name</span><span class="p">)</span>
@@ -302,7 +302,8 @@
                         <span class="c"># re-raise the last expection</span>
                         <span class="k">raise</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_item</span><span class="p">([</span><span class="n">handle_name</span><span class="p">],</span> <span class="n">f</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="n">index_handle</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_item</span><span class="p">([</span><span class="n">handle_name</span><span class="p">],</span> <span class="n">f</span><span class="p">,</span> <span class="n">index_handle</span><span class="o">=</span><span class="n">index_handle</span><span class="p">,</span>
+                              <span class="n">_add_ref</span><span class="o">=</span><span class="n">_add_ref</span><span class="p">)</span>
                 <span class="n">file_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_lst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -310,13 +311,18 @@
                         <span class="s">&quot;correct?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">orig_fnames</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">file_lst</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="n">item</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+<div class="viewcode-block" id="VFileBucket.remove_item"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.remove_item">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">do_unload</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">do_unload</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">remove_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    <span class="k">def</span> <span class="nf">remove_all_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">val</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+<div class="viewcode-block" id="VFileBucket.remove_item_by_handle"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.remove_item_by_handle">[docs]</a>    <span class="k">def</span> <span class="nf">remove_item_by_handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">do_unload</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">handle</span><span class="p">],</span> <span class="n">do_unload</span><span class="o">=</span><span class="n">do_unload</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="VFileBucket.remove_all_items"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.VFileBucket.remove_all_items">[docs]</a>    <span class="k">def</span> <span class="nf">remove_all_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">do_unload</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">do_unload</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">val</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span>
 </div>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
@@ -327,7 +333,64 @@
     <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
             <span class="n">handle</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">handle</span><span class="p">))</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__contains__</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">VFileBucket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__contains__</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ContainerFile"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile">[docs]</a><span class="k">class</span> <span class="nc">ContainerFile</span><span class="p">(</span><span class="n">VFile</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;A container file is a VFile that can load other files</span>
+
+<span class="sd">    The use case is always something like the relationship between XDMF</span>
+<span class="sd">    files and HDF5 files. It&#39;s nice for an XDMF file to keep track of</span>
+<span class="sd">    all the HDF5 Files that it refers to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">child_bucket</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_child_files</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_child_ref_count</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">parent_bucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">parent_bucket</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span> <span class="o">=</span> <span class="n">VFileBucket</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span> <span class="o">=</span> <span class="n">parent_bucket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_child_files</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContainerFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">parent_bucket</span><span class="o">=</span><span class="n">parent_bucket</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_child_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add file to self.child_bucket and remember it for when I unload&quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">_add_ref</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">handle_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_child_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">handle_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">f</span>
+
+<div class="viewcode-block" id="ContainerFile.reload"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">child_handle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContainerFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ContainerFile.unload"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">child_handle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ref_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s">&quot;count&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s">&quot;_ref_count&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span><span class="o">.</span><span class="n">unload</span><span class="p">(</span><span class="n">_ref_count</span><span class="o">=</span><span class="n">ref_count</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContainerFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ContainerFile.clear_cache"><a class="viewcode-back" href="../../../api/viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile.clear_cache">[docs]</a>    <span class="k">def</span> <span class="nf">clear_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">child_handle</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child_ref_count</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">child_bucket</span><span class="p">[</span><span class="n">child_handle</span><span class="p">]</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ContainerFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
+
+<span class="c">##</span>
+<span class="c">## EOF</span>
+<span class="c">##</span></div></div>
 </pre></div>
 
     </div>

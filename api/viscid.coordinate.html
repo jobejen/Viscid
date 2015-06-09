@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.coordinate module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.dataset module" href="viscid.dataset.html" />
     <link rel="prev" title="viscid.bucket module" href="viscid.bucket.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -193,7 +193,7 @@ with uniform coordinates</dd>
 </dl>
 <dl class="class">
 <dt id="viscid.coordinate.Coordinates">
-<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">Coordinates</tt><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">viscid.coordinate.</tt><tt class="descname">Coordinates</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#Coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.Coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="method">
 <dt id="viscid.coordinate.Coordinates.as_coordinates">
@@ -309,6 +309,11 @@ side effects</p>
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.axis_name">
 <tt class="descname">axis_name</tt><big>(</big><em>axis</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.axis_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.axis_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.clear_cache" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -518,16 +523,16 @@ nextitem will be a list of nr_dims numbers</p>
 <dt id="viscid.coordinate.StructuredCrds.make_slice">
 <tt class="descname">make_slice</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.make_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.make_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turns a slice string into a slice (should be private?)</p>
-<p>Slices should be made using the normal <tt class="docutils literal"><span class="pre">field[selecton]</span></tt>
+<p>Slices should be made using the normal <tt class="docutils literal"><span class="pre">field[selection]</span></tt>
 syntax. This function is more for internal use; however it
 does document the slice string syntax.</p>
-<p>In practice, selection can be a string like &#8220;y=3:6:2,z=0.0&#8221;
-where integers indicate an index as opposed to floats
-which slice by crd value. The example slice would be the 3rd
-and 5th crds in y, and the z = 0.0 plane. Selection can also
-be the usual tuple of slice objects / integers like one would
-give to numpy.</p>
-<p>&#8220;y=3:6:2,z=0.0&#8221; will give (if z[32] is closest to z=0.0):</p>
+<p>In practice, selection can be a string like
+&#8220;y = 3:6:2, z = 0.0f&#8221; where integers indicate an index as
+opposed to floats followed by an &#8216;f&#8217; which slice by crd value.
+The example slice would be the 3rd and 5th crds in y, and the
+z = 0.0 plane. Selection can also be the usual tuple of slice
+objects / integers like one would give to numpy.</p>
+<p>&#8220;y = 3:6:2, z = 0.0&#8221; will give (if z[32] is closest to z=0.0):</p>
 <div class="highlight-python"><div class="highlight"><pre>([slice(None), slice(3, 6, 2), 32],
  [[&#39;x&#39;, ndarray(all nc x crds)], [&#39;y&#39;, array(y[3], y[5])]],
  [[&#39;z&#39;, 0.0]],
@@ -539,7 +544,7 @@ give to numpy.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>selecton</strong> (<em>str</em>) &#8211; slice string</li>
+<li><strong>selection</strong> (<em>int, str, slice</em>) &#8211; slice string</li>
 <li><strong>cc</strong> (<em>bool</em>) &#8211; cell centered slice</li>
 </ul>
 </td>
@@ -673,6 +678,11 @@ you want either slice_reduce or slice_keep</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.slice_interp">
+<tt class="descname">slice_interp</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.slice_interp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.slice_interp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.slice_keep">
 <tt class="descname">slice_keep</tt><big>(</big><em>selection</em>, <em>cc=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.slice_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.slice_keep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -683,12 +693,6 @@ you want either slice_reduce or slice_keep</p>
 <dd><p>Get crds that describe a slice (subset) of this grid. Go
 through, and if the slice didn&#8217;t touch a dim with only one crd,
 reduce it</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="viscid.coordinate.StructuredCrds.unload">
-<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.unload" title="Permalink to this definition">¶</a></dt>
-<dd><p>does not guarentee that the memory will be freed</p>
 </dd></dl>
 
 <dl class="attribute">

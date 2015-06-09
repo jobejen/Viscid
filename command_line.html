@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Command Line Utilities &mdash; Viscid 0.80.7 documentation</title>
+    <title>Command Line Utilities &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="index.html" />
     <link rel="next" title="Extending Readers" href="extending_readers.html" />
     <link rel="prev" title="Plot Options" href="plot_options.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -184,7 +184,7 @@
   -p &#39;^tmp=abs(psi)&#39; -o log,style_contour,levels_30,linewidths=0.8,colors=grey,linestyles_solid \
   -p &#39;B$^2$=bx**2+by**2+bz**2&#39; -o log \
   -p &#39;$\rho v^2$=rr*(vx**2+vy**2+vz**2)&#39; -o log \
-  --slice x=-20.0:15.0,y=0.0,z=-10.0:10.0 -t T1:00:00.0 -s 7,15 --tighten \
+  --slice x=-20.0f:15.0f,y=0.0f,z=-10.0f:10.0f -t T1:00:00.0 -s 7,15 --tighten \
   $DEV/src/Viscid/sample/*.py_0.xdmf
 </pre></div>
 </div>
@@ -194,7 +194,7 @@
 <h2>viscid_ts<a class="headerlink" href="#viscid-ts" title="Permalink to this headline">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">viscid_ts</span></tt> is a script for quickly generating time series plots:</p>
 <div class="highlight-python"><div class="highlight"><pre>viscid_ts -p &#39;P=pp&#39; -o log -p &#39;B$_x$=bx&#39; -p &#39;|V|=sqrt(vx**2+vy**2+vz**2)&#39; \
---slice x=9.5,y=0.0,z=0.0 --timeformat hms --rl -t T1:00:00.0:T1:20:00.0 \
+--slice x=9.5,y=0.0f,z=0.0f --timeformat hms --rl -t T1:00:00.0:T1:20:00.0 \
 --nofname $MNT/trillian/scratch/da*e3/target/*.py_0.xdmf
 </pre></div>
 </div>

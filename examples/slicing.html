@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Slicing Examples &mdash; Viscid 0.80.7 documentation</title>
+    <title>Slicing Examples &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="Examples" href="index.html" />
     <link rel="next" title="Calculator Examples" href="calc.html" />
     <link rel="prev" title="Reading/Plotting Examples" href="plotting.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -182,9 +182,9 @@
 
 <span class="n">f3d</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">_viscid_root</span> <span class="o">+</span> <span class="s">&#39;/../../sample/sample.3df.xdmf&#39;</span><span class="p">)</span>
 
-<span class="c"># notice how slices by index appear as integers, and slices by location</span>
-<span class="c"># are done with floats... this means &quot;y=0&quot; is not the same as &quot;y=0.0&quot;</span>
-<span class="n">pp</span> <span class="o">=</span> <span class="n">f3d</span><span class="p">[</span><span class="s">&quot;pp&quot;</span><span class="p">][</span><span class="s">&quot;x=50:-30,y=0.0,z=-10.0:10.0&quot;</span><span class="p">]</span>
+<span class="c"># Notice that slices by location are done by appending an &#39;f&#39; to the</span>
+<span class="c"># slice. This means &quot;y=0&quot; is not the same as &quot;y=0f&quot;.</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">f3d</span><span class="p">[</span><span class="s">&quot;pp&quot;</span><span class="p">][</span><span class="s">&quot;x = 50:-30, y = 0.0f, z = -10.0f:10.0f&quot;</span><span class="p">]</span>
 <span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&quot;contourf&quot;</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">plot_opts</span><span class="o">=</span><span class="s">&quot;log,earth&quot;</span><span class="p">)</span>
 </pre></div>
 </div>

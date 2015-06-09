@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.vfile &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.vfile &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,9 +174,9 @@
 <span class="c"># import sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DatasetTemporal</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
@@ -217,6 +217,11 @@
     <span class="sd">&quot;&quot;&quot;Generic File</span>
 
 <span class="sd">    Note:</span>
+<span class="sd">        If you want a file that can load other files (like how XDMF</span>
+<span class="sd">        files need to be able to load HDF5 files) then subclass off of</span>
+<span class="sd">        :py:class:`viscid.readers.vfile_bucket.ContainerFile` instead.</span>
+
+<span class="sd">    Note:</span>
 <span class="sd">        Important when subclassing: Do not call the constructors for a</span>
 <span class="sd">        dataset / grid yourself, dispatch through _make_dataset and</span>
 <span class="sd">        _make_grid.</span>
@@ -229,8 +234,11 @@
     <span class="n">_temporal_dataset_type</span> <span class="o">=</span> <span class="n">DatasetTemporal</span>
     <span class="n">_grid_opts</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="n">vfilebucket</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">SAVE_ONLY</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="n">parent_bucket</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">load_time</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">handle_name</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># set in VFileBucket.load_files</span>
 
     <span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">dirname</span> <span class="o">=</span> <span class="bp">None</span>
@@ -239,7 +247,7 @@
                  <span class="c"># for instance hdf5 File object</span>
     <span class="c"># grids = None  # already part of Dataset</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">parent_bucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">grid_opts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;  &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">VFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -248,10 +256,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span> <span class="o">=</span> <span class="n">grid_type</span>
         <span class="k">if</span> <span class="n">grid_opts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">grid_opts</span> <span class="o">=</span> <span class="n">grid_opts</span>
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid_opts</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">vfilebucket</span> <span class="o">=</span> <span class="n">vfilebucket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent_bucket</span> <span class="o">=</span> <span class="n">parent_bucket</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
 <div class="viewcode-block" id="VFile.load"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
@@ -262,19 +270,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">load_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_parse</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="VFile.refresh"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.refresh">[docs]</a>    <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c">#self.unload()</span>
+<div class="viewcode-block" id="VFile.reload"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear_cache</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fname</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; unload is meant to give children a chance to free caches, the idea</span>
-<span class="sd">        being that an unload will free memory, but all the functionality is</span>
-<span class="sd">        preserved, so data is accessable without an explicit reload</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+<div class="viewcode-block" id="VFile.unload"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Really unload a file, don&#39;t just clear the cache&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear_cache</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_bucket</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent_bucket</span><span class="o">.</span><span class="n">remove_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">None</span>
 
     <span class="c"># some classy saving utility methods, should be sufficient to override</span>
-    <span class="c"># save and save_fields</span></div>
+    <span class="c"># save and save_fields</span>
 <div class="viewcode-block" id="VFile.save"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; save an instance of VFile, fname defaults to the name</span>
 <span class="sd">        of the file object as read &quot;&quot;&quot;</span>
@@ -334,6 +347,8 @@
 
         <span class="k">if</span> <span class="n">grid_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">grid_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_type</span>
+        <span class="k">if</span> <span class="n">grid_type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0} can&#39;t create grids&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
         <span class="n">g</span> <span class="o">=</span> <span class="n">grid_type</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">other</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">parent_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -358,7 +373,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;override _parse to read a file&quot;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<div class="viewcode-block" id="VFile.detect_type"><a class="viewcode-back" href="../../../api/viscid.readers.vfile.html#viscid.readers.vfile.VFile.detect_type">[docs]</a>    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;r&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; recursively detect a filetype using _detector regex string.</span>
 <span class="sd">        this is called recursively for all subclasses and results</span>
 <span class="sd">        further down the tree are given precedence.</span>
@@ -370,10 +385,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># reversed gives precedence to the more recently declared classes</span>
         <span class="k">for</span> <span class="n">filetype</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()):</span> <span class="c">#pylint: disable=E1101</span>
-            <span class="n">td</span> <span class="o">=</span> <span class="n">filetype</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+            <span class="n">td</span> <span class="o">=</span> <span class="n">filetype</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">td</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">td</span>
         <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">_detector</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_detector</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s">&#39;r&#39;</span> <span class="ow">in</span> <span class="n">mode</span> <span class="ow">and</span> <span class="n">cls</span><span class="o">.</span><span class="n">SAVE_ONLY</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
             <span class="k">return</span> <span class="n">cls</span>
         <span class="k">return</span> <span class="bp">None</span>
 </div>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.ggcm_jrrle &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.ggcm_jrrle &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -171,13 +171,14 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">grid</span>
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">vfile</span>
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">openggcm</span>
 <span class="kn">from</span> <span class="nn">viscid.readers._fortfile_wrapper</span> <span class="kn">import</span> <span class="n">FortranFile</span>
 <span class="kn">from</span> <span class="nn">viscid.readers</span> <span class="kn">import</span> <span class="n">_jrrle</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="n">read_ascii</span> <span class="o">=</span> <span class="bp">False</span>
 
 
 <div class="viewcode-block" id="GGCMFileJrrleMHD"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.GGCMFileJrrleMHD">[docs]</a><span class="k">class</span> <span class="nc">GGCMFileJrrleMHD</span><span class="p">(</span><span class="n">openggcm</span><span class="o">.</span><span class="n">GGCMFileFortran</span><span class="p">):</span>  <span class="c"># pylint: disable=abstract-method</span>
@@ -189,8 +190,8 @@
     <span class="n">_data_item_templates</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">_def_fld_center</span> <span class="o">=</span> <span class="s">&quot;Cell&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileJrrleMHD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">vfilebucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GGCMFileJrrleMHD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_shape_discovery_hack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">JrrleFileWrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -306,7 +307,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">meta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inquire</span><span class="p">(</span><span class="n">fld_name</span><span class="p">)</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;dims&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_read_func</span><span class="p">[</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_func</span><span class="p">[</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">read_ascii</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">meta</span><span class="p">,</span> <span class="n">arr</span>
 </div>
 <div class="viewcode-block" id="JrrleFileWrapper.inquire_all_fields"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_jrrle.html#viscid.readers.ggcm_jrrle.JrrleFileWrapper.inquire_all_fields">[docs]</a>    <span class="k">def</span> <span class="nf">inquire_all_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reinquire</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>

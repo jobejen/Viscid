@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.field module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.field module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.grid module" href="viscid.grid.html" />
     <link rel="prev" title="viscid.dataset module" href="viscid.dataset.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -189,7 +189,7 @@ ValueError</p>
 <dl class="method">
 <dt id="viscid.field.Field.__exit__">
 <tt class="descname">__exit__</tt><big>(</big><em>exc_type</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.__exit__" title="Permalink to this definition">¶</a></dt>
-<dd><p>unload the data</p>
+<dd><p>clear cached data</p>
 </dd></dl>
 
 <dl class="method">
@@ -206,12 +206,32 @@ ValueError</p>
 
 <dl class="method">
 <dt id="viscid.field.Field.all">
-<tt class="descname">all</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.all" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">all</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.field.Field.any">
-<tt class="descname">any</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.any" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">any</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.any" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.argmax">
+<tt class="descname">argmax</tt><big>(</big><em>axis=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.argmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.argmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.argmin">
+<tt class="descname">argmin</tt><big>(</big><em>axis=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.argmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.argmin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.argpartition">
+<tt class="descname">argpartition</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.argpartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.argpartition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.argsort">
+<tt class="descname">argsort</tt><big>(</big><em>axis=-1</em>, <em>kind='quicksort'</em>, <em>order=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.argsort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.argsort" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -269,21 +289,42 @@ is the same as self (including the state of cachedness)</p>
 <tt class="descname">center</tt><a class="reference internal" href="../_modules/viscid/field.html#Field.center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.center" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>does not guarentee that the memory will be freed</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.crds">
 <tt class="descname">crds</tt><a class="reference internal" href="../_modules/viscid/field.html#Field.crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.crds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.cumprod">
+<tt class="descname">cumprod</tt><big>(</big><em>axis=None</em>, <em>dtype=None</em>, <em>order=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.cumprod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.cumprod" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.cumsum">
+<tt class="descname">cumsum</tt><big>(</big><em>axis=None</em>, <em>dtype=None</em>, <em>order=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.cumsum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.cumsum" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.field.Field.data">
 <tt class="descname">data</tt><a class="reference internal" href="../_modules/viscid/field.html#Field.data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>if you want to fill the cache, this will do it, note that
-to empty the cache later you can always use unload</p>
+to empty the cache later you can always use clear_cache</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.field.Field.deep_meta">
 <tt class="descname">deep_meta</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.deep_meta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.defer_wrapping">
+<tt class="descname">defer_wrapping</tt><em class="property"> = False</em><a class="headerlink" href="#viscid.field.Field.defer_wrapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -383,6 +424,11 @@ shaped==False, or shaped if shaped==True</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.field.Field.interpolated_slice">
+<tt class="descname">interpolated_slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.interpolated_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.interpolated_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.field.Field.is_loaded">
 <tt class="descname">is_loaded</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.is_loaded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.is_loaded" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -414,9 +460,29 @@ shaped==False, or shaped if shaped==True</p>
 calls _detect_layout(_src_data) which tries to be lazy</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.max">
+<tt class="descname">max</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.mean">
+<tt class="descname">mean</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.mean" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.meta">
 <tt class="descname">meta</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.meta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.min">
+<tt class="descname">min</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.field.Field.ndim">
+<tt class="descname">ndim</tt><a class="reference internal" href="../_modules/viscid/field.html#Field.ndim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.ndim" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -452,6 +518,11 @@ done here</p>
 explicitly load the data</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.partition">
+<tt class="descname">partition</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.partition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.post_reshape_transform_func">
 <tt class="descname">post_reshape_transform_func</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.post_reshape_transform_func" title="Permalink to this definition">¶</a></dt>
@@ -460,6 +531,11 @@ explicitly load the data</p>
 <dl class="attribute">
 <dt id="viscid.field.Field.pretty_name">
 <tt class="descname">pretty_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.pretty_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.prod">
+<tt class="descname">prod</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.prod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.prod" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -490,9 +566,9 @@ the data</p>
 <dd><p>Get a field just like this one with a new cache</p>
 <p>So, fields that belong to files are kept around for the
 lifetime of the file bucket, which is probably the lifetime
-of the main script. That means you have to explicitly unload
-to clear the cache (important if reading a timeseries of fields
-&gt; 1GB). This function will return a new field instance with
+of the main script. That means you have to explicitly clear the
+cache (important if reading a timeseries of fields &gt; 1GB).
+This function will return a new field instance with
 references to all the same internals as self, except for the
 cache. Effectively, this turns the parent field into a
 lightweight &#8220;field shell&#8221;, from which a memory intensive field
@@ -567,20 +643,24 @@ the same shape as underlying array, does not load the data</p>
 <dd><p>how many values make up one component of the underlying data</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="viscid.field.Field.std">
+<tt class="descname">std</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.std" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.sum">
+<tt class="descname">sum</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.sum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.field.Field.transform_func_kwargs">
 <tt class="descname">transform_func_kwargs</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.field.Field.transform_func_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.field.Field.unload">
-<tt class="descname">unload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.unload" title="Permalink to this definition">¶</a></dt>
-<dd><p>does not guarentee that the memory will be freed</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="viscid.field.Field.wrap">
-<tt class="descname">wrap</tt><big>(</big><em>arr</em>, <em>context=None</em>, <em>fldtype=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.wrap" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">wrap</tt><big>(</big><em>arr</em>, <em>context=None</em>, <em>fldtype=None</em>, <em>npkwargs=None</em>, <em>other=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/field.html#Field.wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.wrap" title="Permalink to this definition">¶</a></dt>
 <dd><p>arr is the data to wrap... context is exta deep_meta to pass
 to the constructor. The return is just a number if arr is a
 1 element ndarray, this is for ufuncs that reduce to a scalar</p>

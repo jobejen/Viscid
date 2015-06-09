@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.vfile_bucket module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.readers.vfile_bucket module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.readers.xdmf module" href="viscid.readers.xdmf.html" />
     <link rel="prev" title="viscid.readers.vfile module" href="viscid.readers.vfile.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -171,6 +171,36 @@
   <div class="section" id="module-viscid.readers.vfile_bucket">
 <span id="viscid-readers-vfile-bucket-module"></span><h1>viscid.readers.vfile_bucket module<a class="headerlink" href="#module-viscid.readers.vfile_bucket" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
+<dt id="viscid.readers.vfile_bucket.ContainerFile">
+<em class="property">class </em><tt class="descclassname">viscid.readers.vfile_bucket.</tt><tt class="descname">ContainerFile</tt><big>(</big><em>fname</em>, <em>parent_bucket=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#ContainerFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.ContainerFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<p>A container file is a VFile that can load other files</p>
+<p>The use case is always something like the relationship between XDMF
+files and HDF5 files. It&#8217;s nice for an XDMF file to keep track of
+all the HDF5 Files that it refers to.</p>
+<dl class="attribute">
+<dt id="viscid.readers.vfile_bucket.ContainerFile.child_bucket">
+<tt class="descname">child_bucket</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.vfile_bucket.ContainerFile.child_bucket" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.vfile_bucket.ContainerFile.clear_cache">
+<tt class="descname">clear_cache</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#ContainerFile.clear_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.ContainerFile.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.vfile_bucket.ContainerFile.reload">
+<tt class="descname">reload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#ContainerFile.reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.ContainerFile.reload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.vfile_bucket.ContainerFile.unload">
+<tt class="descname">unload</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#ContainerFile.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.ContainerFile.unload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="viscid.readers.vfile_bucket.VFileBucket">
 <em class="property">class </em><tt class="descclassname">viscid.readers.vfile_bucket.</tt><tt class="descname">VFileBucket</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.bucket.html#viscid.bucket.Bucket" title="viscid.bucket.Bucket"><tt class="xref py py-class docutils literal"><span class="pre">viscid.bucket.Bucket</span></tt></a></p>
@@ -186,7 +216,7 @@ of vFiles like load does</p>
 
 <dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.load_files">
-<tt class="descname">load_files</tt><big>(</big><em>fnames</em>, <em>index_handle=True</em>, <em>file_type=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.load_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.load_files" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">load_files</tt><big>(</big><em>fnames</em>, <em>index_handle=True</em>, <em>file_type=None</em>, <em>_add_ref=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.load_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.load_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load files, and add them to the bucket</p>
 <p>Initialize obj before it&#8217;s put into the list, whatever is returned
 is what gets stored, returning None means object init failed, do
@@ -216,12 +246,17 @@ in order to accomidate globs and file grouping.</p>
 
 <dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.remove_all_items">
-<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_all_items</tt><big>(</big><em>do_unload=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.vfile_bucket.VFileBucket.remove_item">
-<tt class="descname">remove_item</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_item" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_item</tt><big>(</big><em>item</em>, <em>do_unload=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.readers.vfile_bucket.VFileBucket.remove_item_by_handle">
+<tt class="descname">remove_item_by_handle</tt><big>(</big><em>handle</em>, <em>do_unload=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/vfile_bucket.html#VFileBucket.remove_item_by_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.vfile_bucket.VFileBucket.remove_item_by_handle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

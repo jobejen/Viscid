@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.vutil module &mdash; Viscid 0.80.7 documentation</title>
+    <title>viscid.vutil module &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.7',
+        VERSION:     '0.80.8 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.7 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="prev" title="viscid.vlab module" href="viscid.vlab.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.7</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.8 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -194,19 +194,29 @@ returns the args namespace</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.vutil.convert_floating_slice">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">convert_floating_slice</tt><big>(</big><em>arr</em>, <em>start</em>, <em>stop=None</em>, <em>step=None</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#convert_floating_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.convert_floating_slice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Be able to slice using floats relative to an array</p>
-<p>The idea is that [0.1, 0.2, 0.3, 0.4, 0.5, 0.6][0.2:0.6:2] should
-be able to give you [0.2, 0.4, 0.6]. This function will handle all
-the paticulars, like when to include what and what if step &lt; 1 etc.</p>
+<dt id="viscid.vutil.convert_deprecated_floats">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">convert_deprecated_floats</tt><big>(</big><em>value</em>, <em>varname='value'</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#convert_deprecated_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.convert_deprecated_floats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.extract_index">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">extract_index</tt><big>(</big><em>arr</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#extract_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.extract_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get integer indices for slice parts</p>
+<p>If start, stop, or step are strings, they are either cast to
+integers or used for a float lookup if they have a trailing &#8216;f&#8217;.</p>
 <dl class="docutils">
-<dt>The rules for when something is included are:</dt>
+<dt>An example float lookup is::</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">][</span><span class="s">&#39;0.2f:0.6f:2&#39;</span><span class="p">]</span>
+<span class="go">[0.2, 0.4, 0.6]</span>
+</pre></div>
+</div>
+</dd>
+<dt>The rules for float lookup endpoints are:</dt>
 <dd><ul class="first last simple">
-<li>The slice will never include elements whose value in arr
-are &lt; start (or &gt; if the slice is backward)</li>
-<li>The slice will never include elements whose value in arr
-are &gt; stop (or &lt; if the slice is backward)</li>
+<li>The slice will never include an element whose value in arr
+is &lt; start (or &gt; if the slice is backward)</li>
+<li>The slice will never include an element whose value in arr
+is &gt; stop (or &lt; if the slice is backward)</li>
 <li>!! The slice WILL INCLUDE stop if you don&#8217;t change endpoint.
 This is different from normal slicing, but
 it&#8217;s more natural when specifying a slice as a float.
@@ -224,9 +234,9 @@ ambiguous in this case</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>arr</strong> (<em>ndarray</em>) &#8211; filled with floats to do the lookup</li>
-<li><strong>start</strong> (<em>None, int, float</em>) &#8211; like slice().start</li>
-<li><strong>stop</strong> (<em>None, int, float</em>) &#8211; like slice().start</li>
-<li><strong>step</strong> (<em>None, int, float</em>) &#8211; like slice().start</li>
+<li><strong>start</strong> (<em>None, int, str</em>) &#8211; like slice().start</li>
+<li><strong>stop</strong> (<em>None, int, str</em>) &#8211; like slice().stop</li>
+<li><strong>step</strong> (<em>None, int</em>) &#8211; like slice().step</li>
 <li><strong>endpoint</strong> (<em>bool</em>) &#8211; iff True then include stop in the slice.
 Set to False to get python slicing symantics when it
 comes to excluding stop, but fair warning, python
@@ -412,6 +422,44 @@ True</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="viscid.vutil.slice_globbed_filenames">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">slice_globbed_filenames</tt><big>(</big><em>glob_pattern</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#slice_globbed_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.slice_globbed_filenames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a slice to a glob pattern</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Slice by value works by adding an &#8216;f&#8217; to a value, as like the
+rest of Viscid.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>glob_pattern</strong> (<em>str</em>) &#8211; A string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of filenames</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>If a directory contains files,</p>
+<blockquote>
+<div>file.010.txt  file.020.txt  file.030.txt  file.040.txt</div></blockquote>
+<p>then sliced globs can look like</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">expand_glob_slice</span><span class="p">(</span><span class="s">&quot;f*.[:2].txt&quot;</span><span class="p">)</span>
+<span class="go">[&quot;file.010.txt&quot;, &quot;file.020.txt&quot;]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">expand_glob_slice</span><span class="p">(</span><span class="s">&quot;f*.[10.0f::2].txt&quot;</span><span class="p">)</span>
+<span class="go">[&quot;file.010.txt&quot;, &quot;file.030.txt&quot;]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">expand_glob_slice</span><span class="p">(</span><span class="s">&quot;f*.[20f:2].txt&quot;</span><span class="p">)</span>
+<span class="go">[&quot;file.020.txt&quot;, &quot;file.040.txt&quot;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="viscid.vutil.split_floats">
 <tt class="descclassname">viscid.vutil.</tt><tt class="descname">split_floats</tt><big>(</big><em>arg_str</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#split_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.split_floats" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -436,6 +484,84 @@ True</p>
 <dt id="viscid.vutil.timereps">
 <tt class="descclassname">viscid.vutil.</tt><tt class="descname">timereps</tt><big>(</big><em>reps</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#timereps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timereps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.to_slice">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">to_slice</tt><big>(</big><em>arr</em>, <em>s</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#to_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert anything describing a slice to a slice object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arr</strong> (<em>array</em>) &#8211; Array that you&#8217;re going to slice if you specify any
+parts of the slice by value. If all slices are by index,
+<cite>arr</cite> can be <cite>None</cite>.</li>
+<li><strong>s</strong> (<em>int, str, slice</em>) &#8211; Something that can be turned into a slice.
+Ints are returned as-is. Slices and strings are parsed to
+see if they contain indices, or values. Values are strings
+that contain a number followed by an &#8216;f&#8217;. Refer to
+<a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> for the slice-by-value
+semantics.</li>
+<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if
+needed</li>
+<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if
+needed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">slice object or int</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.to_slices">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">to_slices</tt><big>(</big><em>arrs</em>, <em>slices</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#to_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps <a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><tt class="xref py py-func docutils literal"><span class="pre">to_slice()</span></tt></a> for multiple arrays / slices</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>arrs</strong> (<em>list, None</em>) &#8211; list of arrays for float lookups, must be
+the same length as s.split(&#8216;,&#8217;). If all slices are by
+index, then <cite>arrs</cite> can be <cite>None</cite>.</li>
+<li><strong>slices</strong> (<em>list, str</em>) &#8211; list of things that
+<tt class="xref py py-func docutils literal"><span class="pre">viscid.vutil.str2slice()</span></tt> understands, or a comma
+separated string of slices</li>
+<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if needed</li>
+<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if needed</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of slice objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><tt class="xref py py-func docutils literal"><span class="pre">to_slice()</span></tt></a></li>
+<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.value_is_float_not_int">
+<tt class="descclassname">viscid.vutil.</tt><tt class="descname">value_is_float_not_int</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#value_is_float_not_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.value_is_float_not_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return if value is a float and not an int</p>
+</dd></dl>
 
 </div>
 
