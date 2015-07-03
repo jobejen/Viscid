@@ -38,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -174,7 +177,7 @@
       
   <div class="section" id="plot-options">
 <h1>Plot Options<a class="headerlink" href="#plot-options" title="Permalink to this headline">¶</a></h1>
-<p>Plot options are given to <a class="reference internal" href="api/viscid.plot.mpl.html#viscid.plot.mpl.plot" title="viscid.plot.mpl.plot"><tt class="xref py py-func docutils literal"><span class="pre">viscid.plot.mpl.plot()</span></tt></a> as either keyword arguments, or as a string called <cite>plot_opts</cite>. For the various plot types, what follows should be a comprehensive list of the available options.</p>
+<p>Plot options are given to <a class="reference internal" href="api/viscid.plot.mpl.html#viscid.plot.mpl.plot" title="viscid.plot.mpl.plot"><code class="xref py py-func docutils literal"><span class="pre">viscid.plot.mpl.plot()</span></code></a> as either keyword arguments, or as a string called <cite>plot_opts</cite>. For the various plot types, what follows should be a comprehensive list of the available options.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">For all options, supplying no arguments implies one argument with the value True.</p>
@@ -252,11 +255,11 @@ coordinates</td>
 </tr>
 <tr class="row-odd"><td>x</td>
 <td>min, max</td>
-<td>Set axis limits using <tt class="xref py py-func docutils literal"><span class="pre">pyplot.set_xlim()</span></tt></td>
+<td>Set axis limits using <code class="xref py py-func docutils literal"><span class="pre">pyplot.set_xlim()</span></code></td>
 </tr>
 <tr class="row-even"><td>y</td>
 <td>min, max</td>
-<td>Set axis limits using <tt class="xref py py-func docutils literal"><span class="pre">pyplot.set_ylim()</span></tt></td>
+<td>Set axis limits using <code class="xref py py-func docutils literal"><span class="pre">pyplot.set_ylim()</span></code></td>
 </tr>
 <tr class="row-odd"><td>equalaxis</td>
 <td>[bool]</td>
@@ -309,7 +312,7 @@ coordinates</td>
 </tr>
 <tr class="row-odd"><td>show</td>
 <td>[bool]</td>
-<td>Call <tt class="xref py py-func docutils literal"><span class="pre">pyplot.show()</span></tt> before returning</td>
+<td>Call <code class="xref py py-func docutils literal"><span class="pre">pyplot.show()</span></code> before returning</td>
 </tr>
 </tbody>
 </table>
@@ -381,7 +384,7 @@ values (contours only)</td>
 <tr class="row-odd"><td>colorbar</td>
 <td>[bool or dict]</td>
 <td>dict of keyword arguments for
-<tt class="xref py py-func docutils literal"><span class="pre">pyplot.colorbar()</span></tt></td>
+<code class="xref py py-func docutils literal"><span class="pre">pyplot.colorbar()</span></code></td>
 </tr>
 <tr class="row-even"><td>cbarlabel</td>
 <td>str</td>
@@ -492,7 +495,7 @@ edge of the plot.</td>
 <tbody valign="top">
 <tr class="row-even"><td>legend</td>
 <td>[loc]</td>
-<td>call <tt class="xref py py-func docutils literal"><span class="pre">pyplot.legend()</span></tt></td>
+<td>call <code class="xref py py-func docutils literal"><span class="pre">pyplot.legend()</span></code></td>
 </tr>
 <tr class="row-odd"><td>label</td>
 <td>str</td>
@@ -527,7 +530,7 @@ edge of the plot.</td>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

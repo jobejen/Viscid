@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -178,8 +181,8 @@ around a lot of Field functionality.</p>
 </div>
 <dl class="class">
 <dt id="viscid.amr_field.AMRField">
-<em class="property">class </em><tt class="descclassname">viscid.amr_field.</tt><tt class="descname">AMRField</tt><big>(</big><em>fields</em>, <em>skeleton</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">viscid.amr_field.</code><code class="descname">AMRField</code><span class="sig-paren">(</span><em>fields</em>, <em>skeleton</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Field-like</p>
 <p>Contains an AMRSkeleton and a list of Fields. This mimiks a Field,
 but it is NOT a subclass of Field. Many methods of Field are
@@ -190,43 +193,43 @@ containing the result. This will not work for special methods since
 python will not send those through __getattr__ or __getattribute__.</p>
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.__exit__">
-<tt class="descname">__exit__</tt><big>(</big><em>exc_type</em>, <em>value</em>, <em>traceback</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__exit__</code><span class="sig-paren">(</span><em>exc_type</em>, <em>value</em>, <em>traceback</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.__exit__" title="Permalink to this definition">¶</a></dt>
 <dd><p>clear all caches</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.all">
-<tt class="descname">all</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
+<code class="descname">all</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.all" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.any">
-<tt class="descname">any</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
+<code class="descname">any</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.any"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.any" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.argmax">
-<tt class="descname">argmax</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argmax" title="Permalink to this definition">¶</a></dt>
+<code class="descname">argmax</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argmax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argmax" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.argmin">
-<tt class="descname">argmin</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argmin" title="Permalink to this definition">¶</a></dt>
+<code class="descname">argmin</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argmin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.argpartition">
-<tt class="descname">argpartition</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argpartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argpartition" title="Permalink to this definition">¶</a></dt>
+<code class="descname">argpartition</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argpartition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argpartition" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.argsort">
-<tt class="descname">argsort</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argsort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argsort" title="Permalink to this definition">¶</a></dt>
+<code class="descname">argsort</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.argsort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.argsort" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.block_indices">
-<tt class="descname">block_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.block_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.block_indices" title="Permalink to this definition">¶</a></dt>
+<code class="descname">block_indices</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.block_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.block_indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the indices of the patches that overlap selection
 :param selection: anything that can slice a field</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -241,92 +244,92 @@ python will not send those through __getattr__ or __getattribute__.</p>
 
 <dl class="attribute">
 <dt id="viscid.amr_field.AMRField.blocks">
-<tt class="descname">blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.blocks" title="Permalink to this definition">¶</a></dt>
+<code class="descname">blocks</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.blocks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.cumprod">
-<tt class="descname">cumprod</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.cumprod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.cumprod" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cumprod</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.cumprod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.cumprod" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.cumsum">
-<tt class="descname">cumsum</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.cumsum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.cumsum" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cumsum</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.cumsum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.cumsum" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.interpolated_slice">
-<tt class="descname">interpolated_slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.interpolated_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.interpolated_slice" title="Permalink to this definition">¶</a></dt>
+<code class="descname">interpolated_slice</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.interpolated_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.interpolated_slice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.max">
-<tt class="descname">max</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.max" title="Permalink to this definition">¶</a></dt>
+<code class="descname">max</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.max" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.mean">
-<tt class="descname">mean</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.mean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mean</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.mean" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.min">
-<tt class="descname">min</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.min" title="Permalink to this definition">¶</a></dt>
+<code class="descname">min</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.min" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_field.AMRField.nr_blocks">
-<tt class="descname">nr_blocks</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.nr_blocks" title="Permalink to this definition">¶</a></dt>
+<code class="descname">nr_blocks</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.nr_blocks" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.partition">
-<tt class="descname">partition</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.partition" title="Permalink to this definition">¶</a></dt>
+<code class="descname">partition</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.partition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.partition" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.patch_indices">
-<tt class="descname">patch_indices</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.patch_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.patch_indices" title="Permalink to this definition">¶</a></dt>
+<code class="descname">patch_indices</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.patch_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.patch_indices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.prod">
-<tt class="descname">prod</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.prod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.prod" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prod</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.prod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.prod" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_field.AMRField.skeleton">
-<tt class="descname">skeleton</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.skeleton" title="Permalink to this definition">¶</a></dt>
+<code class="descname">skeleton</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.skeleton" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice">
-<tt class="descname">slice</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
+<code class="descname">slice</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice_and_keep">
-<tt class="descname">slice_and_keep</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_and_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
+<code class="descname">slice_and_keep</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_and_keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_and_keep" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.slice_reduce">
-<tt class="descname">slice_reduce</tt><big>(</big><em>selection</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
+<code class="descname">slice_reduce</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.slice_reduce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.slice_reduce" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.std">
-<tt class="descname">std</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.std" title="Permalink to this definition">¶</a></dt>
+<code class="descname">std</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.std"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.std" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.sum">
-<tt class="descname">sum</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.sum" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sum</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.sum" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.wrap_field_method">
-<tt class="descname">wrap_field_method</tt><big>(</big><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.wrap_field_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.wrap_field_method" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wrap_field_method</code><span class="sig-paren">(</span><em>attrname</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.wrap_field_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.wrap_field_method" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap methods whose args are Fields and return a Field</p>
 </dd></dl>
 
@@ -334,7 +337,7 @@ python will not send those through __getattr__ or __getattribute__.</p>
 
 <dl class="function">
 <dt id="viscid.amr_field.is_list_of_fields">
-<tt class="descclassname">viscid.amr_field.</tt><tt class="descname">is_list_of_fields</tt><big>(</big><em>lst</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_field.html#is_list_of_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.amr_field.</code><code class="descname">is_list_of_fields</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#is_list_of_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.is_list_of_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -359,7 +362,7 @@ python will not send those through __getattr__ or __getattribute__.</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

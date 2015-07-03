@@ -32,14 +32,14 @@
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.calculator package" href="viscid.calculator.html" />
     <link rel="next" title="viscid.calculator.plasma module" href="viscid.calculator.plasma.html" />
-    <link rel="prev" title="viscid.calculator.integrate module" href="viscid.calculator.integrate.html" />
+    <link rel="prev" title="viscid.calculator.evaluator module" href="viscid.calculator.evaluator.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -172,72 +175,72 @@
 <span id="viscid-calculator-necalc-module"></span><h1>viscid.calculator.necalc module<a class="headerlink" href="#module-viscid.calculator.necalc" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.calculator.necalc.VneCalc">
-<em class="property">class </em><tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">VneCalc</tt><big>(</big><em>expr</em>, <em>local_dict</em>, <em>ret_type=None</em>, <em>ret_context=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#VneCalc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.VneCalc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">viscid.calculator.necalc.</code><code class="descname">VneCalc</code><span class="sig-paren">(</span><em>expr</em>, <em>local_dict</em>, <em>ret_type=None</em>, <em>ret_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#VneCalc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.VneCalc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.expr">
-<tt class="descname">expr</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.expr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">expr</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.expr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.local_dict">
-<tt class="descname">local_dict</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.local_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">local_dict</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.local_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.ret_context">
-<tt class="descname">ret_context</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.ret_context" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ret_context</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.ret_context" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.ret_type">
-<tt class="descname">ret_type</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.ret_type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ret_type</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.ret_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.calculator.necalc.VneCalc.slice_dict">
-<tt class="descname">slice_dict</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.slice_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">slice_dict</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.necalc.VneCalc.slice_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.abs_max">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_max</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#abs_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_max" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">abs_max</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#abs_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_max" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.abs_min">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">abs_min</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#abs_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_min" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">abs_min</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#abs_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.abs_min" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.cross">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">cross</tt><big>(</big><em>fld_a</em>, <em>fld_b</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.cross" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">cross</code><span class="sig-paren">(</span><em>fld_a</em>, <em>fld_b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#cross"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.cross" title="Permalink to this definition">¶</a></dt>
 <dd><p>cross product of two vector fields</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.curl">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">curl</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#curl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.curl" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">curl</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#curl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.curl" title="Permalink to this definition">¶</a></dt>
 <dd><p>first order</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.div">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">div</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#div"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.div" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">div</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#div"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.div" title="Permalink to this definition">¶</a></dt>
 <dd><p>first order</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.dot">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">dot</tt><big>(</big><em>fld_a</em>, <em>fld_b</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.dot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">dot</code><span class="sig-paren">(</span><em>fld_a</em>, <em>fld_b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.dot" title="Permalink to this definition">¶</a></dt>
 <dd><p>3d dot product of two vector fields</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.necalc.magnitude">
-<tt class="descclassname">viscid.calculator.necalc.</tt><tt class="descname">magnitude</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#magnitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.magnitude" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.necalc.</code><code class="descname">magnitude</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/necalc.html#magnitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.necalc.magnitude" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -262,7 +265,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

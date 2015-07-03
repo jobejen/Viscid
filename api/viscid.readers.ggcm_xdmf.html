@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -172,20 +175,20 @@
 <span id="viscid-readers-ggcm-xdmf-module"></span><h1>viscid.readers.ggcm_xdmf module<a class="headerlink" href="#module-viscid.readers.ggcm_xdmf" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.readers.ggcm_xdmf.GGCMAncFileXDMF">
-<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_xdmf.</tt><tt class="descname">GGCMAncFileXDMF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMAncFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMAncFileXDMF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="viscid.readers.ggcm_xdmf.GGCMFileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_xdmf.GGCMFileXDMF</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.ggcm_xdmf.</code><code class="descname">GGCMAncFileXDMF</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMAncFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMAncFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="viscid.readers.ggcm_xdmf.GGCMFileXDMF"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_xdmf.GGCMFileXDMF</span></code></a></p>
 <p>Ancillary files; usually, these files have already been
 converted to GSE</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF">
-<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_xdmf.</tt><tt class="descname">GGCMFileXDMF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.ggcm_xdmf.</code><code class="descname">GGCMFileXDMF</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.openggcm.html#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></code></a>, <a class="reference internal" href="viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></code></a></p>
 <p>File type for GGCM style convenience stuff</p>
 <dl class="attribute">
 <dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file">
-<tt class="descname">read_log_file</tt><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_log_file</code><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.read_log_file" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool</em></p>
 <p>search for a log file to load some of the
 libmrc runtime parameters. This does not read parameters
@@ -196,12 +199,12 @@ watched_classes`. Defaults to False for performance.</p>
 
 <dl class="classmethod">
 <dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group">
-<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">collective_name_from_group</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames">
-<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">group_fnames</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.group_fnames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Group File names</p>
 <p>The default implementation just returns fnames, but some file
 types might do something fancy here</p>
@@ -222,15 +225,15 @@ this class</td>
 
 <dl class="method">
 <dt id="viscid.readers.ggcm_xdmf.GGCMFileXDMF.load">
-<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMFileXDMF.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF.load" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF">
-<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_xdmf.</tt><tt class="descname">GGCMIonoFileXDMF</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMIonoFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="viscid.readers.ggcm_xdmf.GGCMFileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_xdmf.GGCMFileXDMF</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.ggcm_xdmf.</code><code class="descname">GGCMIonoFileXDMF</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_xdmf.html#GGCMIonoFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_xdmf.GGCMIonoFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.ggcm_xdmf.GGCMFileXDMF" title="viscid.readers.ggcm_xdmf.GGCMFileXDMF"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.ggcm_xdmf.GGCMFileXDMF</span></code></a></p>
 <p>Ionosphere Files</p>
 </dd></dl>
 
@@ -256,7 +259,7 @@ this class</td>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -174,16 +177,16 @@
 <p>Comments are either # or //</p>
 <dl class="function">
 <dt id="viscid.vjson.dump">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">dump</tt><big>(</big><em>obj</em>, <em>f</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.dump" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrap Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dump()</span></tt></p>
+<code class="descclassname">viscid.vjson.</code><code class="descname">dump</code><span class="sig-paren">(</span><em>obj</em>, <em>f</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dump()</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>obj</strong> &#8211; some object that Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dump()</span></tt> understands</li>
+<li><strong>obj</strong> &#8211; some object that Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dump()</span></code> understands</li>
 <li><strong>f</strong> &#8211; file-like object with a write method</li>
-<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dump()</span></tt></li>
+<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dump()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -193,15 +196,15 @@
 
 <dl class="function">
 <dt id="viscid.vjson.dumps">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">dumps</tt><big>(</big><em>obj</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.dumps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrap Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></tt></p>
+<code class="descclassname">viscid.vjson.</code><code class="descname">dumps</code><span class="sig-paren">(</span><em>obj</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.dumps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>obj</strong> &#8211; some object that Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></tt> understands</li>
-<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></tt></li>
+<li><strong>obj</strong> &#8211; some object that Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></code> understands</li>
+<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.dumps()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -211,7 +214,7 @@
 
 <dl class="function">
 <dt id="viscid.vjson.find_all">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">find_all</tt><big>(</big><em>s</em>, <em>substrings</em>, <em>start=0</em>, <em>end=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#find_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.find_all" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vjson.</code><code class="descname">find_all</code><span class="sig-paren">(</span><em>s</em>, <em>substrings</em>, <em>start=0</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#find_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.find_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate all ocurances of sub in s</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -232,15 +235,15 @@
 
 <dl class="function">
 <dt id="viscid.vjson.load">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">load</tt><big>(</big><em>f</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read file and pass to <a class="reference internal" href="#viscid.vjson.loads" title="viscid.vjson.loads"><tt class="xref py py-func docutils literal"><span class="pre">loads()</span></tt></a></p>
+<code class="descclassname">viscid.vjson.</code><code class="descname">load</code><span class="sig-paren">(</span><em>f</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read file and pass to <a class="reference internal" href="#viscid.vjson.loads" title="viscid.vjson.loads"><code class="xref py py-func docutils literal"><span class="pre">loads()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>f</strong> &#8211; file-like object with a read method</li>
-<li><strong>**kwargs</strong> &#8211; passed to <a class="reference internal" href="#viscid.vjson.loads" title="viscid.vjson.loads"><tt class="xref py py-func docutils literal"><span class="pre">loads()</span></tt></a></li>
+<li><strong>**kwargs</strong> &#8211; passed to <a class="reference internal" href="#viscid.vjson.loads" title="viscid.vjson.loads"><code class="xref py py-func docutils literal"><span class="pre">loads()</span></code></a></li>
 </ul>
 </td>
 </tr>
@@ -250,8 +253,8 @@
 
 <dl class="function">
 <dt id="viscid.vjson.loads">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">loads</tt><big>(</big><em>text</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.loads" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrap Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.loads()</span></tt></p>
+<code class="descclassname">viscid.vjson.</code><code class="descname">loads</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.loads()</span></code></p>
 <p>Trims out comments and trailing commas first</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -259,7 +262,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>text</strong> &#8211; json as a string</li>
-<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <tt class="xref py py-func docutils literal"><span class="pre">json.loads()</span></tt></li>
+<li><strong>**kwargs</strong> &#8211; passed to Python&#8217;s <code class="xref py py-func docutils literal"><span class="pre">json.loads()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -269,7 +272,7 @@
 
 <dl class="function">
 <dt id="viscid.vjson.rfind_all">
-<tt class="descclassname">viscid.vjson.</tt><tt class="descname">rfind_all</tt><big>(</big><em>s</em>, <em>substrings</em>, <em>start=0</em>, <em>end=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/vjson.html#rfind_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.rfind_all" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vjson.</code><code class="descname">rfind_all</code><span class="sig-paren">(</span><em>s</em>, <em>substrings</em>, <em>start=0</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vjson.html#rfind_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vjson.rfind_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate all ocurances of sub in s</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -310,7 +313,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

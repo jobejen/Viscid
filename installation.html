@@ -31,14 +31,14 @@
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="index.html" />
     <link rel="next" title="Philosophy" href="philosophy.html" />
-    <link rel="prev" title="Welcome to Viscid’s documentation!" href="index.html" />
+    <link rel="prev" title="Changes" href="changes.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -140,7 +143,6 @@
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li><a class="reference internal" href="#standard-setup">Standard Setup</a></li>
-<li><a class="reference internal" href="#for-developers">For Developers</a></li>
 </ul>
 </li>
 </ul>
@@ -189,28 +191,20 @@
 <p>The optional calculator modules (necalc and cycalc) are all dispatched through
 calculator.calc, and it is intelligent enough not to use a library that is not
 installed.</p>
+<p>To get the dependancies squared away, I recommend using the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">anaconda</a> python distribution. It makes installing new python libraries almost enjoyable.</p>
 </div>
 <div class="section" id="standard-setup">
 <h2>Standard Setup<a class="headerlink" href="#standard-setup" title="Permalink to this headline">¶</a></h2>
-<p>Just call the usual distutils commands. This compiles all the cython code (cython is not required for this).:</p>
+<p>The jrrle and fortbin readers depend on compiled Fortran code, and the interpolation and streamline functions depend on compiled Cython (C) code. To build Viscid, I recommend running:</p>
+<div class="highlight-python"><div class="highlight"><pre>./setup.py build_ext -i
+</pre></div>
+</div>
+<p>and adding the <cite>Viscid</cite> directory to your <cite>PYTHONPATH</cite> and <cite>Viscid/scripts</cite> to your <cite>PATH</cite>. This makes editing Viscid far easier.</p>
+<p>However the standard distutils commands also work if you&#8217;re so inclined:</p>
 <div class="highlight-python"><div class="highlight"><pre>./setup.py build
 ./setup.py install
 </pre></div>
 </div>
-</div>
-<div class="section" id="for-developers">
-<h2>For Developers<a class="headerlink" href="#for-developers" title="Permalink to this headline">¶</a></h2>
-<p>For a better dev experience, I recommend adding Viscid to your PYTHONPATH,
-viscid/scripts to your PATH, and building in-place with:</p>
-<div class="highlight-python"><div class="highlight"><pre>./setup.py build_ext -i --with-cython
-</pre></div>
-</div>
-<p>If you want to ensure the cython generated code is up to date, you can use the
-shortcut:</p>
-<div class="highlight-python"><div class="highlight"><pre>./setup.py dev
-</pre></div>
-</div>
-<p>which is the same as above, but it ensures that cython is being used.</p>
 </div>
 </div>
 
@@ -234,7 +228,7 @@ shortcut:</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

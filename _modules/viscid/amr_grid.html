@@ -30,14 +30,14 @@
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../index.html" />
-    <link rel="up" title="viscid" href="../viscid.html" />
+    <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,6 +115,9 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">ChangeLog</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -173,7 +176,8 @@
 
 <span class="kn">from</span> <span class="nn">viscid.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
 <span class="kn">from</span> <span class="nn">viscid.amr_field</span> <span class="kn">import</span> <span class="n">AMRField</span>
-<span class="c"># from viscid import cyamr</span>
+<span class="kn">from</span> <span class="nn">viscid.cython</span> <span class="kn">import</span> <span class="n">CythonNotBuilt</span>
+<span class="kn">from</span> <span class="nn">viscid.cython</span> <span class="kn">import</span> <span class="n">cyamr</span>
 
 <div class="viewcode-block" id="dataset_to_amr_grid"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.dataset_to_amr_grid">[docs]</a><span class="k">def</span> <span class="nf">dataset_to_amr_grid</span><span class="p">(</span><span class="n">dset</span><span class="p">,</span> <span class="n">template_skeleton</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Try to divine AMR-ness from a Dataset</span>
@@ -208,13 +212,15 @@
 <div class="viewcode-block" id="AMRSkeleton"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton">[docs]</a><span class="k">class</span> <span class="nc">AMRSkeleton</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Organizes the neighbor relationships of AMR grids&quot;&quot;&quot;</span>
     <span class="n">patches</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">neighbors_index</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># list of dicts, parallel with patches</span>
-    <span class="n">all_neighbors_index</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># list of dicts, parallel with patches</span>
 
     <span class="n">xl</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 3)</span>
     <span class="n">xm</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 3)</span>
     <span class="n">xh</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 3)</span>
     <span class="n">L</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 3)</span>
+
+    <span class="n">nr_neighbors</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches)</span>
+    <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 48)</span>
+    <span class="n">neighbor_mask</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># shape == (npatches x 48)</span>
 
     <span class="n">global_xl</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">global_xh</span> <span class="o">=</span> <span class="bp">None</span>
@@ -249,7 +255,38 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">global_xl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_xh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="c"># self.discover_neighbors()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c"># from timeit import default_timer as time</span>
+            <span class="c"># t0 = time()</span>
+            <span class="n">neighbor_info</span> <span class="o">=</span> <span class="n">cyamr</span><span class="o">.</span><span class="n">discover_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">nr_neighbors</span><span class="p">,</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">neighbor_mask</span> <span class="o">=</span> <span class="n">neighbor_info</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nr_neighbors</span> <span class="o">=</span> <span class="n">nr_neighbors</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neighbors</span> <span class="o">=</span> <span class="n">neighbors</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neighbor_mask</span> <span class="o">=</span> <span class="n">neighbor_mask</span>
+            <span class="c"># print(&quot;nr_neighbors:&quot;, nr_neighbors)</span>
+            <span class="c"># cyamr.discover_neighbors(self)</span>
+            <span class="c"># t1 = time()</span>
+            <span class="c"># print(&quot;discover took: {0:g} secs&quot;.format(t1 - t0))</span>
+
+            <span class="c"># Sort neighbors such that face neighbors appear before edge</span>
+            <span class="c"># neighbors appear before corner neighbors</span>
+            <span class="c"># hamming weight is # of 1s in binary representation of an int</span>
+            <span class="c"># NOTE: 0 is intentionally set to the largest number since</span>
+            <span class="c">#       the mask is 0 for empty values</span>
+            <span class="c"># t0 = time()</span>
+            <span class="c"># hamming_weight = np.array([9, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2,</span>
+            <span class="c">#                            3, 3, 4, 1], dtype=&#39;i&#39;)</span>
+            <span class="c"># # heapsort sort is not stable, do i need mergesort here?</span>
+            <span class="c"># new_order = np.argsort(hamming_weight[neighbor_mask &gt;&gt; 6], axis=1,</span>
+            <span class="c">#                        kind=&#39;heapsort&#39;)</span>
+            <span class="c"># neighbors = neighbors[new_order]</span>
+            <span class="c"># neighbor_mask = neighbor_mask[new_order]</span>
+            <span class="c"># t1 = time()</span>
+            <span class="c"># print(&quot;sort took: {0:g} secs&quot;.format(t1 - t0))</span>
+        <span class="k">except</span> <span class="n">CythonNotBuilt</span><span class="p">:</span>
+            <span class="c"># at the moment, only cython code uses the neighbor index,</span>
+            <span class="c"># so we can ignore this for now, but maybe not in the future</span>
+            <span class="k">pass</span>
 
 <div class="viewcode-block" id="AMRSkeleton.compatable_with"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.compatable_with">[docs]</a>    <span class="k">def</span> <span class="nf">compatable_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dset</span><span class="p">):</span>
         <span class="c"># TODO: i should make /store a hash for this</span>
@@ -268,65 +305,6 @@
         <span class="c"># t1 = default_timer()</span>
         <span class="c"># print(&quot;&gt;&gt; compatable   {0:g} secs&quot;.format(t1 - t0))</span>
         <span class="k">return</span> <span class="bp">True</span>
-</div>
-<div class="viewcode-block" id="AMRSkeleton.discover_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.discover_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">discover_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xm</span><span class="o">=</span><span class="p">[],</span> <span class="n">xp</span><span class="o">=</span><span class="p">[],</span> <span class="n">ym</span><span class="o">=</span><span class="p">[],</span> <span class="n">yp</span><span class="o">=</span><span class="p">[],</span> <span class="n">zm</span><span class="o">=</span><span class="p">[],</span> <span class="n">zp</span><span class="o">=</span><span class="p">[])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">]</span>
-
-        <span class="c"># call find_relationships (N * (N - 1)) / 2 times</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">other</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[:</span><span class="n">i</span><span class="p">]):</span>
-                <span class="n">rels</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">find_relationships</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-                <span class="c"># print(&quot;RELS:&quot;, i, j, rels)</span>
-                <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">rels</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">rel</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">rel</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-
-                    <span class="k">if</span> <span class="n">j</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tell_patches_about_neighbors</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="AMRSkeleton.tell_patches_about_neighbors"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.tell_patches_about_neighbors">[docs]</a>    <span class="k">def</span> <span class="nf">tell_patches_about_neighbors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">neighbors_dict</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neighbors_index</span><span class="p">):</span>
-            <span class="c"># print(&quot;&gt;&gt;&quot;, i, neighbors_dict)</span>
-            <span class="n">_d</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">relationship</span><span class="p">,</span> <span class="n">neighbor_inds</span> <span class="ow">in</span> <span class="n">neighbors_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">_d</span><span class="p">[</span><span class="n">relationship</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">neighbor_inds</span><span class="p">:</span>
-                    <span class="n">_d</span><span class="p">[</span><span class="n">relationship</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">ind</span><span class="p">])</span>
-            <span class="n">_l</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_neighbors_index</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_neighbors</span><span class="p">(</span><span class="n">_d</span><span class="p">,</span> <span class="n">_l</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="AMRSkeleton.patch_by_loc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.patch_by_loc">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;returns index of patch that contans loc&quot;&quot;&quot;</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
-        <span class="n">contains</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loc</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xm</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="c"># argmax is slightly faster, but gives no indication if loc is outside</span>
-        <span class="c"># the global domain</span>
-        <span class="c"># return np.argmax(contains)</span>
-        <span class="n">nonzero_inds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">contains</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nonzero_inds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">nonzero_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</div>
-<div class="viewcode-block" id="AMRSkeleton.patch_by_loc2"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRSkeleton.patch_by_loc2">[docs]</a>    <span class="k">def</span> <span class="nf">patch_by_loc2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;slower implementation&quot;&quot;&quot;</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">loc</span> <span class="o">&gt;=</span> <span class="n">patch</span><span class="o">.</span><span class="n">xl</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">loc</span> <span class="o">&lt;=</span> <span class="n">patch</span><span class="o">.</span><span class="n">xh</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">i</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
-
-    <span class="c"># def selected_inds(self, slc):</span>
-    <span class="c">#     &quot;&quot;&quot;return list of indices of patches that are selected</span>
-    <span class="c">#     by a given slice&quot;&quot;&quot;</span>
-    <span class="c">#     # axes =</span>
-    <span class="c">#     contains = np.all(np.abs(loc - self.xm) &lt;= (0.5 * self.L), axis=1)</span>
-    <span class="c">#     pass</span>
 
 <span class="c"># SLICING NOTES: have field level parsing of slices that raise a ValueError</span>
 <span class="c"># if the slices are ints (slice by index)</span>
@@ -382,24 +360,24 @@
         <span class="c">#         self.fields</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AMRGrid.xl_nc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xl_nc">[docs]</a>    <span class="k">def</span> <span class="nf">xl_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">xl_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xl</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AMRGrid.xh_nc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xh_nc">[docs]</a>    <span class="k">def</span> <span class="nf">xh_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">xh_nc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xh</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AMRGrid.xl_cc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xl_cc">[docs]</a>    <span class="k">def</span> <span class="nf">xl_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">xl_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;You probably want xl_nc for an amr grid&quot;</span><span class="p">)</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AMRGrid.xh_cc"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.xh_cc">[docs]</a>    <span class="k">def</span> <span class="nf">xh_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">xh_cc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;You probably want xh_nc for an amr grid&quot;</span><span class="p">)</span>
 
     <span class="c"># def _make_amr_field(self):</span>
     <span class="c">#     fld = AMRField()</span>
-</div>
+
 <div class="viewcode-block" id="AMRGrid.get_field"><a class="viewcode-back" href="../../api/viscid.amr_grid.html#viscid.amr_grid.AMRGrid.get_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fldname</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_longterm_caches</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
                   <span class="n">slc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
         <span class="n">fld_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -484,7 +462,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

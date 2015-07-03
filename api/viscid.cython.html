@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.integrate module &mdash; Viscid 0.80.8 dev documentation</title>
+    <title>viscid.cython package &mdash; Viscid 0.80.8 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -30,16 +30,16 @@
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="../index.html" />
-    <link rel="up" title="viscid.calculator package" href="viscid.calculator.html" />
-    <link rel="next" title="viscid.calculator.necalc module" href="viscid.calculator.necalc.html" />
-    <link rel="prev" title="viscid.calculator.evaluator module" href="viscid.calculator.evaluator.html" />
+    <link rel="up" title="viscid package" href="viscid.html" />
+    <link rel="next" title="viscid.cython.cyamr module" href="viscid.cython.cyamr.html" />
+    <link rel="prev" title="viscid.compat.ordered_dict_backport module" href="viscid.compat.ordered_dict_backport.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -138,7 +141,11 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">viscid.calculator.integrate module</a></li>
+<li><a class="reference internal" href="#">viscid.cython package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-viscid.cython">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </ul>
 </li>
@@ -168,8 +175,34 @@
   <div class="row">
     <div class="col-md-12">
       
-  <div class="section" id="module-viscid.calculator.integrate">
-<span id="viscid-calculator-integrate-module"></span><h1>viscid.calculator.integrate module<a class="headerlink" href="#module-viscid.calculator.integrate" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="viscid-cython-package">
+<h1>viscid.cython package<a class="headerlink" href="#viscid-cython-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.cyamr.html">viscid.cython.cyamr module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.cycalc.html">viscid.cython.cycalc module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.cyfield.html">viscid.cython.cyfield module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.integrate.html">viscid.cython.integrate module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.streamline.html">viscid.cython.streamline module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-viscid.cython">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viscid.cython" title="Permalink to this headline">¶</a></h2>
+<p>Some speedy compiled functions for interpolation and streamlines</p>
+<p>So, some comments on the cython code are probably warranted. There
+are many places where you&#8217;ll see the code going sideways in order
+to accomodate Fused types and retain it&#8217;s typedness. This is especially
+true with the weird <cite>def _py_*</cite> functions. These are all done to keep
+important function calls in C (important meaning say called once per
+segment in a streamline). The end result is that the cython code is
+almost on par with a fortran streamline tracer, but far more versatile.
+In short, anything that makes you think &#8220;why&#8217;d he do that?&#8221; you can
+probably assume it&#8217;s the path of least resistance in the whole Cython
+mess.</p>
+</div>
 </div>
 
 
@@ -185,14 +218,14 @@
         <br/>
         
 <div id="sourcelink">
-  <a href="../_sources/api/viscid.calculator.integrate.txt"
+  <a href="../_sources/api/viscid.cython.txt"
      rel="nofollow">Source</a>
 </div>
       
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

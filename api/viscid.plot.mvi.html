@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -177,7 +180,7 @@
 </div>
 <dl class="function">
 <dt id="viscid.plot.mvi.clear_data">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clear_data</tt><big>(</big><em>scenes=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clear_data</code><span class="sig-paren">(</span><em>scenes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Workaround for Mayavi / VTK memory leak</p>
 <p>This is needed when Mayavi/VTK keeps a reference to source data
 when you would expect it to be freed like on a call to <cite>mlab.clf()</cite>
@@ -207,13 +210,13 @@ of Scene objects</td>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.clf">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">clf</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear source data, then clear figure</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.field_to_cell_source">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_cell_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_cell_source" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_cell_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_cell_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a field to a mayavi cell source</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -229,7 +232,7 @@ of Scene objects</td>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.field_to_point_source">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_point_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_point_source" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_point_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_point_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a field to a mayavi source</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -245,10 +248,10 @@ of Scene objects</td>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.field_to_source">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">field_to_source</tt><big>(</big><em>fld</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_source" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a field to a mayavi source</p>
-<p>This dispatches to either <a class="reference internal" href="#viscid.plot.mvi.field_to_point_source" title="viscid.plot.mvi.field_to_point_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></tt></a> or
-<a class="reference internal" href="#viscid.plot.mvi.field_to_cell_source" title="viscid.plot.mvi.field_to_cell_source"><tt class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></tt></a> depending on the centering of
+<p>This dispatches to either <a class="reference internal" href="#viscid.plot.mvi.field_to_point_source" title="viscid.plot.mvi.field_to_point_source"><code class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></code></a> or
+<a class="reference internal" href="#viscid.plot.mvi.field_to_cell_source" title="viscid.plot.mvi.field_to_cell_source"><code class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></code></a> depending on the centering of
 <cite>fld</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -264,7 +267,7 @@ of Scene objects</td>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.interact">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">interact</tt><big>(</big><em>local=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#interact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.interact" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">interact</code><span class="sig-paren">(</span><em>local=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#interact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.interact" title="Permalink to this definition">¶</a></dt>
 <dd><p>Switch to interactive interpreter</p>
 <p>This can be handy if you want to interact with a 3d plot using
 python.</p>
@@ -273,7 +276,7 @@ python.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>local</strong> (<em>dict, optional</em>) &#8211; Local namespace for the interactive
-session. Usually you want <tt class="docutils literal"><span class="pre">interact(local=locals())</span></tt></td>
+session. Usually you want <code class="docutils literal"><span class="pre">interact(local=locals())</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -281,7 +284,7 @@ session. Usually you want <tt class="docutils literal"><span class="pre">interac
 
 <dl class="function">
 <dt id="viscid.plot.mvi.mlab_earth">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">mlab_earth</tt><big>(</big><em>pipeline=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>res=15</em>, <em>crd_system='mhd'</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#mlab_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.mlab_earth" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">mlab_earth</code><span class="sig-paren">(</span><em>pipeline=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>res=15</em>, <em>crd_system='mhd'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#mlab_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.mlab_earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white sphere (Earth) showing sunward direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -294,7 +297,7 @@ pipeline</li>
 <li><strong>nightcol</strong> (<em>tuple, optional</em>) &#8211; color of nightside (RGB)</li>
 <li><strong>res</strong> (<em>optional</em>) &#8211; rosolution of teh sphere</li>
 <li><strong>crd_system</strong> (<em>str, optional</em>) &#8211; &#8216;mhd&#8217; or &#8216;gse&#8217;, can be gotten from
-an openggcm field using <tt class="docutils literal"><span class="pre">fld.meta[&quot;crd_system&quot;]</span></tt>.</li>
+an openggcm field using <code class="docutils literal"><span class="pre">fld.meta[&quot;crd_system&quot;]</span></code>.</li>
 </ul>
 </td>
 </tr>
@@ -304,7 +307,7 @@ an openggcm field using <tt class="docutils literal"><span class="pre">fld.meta[
 
 <dl class="function">
 <dt id="viscid.plot.mvi.plot_lines">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">plot_lines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 3D mayavi plot of lines</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -315,7 +318,7 @@ an openggcm field using <tt class="docutils literal"><span class="pre">fld.meta[
 spatial dimensions and P points along the line</li>
 <li><strong>topology</strong> (<em>optional</em>) &#8211; an array of values that describe how to
 color the line.</li>
-<li><strong>kwargs</strong> &#8211; forwarded to <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></tt></li>
+<li><strong>kwargs</strong> &#8211; forwarded to <code class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -325,7 +328,7 @@ color the line.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.remove_source">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">remove_source</tt><big>(</big><em>src</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#remove_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.remove_source" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">remove_source</code><span class="sig-paren">(</span><em>src</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#remove_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.remove_source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Safely remove a specific vtk source</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -339,8 +342,8 @@ color the line.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.show">
-<tt class="descclassname">viscid.plot.mvi.</tt><tt class="descname">show</tt><big>(</big><em>stop=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mvi.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.show" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calls <tt class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.show(stop=stop)()</span></tt></p>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">show</code><span class="sig-paren">(</span><em>stop=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <code class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.show(stop=stop)()</span></code></p>
 </dd></dl>
 
 </div>
@@ -365,7 +368,7 @@ color the line.</li>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

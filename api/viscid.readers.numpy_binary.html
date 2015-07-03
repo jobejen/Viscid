@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -176,63 +179,63 @@ Current working assumption is that all fields in an npz file share the same
 grid</p>
 <dl class="class">
 <dt id="viscid.readers.numpy_binary.FileNumpyNPZ">
-<em class="property">class </em><tt class="descclassname">viscid.readers.numpy_binary.</tt><tt class="descname">FileNumpyNPZ</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.numpy_binary.</code><code class="descname">FileNumpyNPZ</code><span class="sig-paren">(</span><em>fname</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></code></a></p>
 <p>open an ascii file with viscid format, or if not specified, assume
 it&#8217;s in gnuplot format, gnuplot format not yet specified</p>
 <dl class="method">
 <dt id="viscid.readers.numpy_binary.FileNumpyNPZ.save">
-<tt class="descname">save</tt><big>(</big><em>fname=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>fname=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ.save" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.readers.numpy_binary.FileNumpyNPZ.save_fields">
-<em class="property">classmethod </em><tt class="descname">save_fields</tt><big>(</big><em>fname</em>, <em>flds</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ.save_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">save_fields</code><span class="sig-paren">(</span><em>fname</em>, <em>flds</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#FileNumpyNPZ.save_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.FileNumpyNPZ.save_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper">
-<em class="property">class </em><tt class="descclassname">viscid.readers.numpy_binary.</tt><tt class="descname">NPZDataWrapper</tt><big>(</big><em>fname</em>, <em>loc</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.numpy_binary.</code><code class="descname">NPZDataWrapper</code><span class="sig-paren">(</span><em>fname</em>, <em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></code></a></p>
 <dl class="attribute">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.dtype">
-<tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dtype</code><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>only ask for this if you really need it; can be a speed problem
 for large temporal datasets over sshfs</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.fname">
-<tt class="descname">fname</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.fname" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fname</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.fname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.len">
-<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<code class="descname">len</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.len" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.loc">
-<tt class="descname">loc</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.loc" title="Permalink to this definition">¶</a></dt>
+<code class="descname">loc</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.loc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.read_direct">
-<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_direct</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.shape">
-<tt class="descname">shape</tt><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shape</code><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>only ask for this if you really need it; can be a speed problem
 for large temporal datasets over sshfs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.numpy_binary.NPZDataWrapper.wrap_func">
-<tt class="descname">wrap_func</tt><big>(</big><em>func_name</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.wrap_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wrap_func</code><span class="sig-paren">(</span><em>func_name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/numpy_binary.html#NPZDataWrapper.wrap_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.numpy_binary.NPZDataWrapper.wrap_func" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -259,7 +262,7 @@ for large temporal datasets over sshfs</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

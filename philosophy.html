@@ -38,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -172,16 +175,16 @@
       
   <div class="section" id="philosophy">
 <h1>Philosophy<a class="headerlink" href="#philosophy" title="Permalink to this headline">¶</a></h1>
-<p>The basic idea is to get the python framework out of your way to help you work. To this end, data files are read into a Numpy ndarray styled object (<a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a>), and there are plenty of convenience functions to turn Fields into 2-D plots (<a class="reference internal" href="api/viscid.plot.mpl.html#module-viscid.plot.mpl" title="viscid.plot.mpl"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mpl</span></tt></a>) or 3-D plots (<a class="reference internal" href="api/viscid.plot.mvi.html#module-viscid.plot.mvi" title="viscid.plot.mvi"><tt class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mvi</span></tt></a>).</p>
+<p>The basic idea is to get the python framework out of your way to help you work. To this end, data files are read into a Numpy ndarray styled object (<a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><code class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></code></a>), and there are plenty of convenience functions to turn Fields into 2-D plots (<a class="reference internal" href="api/viscid.plot.mpl.html#module-viscid.plot.mpl" title="viscid.plot.mpl"><code class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mpl</span></code></a>) or 3-D plots (<a class="reference internal" href="api/viscid.plot.mvi.html#module-viscid.plot.mvi" title="viscid.plot.mvi"><code class="xref py py-mod docutils literal"><span class="pre">viscid.plot.mvi</span></code></a>).</p>
 <p>Here are some basic features that all readers try to implement to the best of their ability:</p>
 <ul class="simple">
 <li>Laziness: When using formats like xdmf and hdf5, we get a lot of meta data, so we can do a lot without reading the whole datafiles. Readers try their best to wait until the last possible moment to load any data. This translates into an order of magnitude better performance when loading &gt; 100 time slices of high resolution data.</li>
-<li>Sane Temporal Data: If there is a way to assume more than one file are in a time series, lazily consolidate everything into a <a class="reference internal" href="api/viscid.dataset.html#viscid.dataset.DatasetTemporal" title="viscid.dataset.DatasetTemporal"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.DatasetTemporal</span></tt></a>. This can be accessed like a dictionary just like Grids or Viscid Files, but they have ways to activate a specific time slice, or efficiently iterate through all time slices.</li>
-<li><a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> objects should be as much like Numpy ndarrays as possible. If for whatever reason, passing a field to a Numpy ufunc doesn&#8217;t work, the underlying ndarray is alwas accessible via its <tt class="docutils literal"><span class="pre">data</span></tt> attribute.</li>
+<li>Sane Temporal Data: If there is a way to assume more than one file are in a time series, lazily consolidate everything into a <a class="reference internal" href="api/viscid.dataset.html#viscid.dataset.DatasetTemporal" title="viscid.dataset.DatasetTemporal"><code class="xref py py-class docutils literal"><span class="pre">viscid.dataset.DatasetTemporal</span></code></a>. This can be accessed like a dictionary just like Grids or Viscid Files, but they have ways to activate a specific time slice, or efficiently iterate through all time slices.</li>
+<li><a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><code class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></code></a> objects should be as much like Numpy ndarrays as possible. If for whatever reason, passing a field to a Numpy ufunc doesn&#8217;t work, the underlying ndarray is alwas accessible via its <code class="docutils literal"><span class="pre">data</span></code> attribute.</li>
 </ul>
 <div class="section" id="data-abstraction">
 <h2>Data Abstraction<a class="headerlink" href="#data-abstraction" title="Permalink to this headline">¶</a></h2>
-<p>The story goes something like this... <a class="reference internal" href="api/viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a> objects are <a class="reference internal" href="api/viscid.dataset.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a> objects. Datasets contain <a class="reference internal" href="api/viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a> instances. Grids have <a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> instances, <a class="reference internal" href="api/viscid.coordinate.html#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><tt class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></tt></a> instances, and special methods (<tt class="docutils literal"><span class="pre">_get_*</span></tt>) to calculate derived quantites. At any of these levels, the object can be treated like a dictionary to get something sensible. As an example, all of the following return the same object</p>
+<p>The story goes something like this... <a class="reference internal" href="api/viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></code></a> objects are <a class="reference internal" href="api/viscid.dataset.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><code class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></code></a> objects. Datasets contain <a class="reference internal" href="api/viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></code></a> instances. Grids have <a class="reference internal" href="api/viscid.field.html#viscid.field.Field" title="viscid.field.Field"><code class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></code></a> instances, <a class="reference internal" href="api/viscid.coordinate.html#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><code class="xref py py-class docutils literal"><span class="pre">viscid.coordinate.Coordinates</span></code></a> instances, and special methods (<code class="docutils literal"><span class="pre">_get_*</span></code>) to calculate derived quantites. At any of these levels, the object can be treated like a dictionary to get something sensible. As an example, all of the following return the same object</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="s">&quot;some_file.xdmf&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bx</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">&quot;bx&quot;</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">activate_time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -218,7 +221,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

@@ -38,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -171,21 +174,21 @@
 <span id="viscid-vutil-module"></span><h1>viscid.vutil module<a class="headerlink" href="#module-viscid.vutil" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="viscid.vutil.add_animate_arguments">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">add_animate_arguments</tt><big>(</big><em>parser</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#add_animate_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.add_animate_arguments" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">add_animate_arguments</code><span class="sig-paren">(</span><em>parser</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#add_animate_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.add_animate_arguments" title="Permalink to this definition">¶</a></dt>
 <dd><p>add common options for animating, you may want to make sure parser was
 constructed with conflict_handler=&#8217;resolve&#8217;</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.add_mpl_output_arguments">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">add_mpl_output_arguments</tt><big>(</big><em>parser</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#add_mpl_output_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.add_mpl_output_arguments" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">add_mpl_output_arguments</code><span class="sig-paren">(</span><em>parser</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#add_mpl_output_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.add_mpl_output_arguments" title="Permalink to this definition">¶</a></dt>
 <dd><p>add common options for tuning matplotlib output, you may want to make
 sure parser was constructed with conflict_handler=&#8217;resolve&#8217;</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.common_argparse">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">common_argparse</tt><big>(</big><em>parser</em>, <em>default_verb=0</em>, <em>logging_fmt=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#common_argparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.common_argparse" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">common_argparse</code><span class="sig-paren">(</span><em>parser</em>, <em>default_verb=0</em>, <em>logging_fmt=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#common_argparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.common_argparse" title="Permalink to this definition">¶</a></dt>
 <dd><p>add some common verbosity stuff to argparse, parse the
 command line args, and setup the logging levels
 parser should be an ArgumentParser instance, and kwargs
@@ -195,12 +198,12 @@ returns the args namespace</p>
 
 <dl class="function">
 <dt id="viscid.vutil.convert_deprecated_floats">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">convert_deprecated_floats</tt><big>(</big><em>value</em>, <em>varname='value'</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#convert_deprecated_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.convert_deprecated_floats" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">convert_deprecated_floats</code><span class="sig-paren">(</span><em>value</em>, <em>varname='value'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#convert_deprecated_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.convert_deprecated_floats" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.extract_index">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">extract_index</tt><big>(</big><em>arr</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#extract_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.extract_index" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">extract_index</code><span class="sig-paren">(</span><em>arr</em>, <em>start=None</em>, <em>stop=None</em>, <em>step=None</em>, <em>endpoint=True</em>, <em>tol=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#extract_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.extract_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get integer indices for slice parts</p>
 <p>If start, stop, or step are strings, they are either cast to
 integers or used for a float lookup if they have a trailing &#8216;f&#8217;.</p>
@@ -258,14 +261,14 @@ converted to integers</p>
 
 <dl class="function">
 <dt id="viscid.vutil.find_field">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">find_field</tt><big>(</big><em>vfile</em>, <em>fld_name_lst</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#find_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.find_field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">find_field</code><span class="sig-paren">(</span><em>vfile</em>, <em>fld_name_lst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#find_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.find_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>convenience function to get a field that could be called many things
 returns the first fld_name in the list that is in the file</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.format_datetime">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">format_datetime</tt><big>(</big><em>dt</em>, <em>fmt</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#format_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.format_datetime" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">format_datetime</code><span class="sig-paren">(</span><em>dt</em>, <em>fmt</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#format_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.format_datetime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper around datetime.datetime.strftime</p>
 <p>This function allows one to specify the precision of fractional
 seconds (mircoseconds) using something like &#8216;%2f&#8217; to round to
@@ -290,7 +293,7 @@ addition of &#8216;%.?[0-9]f&#8217; to the syntax.</li>
 
 <dl class="function">
 <dt id="viscid.vutil.format_time">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">format_time</tt><big>(</big><em>t</em>, <em>style='.02f'</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#format_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.format_time" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">format_time</code><span class="sig-paren">(</span><em>t</em>, <em>style='.02f'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#format_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.format_time" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format time as a string</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -324,7 +327,7 @@ style          |   time   | string
 
 <dl class="function">
 <dt id="viscid.vutil.make_animation">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">make_animation</tt><big>(</big><em>args</em>, <em>program='ffmpeg'</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#make_animation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_animation" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">make_animation</code><span class="sig-paren">(</span><em>args</em>, <em>program='ffmpeg'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#make_animation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_animation" title="Permalink to this definition">¶</a></dt>
 <dd><p>make animation by calling program (only ffmpeg works for now) using
 args, which is a namespace filled by the argparse options from
 add_animate_arguments. Plots are expected to be named
@@ -333,7 +336,7 @@ ${args.prefix}_000001.png where the number is in order from 1 up</p>
 
 <dl class="function">
 <dt id="viscid.vutil.make_fwd_slice">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">make_fwd_slice</tt><big>(</big><em>shape</em>, <em>slices</em>, <em>reverse=None</em>, <em>cull_second=True</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#make_fwd_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_fwd_slice" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">make_fwd_slice</code><span class="sig-paren">(</span><em>shape</em>, <em>slices</em>, <em>reverse=None</em>, <em>cull_second=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#make_fwd_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_fwd_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure slices go forward</p>
 <p>This function returns two slices equivalent to <cite>slices</cite> such
 that the first slice always goes forward. This is necessary because
@@ -400,7 +403,7 @@ True</p>
 
 <dl class="function">
 <dt id="viscid.vutil.make_slice_inclusive">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">make_slice_inclusive</tt><big>(</big><em>start</em>, <em>stop=None</em>, <em>step=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#make_slice_inclusive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_slice_inclusive" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">make_slice_inclusive</code><span class="sig-paren">(</span><em>start</em>, <em>stop=None</em>, <em>step=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#make_slice_inclusive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.make_slice_inclusive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extend the end of a slice by 1 element</p>
 <p>Chances are you don&#8217;t want to use this function.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -423,7 +426,7 @@ True</p>
 
 <dl class="function">
 <dt id="viscid.vutil.slice_globbed_filenames">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">slice_globbed_filenames</tt><big>(</big><em>glob_pattern</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#slice_globbed_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.slice_globbed_filenames" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">slice_globbed_filenames</code><span class="sig-paren">(</span><em>glob_pattern</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#slice_globbed_filenames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.slice_globbed_filenames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a slice to a glob pattern</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -461,33 +464,33 @@ rest of Viscid.</p>
 
 <dl class="function">
 <dt id="viscid.vutil.split_floats">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">split_floats</tt><big>(</big><em>arg_str</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#split_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.split_floats" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">split_floats</code><span class="sig-paren">(</span><em>arg_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#split_floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.split_floats" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.str_to_value">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">str_to_value</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#str_to_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.str_to_value" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">str_to_value</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#str_to_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.str_to_value" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.subclass_spider">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">subclass_spider</tt><big>(</big><em>cls</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#subclass_spider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.subclass_spider" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">subclass_spider</code><span class="sig-paren">(</span><em>cls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#subclass_spider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.subclass_spider" title="Permalink to this definition">¶</a></dt>
 <dd><p>return recursive list of subclasses of cls (depth first)</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.timeit">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">timeit</tt><big>(</big><em>f</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#timeit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timeit" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">timeit</code><span class="sig-paren">(</span><em>f</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#timeit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timeit" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.timereps">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">timereps</tt><big>(</big><em>reps</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#timereps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timereps" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">timereps</code><span class="sig-paren">(</span><em>reps</em>, <em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#timereps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.timereps" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.to_slice">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">to_slice</tt><big>(</big><em>arr</em>, <em>s</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#to_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slice" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">to_slice</code><span class="sig-paren">(</span><em>arr</em>, <em>s</em>, <em>endpoint=True</em>, <em>tol=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#to_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert anything describing a slice to a slice object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -501,11 +504,11 @@ parts of the slice by value. If all slices are by index,
 Ints are returned as-is. Slices and strings are parsed to
 see if they contain indices, or values. Values are strings
 that contain a number followed by an &#8216;f&#8217;. Refer to
-<a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> for the slice-by-value
+<a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a> for the slice-by-value
 semantics.</li>
-<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if
+<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a> if
 needed</li>
-<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if
+<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a> if
 needed</li>
 </ul>
 </td>
@@ -518,15 +521,15 @@ needed</li>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <ul class="last simple">
-<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a></li>
+<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a></li>
 </ul>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.to_slices">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">to_slices</tt><big>(</big><em>arrs</em>, <em>slices</em>, <em>endpoint=True</em>, <em>tol=100</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#to_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wraps <a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><tt class="xref py py-func docutils literal"><span class="pre">to_slice()</span></tt></a> for multiple arrays / slices</p>
+<code class="descclassname">viscid.vutil.</code><code class="descname">to_slices</code><span class="sig-paren">(</span><em>arrs</em>, <em>slices</em>, <em>endpoint=True</em>, <em>tol=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#to_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.to_slices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps <a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><code class="xref py py-func docutils literal"><span class="pre">to_slice()</span></code></a> for multiple arrays / slices</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -536,10 +539,10 @@ needed</li>
 the same length as s.split(&#8216;,&#8217;). If all slices are by
 index, then <cite>arrs</cite> can be <cite>None</cite>.</li>
 <li><strong>slices</strong> (<em>list, str</em>) &#8211; list of things that
-<tt class="xref py py-func docutils literal"><span class="pre">viscid.vutil.str2slice()</span></tt> understands, or a comma
+<code class="xref py py-func docutils literal"><span class="pre">viscid.vutil.str2slice()</span></code> understands, or a comma
 separated string of slices</li>
-<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if needed</li>
-<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a> if needed</li>
+<li><strong>endpoint</strong> (<em>bool</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a> if needed</li>
+<li><strong>tol</strong> (<em>int</em>) &#8211; passed to <a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a> if needed</li>
 </ul>
 </td>
 </tr>
@@ -551,15 +554,15 @@ separated string of slices</li>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <ul class="last simple">
-<li><a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><tt class="xref py py-func docutils literal"><span class="pre">to_slice()</span></tt></a></li>
-<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><tt class="xref py py-func docutils literal"><span class="pre">extract_index()</span></tt></a></li>
+<li><a class="reference internal" href="#viscid.vutil.to_slice" title="viscid.vutil.to_slice"><code class="xref py py-func docutils literal"><span class="pre">to_slice()</span></code></a></li>
+<li><a class="reference internal" href="#viscid.vutil.extract_index" title="viscid.vutil.extract_index"><code class="xref py py-func docutils literal"><span class="pre">extract_index()</span></code></a></li>
 </ul>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.vutil.value_is_float_not_int">
-<tt class="descclassname">viscid.vutil.</tt><tt class="descname">value_is_float_not_int</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../_modules/viscid/vutil.html#value_is_float_not_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.value_is_float_not_int" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.vutil.</code><code class="descname">value_is_float_not_int</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#value_is_float_not_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.value_is_float_not_int" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return if value is a float and not an int</p>
 </dd></dl>
 
@@ -585,7 +588,7 @@ separated string of slices</li>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

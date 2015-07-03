@@ -30,14 +30,14 @@
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="#" />
-    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="next" title="Changes" href="changes.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,6 +115,9 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -136,7 +139,13 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Welcome to Viscid&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">Welcome to Viscid&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 </ul>
@@ -178,14 +187,23 @@
 <li>ASCII</li>
 </ul>
 <p>There is also preliminary support for reading and plotting AMR datasets from XDMF files.</p>
-<p>Below are some simple examples to get you started with Viscid. There are some far more interesting examples in the <tt class="docutils literal"><span class="pre">Viscid/tests</span></tt> directory, but they are not always as straight forward or documented as the examples here.</p>
-<p>Contents:</p>
+<p>Below are some simple examples to get you started with Viscid. There are some far more interesting examples in the <code class="docutils literal"><span class="pre">Viscid/tests</span></code> directory, but they are not always as straight forward or documented as the examples here.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>I recommend using the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">anaconda</a> python distribution. It makes installing new python libraries almost enjoyable. Check <a class="reference internal" href="installation.html"><em>Installation</em></a> for the list of dependancies. To build Viscid, I recommend running <code class="docutils literal"><span class="pre">./setup.py</span> <span class="pre">build_ext</span> <span class="pre">-i</span></code> and adding the <code class="docutils literal"><span class="pre">Viscid</span></code> directory to your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code> and <code class="docutils literal"><span class="pre">Viscid/scripts</span></code> to your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#standard-setup">Standard Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#for-developers">For Developers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a><ul>
@@ -243,6 +261,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/viscid.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.calculator.html">viscid.calculator package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.compat.html">viscid.compat package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/viscid.cython.html">viscid.cython package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.plot.html">viscid.plot package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.readers.html">viscid.readers package</a></li>
 </ul>
@@ -257,6 +276,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.grid.html">viscid.grid module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.parallel.html">viscid.parallel module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.pyeval.html">viscid.pyeval module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/viscid.seed.html">viscid.seed module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.tree.html">viscid.tree module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.verror.html">viscid.verror module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.vjson.html">viscid.vjson module</a></li>
@@ -264,18 +284,19 @@
 <li class="toctree-l3"><a class="reference internal" href="api/viscid.vutil.html">viscid.vutil module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="api/viscid.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/viscid.html#module-viscid">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
+</div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
 </ul>
 </div>
 
@@ -299,7 +320,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

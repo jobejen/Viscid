@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -174,14 +177,14 @@
 <p>Parses the view info</p>
 <dl class="class">
 <dt id="viscid.readers.ggcm_logfile.GGCMLogFile">
-<em class="property">class </em><tt class="descclassname">viscid.readers.ggcm_logfile.</tt><tt class="descname">GGCMLogFile</tt><big>(</big><em>fname</em>, <em>parent_bucket=None</em>, <em>grid_type=None</em>, <em>grid_opts=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.ggcm_logfile.</code><code class="descname">GGCMLogFile</code><span class="sig-paren">(</span><em>fname</em>, <em>parent_bucket=None</em>, <em>grid_type=None</em>, <em>grid_opts=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.VFile" title="viscid.readers.vfile.VFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.VFile</span></code></a></p>
 <p>Libmrc log file reader</p>
 <p>This class looks at the mrc_view info before the run starts
 to gather info about libmrc runtime parameters.</p>
 <dl class="attribute">
 <dt id="viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes">
-<tt class="descname">watched_classes</tt><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">watched_classes</code><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.watched_classes" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>list</em></p>
 <p>list of libmrc classes whose parameters
 will be loaded</p>
@@ -189,17 +192,17 @@ will be loaded</p>
 
 <dl class="attribute">
 <dt id="viscid.readers.ggcm_logfile.GGCMLogFile.info">
-<tt class="descname">info</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">info</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.ggcm_logfile.GGCMLogFile.unload">
-<tt class="descname">unload</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.unload" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/ggcm_logfile.html#GGCMLogFile.unload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.ggcm_logfile.GGCMLogFile.unload" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt>
-<tt class="descname">watched_classes</tt><em class="property"> = ['ggcm_mhd', 'mrc_domain', 'mrc_crds', 'ggcm_mhd_ic', 'ggcm_dipole']</em></dt>
+<code class="descname">watched_classes</code><em class="property"> = ['ggcm_mhd', 'mrc_domain', 'mrc_crds', 'ggcm_mhd_ic', 'ggcm_dipole']</em></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -226,7 +229,7 @@ will be loaded</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

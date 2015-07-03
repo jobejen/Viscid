@@ -38,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -178,7 +181,7 @@
 <h1>Command Line Utilities<a class="headerlink" href="#command-line-utilities" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="viscid-2d">
 <h2>viscid_2d<a class="headerlink" href="#viscid-2d" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">viscid_2d</span></tt> is a command line script for quickly generating 2D plots. In the following example, the <cite>-p</cite> options that have equations require that the evaluator is enabled in your viscidrc file (off by default for security reasons):</p>
+<p><code class="docutils literal"><span class="pre">viscid_2d</span></code> is a command line script for quickly generating 2D plots. In the following example, the <cite>-p</cite> options that have equations require that the evaluator is enabled in your viscidrc file (off by default for security reasons):</p>
 <div class="highlight-python"><div class="highlight"><pre>viscid_2d -o x_-15_10,y_-10_10,earth \
   -p &#39;P=pp&#39; -o log \
   -p &#39;^tmp=abs(psi)&#39; -o log,style_contour,levels_30,linewidths=0.8,colors=grey,linestyles_solid \
@@ -192,7 +195,7 @@
 </div>
 <div class="section" id="viscid-ts">
 <h2>viscid_ts<a class="headerlink" href="#viscid-ts" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">viscid_ts</span></tt> is a script for quickly generating time series plots:</p>
+<p><code class="docutils literal"><span class="pre">viscid_ts</span></code> is a script for quickly generating time series plots:</p>
 <div class="highlight-python"><div class="highlight"><pre>viscid_ts -p &#39;P=pp&#39; -o log -p &#39;B$_x$=bx&#39; -p &#39;|V|=sqrt(vx**2+vy**2+vz**2)&#39; \
 --slice x=9.5,y=0.0f,z=0.0f --timeformat hms --rl -t T1:00:00.0:T1:20:00.0 \
 --nofname $MNT/trillian/scratch/da*e3/target/*.py_0.xdmf
@@ -202,8 +205,8 @@
 </div>
 <div class="section" id="viscid-diff">
 <h2>viscid_diff<a class="headerlink" href="#viscid-diff" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">viscid_diff</span></tt> is a command line script for diffing two files. By default it&#8217;s very terse, but it can be made fairly verbose. The example below diffs two timestps from the same run. A more useful use case for this utility is diffing two different runs that you expect to be equal, but you get the idea.</p>
-<p><tt class="docutils literal"><span class="pre">viscid_diff</span> <span class="pre">--show</span> <span class="pre">*.3df.{000200,000201}.xdmf</span> <span class="pre">rr</span></tt></p>
+<p><code class="docutils literal"><span class="pre">viscid_diff</span></code> is a command line script for diffing two files. By default it&#8217;s very terse, but it can be made fairly verbose. The example below diffs two timestps from the same run. A more useful use case for this utility is diffing two different runs that you expect to be equal, but you get the idea.</p>
+<p><code class="docutils literal"><span class="pre">viscid_diff</span> <span class="pre">--show</span> <span class="pre">*.3df.{000200,000201}.xdmf</span> <span class="pre">rr</span></code></p>
 <img alt="_images/viscid_diff_ex.png" class="align-center" src="_images/viscid_diff_ex.png" />
 </div>
 <div class="section" id="athena2xdmf">
@@ -243,7 +246,7 @@ The following bits were on (bit, 2**bit)...
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

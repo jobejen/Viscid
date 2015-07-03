@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -173,12 +176,12 @@
 <p>Wrapper grid for some OpenGGCM convenience</p>
 <dl class="class">
 <dt id="viscid.readers.openggcm.GGCMFile">
-<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFile</tt><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.openggcm.</code><code class="descname">GGCMFile</code><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Mixin some GGCM convenience stuff</p>
 <dl class="attribute">
 <dt id="viscid.readers.openggcm.GGCMFile.read_log_file">
-<tt class="descname">read_log_file</tt><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_log_file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_log_file</code><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_log_file" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool</em></p>
 <p>search for a log file to load some of the
 libmrc runtime parameters. This does not read parameters
@@ -189,20 +192,20 @@ watched_classes`. Defaults to False for performance.</p>
 
 <dl class="attribute">
 <dt>
-<tt class="descname">read_log_file</tt><em class="property"> = True</em></dt>
+<code class="descname">read_log_file</code><em class="property"> = True</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMFile.read_logfile">
-<tt class="descname">read_logfile</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFile.read_logfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_logfile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_logfile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFile.read_logfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFile.read_logfile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.openggcm.GGCMFileFortran">
-<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMFileFortran</tt><big>(</big><em>fname</em>, <em>crds=None</em>, <em>fld_templates=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></tt></a>, <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.openggcm.</code><code class="descname">GGCMFileFortran</code><span class="sig-paren">(</span><em>fname</em>, <em>crds=None</em>, <em>fld_templates=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.readers.openggcm.GGCMFile" title="viscid.readers.openggcm.GGCMFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.openggcm.GGCMFile</span></code></a>, <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></code></a></p>
 <p>An abstract class from which jrrle and fortbin files are derived</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -210,12 +213,12 @@ watched_classes`. Defaults to False for performance.</p>
 </div>
 <dl class="attribute">
 <dt id="viscid.readers.openggcm.GGCMFileFortran.grid2">
-<tt class="descname">grid2</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.grid2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">grid2</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.grid2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.readers.openggcm.GGCMFileFortran.group_fnames">
-<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.group_fnames" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">group_fnames</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.group_fnames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Group File names</p>
 <p>The default implementation just returns fnames, but some file
 types might do something fancy here</p>
@@ -236,29 +239,29 @@ this class</td>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMFileFortran.load">
-<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.load" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMFileFortran.make_crds">
-<tt class="descname">make_crds</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.make_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.make_crds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">make_crds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.make_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.make_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMFileFortran.read_grid2">
-<tt class="descname">read_grid2</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.read_grid2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.read_grid2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_grid2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMFileFortran.read_grid2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMFileFortran.read_grid2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.openggcm.GGCMGrid">
-<em class="property">class </em><tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">GGCMGrid</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.openggcm.</code><code class="descname">GGCMGrid</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></code></a></p>
 <p>This defines some cool openggcm convinience stuff...
 The following attributes can be set by saying</p>
 <blockquote>
-<div><tt class="docutils literal"><span class="pre">viscid.grid.readers.openggcm.GGCMGrid.flag</span> <span class="pre">=</span> <span class="pre">value</span></tt>.</div></blockquote>
+<div><code class="docutils literal"><span class="pre">viscid.grid.readers.openggcm.GGCMGrid.flag</span> <span class="pre">=</span> <span class="pre">value</span></code>.</div></blockquote>
 <p>This should be done before a call to readers.load_file so that all
 grids that are instantiated have the flags you want.</p>
 <dl class="docutils">
@@ -277,7 +280,7 @@ GGCMGrid.derived_vector_layout</li>
 </dl>
 <dl class="attribute">
 <dt id="viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read">
-<tt class="descname">mhd_to_gse_on_read</tt><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mhd_to_gse_on_read</code><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.mhd_to_gse_on_read" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool, str</em></p>
 <p>flips arrays on load to be in
 GSE crds. If &#8216;auto&#8217;, then try to use the runtime parameters
@@ -287,7 +290,7 @@ reading the logfile. (default is False)</p>
 
 <dl class="attribute">
 <dt id="viscid.readers.openggcm.GGCMGrid.copy_on_transform">
-<tt class="descname">copy_on_transform</tt><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.copy_on_transform" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy_on_transform</code><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.copy_on_transform" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>bool</em></p>
 <p>True means array will be contiguous
 after transform (if one is done), but makes data load
@@ -296,38 +299,38 @@ after transform (if one is done), but makes data load
 
 <dl class="attribute">
 <dt id="viscid.readers.openggcm.GGCMGrid.force_vector_layout">
-<tt class="descname">force_vector_layout</tt><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.force_vector_layout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">force_vector_layout</code><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.force_vector_layout" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>str</em></p>
 <p>inherited from grid.Grid, enforces
 layout for vector fields on load (default is
-<tt class="xref py py-const docutils literal"><span class="pre">viscid.field.LAYOUT_DEFAULT</span></tt>)</p>
+<code class="xref py py-const docutils literal"><span class="pre">viscid.field.LAYOUT_DEFAULT</span></code>)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMGrid.add_field">
-<tt class="descname">add_field</tt><big>(</big><em>*fields</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.add_field" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_field</code><span class="sig-paren">(</span><em>*fields</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.add_field" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt>
-<tt class="descname">copy_on_transform</tt><em class="property"> = False</em></dt>
+<code class="descname">copy_on_transform</code><em class="property"> = False</em></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt>
-<tt class="descname">mhd_to_gse_on_read</tt><em class="property"> = 'auto'</em></dt>
+<code class="descname">mhd_to_gse_on_read</code><em class="property"> = 'auto'</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.openggcm.GGCMGrid.set_crds">
-<tt class="descname">set_crds</tt><big>(</big><em>crds_object</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.set_crds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_crds</code><span class="sig-paren">(</span><em>crds_object</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#GGCMGrid.set_crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.GGCMGrid.set_crds" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.openggcm.find_file_uptree">
-<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">find_file_uptree</tt><big>(</big><em>directory</em>, <em>basename</em>, <em>max_depth=8</em>, <em>_depth=0</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#find_file_uptree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.find_file_uptree" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.readers.openggcm.</code><code class="descname">find_file_uptree</code><span class="sig-paren">(</span><em>directory</em>, <em>basename</em>, <em>max_depth=8</em>, <em>_depth=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#find_file_uptree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.find_file_uptree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find basename by going up the file tree</p>
 <p>Keep going up a directory until you find one that has the file
 &#8220;basename&#8221;</p>
@@ -351,22 +354,22 @@ layout for vector fields on load (default is
 
 <dl class="function">
 <dt id="viscid.readers.openggcm.group_ggcm_files_common">
-<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">group_ggcm_files_common</tt><big>(</big><em>detector</em>, <em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#group_ggcm_files_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.group_ggcm_files_common" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.readers.openggcm.</code><code class="descname">group_ggcm_files_common</code><span class="sig-paren">(</span><em>detector</em>, <em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#group_ggcm_files_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.group_ggcm_files_common" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.openggcm.mhd2gse_field_scalar">
-<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_scalar</tt><big>(</big><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.readers.openggcm.</code><code class="descname">mhd2gse_field_scalar</code><span class="sig-paren">(</span><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.openggcm.mhd2gse_field_scalar_m1">
-<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_scalar_m1</tt><big>(</big><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar_m1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar_m1" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.readers.openggcm.</code><code class="descname">mhd2gse_field_scalar_m1</code><span class="sig-paren">(</span><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_scalar_m1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_scalar_m1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.readers.openggcm.mhd2gse_field_vector">
-<tt class="descclassname">viscid.readers.openggcm.</tt><tt class="descname">mhd2gse_field_vector</tt><big>(</big><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_vector" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.readers.openggcm.</code><code class="descname">mhd2gse_field_vector</code><span class="sig-paren">(</span><em>fld</em>, <em>crds</em>, <em>arr</em>, <em>comp_slc=None</em>, <em>copy_on_transform=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/openggcm.html#mhd2gse_field_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.openggcm.mhd2gse_field_vector" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -391,7 +394,7 @@ layout for vector fields on load (default is
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

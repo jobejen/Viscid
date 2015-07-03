@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -173,7 +176,7 @@
 <p>Tools for converting ndarrays &lt;-&gt; cmaps and plotting them</p>
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.plot_ab">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">plot_ab</tt><big>(</big><em>colors</em>, <em>ax</em>, <em>show=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_ab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_ab" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">plot_ab</code><span class="sig-paren">(</span><em>colors</em>, <em>ax</em>, <em>show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_ab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_ab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the color map in the ab plane of the L*a*b* color space</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -194,7 +197,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.plot_lstar">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">plot_lstar</tt><big>(</big><em>colors</em>, <em>ax</em>, <em>xoffset=0</em>, <em>show=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_lstar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_lstar" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">plot_lstar</code><span class="sig-paren">(</span><em>colors</em>, <em>ax</em>, <em>xoffset=0</em>, <em>show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_lstar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_lstar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the color map in the ab plane of the L*a*b* color space</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -217,7 +220,7 @@ plotting on an axis with other lstar data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.plot_rgb">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">plot_rgb</tt><big>(</big><em>colors</em>, <em>ax_cmap</em>, <em>ax_rgb</em>, <em>show=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_rgb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">plot_rgb</code><span class="sig-paren">(</span><em>colors</em>, <em>ax_cmap</em>, <em>ax_rgb</em>, <em>show=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#plot_rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.plot_rgb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the red green and blue chanels of a color map</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -238,7 +241,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.register_cmap">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">register_cmap</tt><big>(</big><em>name</em>, <em>colors</em>, <em>reverse=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#register_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.register_cmap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">register_cmap</code><span class="sig-paren">(</span><em>name</em>, <em>colors</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#register_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.register_cmap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a cmap given a name and either a cmap or an Nx3 or Nx4
 ndarray or rgb(a) data.</p>
 <p>Calls to_linear_cmap(colors) before registering.</p>
@@ -261,7 +264,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.to_linear_cmap">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">to_linear_cmap</tt><big>(</big><em>name</em>, <em>colors</em>, <em>reverse=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_linear_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_linear_cmap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">to_linear_cmap</code><span class="sig-paren">(</span><em>name</em>, <em>colors</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_linear_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_linear_cmap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn colors into a matplotlib LinearSegmentedColormap</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -287,7 +290,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.to_listed_cmap">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">to_listed_cmap</tt><big>(</big><em>name</em>, <em>colors</em>, <em>reverse=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_listed_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_listed_cmap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">to_listed_cmap</code><span class="sig-paren">(</span><em>name</em>, <em>colors</em>, <em>reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_listed_cmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_listed_cmap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn colors into a matplotlib ListedColormap</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -313,7 +316,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</li>
 
 <dl class="function">
 <dt id="viscid.plot.cmap_tools.to_rgba">
-<tt class="descclassname">viscid.plot.cmap_tools.</tt><tt class="descname">to_rgba</tt><big>(</big><em>colors</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_rgba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_rgba" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.cmap_tools.</code><code class="descname">to_rgba</code><span class="sig-paren">(</span><em>colors</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/cmap_tools.html#to_rgba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.cmap_tools.to_rgba" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn colors to an Nx4 ndarray or rgba data</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -350,7 +353,7 @@ Colormap or an Nx3 or Nx4 ndarray or rgb(a) data</td>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

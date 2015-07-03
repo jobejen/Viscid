@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -171,15 +174,15 @@
   <div class="section" id="module-viscid.plot.mpl">
 <span id="viscid-plot-mpl-module"></span><h1>viscid.plot.mpl module<a class="headerlink" href="#module-viscid.plot.mpl" title="Permalink to this headline">¶</a></h1>
 <p>Convenience module for making matplotlib plots</p>
-<p>Your best friend in this module is the <a class="reference internal" href="#viscid.plot.mpl.plot" title="viscid.plot.mpl.plot"><tt class="xref py py-meth docutils literal"><span class="pre">plot()</span></tt></a> function, but the
-best reference for all quirky options is <a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>.</p>
+<p>Your best friend in this module is the <a class="reference internal" href="#viscid.plot.mpl.plot" title="viscid.plot.mpl.plot"><code class="xref py py-meth docutils literal"><span class="pre">plot()</span></code></a> function, but the
+best reference for all quirky options is <a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><code class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></code></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">You can&#8217;t set rc parameters for this module!</p>
 </div>
 <dl class="function">
 <dt id="viscid.plot.mpl.auto_adjust_subplots">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">auto_adjust_subplots</tt><big>(</big><em>fig=None</em>, <em>tight_layout=True</em>, <em>subplot_params=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#auto_adjust_subplots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.auto_adjust_subplots" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">auto_adjust_subplots</code><span class="sig-paren">(</span><em>fig=None</em>, <em>tight_layout=True</em>, <em>subplot_params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#auto_adjust_subplots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.auto_adjust_subplots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper to adjust subplots w/ tight_layout remembering axes lims</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -207,21 +210,21 @@ the current figure after all adjustments are made</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.mplshow">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">mplshow</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#mplshow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.mplshow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calls <tt class="xref py py-meth docutils literal"><span class="pre">matplotlib.pyplot.show()</span></tt></p>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">mplshow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#mplshow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.mplshow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls <code class="xref py py-meth docutils literal"><span class="pre">matplotlib.pyplot.show()</span></code></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot</tt><big>(</big><em>fld</em>, <em>selection=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>fld</em>, <em>selection=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a field by dispatching to the most appropiate funciton</p>
 <ul class="simple">
 <li>If fld has 1 spatial dimensions, call
-<tt class="xref py py-meth docutils literal"><span class="pre">plot1d_field(fld[selection],</span> <span class="pre">**kwargs)()</span></tt></li>
+<code class="xref py py-meth docutils literal"><span class="pre">plot1d_field(fld[selection],</span> <span class="pre">**kwargs)()</span></code></li>
 <li>If fld has 2 spatial dimensions, call
-<tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field(fld[selection],</span> <span class="pre">**kwargs)()</span></tt></li>
+<code class="xref py py-meth docutils literal"><span class="pre">plot2d_field(fld[selection],</span> <span class="pre">**kwargs)()</span></code></li>
 <li>If fld is 2-D and has spherical coordinates (as is the case for
-ionospheric fields), try to use <a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></tt></a> which
+ionospheric fields), try to use <a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><code class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></code></a> which
 uses basemap to make its axes.</li>
 </ul>
 <table class="docutils field-list" frame="void" rules="none">
@@ -248,9 +251,9 @@ colorbar: matplotlib colorbar object</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <ul class="last simple">
-<li><a class="reference internal" href="#viscid.plot.mpl.plot1d_field" title="viscid.plot.mpl.plot1d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot1d_field()</span></tt></a>: target for 1d fields</li>
-<li><a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></tt></a>: target for 2d spherical fields</li>
-<li><a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><tt class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></tt></a>: target for 2d fields</li>
+<li><a class="reference internal" href="#viscid.plot.mpl.plot1d_field" title="viscid.plot.mpl.plot1d_field"><code class="xref py py-meth docutils literal"><span class="pre">plot1d_field()</span></code></a>: target for 1d fields</li>
+<li><a class="reference internal" href="#viscid.plot.mpl.plot2d_mapfield" title="viscid.plot.mpl.plot2d_mapfield"><code class="xref py py-meth docutils literal"><span class="pre">plot2d_mapfield()</span></code></a>: target for 2d spherical fields</li>
+<li><a class="reference internal" href="#viscid.plot.mpl.plot2d_field" title="viscid.plot.mpl.plot2d_field"><code class="xref py py-meth docutils literal"><span class="pre">plot2d_field()</span></code></a>: target for 2d fields</li>
 </ul>
 </div>
 <div class="admonition note">
@@ -262,7 +265,7 @@ dimensions are reduced out.</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot1d_field">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot1d_field</tt><big>(</big><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot1d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot1d_field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot1d_field</code><span class="sig-paren">(</span><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot1d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot1d_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 1D Field using lines</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -287,7 +290,7 @@ dimensions are reduced out.</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_field">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_field</tt><big>(</big><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot2d_field</code><span class="sig-paren">(</span><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a 2D Field using pcolormesh, contour, etc.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -315,7 +318,7 @@ dimensions are reduced out.</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_mapfield">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_mapfield</tt><big>(</big><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_mapfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_mapfield" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot2d_mapfield</code><span class="sig-paren">(</span><em>fld</em>, <em>ax=None</em>, <em>plot_opts=None</em>, <em>**plot_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_mapfield"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_mapfield" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot data on a map projection of a sphere</p>
 <p>The default projection is polar, but any other basemap projection
 can be used.</p>
@@ -351,7 +354,7 @@ if you want to annotate a plot.</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot2d_quiver">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot2d_quiver</tt><big>(</big><em>fld</em>, <em>symdir</em>, <em>downscale=1</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_quiver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_quiver" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot2d_quiver</code><span class="sig-paren">(</span><em>fld</em>, <em>symdir</em>, <em>downscale=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot2d_quiver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot2d_quiver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put quivers on a 2D plot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -361,7 +364,7 @@ if you want to annotate a plot.</p>
 <li><strong>fld</strong> &#8211; Vector field to plot</li>
 <li><strong>symdir</strong> (<em>str</em>) &#8211; One of xyz for direction orthogonal to 2D plane</li>
 <li><strong>downscale</strong> (<em>int, optional</em>) &#8211; only quiver every Nth grid cell</li>
-<li><strong>kwargs</strong> &#8211; passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.quiver()</span></tt></li>
+<li><strong>kwargs</strong> &#8211; passed along to <code class="xref py py-meth docutils literal"><span class="pre">plt.quiver()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -375,7 +378,7 @@ if you want to annotate a plot.</p>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_earth">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_earth</tt><big>(</big><em>plane_spec</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em>, <em>zorder=10</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_earth</code><span class="sig-paren">(</span><em>plane_spec</em>, <em>axis=None</em>, <em>scale=1.0</em>, <em>rot=0</em>, <em>daycol='w'</em>, <em>nightcol='k'</em>, <em>crd_system='mhd'</em>, <em>zorder=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_earth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white Earth to show sunward direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -383,7 +386,7 @@ if you want to annotate a plot.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>plane_spec</strong> &#8211; Specifies the plane for determining sunlit portion.
-This can be a <a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><tt class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></tt></a> object to try to
+This can be a <a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><code class="xref py py-class docutils literal"><span class="pre">viscid.field.Field</span></code></a> object to try to
 auto-discover the plane and crd_system, or it can be a
 string like &#8220;y=0&#8221;.</li>
 <li><strong>axis</strong> (<em>matplotlib Axis</em>) &#8211; axis on which to plot</li>
@@ -403,7 +406,7 @@ deduced from plane_spec if it&#8217;s a Field instance.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_opts_to_kwargs">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_opts_to_kwargs</tt><big>(</big><em>plot_opts</em>, <em>plot_kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_opts_to_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_opts_to_kwargs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_opts_to_kwargs</code><span class="sig-paren">(</span><em>plot_opts</em>, <em>plot_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_opts_to_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_opts_to_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn plot options from string to items in plot_kwargs</p>
 <p>The Reason for this to to be able to specify arbitrary plotting
 kwargs from the command line</p>
@@ -427,7 +430,7 @@ plotting function</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_streamlines</tt><big>(</big><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot lines on a matplotlib 3D plot, optionally colored by value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -452,7 +455,7 @@ length N.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines2d">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">plot_streamlines2d</tt><big>(</big><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines2d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines2d</code><span class="sig-paren">(</span><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project 3D lines onto a 2D plot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -480,7 +483,7 @@ length N.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.scatter_3d">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">scatter_3d</tt><big>(</big><em>points</em>, <em>c='b'</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.scatter_3d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">scatter_3d</code><span class="sig-paren">(</span><em>points</em>, <em>c='b'</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.scatter_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot scattered points on a matplotlib 3d plot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -493,7 +496,7 @@ zyx cartesian directions in that order</li>
 <li><strong>ax</strong> (<em>matplotlib Axis, optional</em>) &#8211; axis on which to plot (should
 be a 3d axis)</li>
 <li><strong>show</strong> (<em>bool, optional</em>) &#8211; show</li>
-<li><strong>kwargs</strong> &#8211; passed along to <tt class="xref py py-meth docutils literal"><span class="pre">plt.statter()</span></tt></li>
+<li><strong>kwargs</strong> &#8211; passed along to <code class="xref py py-meth docutils literal"><span class="pre">plt.statter()</span></code></li>
 </ul>
 </td>
 </tr>
@@ -503,7 +506,7 @@ be a 3d axis)</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.tighten">
-<tt class="descclassname">viscid.plot.mpl.</tt><tt class="descname">tighten</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/plot/mpl.html#tighten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.tighten" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">tighten</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#tighten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.tighten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls <cite>matplotlib.pyplot.tight_layout(**kwargs)</cite></p>
 </dd></dl>
 
@@ -529,7 +532,7 @@ be a 3d axis)</li>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

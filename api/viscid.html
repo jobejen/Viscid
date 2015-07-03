@@ -38,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,7 +115,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -140,7 +143,7 @@
 <li><a class="reference internal" href="#">viscid package</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-viscid">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -181,13 +184,9 @@
 <li class="toctree-l1"><a class="reference internal" href="viscid.calculator.html">viscid.calculator package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="viscid.calculator.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="viscid.calculator.calc.html">viscid.calculator.calc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.cycalc.html">viscid.calculator.cycalc module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viscid.calculator.evaluator.html">viscid.calculator.evaluator module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.integrate.html">viscid.calculator.integrate module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viscid.calculator.necalc.html">viscid.calculator.necalc module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viscid.calculator.plasma.html">viscid.calculator.plasma module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.seed.html">viscid.calculator.seed module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="viscid.calculator.streamline.html">viscid.calculator.streamline module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="viscid.calculator.topology.html">viscid.calculator.topology module</a></li>
 </ul>
 </li>
@@ -201,6 +200,18 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="viscid.compat.html#module-viscid.compat">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.cython.html">viscid.cython package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="viscid.cython.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="viscid.cython.cyamr.html">viscid.cython.cyamr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.cython.cycalc.html">viscid.cython.cycalc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.cython.cyfield.html">viscid.cython.cyfield module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.cython.integrate.html">viscid.cython.integrate module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="viscid.cython.streamline.html">viscid.cython.streamline module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="viscid.cython.html#module-viscid.cython">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.plot.html">viscid.plot package</a><ul>
@@ -258,6 +269,7 @@
 <li class="toctree-l1"><a class="reference internal" href="viscid.grid.html">viscid.grid module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.parallel.html">viscid.parallel module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.pyeval.html">viscid.pyeval module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viscid.seed.html">viscid.seed module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.tree.html">viscid.tree module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.verror.html">viscid.verror module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viscid.vjson.html">viscid.vjson module</a></li>
@@ -266,9 +278,9 @@
 </ul>
 </div>
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-viscid"></span><p>A set of python modules that aid in plotting scientific data</p>
+<div class="section" id="module-viscid">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-viscid" title="Permalink to this headline">¶</a></h2>
+<p>A set of python modules that aid in plotting scientific data</p>
 <p>Plotting depends on matplotlib and/or mayavi and file reading uses h5py
 and to read hdf5 / xdmf files.</p>
 <div class="admonition note">
@@ -278,7 +290,7 @@ they have side effects on import.</p>
 </div>
 <dl class="attribute">
 <dt id="viscid.logger">
-<tt class="descclassname">viscid.</tt><tt class="descname">logger</tt><a class="headerlink" href="#viscid.logger" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">logger</code><a class="headerlink" href="#viscid.logger" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>logging.Logger</em></p>
 <p>a logging object whose verbosity can be
 set from the command line using
@@ -287,143 +299,143 @@ set from the command line using
 
 <dl class="attribute">
 <dt id="viscid.load_file">
-<tt class="descclassname">viscid.</tt><tt class="descname">load_file</tt><a class="headerlink" href="#viscid.load_file" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">load_file</code><a class="reference internal" href="../_modules/viscid/readers.html#load_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.load_file" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.load_file" title="viscid.readers.load_file"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.load_file()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.load_file" title="viscid.readers.load_file"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.load_file()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.load_files">
-<tt class="descclassname">viscid.</tt><tt class="descname">load_files</tt><a class="headerlink" href="#viscid.load_files" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">load_files</code><a class="reference internal" href="../_modules/viscid/readers.html#load_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.load_files" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.load_files" title="viscid.readers.load_files"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.load_files()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.load_files" title="viscid.readers.load_files"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.load_files()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.get_file">
-<tt class="descclassname">viscid.</tt><tt class="descname">get_file</tt><a class="headerlink" href="#viscid.get_file" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">get_file</code><a class="reference internal" href="../_modules/viscid/readers.html#get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.get_file" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.get_file" title="viscid.readers.get_file"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.get_file()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.get_file" title="viscid.readers.get_file"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.get_file()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.save_grid">
-<tt class="descclassname">viscid.</tt><tt class="descname">save_grid</tt><a class="headerlink" href="#viscid.save_grid" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_grid</code><a class="reference internal" href="../_modules/viscid/readers.html#save_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.save_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.save_grid" title="viscid.readers.save_grid"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_grid()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.save_grid" title="viscid.readers.save_grid"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_grid()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.save_field">
-<tt class="descclassname">viscid.</tt><tt class="descname">save_field</tt><a class="headerlink" href="#viscid.save_field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_field</code><a class="reference internal" href="../_modules/viscid/readers.html#save_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.save_field" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.save_field" title="viscid.readers.save_field"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_field()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.save_field" title="viscid.readers.save_field"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_field()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.save_fields">
-<tt class="descclassname">viscid.</tt><tt class="descname">save_fields</tt><a class="headerlink" href="#viscid.save_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_fields</code><a class="reference internal" href="../_modules/viscid/readers.html#save_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.save_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.readers.html#viscid.readers.save_fields" title="viscid.readers.save_fields"><tt class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_fields()</span></tt></a></p>
+<a class="reference internal" href="viscid.readers.html#viscid.readers.save_fields" title="viscid.readers.save_fields"><code class="xref py py-func docutils literal"><span class="pre">viscid.readers.save_fields()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.arrays2field">
-<tt class="descclassname">viscid.</tt><tt class="descname">arrays2field</tt><a class="headerlink" href="#viscid.arrays2field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">arrays2field</code><a class="reference internal" href="../_modules/viscid/field.html#arrays2field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.arrays2field" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.arrays2field" title="viscid.field.arrays2field"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.arrays2field()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.arrays2field" title="viscid.field.arrays2field"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.arrays2field()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.dat2field">
-<tt class="descclassname">viscid.</tt><tt class="descname">dat2field</tt><a class="headerlink" href="#viscid.dat2field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">dat2field</code><a class="reference internal" href="../_modules/viscid/field.html#dat2field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.dat2field" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.dat2field" title="viscid.field.dat2field"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.dat2field()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.dat2field" title="viscid.field.dat2field"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.dat2field()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.empty">
-<tt class="descclassname">viscid.</tt><tt class="descname">empty</tt><a class="headerlink" href="#viscid.empty" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">empty</code><a class="reference internal" href="../_modules/viscid/field.html#empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.empty" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.empty" title="viscid.field.empty"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.empty()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.empty" title="viscid.field.empty"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.empty()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.zeros">
-<tt class="descclassname">viscid.</tt><tt class="descname">zeros</tt><a class="headerlink" href="#viscid.zeros" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">zeros</code><a class="reference internal" href="../_modules/viscid/field.html#zeros"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.zeros" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.zeros" title="viscid.field.zeros"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.zeros()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.zeros" title="viscid.field.zeros"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.zeros()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.ones">
-<tt class="descclassname">viscid.</tt><tt class="descname">ones</tt><a class="headerlink" href="#viscid.ones" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">ones</code><a class="reference internal" href="../_modules/viscid/field.html#ones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.ones" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.ones" title="viscid.field.ones"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.ones()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.ones" title="viscid.field.ones"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.ones()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.empty_like">
-<tt class="descclassname">viscid.</tt><tt class="descname">empty_like</tt><a class="headerlink" href="#viscid.empty_like" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">empty_like</code><a class="reference internal" href="../_modules/viscid/field.html#empty_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.empty_like" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.empty_like" title="viscid.field.empty_like"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.empty_like()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.empty_like" title="viscid.field.empty_like"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.empty_like()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.zeros_like">
-<tt class="descclassname">viscid.</tt><tt class="descname">zeros_like</tt><a class="headerlink" href="#viscid.zeros_like" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">zeros_like</code><a class="reference internal" href="../_modules/viscid/field.html#zeros_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.zeros_like" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.zeros_like" title="viscid.field.zeros_like"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.zeros_like()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.zeros_like" title="viscid.field.zeros_like"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.zeros_like()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.ones_like">
-<tt class="descclassname">viscid.</tt><tt class="descname">ones_like</tt><a class="headerlink" href="#viscid.ones_like" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">ones_like</code><a class="reference internal" href="../_modules/viscid/field.html#ones_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.ones_like" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.ones_like" title="viscid.field.ones_like"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.ones_like()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.ones_like" title="viscid.field.ones_like"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.ones_like()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.scalar_fields_to_vector">
-<tt class="descclassname">viscid.</tt><tt class="descname">scalar_fields_to_vector</tt><a class="headerlink" href="#viscid.scalar_fields_to_vector" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">scalar_fields_to_vector</code><a class="reference internal" href="../_modules/viscid/field.html#scalar_fields_to_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.scalar_fields_to_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.scalar_fields_to_vector" title="viscid.field.scalar_fields_to_vector"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.scalar_fields_to_vector()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.scalar_fields_to_vector" title="viscid.field.scalar_fields_to_vector"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.scalar_fields_to_vector()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.wrap_field">
-<tt class="descclassname">viscid.</tt><tt class="descname">wrap_field</tt><a class="headerlink" href="#viscid.wrap_field" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">wrap_field</code><a class="reference internal" href="../_modules/viscid/field.html#wrap_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.wrap_field" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.field.html#viscid.field.wrap_field" title="viscid.field.wrap_field"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.wrap_field()</span></tt></a></p>
+<a class="reference internal" href="viscid.field.html#viscid.field.wrap_field" title="viscid.field.wrap_field"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.wrap_field()</span></code></a></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.arrays2crds">
-<tt class="descclassname">viscid.</tt><tt class="descname">arrays2crds</tt><a class="headerlink" href="#viscid.arrays2crds" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">arrays2crds</code><a class="reference internal" href="../_modules/viscid/coordinate.html#arrays2crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.arrays2crds" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>function</em></p>
 <p>convience reference for
-<a class="reference internal" href="viscid.coordinate.html#viscid.coordinate.arrays2crds" title="viscid.coordinate.arrays2crds"><tt class="xref py py-func docutils literal"><span class="pre">viscid.coordinate.arrays2crds()</span></tt></a></p>
+<a class="reference internal" href="viscid.coordinate.html#viscid.coordinate.arrays2crds" title="viscid.coordinate.arrays2crds"><code class="xref py py-func docutils literal"><span class="pre">viscid.coordinate.arrays2crds()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">load_file</tt><big>(</big><em>fname</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">load_file</code><span class="sig-paren">(</span><em>fname</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#load_file"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Load a file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -444,7 +456,7 @@ set from the command line using
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">load_files</tt><big>(</big><em>fnames</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">load_files</code><span class="sig-paren">(</span><em>fnames</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#load_files"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Load a list of files</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -467,47 +479,47 @@ in order to accomidate globs and file grouping.</p>
 
 <dl class="function">
 <dt id="viscid.unload_file">
-<tt class="descclassname">viscid.</tt><tt class="descname">unload_file</tt><big>(</big><em>handle</em><big>)</big><a class="headerlink" href="#viscid.unload_file" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">unload_file</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#unload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.unload_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.reload_file">
-<tt class="descclassname">viscid.</tt><tt class="descname">reload_file</tt><big>(</big><em>handle</em><big>)</big><a class="headerlink" href="#viscid.reload_file" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.</code><code class="descname">reload_file</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#reload_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.reload_file" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">get_file</tt><big>(</big><em>handle</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">get_file</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#get_file"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>return a file that&#8217;s already been loaded by either
 number (as in nth file loaded), of file name</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">save_grid</tt><big>(</big><em>fname</em>, <em>grd</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_grid</code><span class="sig-paren">(</span><em>fname</em>, <em>grd</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#save_grid"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>save a grid, filetype is inferred from fname</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">save_field</tt><big>(</big><em>fname</em>, <em>fld</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_field</code><span class="sig-paren">(</span><em>fname</em>, <em>fld</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#save_field"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>save a field, filetype is inferred from fname</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">save_fields</tt><big>(</big><em>fname</em>, <em>flds</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">save_fields</code><span class="sig-paren">(</span><em>fname</em>, <em>flds</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers.html#save_fields"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>save a list of fields, filetype is inferred from fname</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">arrays2field</tt><big>(</big><em>dat_arr</em>, <em>crd_arrs</em>, <em>name='NoName'</em>, <em>center=None</em>, <em>crd_names='zyxwvu'</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">arrays2field</code><span class="sig-paren">(</span><em>dat_arr</em>, <em>crd_arrs</em>, <em>name='NoName'</em>, <em>center=None</em>, <em>crd_names='zyxwvu'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#arrays2field"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Turn arrays into fields so they can be used in viscid.plot, etc.</p>
 <p>This is a convenience function that takes care of making coordnates
 and the like. If the default behavior doesn&#8217;t work for you, you&#8217;ll
 need to make your own coordnates and call
-<a class="reference internal" href="viscid.field.html#viscid.field.wrap_field" title="viscid.field.wrap_field"><tt class="xref py py-func docutils literal"><span class="pre">viscid.field.wrap_field()</span></tt></a>.</p>
+<a class="reference internal" href="viscid.field.html#viscid.field.wrap_field" title="viscid.field.wrap_field"><code class="xref py py-func docutils literal"><span class="pre">viscid.field.wrap_field()</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -529,7 +541,7 @@ centering (node or cell)</li>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">dat2field</tt><big>(</big><em>dat_arr</em>, <em>name='NoName'</em>, <em>fldtype='scalar'</em>, <em>center=None</em>, <em>layout='flat'</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">dat2field</code><span class="sig-paren">(</span><em>dat_arr</em>, <em>name='NoName'</em>, <em>fldtype='scalar'</em>, <em>center=None</em>, <em>layout='flat'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#dat2field"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Makes np.arange coordnate arrays and calls arrays2field</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -551,7 +563,7 @@ centering (node or cell)</li>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">empty</tt><big>(</big><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>crd_names='zyxwvu'</em>, <em>_initial_vals='empty'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">empty</code><span class="sig-paren">(</span><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>crd_names='zyxwvu'</em>, <em>_initial_vals='empty'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#empty"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.empty</cite> (uninitialized array)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -562,7 +574,7 @@ centering (node or cell)</li>
 object. Can also be a list of ndarrays describing
 coordinate arrays. Or, if it&#8217;s just a list or tuple of
 integers, those integers are taken to be the nz,ny,nx shape
-and the coordinates will be fill with <tt class="xref py py-func docutils literal"><span class="pre">np.arange()</span></tt>.</li>
+and the coordinates will be fill with <code class="xref py py-func docutils literal"><span class="pre">np.arange()</span></code>.</li>
 <li><strong>dtype</strong> (<em>optional</em>) &#8211; some way to describe numpy dtype of data</li>
 <li><strong>name</strong> (<em>str</em>) &#8211; a way to refer to the field programatically</li>
 <li><strong>center</strong> (<em>str, optional</em>) &#8211; cell or node, there really isn&#8217;t
@@ -580,7 +592,7 @@ support for edge / face yet</li>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">zeros</tt><big>(</big><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">zeros</code><span class="sig-paren">(</span><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#zeros"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.zeros</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -592,12 +604,12 @@ support for edge / face yet</li>
 </tr>
 </tbody>
 </table>
-<p>See Also: <a class="reference internal" href="#viscid.empty" title="viscid.empty"><tt class="xref py py-meth docutils literal"><span class="pre">empty()</span></tt></a></p>
+<p>See Also: <a class="reference internal" href="#viscid.empty" title="viscid.empty"><code class="xref py py-meth docutils literal"><span class="pre">empty()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">ones</tt><big>(</big><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">ones</code><span class="sig-paren">(</span><em>crds</em>, <em>dtype='f8'</em>, <em>name='NoName'</em>, <em>center='cell'</em>, <em>layout='flat'</em>, <em>nr_comps=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#ones"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.ones</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -609,14 +621,14 @@ support for edge / face yet</li>
 </tr>
 </tbody>
 </table>
-<p>See Also: <a class="reference internal" href="#viscid.empty" title="viscid.empty"><tt class="xref py py-meth docutils literal"><span class="pre">empty()</span></tt></a></p>
+<p>See Also: <a class="reference internal" href="#viscid.empty" title="viscid.empty"><code class="xref py py-meth docutils literal"><span class="pre">empty()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">empty_like</tt><big>(</big><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">empty_like</code><span class="sig-paren">(</span><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#empty_like"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.empty_like</cite></p>
-<p>Makes a new, unitilialized <tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt>. Copies as much meta data
+<p>Makes a new, unitilialized <code class="xref py py-class docutils literal"><span class="pre">Field</span></code>. Copies as much meta data
 as it can from <cite>fld</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -625,7 +637,7 @@ as it can from <cite>fld</cite>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>fld</strong> &#8211; field to get coordinates / metadata from</li>
 <li><strong>name</strong> &#8211; name for this field</li>
-<li><strong>**kwargs</strong> &#8211; passed through to <tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt> constructor</li>
+<li><strong>**kwargs</strong> &#8211; passed through to <code class="xref py py-class docutils literal"><span class="pre">Field</span></code> constructor</li>
 </ul>
 </td>
 </tr>
@@ -641,7 +653,7 @@ as it can from <cite>fld</cite>.</p>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">zeros_like</tt><big>(</big><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">zeros_like</code><span class="sig-paren">(</span><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#zeros_like"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.zeros_like</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -653,12 +665,12 @@ as it can from <cite>fld</cite>.</p>
 </tr>
 </tbody>
 </table>
-<p>See Also: <a class="reference internal" href="#viscid.empty_like" title="viscid.empty_like"><tt class="xref py py-meth docutils literal"><span class="pre">empty_like()</span></tt></a></p>
+<p>See Also: <a class="reference internal" href="#viscid.empty_like" title="viscid.empty_like"><code class="xref py py-meth docutils literal"><span class="pre">empty_like()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">ones_like</tt><big>(</big><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">ones_like</code><span class="sig-paren">(</span><em>fld</em>, <em>name='NoName'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#ones_like"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Analogous to <cite>numpy.ones_like</cite></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -670,12 +682,12 @@ as it can from <cite>fld</cite>.</p>
 </tr>
 </tbody>
 </table>
-<p>See Also: <a class="reference internal" href="#viscid.empty_like" title="viscid.empty_like"><tt class="xref py py-meth docutils literal"><span class="pre">empty_like()</span></tt></a></p>
+<p>See Also: <a class="reference internal" href="#viscid.empty_like" title="viscid.empty_like"><code class="xref py py-meth docutils literal"><span class="pre">empty_like()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">scalar_fields_to_vector</tt><big>(</big><em>fldlist</em>, <em>name='NoName'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">scalar_fields_to_vector</code><span class="sig-paren">(</span><em>fldlist</em>, <em>name='NoName'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#scalar_fields_to_vector"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Convert scalar fields to a vector field</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -683,8 +695,8 @@ as it can from <cite>fld</cite>.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<em>str</em>) &#8211; name for the vector field</li>
-<li><strong>fldlist</strong> &#8211; list of <tt class="xref py py-class docutils literal"><span class="pre">ScalarField</span></tt></li>
-<li><strong>**kwargs</strong> &#8211; passed to <tt class="xref py py-class docutils literal"><span class="pre">VectorField</span></tt> constructor</li>
+<li><strong>fldlist</strong> &#8211; list of <code class="xref py py-class docutils literal"><span class="pre">ScalarField</span></code></li>
+<li><strong>**kwargs</strong> &#8211; passed to <code class="xref py py-class docutils literal"><span class="pre">VectorField</span></code> constructor</li>
 </ul>
 </td>
 </tr>
@@ -700,19 +712,19 @@ as it can from <cite>fld</cite>.</p>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">wrap_field</tt><big>(</big><em>data</em>, <em>crds</em>, <em>name='NoName'</em>, <em>fldtype='scalar'</em>, <em>**kwargs</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">wrap_field</code><span class="sig-paren">(</span><em>data</em>, <em>crds</em>, <em>name='NoName'</em>, <em>fldtype='scalar'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#wrap_field"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Convenience script for wrapping ndarrays</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> &#8211; Some data container, most likely a <tt class="docutils literal"><span class="pre">numpy.ndarray</span></tt></li>
-<li><strong>crds</strong> (<em>Coordinates</em>) &#8211; coordinates that describe the shape / grid
+<li><strong>data</strong> &#8211; Some data container, most likely a <code class="docutils literal"><span class="pre">numpy.ndarray</span></code></li>
+<li><strong>crds</strong> (<a class="reference internal" href="viscid.coordinate.html#viscid.coordinate.Coordinates" title="viscid.coordinate.Coordinates"><em>Coordinates</em></a>) &#8211; coordinates that describe the shape / grid
 of the field</li>
 <li><strong>fldtype</strong> (<em>str</em>) &#8211; &#8216;scalar&#8217; / &#8216;Vector&#8217;</li>
 <li><strong>name</strong> (<em>str</em>) &#8211; a way to refer to the field programatically</li>
-<li><strong>**kwargs</strong> &#8211; passed through to <tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt> constructor</li>
+<li><strong>**kwargs</strong> &#8211; passed through to <code class="xref py py-class docutils literal"><span class="pre">Field</span></code> constructor</li>
 </ul>
 </td>
 </tr>
@@ -728,7 +740,7 @@ of the field</li>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">viscid.</tt><tt class="descname">arrays2crds</tt><big>(</big><em>crd_arrs</em>, <em>crd_names='zyxwvu'</em><big>)</big></dt>
+<code class="descclassname">viscid.</code><code class="descname">arrays2crds</code><span class="sig-paren">(</span><em>crd_arrs</em>, <em>crd_names='zyxwvu'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#arrays2crds"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>make either uniform or nonuniform coordnates given full arrays</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -769,7 +781,7 @@ as crd_arrs. Should always be in zyx order.</li>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

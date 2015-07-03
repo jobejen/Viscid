@@ -37,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,6 +115,9 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changes.html">ChangeLog</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -362,20 +365,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AthenaBinFileWrapper.float_dtype"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinFileWrapper.float_dtype">[docs]</a>    <span class="k">def</span> <span class="nf">float_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">float_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_dtype</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="c"># just opening the file makes it read the meta data</span>
                 <span class="k">pass</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_dtype</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AthenaBinFileWrapper.field_names"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinFileWrapper.field_names">[docs]</a>    <span class="k">def</span> <span class="nf">field_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">field_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fld_names_lookup</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="c"># just opening the file makes it read the meta data</span>
                 <span class="k">pass</span>
-</div>
+
 <div class="viewcode-block" id="AthenaBinFileWrapper.read_field"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read a field given a seekable location</span>
 
@@ -414,9 +417,9 @@
                 <span class="k">raise</span> <span class="n">e</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AthenaBinFileWrapper.isopen"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinFileWrapper.isopen">[docs]</a>    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-</div>
+
 <div class="viewcode-block" id="AthenaBinFileWrapper.close"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinFileWrapper.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span>
@@ -520,17 +523,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fld_number</span> <span class="o">=</span> <span class="n">fld_number</span>
 
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AthenaBinDataWrapper.shape"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span>
-</div>
+
     <span class="nd">@property</span>
-<div class="viewcode-block" id="AthenaBinDataWrapper.dtype"><a class="viewcode-back" href="../../../api/viscid.readers.athena_bin.html#viscid.readers.athena_bin.AthenaBinDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_wrapper</span><span class="o">.</span><span class="n">float_dtype</span>
-</div>
+
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_wrapper</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">arr</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read_field</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fld_number</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">)</span>
@@ -565,7 +568,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

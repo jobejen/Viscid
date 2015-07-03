@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -116,7 +116,10 @@
      href="../index.html">Site <b class="caret"></b></a>
   <ul class="dropdown-menu globaltoc"
       role="menu"
-      aria-labelledby="dLabelGlobalToc"><ul class="current">
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../changes.html">ChangeLog</a></li>
+</ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -172,24 +175,24 @@
 <span id="viscid-readers-athena-xdmf-module"></span><h1>viscid.readers.athena_xdmf module<a class="headerlink" href="#module-viscid.readers.athena_xdmf" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.readers.athena_xdmf.AthenaFileXDMF">
-<em class="property">class </em><tt class="descclassname">viscid.readers.athena_xdmf.</tt><tt class="descname">AthenaFileXDMF</tt><big>(</big><em>fname</em>, <em>h5_root_dir=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.athena.html#viscid.readers.athena.AthenaFile" title="viscid.readers.athena.AthenaFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.athena.AthenaFile</span></tt></a>, <a class="reference internal" href="viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">viscid.readers.athena_xdmf.</code><code class="descname">AthenaFileXDMF</code><span class="sig-paren">(</span><em>fname</em>, <em>h5_root_dir=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.athena.html#viscid.readers.athena.AthenaFile" title="viscid.readers.athena.AthenaFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.athena.AthenaFile</span></code></a>, <a class="reference internal" href="viscid.readers.xdmf.html#viscid.readers.xdmf.FileXDMF" title="viscid.readers.xdmf.FileXDMF"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.xdmf.FileXDMF</span></code></a></p>
 <p>File type for Athena style convenience stuff</p>
 <p>Makes AthenaGrid the default grid and handles grouping multiple
 files.</p>
 <dl class="classmethod">
 <dt id="viscid.readers.athena_xdmf.AthenaFileXDMF.collective_name_from_group">
-<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">collective_name_from_group</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.readers.athena_xdmf.AthenaFileXDMF.group_fnames">
-<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.group_fnames" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">group_fnames</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.group_fnames" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_xdmf.AthenaFileXDMF.load">
-<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">load</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_xdmf.html#AthenaFileXDMF.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_xdmf.AthenaFileXDMF.load" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -216,7 +219,7 @@ files.</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>

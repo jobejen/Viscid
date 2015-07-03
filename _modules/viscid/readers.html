@@ -30,14 +30,14 @@
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
     <link rel="top" title="Viscid 0.80.8 dev documentation" href="../../index.html" />
-    <link rel="up" title="viscid" href="../viscid.html" />
+    <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -115,6 +115,9 @@
   <ul class="dropdown-menu globaltoc"
       role="menu"
       aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changes.html">ChangeLog</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
@@ -203,7 +206,7 @@
 
 <span class="n">__filebucket__</span> <span class="o">=</span> <span class="n">vfile_bucket</span><span class="o">.</span><span class="n">VFileBucket</span><span class="p">()</span>
 
-<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
+<div class="viewcode-block" id="load"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">fnames</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic load</span>
 
 <span class="sd">    Dispatches to :meth:`load_file` or :meth:`load_files`. This</span>
@@ -226,7 +229,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.load_file">[docs]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.load_file">[docs]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a file</span>
 
 <span class="sd">    Parameters:</span>
@@ -238,7 +241,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">__filebucket__</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="load_files"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.load_files">[docs]</a><span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="load_files"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.load_files">[docs]</a><span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a list of files</span>
 
 <span class="sd">    Parameters:</span>
@@ -252,36 +255,36 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">__filebucket__</span><span class="o">.</span><span class="n">load_files</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="unload_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.unload_file">[docs]</a><span class="k">def</span> <span class="nf">unload_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
+<div class="viewcode-block" id="unload_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.unload_file">[docs]</a><span class="k">def</span> <span class="nf">unload_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
     <span class="n">__filebucket__</span><span class="p">[</span><span class="n">handle</span><span class="p">]</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="reload_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.reload_file">[docs]</a><span class="k">def</span> <span class="nf">reload_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
+<div class="viewcode-block" id="reload_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.reload_file">[docs]</a><span class="k">def</span> <span class="nf">reload_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
     <span class="n">__filebucket__</span><span class="p">[</span><span class="n">handle</span><span class="p">]</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.get_file">[docs]</a><span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
+<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.get_file">[docs]</a><span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="n">handle</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; return a file that&#39;s already been loaded by either</span>
 <span class="sd">    number (as in nth file loaded), of file name</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">__filebucket__</span><span class="p">[</span><span class="n">handle</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="save_grid"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.save_grid">[docs]</a><span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="save_grid"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.save_grid">[docs]</a><span class="k">def</span> <span class="nf">save_grid</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; save a grid, filetype is inferred from fname</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="n">ftype</span><span class="o">.</span><span class="n">save_grid</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">grd</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="save_field"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.save_field">[docs]</a><span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="save_field"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.save_field">[docs]</a><span class="k">def</span> <span class="nf">save_field</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; save a field, filetype is inferred from fname&quot;&quot;&quot;</span>
     <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="n">ftype</span><span class="o">.</span><span class="n">save_field</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="save_fields"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.save_fields">[docs]</a><span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="save_fields"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.save_fields">[docs]</a><span class="k">def</span> <span class="nf">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; save a list of fields, filetype is inferred from fname</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ftype</span> <span class="o">=</span> <span class="n">VFile</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
     <span class="n">ftype</span><span class="o">.</span><span class="n">save_fields</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">flds</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="unload_all_files"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.readers.unload_all_files">[docs]</a><span class="k">def</span> <span class="nf">unload_all_files</span><span class="p">():</span>
+<div class="viewcode-block" id="unload_all_files"><a class="viewcode-back" href="../../api/viscid.readers.html#viscid.unload_all_files">[docs]</a><span class="k">def</span> <span class="nf">unload_all_files</span><span class="p">():</span>
     <span class="n">__filebucket__</span><span class="o">.</span><span class="n">remove_all_items</span><span class="p">()</span></div>
 </pre></div>
 
@@ -300,7 +303,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
 </footer>
