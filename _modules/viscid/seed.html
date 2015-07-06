@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.seed &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -229,7 +229,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="SeedGen.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;this should return an iterable of (z, y, x) points&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;this should return an iterable of (x, y, z) points&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="SeedGen.wrap_field"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.wrap_field">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;NoName&quot;</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&quot;scalar&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -246,7 +246,7 @@
 <span class="sd">    into :meth:`vicid.calculator.streamline.streamlines`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;points should be an n x 3 array of zyx points&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;points should be an n x 3 array of xyz points&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Point</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span>
 
@@ -281,7 +281,7 @@
 <span class="sd">    Defined by to endpoints</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; p0 &amp; p1 are (z, y, x) points as list, tuple, or ndarray</span>
+        <span class="sd">&quot;&quot;&quot; p0 &amp; p1 are (x, y, z) points as list, tuple, or ndarray</span>
 <span class="sd">        res is the number of need points to generate &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Line</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p0</span>
@@ -295,10 +295,10 @@
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
 </div>
 <div class="viewcode-block" id="Line.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Line.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">])</span>
@@ -370,19 +370,21 @@
         <span class="c"># normalize Ldir</span>
         <span class="n">Ldir</span> <span class="o">=</span> <span class="n">Ldir</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">))</span>
         <span class="c"># compute Mdir</span>
-        <span class="n">Mdir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Ndir</span><span class="p">)</span>  <span class="c"># zyx =&gt; left handed cross product</span>
+        <span class="n">Mdir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Ndir</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">)</span>
 
         <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">res_l</span> <span class="o">*</span> <span class="n">res_m</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">len_l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">len_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res_l</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">len_m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">len_m</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res_m</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">res_l</span><span class="p">)</span>
-        <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">res_m</span><span class="p">)</span>
+        <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">res_m</span><span class="p">)</span>
+        <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">res_l</span><span class="p">)</span>
         <span class="n">arr</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-        <span class="c"># create matrix to go LNM -&gt; zyx</span>
-        <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Mdir</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">,</span> <span class="n">Ndir</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="c"># create matrix to go LNM -&gt; xyz</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Mdir</span><span class="p">,</span> <span class="n">Ndir</span><span class="p">])</span>
 
-        <span class="n">arr_transformed</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+        <span class="c"># transpose trans b/c np.dot semmantics are not the same as matrix</span>
+        <span class="c"># vector multiply, but they are if you transpose the matrix</span>
+        <span class="n">arr_transformed</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">arr_transformed</span>
 </div>
@@ -395,7 +397,7 @@
         <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">len_l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">len_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res_l</span><span class="p">)</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">len_m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">len_m</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res_m</span><span class="p">)</span>
 
-        <span class="n">crds</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="p">((</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">l</span><span class="p">)))</span>
+        <span class="n">crds</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span> <span class="p">((</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">l</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">m</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">crds</span>
 
 </div></div>
@@ -405,8 +407,8 @@
 <span class="sd">    Defined by two opposite corners of a box in 3d</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; p1 &amp; p2 are (z, y, x) points as list, tuple, or ndarray</span>
-<span class="sd">        res is the number of need points to generate (nz, ny, nx) &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; p1 &amp; p2 are (x, y, z) points as list, tuple, or ndarray</span>
+<span class="sd">        res is the number of need points to generate (nx, ny, nz) &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Volume</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
@@ -428,19 +430,19 @@
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
 
 <div class="viewcode-block" id="Volume.iter_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Volume.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
         <span class="n">crd</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span>
-                                   <span class="p">((</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+                               <span class="p">((</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">crd</span>
 
 </div></div>
@@ -461,16 +463,16 @@
 </div>
 <div class="viewcode-block" id="Sphere.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_theta_phi</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spherical_to_zyx</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spherical_to_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Sphere.spherical_to_zyx"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.spherical_to_zyx">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_zyx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">p0</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_zyx</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p0</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Sphere.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_theta_phi</span><span class="p">()</span>
         <span class="n">crds</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span>
-                                    <span class="p">((</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">)))</span>
+                                <span class="p">((</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">theta</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">crds</span>
 </div>
     <span class="k">def</span> <span class="nf">_get_all_theta_phi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -483,17 +485,17 @@
                           <span class="n">endpoint</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span>
 
-    <span class="k">def</span> <span class="nf">_local_zyx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_local_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;r&quot;</span><span class="p">]</span>
-        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">T</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">P</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
 
         <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">phi</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="c"># 2 == x, 1 == y, 0 == z</span>
-        <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">P</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c"># 0 == x, 1 == y, 2 == z</span>
+        <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">P</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">P</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">a</span>
 </div>
 <div class="viewcode-block" id="SphericalCap"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SphericalCap">[docs]</a><span class="k">class</span> <span class="nc">SphericalCap</span><span class="p">(</span><span class="n">Sphere</span><span class="p">):</span>
@@ -528,8 +530,8 @@
             <span class="n">script_r</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">p0</span>
             <span class="n">script_rmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">script_r</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
-            <span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">script_r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">script_rmag</span><span class="p">)</span>
-            <span class="n">phi0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">script_r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">script_r</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">theta0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">script_r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">script_rmag</span><span class="p">)</span>
+            <span class="n">phi0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">script_r</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">script_r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
             <span class="c"># first 2 euler angle rotations, the 3rd one would be</span>
             <span class="c"># the rotation around the cone&#39;s axis, so no need for that one</span>
@@ -539,16 +541,16 @@
             <span class="n">cost0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta0</span><span class="p">)</span>
             <span class="n">sinp0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi0</span><span class="p">)</span>
             <span class="n">cosp0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi0</span><span class="p">)</span>
-            <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">cost0</span><span class="p">,</span>            <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="n">sint0</span><span class="p">],</span>          <span class="c"># pylint: disable=C0326</span>
-                            <span class="p">[</span><span class="n">sinp0</span> <span class="o">*</span> <span class="n">sint0</span><span class="p">,</span>  <span class="n">cosp0</span><span class="p">,</span>  <span class="n">sinp0</span> <span class="o">*</span> <span class="n">cost0</span><span class="p">],</span>  <span class="c"># pylint: disable=C0326</span>
-                            <span class="p">[</span><span class="n">cosp0</span> <span class="o">*</span> <span class="n">sint0</span><span class="p">,</span> <span class="o">-</span><span class="n">sinp0</span><span class="p">,</span>  <span class="n">cosp0</span> <span class="o">*</span> <span class="n">cost0</span><span class="p">],</span>  <span class="c"># pylint: disable=C0326</span>
+            <span class="n">mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="n">cosp0</span> <span class="o">*</span> <span class="n">cost0</span><span class="p">,</span> <span class="o">-</span><span class="n">sinp0</span><span class="p">,</span> <span class="n">cosp0</span> <span class="o">*</span> <span class="n">sint0</span><span class="p">],</span>  <span class="c"># pylint: disable=C0326</span>
+                            <span class="p">[</span> <span class="n">sinp0</span> <span class="o">*</span> <span class="n">cost0</span><span class="p">,</span>  <span class="n">cosp0</span><span class="p">,</span> <span class="n">sinp0</span> <span class="o">*</span> <span class="n">sint0</span><span class="p">],</span>  <span class="c"># pylint: disable=C0326</span>
+                            <span class="p">[</span><span class="o">-</span><span class="n">sint0</span><span class="p">,</span>          <span class="mf">0.0</span><span class="p">,</span>   <span class="n">cost0</span><span class="p">,</span>       <span class="p">],</span>  <span class="c"># pylint: disable=C0326</span>
                            <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_euler_rot</span> <span class="o">=</span> <span class="n">mat</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_euler_rot</span>
 
-<div class="viewcode-block" id="SphericalCap.spherical_to_zyx"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SphericalCap.spherical_to_zyx">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_zyx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+<div class="viewcode-block" id="SphericalCap.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SphericalCap.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_zyx</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">p0</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">euler_rot</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">_get_all_theta_phi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -588,45 +590,61 @@
 <span class="c">#         return theta, phi</span>
 
 </div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">interp_trilin</span>
+    <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">fld</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="s">&quot;xyz&quot;</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fld</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">Z</span>
+
+    <span class="k">def</span> <span class="nf">run_test</span><span class="p">(</span><span class="n">_fld</span><span class="p">,</span> <span class="n">_seeds</span><span class="p">,</span> <span class="n">plot_2d</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">plot_3d</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">interp_trilin</span><span class="p">(</span><span class="n">_fld</span><span class="p">,</span> <span class="n">_seeds</span><span class="p">)</span>
+        <span class="n">ifld</span> <span class="o">=</span> <span class="n">_seeds</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot_2d</span><span class="p">:</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ifld</span><span class="p">,</span> <span class="n">selection</span><span class="o">=</span><span class="n">selection</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot_3d</span><span class="p">:</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">scatter_3d</span><span class="p">(</span><span class="n">_seeds</span><span class="o">.</span><span class="n">points</span><span class="p">(),</span> <span class="n">arr</span><span class="p">)</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+
+    <span class="c"># ### PLANE</span>
+    <span class="c"># p0 = [0.5, 0.6, 0.7][::1]</span>
+    <span class="c"># N = [1., 2., 3.][::1]</span>
+    <span class="c"># L = [-3., -2., -1.][::1]</span>
+    <span class="c"># plane = Plane(p0, N, L, 2., 2., 15, 20)</span>
+    <span class="c"># run_test(fld, plane, True, True)</span>
+
+    <span class="c"># ### Volume</span>
+    <span class="c"># p0 = [-0.7, -0.6, -0.5][::1]</span>
+    <span class="c"># p1 = [+0.7, +0.6, +0.5][::1]</span>
+    <span class="c"># volume = Volume(p0, p1)</span>
+    <span class="c"># run_test(fld, volume, True, True, &quot;z=3&quot;)</span>
+
+    <span class="c"># ### Sphere</span>
+    <span class="c"># p0 = [1.0, 1.0, 1.0][::1]</span>
+    <span class="c"># sphere = Sphere(p0, 1.0, 15, 15)</span>
+    <span class="c"># run_test(fld, sphere, True, True)</span>
+
+    <span class="c">### Sphere Cap</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">][::</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">][::</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sphere_cap</span> <span class="o">=</span> <span class="n">SphericalCap</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+    <span class="n">run_test</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">sphere_cap</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+    <span class="c"># ### Circle</span>
+    <span class="c"># p0 = [0.5, 0.6, 0.7][::1]</span>
+    <span class="c"># p1 = [0.7, 0.6, 0.5][::1]</span>
+    <span class="c"># sphere_cap = Circle(p0, p1, 20, r=0.8)</span>
+    <span class="c"># run_test(fld, sphere_cap, True, True)</span>
+
+    <span class="k">return</span> <span class="mi">0</span>
+</div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c"># import matplotlib.pyplot as plt</span>
-    <span class="c"># from mpl_toolkits.mplot3d import Axes3D #pylint: disable=W0611</span>
-    <span class="c"># ax = plt.gca(projection=&#39;3d&#39;)</span>
-    <span class="c"># lin = Line((-1.0, -1.0, -1.0), (1.0, 1.0, 1.0)).points()</span>
-    <span class="c"># ax.plot(lin[:, 2], lin[:, 1], lin[:, 0], &#39;g.&#39;)</span>
-    <span class="c"># s = Sphere((0.0, 0.0, 0.0), 2.0, 10, 20).points()</span>
-    <span class="c"># ax.plot(s[:, 2], s[:, 1], s[:, 0], &#39;b&#39;)</span>
-    <span class="c"># p = Plane((0.0, 0.0, 0.0), (1.0, 1.0, 1.0), (0.0, 0.0, 1.0),</span>
-    <span class="c">#                  2.0, 3.0, 10, 20).points()</span>
-    <span class="c"># ax.plot(p[:, 2], p[:, 1], p[:, 0], &#39;r&#39;)</span>
-    <span class="c"># plt.xlabel(&quot;X&quot;)</span>
-    <span class="c"># plt.ylabel(&quot;Y&quot;)</span>
-    <span class="c"># plt.show()</span>
-
-    <span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">default_timer</span> <span class="k">as</span> <span class="n">time</span>
-    <span class="kn">from</span> <span class="nn">mayavi</span> <span class="kn">import</span> <span class="n">mlab</span>
-    <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vlab</span>
-    <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">calc</span>
-    <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">cycalc</span>
-
-    <span class="n">B</span> <span class="o">=</span> <span class="n">vlab</span><span class="o">.</span><span class="n">get_dipole</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
-    <span class="n">bmag</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">magnitude</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
-    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-    <span class="n">_p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
-    <span class="n">_p1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
-    <span class="n">cap</span> <span class="o">=</span> <span class="n">SphericalCap</span><span class="p">(</span><span class="n">_p0</span><span class="p">,</span> <span class="n">_p1</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">interp_vals</span> <span class="o">=</span> <span class="n">cycalc</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">bmag</span><span class="p">,</span> <span class="n">cap</span><span class="p">)</span>
-    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-    <span class="c"># logger.info(&quot;interp took {0:.3e}s to compute.&quot;.format(t1 - t0))</span>
-    <span class="n">_pts</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">points</span><span class="p">()</span>
-    <span class="n">mlab</span><span class="o">.</span><span class="n">points3d</span><span class="p">(</span><span class="n">_p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">_p0</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_p0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                  <span class="n">scale_factor</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-    <span class="n">mlab</span><span class="o">.</span><span class="n">points3d</span><span class="p">(</span><span class="n">_p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">_p1</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                  <span class="n">scale_factor</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
-    <span class="n">mlab</span><span class="o">.</span><span class="n">points3d</span><span class="p">(</span><span class="n">_pts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">_pts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">interp_vals</span><span class="p">,</span>
-                  <span class="n">scale_factor</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">scale_mode</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">mlab</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">nb_labels</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">mlab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 
 <span class="c">##</span>
 <span class="c">## EOF</span>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.hdf5 &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.readers.hdf5 &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -392,7 +392,7 @@
         <span class="c">#        hdf5 / xdmf / numpy binary output</span>
         <span class="n">clist</span> <span class="o">=</span> <span class="n">flds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">get_clist</span><span class="p">(</span><span class="n">full_arrays</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
         <span class="n">crd_arrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="n">crd_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
+        <span class="n">crd_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clist</span><span class="p">):</span>
             <span class="n">crd_arrs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">crd_shape</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">crd_arrs</span><span class="p">]</span>
@@ -406,20 +406,21 @@
 
             <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">flds</span><span class="p">:</span>
                 <span class="n">loc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_FLD_GROUPS</span><span class="p">[</span><span class="n">fld</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fld</span><span class="o">.</span><span class="n">name</span>
-                <span class="n">f</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
+                <span class="c"># xdmf files use kji ordering</span>
+                <span class="n">f</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>
 
         <span class="c"># now write an xdmf file</span>
         <span class="n">xdmf_fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&quot;.xdmf&quot;</span>
         <span class="n">relh5fname</span> <span class="o">=</span> <span class="s">&quot;./&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">xdmf_fname</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">xloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">xloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">yloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">zloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">dim_str</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">crd_shape</span><span class="p">])</span>
+            <span class="n">zloc</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_CRDS_GROUP</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">crd_names</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">dim_str</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">crd_shape</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_BEGIN</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">))</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_XDMF_TEMPLATE_RECTILINEAR_GRID_BEGIN</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">grid_name</span><span class="o">=</span><span class="s">&quot;vgrid&quot;</span><span class="p">,</span> <span class="n">crd_dims</span><span class="o">=</span><span class="n">dim_str</span><span class="p">,</span> <span class="n">h5fname</span><span class="o">=</span><span class="n">relh5fname</span><span class="p">,</span>
-                <span class="n">xdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ydim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">zdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">xdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ydim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">zdim</span><span class="o">=</span><span class="n">crd_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                 <span class="n">xloc</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span> <span class="n">yloc</span><span class="o">=</span><span class="n">yloc</span><span class="p">,</span> <span class="n">zloc</span><span class="o">=</span><span class="n">zloc</span><span class="p">)</span>
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 

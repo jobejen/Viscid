@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.plot.mpl &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -483,13 +483,15 @@
         <span class="n">X</span> <span class="o">*=</span> <span class="n">mod</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">Y</span> <span class="o">*=</span> <span class="n">mod</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span>
     <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">dat</span> <span class="o">*=</span> <span class="n">scale</span>
     <span class="c"># print(x.shape, y.shape, fld.data.shape)</span>
     <span class="k">if</span> <span class="n">masknan</span><span class="p">:</span>
         <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">dat</span><span class="p">),</span> <span class="n">dat</span><span class="p">)</span>
         <span class="n">all_masked</span> <span class="o">=</span> <span class="n">all_masked</span> <span class="ow">and</span> <span class="n">dat</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c"># Field.data is now xyz as are the crds</span>
 
     <span class="k">if</span> <span class="n">flip_plot</span><span class="p">:</span>
         <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
@@ -691,11 +693,7 @@
 
     <span class="c">##############################</span>
     <span class="c"># now actually make the plots</span>
-
-    <span class="c"># THIS IS BACKWARD, on account of the convention for</span>
-    <span class="c"># Coordinates where z, y, x is used since that is how</span>
-    <span class="c"># xdmf data is</span>
-    <span class="n">namey</span><span class="p">,</span> <span class="n">namex</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span> <span class="c"># fld.crds.get_culled_axes()</span>
+    <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span> <span class="c"># fld.crds.get_culled_axes()</span>
 
     <span class="n">all_masked</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
@@ -746,6 +744,7 @@
         <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">nolabels</span><span class="p">:</span>
+        <span class="c"># Field.data is now xyz as are the crds</span>
         <span class="k">if</span> <span class="n">flip_plot</span><span class="p">:</span>
             <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span> <span class="o">=</span> <span class="n">namey</span><span class="p">,</span> <span class="n">namex</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">xlabel</span><span class="p">:</span>
@@ -872,10 +871,10 @@
         <span class="c"># new_lon = (lon - 90.0) * np.pi / 180.0</span>
         <span class="n">new_lon</span> <span class="o">=</span> <span class="n">lon</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>
         <span class="n">new_crds</span> <span class="o">=</span> <span class="n">coordinate</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;uniform_spherical&quot;</span><span class="p">,</span>
-                                        <span class="p">[(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">new_lat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_lat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                                  <span class="nb">len</span><span class="p">(</span><span class="n">new_lat</span><span class="p">)]),</span>
-                                         <span class="p">(</span><span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">new_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_lon</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                                  <span class="nb">len</span><span class="p">(</span><span class="n">new_lon</span><span class="p">)])])</span>
+                                        <span class="p">[(</span><span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">new_lon</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_lon</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                  <span class="nb">len</span><span class="p">(</span><span class="n">new_lon</span><span class="p">)]),</span>
+                                         <span class="p">(</span><span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">new_lat</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_lat</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                  <span class="nb">len</span><span class="p">(</span><span class="n">new_lat</span><span class="p">)])])</span>
         <span class="n">new_fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">sl_fld</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">crds</span><span class="o">=</span><span class="n">new_crds</span><span class="p">))</span>
 
         <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&#39;nolabels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
@@ -1048,7 +1047,7 @@
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        lines (list): A set of N lines. Elements should have the shape</span>
-<span class="sd">            3xP where 3 is the axes zyx (in that order) and P is the</span>
+<span class="sd">            3xP where 3 is the axes xyz (in that order) and P is the</span>
 <span class="sd">            number of points in the line. As an ndarray, the required</span>
 <span class="sd">            shape is Nx3xP.</span>
 <span class="sd">        topology (optional): Value used to color the lines. Should have</span>
@@ -1069,9 +1068,9 @@
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">topo_color</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_from_topology</span><span class="p">(</span><span class="n">topology</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
@@ -1090,7 +1089,7 @@
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        lines (list): A set of N lines. Elements should have the shape</span>
-<span class="sd">            3xP where 3 is the axes zyx (in that order) and P is the</span>
+<span class="sd">            3xP where 3 is the axes xyz (in that order) and P is the</span>
 <span class="sd">            number of points in the line. As an ndarray, the required</span>
 <span class="sd">            shape is Nx3xP.</span>
 <span class="sd">        symdir (str, optional): one of xyz for the plane on which to</span>
@@ -1117,16 +1116,16 @@
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
         <span class="n">line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;z&quot;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;For 3d lines, symdir should be x, y, or z&quot;</span><span class="p">)</span>
@@ -1158,6 +1157,7 @@
     <span class="c"># downscaling a field; i think this is a prickley one</span>
     <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_quiver doesn&#39;t do multi-block fields yet&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;quiver plots untested since zyx-&gt;xyz transition&quot;</span><span class="p">)</span>
 
     <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -1170,7 +1170,7 @@
     <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;z&quot;</span><span class="p">:</span>
         <span class="c"># x, y = xcc, ycc</span>
         <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">Y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">downscale</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
         <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
@@ -1184,7 +1184,7 @@
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        points: something shaped 3xN for N points, where 3 are the</span>
-<span class="sd">            zyx cartesian directions in that order</span>
+<span class="sd">            xyz cartesian directions in that order</span>
 <span class="sd">        c (str, optional): color (in matplotlib format)</span>
 <span class="sd">        ax (matplotlib Axis, optional): axis on which to plot (should</span>
 <span class="sd">            be a 3d axis)</span>
@@ -1194,9 +1194,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s">&#39;3d&#39;</span><span class="p">)</span>
 
-    <span class="n">z</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">equal</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>

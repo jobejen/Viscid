@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.coordinate &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -171,8 +171,8 @@
 <span class="sd">&quot;&quot;&quot; Container for grid coordinates</span>
 
 <span class="sd">Coordinates primarily go into Field objects. The order of coords in</span>
-<span class="sd">the clist should mirror the data layout, as in if data[iz, iy, ix]</span>
-<span class="sd">(C-order, ix is fastest varying index) then list should go z, y, x...</span>
+<span class="sd">the clist should mirror the data layout, as in if data[ix, iy, iz]</span>
+<span class="sd">(C-order, ix is fastest varying index) then list should go x, y, z...</span>
 <span class="sd">this is the default order</span>
 
 <span class="sd">types:</span>
@@ -199,14 +199,14 @@
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">vutil</span>
 
 
-<div class="viewcode-block" id="arrays2crds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.arrays2crds">[docs]</a><span class="k">def</span> <span class="nf">arrays2crds</span><span class="p">(</span><span class="n">crd_arrs</span><span class="p">,</span> <span class="n">crd_names</span><span class="o">=</span><span class="s">&quot;zyxwvu&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="arrays2crds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.arrays2crds">[docs]</a><span class="k">def</span> <span class="nf">arrays2crds</span><span class="p">(</span><span class="n">crd_arrs</span><span class="p">,</span> <span class="n">crd_names</span><span class="o">=</span><span class="s">&quot;xyzuvw&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;make either uniform or nonuniform coordnates given full arrays</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        crd_arrs (array-like): for n-dimensional crds, supply a list</span>
 <span class="sd">            of n ndarrays</span>
 <span class="sd">        crd_names (iterable): names of coordinates in the same order</span>
-<span class="sd">            as crd_arrs. Should always be in zyx order.</span>
+<span class="sd">            as crd_arrs. Should always be in xyz order.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">uniform_clist</span> <span class="o">=</span> <span class="p">[]</span>
@@ -275,7 +275,7 @@
                <span class="s">&quot;face&quot;</span><span class="p">:</span> <span class="s">&quot;fc&quot;</span><span class="p">,</span> <span class="s">&quot;edge&quot;</span><span class="p">:</span> <span class="s">&quot;ec&quot;</span><span class="p">}</span>
     <span class="n">SUFFIXES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_CENTER</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">]</span>
 
     <span class="n">_src_crds_nc</span> <span class="o">=</span> <span class="bp">None</span>
 
@@ -1318,12 +1318,12 @@
 </div></div>
 <div class="viewcode-block" id="UniformCartesianCrds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.UniformCartesianCrds">[docs]</a><span class="k">class</span> <span class="nc">UniformCartesianCrds</span><span class="p">(</span><span class="n">UniformCrds</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;uniform_cartesian&quot;</span>
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="NonuniformCartesianCrds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.NonuniformCartesianCrds">[docs]</a><span class="k">class</span> <span class="nc">NonuniformCartesianCrds</span><span class="p">(</span><span class="n">NonuniformCrds</span><span class="p">):</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;nonuniform_cartesian&quot;</span>
-    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;z&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;x&quot;</span><span class="p">]</span>
+    <span class="n">_axes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">,</span> <span class="s">&quot;z&quot;</span><span class="p">]</span>
 
 </div>
 <div class="viewcode-block" id="UniformSphericalCrds"><a class="viewcode-back" href="../../api/viscid.coordinate.html#viscid.UniformSphericalCrds">[docs]</a><span class="k">class</span> <span class="nc">UniformSphericalCrds</span><span class="p">(</span><span class="n">UniformCrds</span><span class="p">):</span>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.calc module &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.calculator.calc module &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../index.html" />
     <link rel="up" title="viscid.calculator package" href="viscid.calculator.html" />
     <link rel="next" title="viscid.calculator.evaluator module" href="viscid.calculator.evaluator.html" />
     <link rel="prev" title="viscid.calculator package" href="viscid.calculator.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -234,13 +234,13 @@ flexable would be useful down the line?</p>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.curl_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">curl_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>z</em>, <em>y</em>, <em>x</em>, <em>dz=None</em>, <em>dy=None</em>, <em>dx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#curl_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.curl_at_point" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">curl_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#curl_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.curl_at_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns curl at point as ndarray with shape (3,) xyz</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.div_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">div_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>z</em>, <em>y</em>, <em>x</em>, <em>dz=None</em>, <em>dy=None</em>, <em>dx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#div_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.div_at_point" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">div_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#div_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.div_at_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns divergence at a point</p>
 </dd></dl>
 
@@ -251,7 +251,7 @@ flexable would be useful down the line?</p>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_at_ind">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>iz</em>, <em>iy</em>, <em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_ind" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_ind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the Jacobian at index</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -271,9 +271,9 @@ in other words:<div class="highlight-python"><div class="highlight"><pre>[ [d_x 
 
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>z</em>, <em>y</em>, <em>x</em>, <em>dz=None</em>, <em>dy=None</em>, <em>dx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_point" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the Jacobian at a point</p>
-<p>If dz|dy|ix == None, then their set to the grid spacing
+<p>If dx|dy|dz == None, then their set to the grid spacing
 at the point of interest</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -293,55 +293,55 @@ in other words:<div class="highlight-python"><div class="highlight"><pre>[ [d_x 
 
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_eig_at_ind">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>iz</em>, <em>iy</em>, <em>ix</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_ind" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_ind" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the eigen vals/vecs of the jacobian</p>
 <dl class="docutils">
 <dt>Returns: evals, evecs (3x3 ndarray)</dt>
 <dd>The evec[:, i] corresponds to evals[i].
-Eigen vectors are returned in zyx order, aka
-evec[:, 0] is [z, y, x] for the 0th eigen vector</dd>
+Eigen vectors are returned in xyz order, aka
+evec[:, 0] is [x, y, z] for the 0th eigen vector</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_eig_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>z</em>, <em>y</em>, <em>x</em>, <em>dz=None</em>, <em>dy=None</em>, <em>dx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_point" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the eigen vals/vecs of the jacobian</p>
 <dl class="docutils">
 <dt>Returns: evals, evecs (3x3 ndarray)</dt>
 <dd>The evec[:, i] corresponds to evals[i].
-Eigen vectors are returned in zyx order, aka
-evec[:, 0] is [z, y, x] for the 0th eigen vector</dd>
+Eigen vectors are returned in xyz order, aka
+evec[:, 0] is [x, y, z] for the 0th eigen vector</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.calculator.calc.local_vector_points">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">local_vector_points</code><span class="sig-paren">(</span><em>B</em>, <em>z</em>, <em>y</em>, <em>x</em>, <em>dz=None</em>, <em>dy=None</em>, <em>dx=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#local_vector_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.local_vector_points" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">local_vector_points</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#local_vector_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.local_vector_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get B at 6 points surrounding X</p>
-<p>X = [z, y, x] with spacing [+/-dz, +/-dy, +/-dx]</p>
+<p>X = [x, y, z] with spacing [+/-dx, +/-dy, +/-dz]</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; B field</li>
-<li><strong>z</strong> (<em>float, ndarray, list</em>) &#8211; z (single value)</li>
-<li><strong>y</strong> (<em>float, ndarray, list</em>) &#8211; y (single value)</li>
 <li><strong>x</strong> (<em>float, ndarray, list</em>) &#8211; x (single value)</li>
-<li><strong>dz</strong> (<em>float, optional</em>) &#8211; dz, one grid cell if None</li>
-<li><strong>dy</strong> (<em>float, optional</em>) &#8211; dy, one grid cell if None</li>
+<li><strong>y</strong> (<em>float, ndarray, list</em>) &#8211; y (single value)</li>
+<li><strong>z</strong> (<em>float, ndarray, list</em>) &#8211; z (single value)</li>
 <li><strong>dx</strong> (<em>float, optional</em>) &#8211; dx, one grid cell if None</li>
+<li><strong>dy</strong> (<em>float, optional</em>) &#8211; dy, one grid cell if None</li>
+<li><strong>dz</strong> (<em>float, optional</em>) &#8211; dz, one grid cell if None</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(bs, pts, dcrd)</p>
 <ul class="simple">
 <li>bs (ndarary): shape (6, 3) where 0-3 -&gt; Bx,By,Bz
-and 0-6 -&gt; X-dz, X+dz, X-dy, X+dy, X-dx, X+dx</li>
+and 0-6 -&gt; X-dx, X+dx, X-dy, X+dy, X-dz, X+dz</li>
 <li>pts (ndarray): shape (6, 3); the location of the
-points of the bs, but this time, 0-3 -&gt; z,y,x</li>
-<li>dcrd (list): [dz, dy, dx]</li>
+points of the bs, but this time, 0-3 -&gt; x,y,z</li>
+<li>dcrd (list): [dx, dy, dz]</li>
 </ul>
 </p>
 </td>

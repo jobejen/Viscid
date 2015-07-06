@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.coordinate module &mdash; Viscid 0.80.9 documentation</title>
+    <title>viscid.coordinate module &mdash; Viscid 0.90.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.9',
+        VERSION:     '0.90.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.9 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.0 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.dataset module" href="viscid.dataset.html" />
     <link rel="prev" title="viscid.bucket module" href="viscid.bucket.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -175,8 +175,8 @@
 <span id="viscid-coordinate-module"></span><h1>viscid.coordinate module<a class="headerlink" href="#module-viscid.coordinate" title="Permalink to this headline">¶</a></h1>
 <p>Container for grid coordinates</p>
 <p>Coordinates primarily go into Field objects. The order of coords in
-the clist should mirror the data layout, as in if data[iz, iy, ix]
-(C-order, ix is fastest varying index) then list should go z, y, x...
+the clist should mirror the data layout, as in if data[ix, iy, iz]
+(C-order, ix is fastest varying index) then list should go x, y, z...
 this is the default order</p>
 <dl class="docutils">
 <dt>types:</dt>
@@ -850,7 +850,7 @@ changing the data, just the coordinates.</p>
 
 <dl class="function">
 <dt id="viscid.coordinate.arrays2crds">
-<code class="descclassname">viscid.coordinate.</code><code class="descname">arrays2crds</code><span class="sig-paren">(</span><em>crd_arrs</em>, <em>crd_names='zyxwvu'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#arrays2crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.arrays2crds" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.coordinate.</code><code class="descname">arrays2crds</code><span class="sig-paren">(</span><em>crd_arrs</em>, <em>crd_names='xyzuvw'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#arrays2crds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.arrays2crds" title="Permalink to this definition">¶</a></dt>
 <dd><p>make either uniform or nonuniform coordnates given full arrays</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -860,7 +860,7 @@ changing the data, just the coordinates.</p>
 <li><strong>crd_arrs</strong> (<em>array-like</em>) &#8211; for n-dimensional crds, supply a list
 of n ndarrays</li>
 <li><strong>crd_names</strong> (<em>iterable</em>) &#8211; names of coordinates in the same order
-as crd_arrs. Should always be in zyx order.</li>
+as crd_arrs. Should always be in xyz order.</li>
 </ul>
 </td>
 </tr>
