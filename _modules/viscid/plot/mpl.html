@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl &mdash; Viscid 0.80.8 documentation</title>
+    <title>viscid.plot.mpl &mdash; Viscid 0.80.9 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.80.8',
+        VERSION:     '0.80.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.8 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.80.9 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -1042,8 +1042,8 @@
         <span class="n">mplshow</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot_streamlines"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot_streamlines">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_lines"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot_lines">[docs]</a><span class="k">def</span> <span class="nf">plot_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot lines on a matplotlib 3D plot, optionally colored by value</span>
 
 <span class="sd">    Parameters:</span>
@@ -1084,8 +1084,8 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot_streamlines2d"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot_streamlines2d">[docs]</a><span class="k">def</span> <span class="nf">plot_streamlines2d</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">symdir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                       <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flip_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_lines2d"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot_lines2d">[docs]</a><span class="k">def</span> <span class="nf">plot_lines2d</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">symdir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flip_plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Project 3D lines onto a 2D plot</span>
 
 <span class="sd">    Parameters:</span>
@@ -1179,7 +1179,7 @@
     <span class="c"># print(X.shape, Y.shape, pvx.shape, pvy.shape)</span>
     <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot scattered points on a matplotlib 3d plot</span>
 
 <span class="sd">    Parameters:</span>
@@ -1324,10 +1324,13 @@
             <span class="n">axis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span>
                                            <span class="n">fc</span><span class="o">=</span><span class="n">nightcol</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">))</span>
     <span class="k">return</span> <span class="bp">None</span>
+</div>
+<span class="n">plot_streamlines</span> <span class="o">=</span> <span class="n">plot_lines</span>
+<span class="n">plot_streamlines2d</span> <span class="o">=</span> <span class="n">plot_lines2d</span>
 
 <span class="c">##</span>
 <span class="c">## EOF</span>
-<span class="c">##</span></div>
+<span class="c">##</span>
 </pre></div>
 
     </div>

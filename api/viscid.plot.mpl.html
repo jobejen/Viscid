@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl module &mdash; Viscid 0.80.8 documentation</title>
+    <title>viscid.plot.mpl module &mdash; Viscid 0.80.9 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.80.8',
+        VERSION:     '0.80.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.80.8 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.80.9 documentation" href="../index.html" />
     <link rel="up" title="viscid.plot package" href="viscid.plot.html" />
     <link rel="next" title="viscid.plot.mvi module" href="viscid.plot.mvi.html" />
     <link rel="prev" title="viscid.plot.mpl_extra module" href="viscid.plot.mpl_extra.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.80.8</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.80.9</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -405,6 +405,59 @@ deduced from plane_spec if it&#8217;s a Field instance.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="viscid.plot.mpl.plot_lines">
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot lines on a matplotlib 3D plot, optionally colored by value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; A set of N lines. Elements should have the shape
+3xP where 3 is the axes zyx (in that order) and P is the
+number of points in the line. As an ndarray, the required
+shape is Nx3xP.</li>
+<li><strong>topology</strong> (<em>optional</em>) &#8211; Value used to color the lines. Should have
+length N.</li>
+<li><strong>ax</strong> (<em>matplotlib axis, optional</em>) &#8211; axis on which to plot</li>
+<li><strong>show</strong> (<em>bool, optional</em>) &#8211; plt.show() before returning</li>
+<li><strong>equal</strong> (<em>bool, optional</em>) &#8211; set 1:1 aspect ratio on axes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mpl.plot_lines2d">
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_lines2d</code><span class="sig-paren">(</span><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_lines2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_lines2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project 3D lines onto a 2D plot</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; A set of N lines. Elements should have the shape
+3xP where 3 is the axes zyx (in that order) and P is the
+number of points in the line. As an ndarray, the required
+shape is Nx3xP.</li>
+<li><strong>symdir</strong> (<em>str, optional</em>) &#8211; one of xyz for the plane on which to
+orthogonally project lines. Not needed if lines are shaped
+Nx2xP.</li>
+<li><strong>topology</strong> (<em>optional</em>) &#8211; Value used to color the lines. Should have
+length N.</li>
+<li><strong>ax</strong> (<em>matplotlib axis, optional</em>) &#8211; axis on which to plot</li>
+<li><strong>show</strong> (<em>bool, optional</em>) &#8211; plt.show() before returning</li>
+<li><strong>flip_plot</strong> (<em>bool, optional</em>) &#8211; swap plot&#8217;s x/y axes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="viscid.plot.mpl.plot_opts_to_kwargs">
 <code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_opts_to_kwargs</code><span class="sig-paren">(</span><em>plot_opts</em>, <em>plot_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_opts_to_kwargs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_opts_to_kwargs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Turn plot options from string to items in plot_kwargs</p>
@@ -430,7 +483,7 @@ plotting function</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines">
-<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot lines on a matplotlib 3D plot, optionally colored by value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -455,7 +508,7 @@ length N.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.plot_streamlines2d">
-<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines2d</code><span class="sig-paren">(</span><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#plot_streamlines2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines2d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">plot_streamlines2d</code><span class="sig-paren">(</span><em>lines</em>, <em>symdir=None</em>, <em>topology=None</em>, <em>ax=None</em>, <em>show=False</em>, <em>flip_plot=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#viscid.plot.mpl.plot_streamlines2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Project 3D lines onto a 2D plot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -483,7 +536,7 @@ length N.</li>
 
 <dl class="function">
 <dt id="viscid.plot.mpl.scatter_3d">
-<code class="descclassname">viscid.plot.mpl.</code><code class="descname">scatter_3d</code><span class="sig-paren">(</span><em>points</em>, <em>c='b'</em>, <em>ax=None</em>, <em>show=True</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.scatter_3d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mpl.</code><code class="descname">scatter_3d</code><span class="sig-paren">(</span><em>points</em>, <em>c='b'</em>, <em>ax=None</em>, <em>show=False</em>, <em>equal=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mpl.html#scatter_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mpl.scatter_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot scattered points on a matplotlib 3d plot</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
