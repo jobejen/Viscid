@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.seed &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -178,7 +178,25 @@
 <span class="kn">import</span> <span class="nn">viscid</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">izip</span>
 
-<div class="viewcode-block" id="SeedGen"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen">[docs]</a><span class="k">class</span> <span class="nc">SeedGen</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;to_seeds&#39;</span><span class="p">,</span> <span class="s">&#39;SeedGen&#39;</span><span class="p">,</span> <span class="s">&#39;Point&#39;</span><span class="p">,</span> <span class="s">&#39;Line&#39;</span><span class="p">,</span> <span class="s">&#39;Plane&#39;</span><span class="p">,</span> <span class="s">&#39;Volume&#39;</span><span class="p">,</span>
+           <span class="s">&#39;Sphere&#39;</span><span class="p">,</span> <span class="s">&#39;SphericalCap&#39;</span><span class="p">,</span> <span class="s">&#39;Circle&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="to_seeds"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.to_seeds">[docs]</a><span class="k">def</span> <span class="nf">to_seeds</span><span class="p">(</span><span class="n">pts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Try to turn anything into a set of seeds</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        points (ndarray or list): should look like something that</span>
+<span class="sd">            np.array(points) can turn to an Nx3 array of xyz points.</span>
+<span class="sd">            This can be 3xN so long as N != 3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="s">&quot;nr_points&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="s">&quot;iter_points&quot;</span><span class="p">)</span> <span class="ow">and</span>
+        <span class="nb">hasattr</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="s">&quot;points&quot;</span><span class="p">)):</span>  <span class="c"># pylint: disable=bad-continuation</span>
+        <span class="k">return</span> <span class="n">pts</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="SeedGen"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen">[docs]</a><span class="k">class</span> <span class="nc">SeedGen</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;All about seeds</span>
 
 <span class="sd">    These objects are good for defining the root points of streamlines</span>
@@ -196,7 +214,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="SeedGen.points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.points">[docs]</a>    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.points">[docs]</a>    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get points an ndarray</span>
 
 <span class="sd">        Returns:</span>
@@ -209,7 +227,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_points</span> <span class="o">=</span> <span class="n">pts</span>
         <span class="k">return</span> <span class="n">pts</span>
 </div>
-<div class="viewcode-block" id="SeedGen.iter_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.iter_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;always returns an iterator, this can be overridden in a</span>
 <span class="sd">        subclass if it&#39;s more efficient to iterate than a call to</span>
 <span class="sd">        :meth:`genr_points`, calling iter_points should make an effort</span>
@@ -221,39 +239,45 @@
         <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">izip</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">pts</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>
 </div>
-<div class="viewcode-block" id="SeedGen.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="SeedGen.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;basically, wrap_crds on something meaningful&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="SeedGen.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;this should return an iterable of (x, y, z) points&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="SeedGen.wrap_field"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SeedGen.wrap_field">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;NoName&quot;</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&quot;scalar&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="SeedGen.wrap_field"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SeedGen.wrap_field">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;NoName&quot;</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&quot;scalar&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;fld_type is &#39;Scalar&#39; or &#39;Vector&#39; or something like that&quot;&quot;&quot;</span>
         <span class="n">crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_coordinates</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="n">fldtype</span><span class="p">,</span>
                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Collection of points</span>
 
 <span class="sd">    This is useful for wrapping up an ndarray of points to go</span>
 <span class="sd">    into :meth:`vicid.calculator.streamline.streamlines`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;points should be an n x 3 array of xyz points&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Seed with an explicit set of points</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            points (ndarray or list): should look like something that</span>
+<span class="sd">                np.array(points) can turn to an Nx3 array of xyz</span>
+<span class="sd">                points. This can be 3xN so long as N != 3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Point</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;points&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">points</span>
 
-<div class="viewcode-block" id="Point.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Point.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Point.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">()</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="Point.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Point.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Point.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;points&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">pts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
@@ -271,11 +295,11 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Malformed points&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Point.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Point.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Point.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Point.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;not yet implemented&quot;</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Line">[docs]</a><span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
+<div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Line">[docs]</a><span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A line of seed points</span>
 
 <span class="sd">    Defined by to endpoints</span>
@@ -288,10 +312,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
 
-<div class="viewcode-block" id="Line.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Line.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Line.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Line.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="Line.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Line.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Line.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Line.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span>
@@ -300,7 +324,7 @@
         <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Line.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Line.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Line.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Line.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">])</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">])</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span>
@@ -312,7 +336,7 @@
         <span class="k">return</span> <span class="n">crd</span>
 
 </div></div>
-<div class="viewcode-block" id="Plane"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Plane">[docs]</a><span class="k">class</span> <span class="nc">Plane</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
+<div class="viewcode-block" id="Plane"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane">[docs]</a><span class="k">class</span> <span class="nc">Plane</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A plane of seed points</span>
 
 <span class="sd">    Defined by a point, a normal direction, a direction in the plane,</span>
@@ -343,21 +367,58 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_l&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_l</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res_m</span>
 
-<div class="viewcode-block" id="Plane.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Plane.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Plane.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_l&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_m&quot;</span><span class="p">]</span>
 
     <span class="c"># def _make_arrays(self):</span>
     <span class="c">#     pass</span>
 </div>
-<div class="viewcode-block" id="Plane.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Plane.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># turn N and L into flat ndarrays</span>
+<div class="viewcode-block" id="Plane.get_lmn_transform"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane.get_lmn_transform">[docs]</a>    <span class="k">def</span> <span class="nf">get_lmn_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get transformation from xyz -&gt; lmn</span>
+
+<span class="sd">        To transform lmn -&gt; xyz, transpose the result since it&#39;s</span>
+<span class="sd">        an orthogonal matrix.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            3x3 ndarray</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Transform a set of points from lmn coordinates to xyz</span>
+<span class="sd">            &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">            &gt;&gt;&gt; import viscid</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # p0 is the origin of the plane</span>
+<span class="sd">            &gt;&gt;&gt; p0 = np.array([0, 0, 0])</span>
+<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane(p0, [1, 1, 0], [1, -1, 0],</span>
+<span class="sd">            &gt;&gt;&gt;                      0.5, 0.5)</span>
+<span class="sd">            &gt;&gt;&gt; lmn_to_xyz = plane.get_lmn_transform().T</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # make 10 random points in lmn coorinates</span>
+<span class="sd">            &gt;&gt;&gt; lmn = np.random(3, 10)</span>
+<span class="sd">            &gt;&gt;&gt; xyz = p0 + np.dot(lmn_to_xyz, lmn)</span>
+
+<span class="sd">            &gt;&gt;&gt; # Transform vector compenents from xyz to lmn</span>
+<span class="sd">            &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">            &gt;&gt;&gt; import viscid</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; x = np.linspace(-1, 1, 32)</span>
+<span class="sd">            &gt;&gt;&gt; y = np.linspace(-1, 1, 32)</span>
+<span class="sd">            &gt;&gt;&gt; z = np.linspace(-1, 1, 32)</span>
+<span class="sd">            &gt;&gt;&gt; Bxyz = viscid.zeros([x, y, z], center=&#39;node&#39;,</span>
+<span class="sd">            &gt;&gt;&gt;                     nr_comps=3, layout=&quot;interlaced&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; Bxyz[&#39;x&#39;] = 1.0</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane([0, 0, 0], [1, 1, 0], [1, -1, 0],</span>
+<span class="sd">            &gt;&gt;&gt;                      0.5, 0.5)</span>
+<span class="sd">            &gt;&gt;&gt; xyz_to_lmn = plane.get_lmn_transform()</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; Blmn = np.einsum(&quot;ij,lmj-&gt;lmi&quot;, xyz_to_lmn, Bxyz)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: if Ndir == Ldir, can&#39;t determine a plane</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Ndir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;Ndir&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">Ldir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;Ldir&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">len_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_l&quot;</span><span class="p">]</span>
-        <span class="n">len_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_m&quot;</span><span class="p">]</span>
-        <span class="n">res_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_l&quot;</span><span class="p">]</span>
-        <span class="n">res_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_m&quot;</span><span class="p">]</span>
-        <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">Ndir</span> <span class="o">==</span> <span class="n">Ldir</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Ndir == Ldir, this does not define a plane&quot;</span><span class="p">)</span>
@@ -371,6 +432,15 @@
         <span class="n">Ldir</span> <span class="o">=</span> <span class="n">Ldir</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">))</span>
         <span class="c"># compute Mdir</span>
         <span class="n">Mdir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">Ndir</span><span class="p">,</span> <span class="n">Ldir</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Mdir</span><span class="p">,</span> <span class="n">Ndir</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Plane.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># turn N and L into flat ndarrays</span>
+        <span class="n">len_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_l&quot;</span><span class="p">]</span>
+        <span class="n">len_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_m&quot;</span><span class="p">]</span>
+        <span class="n">res_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_l&quot;</span><span class="p">]</span>
+        <span class="n">res_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_m&quot;</span><span class="p">]</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
         <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">res_l</span> <span class="o">*</span> <span class="n">res_m</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">len_l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">len_l</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res_l</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -380,15 +450,15 @@
         <span class="n">arr</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
 
         <span class="c"># create matrix to go LNM -&gt; xyz</span>
-        <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Ldir</span><span class="p">,</span> <span class="n">Mdir</span><span class="p">,</span> <span class="n">Ndir</span><span class="p">])</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lmn_transform</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
 
         <span class="c"># transpose trans b/c np.dot semmantics are not the same as matrix</span>
         <span class="c"># vector multiply, but they are if you transpose the matrix</span>
-        <span class="n">arr_transformed</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+        <span class="n">arr_transformed</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">arr_transformed</span>
 </div>
-<div class="viewcode-block" id="Plane.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Plane.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plane.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">len_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_l&quot;</span><span class="p">]</span>
         <span class="n">len_m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;len_m&quot;</span><span class="p">]</span>
         <span class="n">res_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res_l&quot;</span><span class="p">]</span>
@@ -401,7 +471,7 @@
         <span class="k">return</span> <span class="n">crds</span>
 
 </div></div>
-<div class="viewcode-block" id="Volume"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume">[docs]</a><span class="k">class</span> <span class="nc">Volume</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
+<div class="viewcode-block" id="Volume"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume">[docs]</a><span class="k">class</span> <span class="nc">Volume</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A volume of seed points</span>
 
 <span class="sd">    Defined by two opposite corners of a box in 3d</span>
@@ -414,10 +484,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
 
-<div class="viewcode-block" id="Volume.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Volume.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;res&quot;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Volume.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Volume.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">crds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">crds</span><span class="p">]</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shape</span><span class="p">)])</span>
@@ -435,18 +505,18 @@
         <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">p0</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
 
-<div class="viewcode-block" id="Volume.iter_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Volume.iter_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Volume.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Volume.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Volume.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_arrays</span><span class="p">()</span>
         <span class="n">crd</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span>
                                <span class="p">((</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">z</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">crd</span>
 
 </div></div>
-<div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere">[docs]</a><span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere">[docs]</a><span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A sphere of points</span>
 
 <span class="sd">    Defined by a center, and a radius</span>
@@ -458,18 +528,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;restheta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">restheta</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;resphi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resphi</span>
 
-<div class="viewcode-block" id="Sphere.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere.nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;restheta&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;resphi&quot;</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="Sphere.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.genr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere.genr_points">[docs]</a>    <span class="k">def</span> <span class="nf">genr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_theta_phi</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">spherical_to_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Sphere.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">p0</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Sphere.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Sphere.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Sphere.as_coordinates"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere.as_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">as_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_theta_phi</span><span class="p">()</span>
         <span class="n">crds</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">wrap_crds</span><span class="p">(</span><span class="s">&quot;nonuniform_cartesian&quot;</span><span class="p">,</span>
                                 <span class="p">((</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="n">phi</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="n">theta</span><span class="p">)))</span>
@@ -498,7 +568,7 @@
         <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">a</span>
 </div>
-<div class="viewcode-block" id="SphericalCap"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SphericalCap">[docs]</a><span class="k">class</span> <span class="nc">SphericalCap</span><span class="p">(</span><span class="n">Sphere</span><span class="p">):</span>
+<div class="viewcode-block" id="SphericalCap"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SphericalCap">[docs]</a><span class="k">class</span> <span class="nc">SphericalCap</span><span class="p">(</span><span class="n">Sphere</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A spherical cone or cap of seeds</span>
 
 <span class="sd">    Defined by a center, and a point indicating the direction of the</span>
@@ -548,7 +618,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_euler_rot</span> <span class="o">=</span> <span class="n">mat</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_euler_rot</span>
 
-<div class="viewcode-block" id="SphericalCap.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.SphericalCap.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+<div class="viewcode-block" id="SphericalCap.spherical_to_xyz"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SphericalCap.spherical_to_xyz">[docs]</a>    <span class="k">def</span> <span class="nf">spherical_to_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
         <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;p0&quot;</span><span class="p">]</span>
         <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_xyz</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">p0</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">euler_rot</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
@@ -565,7 +635,7 @@
         <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">phi</span>
 
 </div>
-<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.Circle">[docs]</a><span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">SphericalCap</span><span class="p">):</span>
+<div class="viewcode-block" id="Circle"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Circle">[docs]</a><span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">SphericalCap</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A circle of seeds</span>
 
 <span class="sd">    Defined by a center and a point normal to the plane of the circle</span>
@@ -590,7 +660,7 @@
 <span class="c">#         return theta, phi</span>
 
 </div>
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.seed.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">_main</span><span class="p">():</span>
     <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">interp_trilin</span>
     <span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
 
@@ -641,10 +711,10 @@
     <span class="c"># run_test(fld, sphere_cap, True, True)</span>
 
     <span class="k">return</span> <span class="mi">0</span>
-</div>
+
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sys</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">_main</span><span class="p">())</span>
 
 <span class="c">##</span>
 <span class="c">## EOF</span>

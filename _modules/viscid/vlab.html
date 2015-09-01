@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.vlab &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.vlab &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -177,6 +177,7 @@
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_NUMEXPR</span> <span class="o">=</span> <span class="bp">False</span>
 
+<span class="kn">import</span> <span class="nn">viscid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">parallel</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
@@ -186,9 +187,9 @@
 
 <span class="c"># these compiled are needed for fluid following</span>
 <span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">calc_streamlines</span>
     <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">cycalc</span>
     <span class="kn">from</span> <span class="nn">viscid.calculator</span> <span class="kn">import</span> <span class="n">streamline</span>
-    <span class="kn">from</span> <span class="nn">viscid.calculator.streamline</span> <span class="kn">import</span> <span class="n">streamlines</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">pass</span>
 
@@ -260,7 +261,7 @@
                 <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">x03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">y03</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z03</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">b</span>
 </div>
-<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../api/viscid.vlab.html#viscid.vlab.multiplot">[docs]</a><span class="k">def</span> <span class="nf">multiplot</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">plot_func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nprocs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="multiplot"><a class="viewcode-back" href="../../api/viscid.vlab.html#viscid.vlab.multiplot">[docs]</a><span class="k">def</span> <span class="nf">multiplot</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">plot_func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nr_procs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="s">&quot;:&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make lots of plots</span>
 
 <span class="sd">    Calls plot_func (or vlab._do_multiplot if plot_func is None) with 2</span>
@@ -281,7 +282,7 @@
 <span class="sd">        plot_func (callable): Function that makes a single plot. It</span>
 <span class="sd">            must take an int (index of time slice), a Grid, and any</span>
 <span class="sd">            number of keyword argumets. If None, _do_multiplot is used</span>
-<span class="sd">        nprocs (int): number of parallel processes to farm out</span>
+<span class="sd">        nr_procs (int): number of parallel processes to farm out</span>
 <span class="sd">            plot_func to</span>
 <span class="sd">        time_slice (str): passed to vfile.iter_times()</span>
 <span class="sd">        **kwargs: passed as keword aguments to plot_func</span>
@@ -303,12 +304,12 @@
 
     <span class="k">if</span> <span class="s">&quot;subplot_params&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args_kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;kwopts&quot;</span><span class="p">,</span> <span class="p">{}):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">plot_func</span><span class="p">,</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">grid_iter</span><span class="p">)],</span> <span class="n">args_kw</span><span class="o">=</span><span class="n">args_kw</span><span class="p">,</span>
-                         <span class="n">force_subprocess</span><span class="o">=</span><span class="p">(</span><span class="n">nprocs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span>
+                         <span class="n">force_subprocess</span><span class="o">=</span><span class="p">(</span><span class="n">nr_procs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="c"># now get back to your regularly scheduled programming</span>
     <span class="n">args_kw</span><span class="p">[</span><span class="s">&quot;first_run&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="n">args_kw</span><span class="p">[</span><span class="s">&quot;first_run_result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">parallel</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">nprocs</span><span class="p">,</span> <span class="n">plot_func</span><span class="p">,</span> <span class="n">grid_iter</span><span class="p">,</span> <span class="n">args_kw</span><span class="o">=</span><span class="n">args_kw</span><span class="p">)</span>
+    <span class="n">parallel</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">nr_procs</span><span class="p">,</span> <span class="n">plot_func</span><span class="p">,</span> <span class="n">grid_iter</span><span class="p">,</span> <span class="n">args_kw</span><span class="o">=</span><span class="n">args_kw</span><span class="p">)</span>
 </div>
 <span class="k">def</span> <span class="nf">_do_multiplot</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">plot_vars</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">global_popts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kwopts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                   <span class="n">share_axes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">subplot_params</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -428,8 +429,7 @@
     <span class="k">return</span> <span class="n">ret</span>
 
 <div class="viewcode-block" id="follow_fluid"><a class="viewcode-back" href="../../api/viscid.vlab.html#viscid.vlab.follow_fluid">[docs]</a><span class="k">def</span> <span class="nf">follow_fluid</span><span class="p">(</span><span class="n">vfile</span><span class="p">,</span> <span class="n">time_slice</span><span class="p">,</span> <span class="n">initial_seeds</span><span class="p">,</span> <span class="n">plot_function</span><span class="p">,</span>
-                 <span class="n">stream_opts</span><span class="p">,</span> <span class="n">add_seed_cadence</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">add_seed_pts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">speed_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+                 <span class="n">stream_opts</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Trace fluid elements</span>
 
 <span class="sd">    Note:</span>
@@ -445,16 +445,47 @@
 <span class="sd">            root_seeds [SeedGen])</span>
 <span class="sd">        stream_opts: must have ds0 and max_length, maxit will be</span>
 <span class="sd">            automatically calculated</span>
-<span class="sd">        add_seed_cadence: how often to add the add_seeds points</span>
-<span class="sd">        add_seed_pts: an n x 3 ndarray of n points to add every</span>
-<span class="sd">            add_seed_cadence (xyz)</span>
-<span class="sd">        speed_scale: speed_scale * v should be in units of ds0 / dt</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        root points after following the fluid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">grid</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">grid</span> <span class="ow">in</span> <span class="n">vfile</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)])</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">times</span>  <span class="c"># Note: last element makes no sense</span>
+
+    <span class="n">grid_iter</span> <span class="o">=</span> <span class="n">vfile</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">follow_fluid_generic</span><span class="p">(</span><span class="n">grid_iter</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">initial_seeds</span><span class="p">,</span> <span class="n">plot_function</span><span class="p">,</span>
+                                <span class="n">stream_opts</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="follow_fluid_generic"><a class="viewcode-back" href="../../api/viscid.vlab.html#viscid.vlab.follow_fluid_generic">[docs]</a><span class="k">def</span> <span class="nf">follow_fluid_generic</span><span class="p">(</span><span class="n">grid_iter</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">initial_seeds</span><span class="p">,</span> <span class="n">plot_function</span><span class="p">,</span>
+                         <span class="n">stream_opts</span><span class="p">,</span> <span class="n">add_seed_cadence</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">add_seed_pts</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                         <span class="n">speed_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Trace fluid elements</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        grid_iter (iterable): Some iterable that yields grids</span>
+<span class="sd">        dt (float): Either one float for uniform dt, or a list</span>
+<span class="sd">            where di[i] = grid_iter[i + 1].time - grid_iter[i].time</span>
+<span class="sd">            The last element is repeated until grid_iter is exhausted</span>
+<span class="sd">        initial_seeds: any SeedGen object</span>
+<span class="sd">        plot_function: function that is called each time step,</span>
+<span class="sd">            arguments should be exactly: (i [int], grid, v [Vector</span>
+<span class="sd">            Field], v_lines [result of streamline trace],</span>
+<span class="sd">            root_seeds [SeedGen])</span>
+<span class="sd">        stream_opts: must have ds0 and max_length, maxit will be</span>
+<span class="sd">            automatically calculated</span>
+<span class="sd">        add_seed_cadence: how often to add the add_seeds points</span>
+<span class="sd">        add_seed_pts: an n x 3 ndarray of n points to add every</span>
+<span class="sd">            add_seed_cadence (xyz)</span>
+<span class="sd">        speed_scale: speed_scale * v should be in units of ds0 / dt</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        TYPE: Description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="s">&quot;__iter__&quot;</span><span class="p">):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
     <span class="n">root_seeds</span> <span class="o">=</span> <span class="n">initial_seeds</span>
 
     <span class="c"># setup maximum number of iterations for a streamline</span>
@@ -467,11 +498,11 @@
                        <span class="s">&quot;otherwise I don&#39;t know how to follow the fluid&quot;</span><span class="p">)</span>
 
     <span class="c"># iterate through the time steps from time_slice</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vfile</span><span class="o">.</span><span class="n">iter_times</span><span class="p">(</span><span class="n">time_slice</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">dti</span> <span class="ow">in</span> <span class="n">izip</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span> <span class="n">grid_iter</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">last_add_time</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span>
 
-        <span class="n">root_pts</span> <span class="o">=</span> <span class="n">_follow_fluid_step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dt</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">grid</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
+        <span class="n">root_pts</span> <span class="o">=</span> <span class="n">_follow_fluid_step</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">dti</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
                                       <span class="n">plot_function</span><span class="p">,</span> <span class="n">stream_opts</span><span class="p">,</span> <span class="n">speed_scale</span><span class="p">)</span>
 
         <span class="c"># maybe add some new seed points to account for those that have left</span>
@@ -494,17 +525,13 @@
 
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;working on timestep {0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">]</span>
-    <span class="c"># automatically zero symmetry dimension of a 2d field</span>
-    <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="s">&#39;xyz&#39;</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">sshape</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">v</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;finished reading V field&quot;</span><span class="p">)</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;calculating new streamline positions&quot;</span><span class="p">)</span>
-    <span class="n">flow_lines</span> <span class="o">=</span> <span class="n">streamlines</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
-                             <span class="n">output</span><span class="o">=</span><span class="n">streamline</span><span class="o">.</span><span class="n">OUTPUT_STREAMLINES</span><span class="p">,</span>
-                             <span class="n">stream_dir</span><span class="o">=</span><span class="n">sl_direction</span><span class="p">,</span>
-                             <span class="o">**</span><span class="n">stream_opts</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">flow_lines</span> <span class="o">=</span> <span class="n">calc_streamlines</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">,</span>
+                                  <span class="n">output</span><span class="o">=</span><span class="n">viscid</span><span class="o">.</span><span class="n">OUTPUT_STREAMLINES</span><span class="p">,</span>
+                                  <span class="n">stream_dir</span><span class="o">=</span><span class="n">sl_direction</span><span class="p">,</span>
+                                  <span class="o">**</span><span class="n">stream_opts</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;done with that, now i&#39;m plotting...&quot;</span><span class="p">)</span>
     <span class="n">plot_function</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">flow_lines</span><span class="p">,</span> <span class="n">root_seeds</span><span class="p">)</span>

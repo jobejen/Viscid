@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed module &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.seed module &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.tree module" href="viscid.tree.html" />
     <link rel="prev" title="viscid.pyeval module" href="viscid.pyeval.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -174,83 +174,20 @@
   <div class="section" id="module-viscid.seed">
 <span id="viscid-seed-module"></span><h1>viscid.seed module<a class="headerlink" href="#module-viscid.seed" title="Permalink to this headline">¶</a></h1>
 <p>Helpers to generate seed points for streamlines</p>
-<dl class="class">
-<dt id="viscid.seed.Circle">
-<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>r=None</em>, <em>angle=90.0</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Circle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SphericalCap" title="viscid.seed.SphericalCap"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SphericalCap</span></code></a></p>
-<p>A circle of seeds</p>
-<p>Defined by a center and a point normal to the plane of the circle</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="viscid.seed.Line">
-<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
-<p>A line of seed points</p>
-<p>Defined by to endpoints</p>
-<dl class="method">
-<dt id="viscid.seed.Line.as_coordinates">
-<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.as_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Line.genr_points">
-<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.genr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Line.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="viscid.seed.Plane">
-<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Plane</code><span class="sig-paren">(</span><em>p0</em>, <em>Ndir</em>, <em>Ldir</em>, <em>len_l</em>, <em>len_m</em>, <em>res_l=20</em>, <em>res_m=20</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
-<p>A plane of seed points</p>
-<p>Defined by a point, a normal direction, a direction in the plane,
-and the length and width of the plane</p>
-<dl class="method">
-<dt id="viscid.seed.Plane.as_coordinates">
-<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.as_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Plane.genr_points">
-<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.genr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Plane.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="viscid.seed.Point">
-<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Point</code><span class="sig-paren">(</span><em>points</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
-<p>Collection of points</p>
-<p>This is useful for wrapping up an ndarray of points to go
-into <code class="xref py py-meth docutils literal"><span class="pre">vicid.calculator.streamline.streamlines()</span></code>.</p>
-<dl class="method">
-<dt id="viscid.seed.Point.as_coordinates">
-<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.as_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Point.genr_points">
-<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.genr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Point.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dl class="function">
+<dt id="viscid.seed.to_seeds">
+<code class="descclassname">viscid.seed.</code><code class="descname">to_seeds</code><span class="sig-paren">(</span><em>pts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#to_seeds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.to_seeds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to turn anything into a set of seeds</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> (<em>ndarray or list</em>) &#8211; should look like something that
+np.array(points) can turn to an Nx3 array of xyz points.
+This can be 3xN so long as N != 3.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -324,6 +261,164 @@ of an array, but only if the array already exists</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="viscid.seed.Point">
+<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Point</code><span class="sig-paren">(</span><em>points</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
+<p>Collection of points</p>
+<p>This is useful for wrapping up an ndarray of points to go
+into <code class="xref py py-meth docutils literal"><span class="pre">vicid.calculator.streamline.streamlines()</span></code>.</p>
+<dl class="method">
+<dt id="viscid.seed.Point.as_coordinates">
+<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.as_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Point.genr_points">
+<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.genr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Point.nr_points">
+<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Point.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Point.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.seed.Line">
+<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
+<p>A line of seed points</p>
+<p>Defined by to endpoints</p>
+<dl class="method">
+<dt id="viscid.seed.Line.as_coordinates">
+<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.as_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Line.genr_points">
+<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.genr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Line.nr_points">
+<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Line.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.seed.Plane">
+<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Plane</code><span class="sig-paren">(</span><em>p0</em>, <em>Ndir</em>, <em>Ldir</em>, <em>len_l</em>, <em>len_m</em>, <em>res_l=20</em>, <em>res_m=20</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
+<p>A plane of seed points</p>
+<p>Defined by a point, a normal direction, a direction in the plane,
+and the length and width of the plane</p>
+<dl class="method">
+<dt id="viscid.seed.Plane.as_coordinates">
+<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.as_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Plane.genr_points">
+<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.genr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Plane.get_lmn_transform">
+<code class="descname">get_lmn_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.get_lmn_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.get_lmn_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get transformation from xyz -&gt; lmn</p>
+<p>To transform lmn -&gt; xyz, transpose the result since it&#8217;s
+an orthogonal matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">3x3 ndarray</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Transform a set of points from lmn coordinates to xyz</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">viscid</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># p0 is the origin of the plane</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn_to_xyz</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_lmn_transform</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># make 10 random points in lmn coorinates</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">lmn_to_xyz</span><span class="p">,</span> <span class="n">lmn</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Transform vector compenents from xyz to lmn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">viscid</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Bxyz</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="n">center</span><span class="o">=</span><span class="s">&#39;node&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                    <span class="n">nr_comps</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s">&quot;interlaced&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Bxyz</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz_to_lmn</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_lmn_transform</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Blmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&quot;ij,lmj-&gt;lmi&quot;</span><span class="p">,</span> <span class="n">xyz_to_lmn</span><span class="p">,</span> <span class="n">Bxyz</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">RuntimeError</span></code> &#8211;
+if Ndir == Ldir, can&#8217;t determine a plane</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Plane.nr_points">
+<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Plane.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="viscid.seed.Volume">
+<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Volume</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=(20</em>, <em>20</em>, <em>20)</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
+<p>A volume of seed points</p>
+<p>Defined by two opposite corners of a box in 3d</p>
+<dl class="method">
+<dt id="viscid.seed.Volume.as_coordinates">
+<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.as_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Volume.genr_points">
+<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.genr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Volume.iter_points">
+<code class="descname">iter_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.iter_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.seed.Volume.nr_points">
+<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="viscid.seed.Sphere">
 <em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Sphere</code><span class="sig-paren">(</span><em>p0</em>, <em>r</em>, <em>restheta=20</em>, <em>resphi=20</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Sphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Sphere" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
@@ -371,37 +466,12 @@ cone, and the half angle of the cone.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="viscid.seed.Volume">
-<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Volume</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=(20</em>, <em>20</em>, <em>20)</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
-<p>A volume of seed points</p>
-<p>Defined by two opposite corners of a box in 3d</p>
-<dl class="method">
-<dt id="viscid.seed.Volume.as_coordinates">
-<code class="descname">as_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.as_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.as_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Volume.genr_points">
-<code class="descname">genr_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.genr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.genr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Volume.iter_points">
-<code class="descname">iter_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.iter_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.iter_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.seed.Volume.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Volume.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt id="viscid.seed.Circle">
+<em class="property">class </em><code class="descclassname">viscid.seed.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>res=20</em>, <em>r=None</em>, <em>angle=90.0</em>, <em>cache=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.Circle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#viscid.seed.SphericalCap" title="viscid.seed.SphericalCap"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SphericalCap</span></code></a></p>
+<p>A circle of seeds</p>
+<p>Defined by a center and a point normal to the plane of the circle</p>
 </dd></dl>
-
-<dl class="function">
-<dt id="viscid.seed.main">
-<code class="descclassname">viscid.seed.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.seed.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 

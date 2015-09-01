@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.amr_field module &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.amr_field module &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.amr_grid module" href="viscid.amr_grid.html" />
     <link rel="prev" title="viscid.readers.xdmf module" href="viscid.readers.xdmf.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -228,26 +228,6 @@ python will not send those through __getattr__ or __getattribute__.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="viscid.amr_field.AMRField.block_indices">
-<code class="descname">block_indices</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.block_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.block_indices" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the indices of the patches that overlap selection
-:param selection: anything that can slice a field</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of indices</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="viscid.amr_field.AMRField.blocks">
-<code class="descname">blocks</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.blocks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="viscid.amr_field.AMRField.cumprod">
 <code class="descname">cumprod</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.cumprod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.cumprod" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -283,8 +263,8 @@ python will not send those through __getattr__ or __getattribute__.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="viscid.amr_field.AMRField.nr_blocks">
-<code class="descname">nr_blocks</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.nr_blocks" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.amr_field.AMRField.nr_patches">
+<code class="descname">nr_patches</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.nr_patches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -295,6 +275,21 @@ python will not send those through __getattr__ or __getattribute__.</p>
 <dl class="method">
 <dt id="viscid.amr_field.AMRField.patch_indices">
 <code class="descname">patch_indices</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_field.html#AMRField.patch_indices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_field.AMRField.patch_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the indices of the patches that overlap selection
+:param selection: anything that can slice a field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of indices</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="viscid.amr_field.AMRField.patches">
+<code class="descname">patches</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_field.AMRField.patches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">

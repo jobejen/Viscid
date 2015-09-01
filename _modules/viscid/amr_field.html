@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.amr_field &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.amr_field &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -177,6 +177,7 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
+<span class="kn">import</span> <span class="nn">viscid</span>
 <span class="c"># from viscid.compat import string_types</span>
 <span class="kn">from</span> <span class="nn">viscid.field</span> <span class="kn">import</span> <span class="n">Field</span>
 
@@ -232,15 +233,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_TYPE</span> <span class="o">=</span> <span class="s">&quot;amr&quot;</span>
     <span class="n">skeleton</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">blocks</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">nr_blocks</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">patches</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">nr_patches</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_list_of_fields</span><span class="p">(</span><span class="n">fields</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;AMRField can only contain Fields:&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span> <span class="o">=</span> <span class="n">skeleton</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">fields</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patches</span> <span class="o">=</span> <span class="n">fields</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">xl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -251,7 +252,7 @@
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">xh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AMRField.get_slice_extent"><a class="viewcode-back" href="../../api/viscid.amr_field.html#viscid.amr_field.AMRField.get_slice_extent">[docs]</a>    <span class="k">def</span> <span class="nf">get_slice_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_slice_extent</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+        <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_slice_extent</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]):</span>
                 <span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -262,20 +263,20 @@
     <span class="c">###########</span>
     <span class="c">## slicing</span></div>
     <span class="k">def</span> <span class="nf">_prepare_amr_slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return list of blocks that contain selection &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; return list of patches that contain selection &quot;&quot;&quot;</span>
         <span class="c"># FIXME: it&#39;s not good to reach in to src_field[0]&#39;s private methods</span>
         <span class="c"># like this, but it&#39;s also not good to implement these things twice</span>
-        <span class="c"># print(&quot;??&quot;, len(self.blocks))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;AMR field must contain blocks to be slicable&quot;</span><span class="p">)</span>
-        <span class="n">selection</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_prepare_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-        <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_slice_extent</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+        <span class="c"># print(&quot;??&quot;, len(self.patches))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;AMR field must contain patches to be slicable&quot;</span><span class="p">)</span>
+        <span class="n">selection</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_prepare_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+        <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_slice_extent</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
 
         <span class="n">inds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">maybe</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># these are patches that look like they contain selection</span>
                     <span class="c"># but might not due to finite precision errors when</span>
                     <span class="c"># calculating xh</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fld</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fld</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
             <span class="c"># - if xl - atol &gt; the extent of the slice in any direction, then</span>
             <span class="c">#   there&#39;s no overlap</span>
             <span class="c"># - if xh &lt;= the lower corner of the slice in any direction, then</span>
@@ -302,8 +303,8 @@
             <span class="n">inds</span> <span class="o">=</span> <span class="n">maybe</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: selection&quot;</span><span class="p">,</span> <span class="n">selection</span><span class="p">,</span> <span class="s">&quot;not in any patch&quot;</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;         @ time&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;selection {0} not in any patch</span><span class="se">\n</span><span class="s">@ time {1}&quot;</span>
+                               <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&quot;         skeleton: xl=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xl</span><span class="p">,</span>
                       <span class="s">&quot;xh=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xh</span><span class="p">)</span>
@@ -311,9 +312,9 @@
             <span class="n">flds</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">inds</span> <span class="o">=</span> <span class="n">inds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">flds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span>
+            <span class="n">flds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">inds</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">flds</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">]</span>
+            <span class="n">flds</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">]</span>
 
         <span class="k">return</span> <span class="n">flds</span><span class="p">,</span> <span class="n">inds</span>
 
@@ -321,16 +322,16 @@
         <span class="n">skeleton</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># FIXME</span>
         <span class="k">for</span> <span class="n">fld</span> <span class="ow">in</span> <span class="n">fld_lst</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span>
-                <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Trying to make an AMRField where 1+ blocks &quot;</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Trying to make an AMRField where 1+ patches &quot;</span>
                      <span class="s">&quot;is just a number... You probably slice_reduced &quot;</span>
                      <span class="s">&quot;a field down to a scalar value&quot;</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning:&quot;</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+                <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AMRField</span><span class="p">(</span><span class="n">fld_lst</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">patch_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_indices</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
+
 <div class="viewcode-block" id="AMRField.patch_indices"><a class="viewcode-back" href="../../api/viscid.amr_field.html#viscid.amr_field.AMRField.patch_indices">[docs]</a>    <span class="k">def</span> <span class="nf">patch_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_indices</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="AMRField.block_indices"><a class="viewcode-back" href="../../api/viscid.amr_field.html#viscid.amr_field.AMRField.block_indices">[docs]</a>    <span class="k">def</span> <span class="nf">block_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;get the indices of the patches that overlap selection</span>
 <span class="sd">        Args:</span>
 <span class="sd">            selection (slice, str): anything that can slice a field</span>
@@ -387,36 +388,36 @@
 
 <div class="viewcode-block" id="AMRField.__exit__"><a class="viewcode-back" href="../../api/viscid.amr_field.html#viscid.amr_field.AMRField.__exit__">[docs]</a>    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;clear all caches&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
             <span class="n">blk</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="AMRField.wrap_field_method"><a class="viewcode-back" href="../../api/viscid.amr_field.html#viscid.amr_field.AMRField.wrap_field_method">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_field_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Wrap methods whose args are Fields and return a Field&quot;&quot;&quot;</span>
-        <span class="c"># make sure all args have same number of blocks as self</span>
+        <span class="c"># make sure all args have same number of patches as self</span>
         <span class="n">is_field</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="ow">and</span> <span class="n">arg</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_patches</span> <span class="ow">and</span> <span class="n">arg</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;AMR fields in math operations must &quot;</span>
-                                     <span class="s">&quot;have the same number of blocks&quot;</span><span class="p">)</span>
+                                     <span class="s">&quot;have the same number of patches&quot;</span><span class="p">)</span>
                 <span class="n">is_field</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="n">is_field</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
-        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_blocks</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_patches</span>
         <span class="n">other</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="c"># FIXME: There must be a better way</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">is_field</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">other</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">other</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                     <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                        <span class="n">other</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">other</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">other</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
-            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)(</span><span class="o">*</span><span class="n">other</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">lst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)(</span><span class="o">*</span><span class="n">other</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c"># operation reduced to scalar</span>
@@ -439,12 +440,12 @@
         <span class="c">#        np.sum(fld, axis=-1), cause that -1 will now be the patch</span>
         <span class="c">#        dimension</span>
 
-        <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">__array__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">blocks</span><span class="p">):</span>
-            <span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">patches</span> <span class="o">=</span> <span class="p">[</span><span class="n">patch</span><span class="o">.</span><span class="n">__array__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">patch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patches</span><span class="p">):</span>
+            <span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c"># the vstack will copy all the arrays, this is what __numpy_ufunc__</span>
         <span class="c"># will be able to avoid</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
         <span class="c"># roll the patch dimension to the last dimension... this is for ufuncs</span>
         <span class="c"># that take an axis argument... this way axis will only be confused</span>
         <span class="c"># if it&#39;s negative, this is the main reason to use __numpy_ufunc__</span>
@@ -456,8 +457,8 @@
         <span class="c"># print(&quot;&gt;&gt; __array_wrap__&quot;, arr.shape, context)</span>
         <span class="n">flds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">block_arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
-            <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">__array_wrap__</span><span class="p">(</span><span class="n">block_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+            <span class="n">patch_arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">fld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">__array_wrap__</span><span class="p">(</span><span class="n">patch_arr</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
             <span class="n">flds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fld</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AMRField</span><span class="p">(</span><span class="n">flds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="p">)</span>
 
@@ -582,26 +583,26 @@
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="c"># define a callback to finalize</span>
         <span class="c"># print(&quot;!! getting attr::&quot;, name)</span>
-        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">)):</span>
             <span class="k">def</span> <span class="nf">_wrap</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">AMRField</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">lst</span>
-            <span class="k">return</span> <span class="n">_FieldListCallableAttrWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_wrap</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_FieldListCallableAttrWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_wrap</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c"># return [getattr(fld, name) for fld in self.blocks]</span>
-            <span class="n">ret0</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
-            <span class="c"># Check that all blocks have the same value. Maybe this should</span>
+            <span class="c"># return [getattr(fld, name) for fld in self.patches]</span>
+            <span class="n">ret0</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
+            <span class="c"># Check that all patches have the same value. Maybe this should</span>
             <span class="c"># have a debugging flag attached to it since it will take time.</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">all_same</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">ret0</span>
-                               <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                               <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="n">all_same</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">ret0</span><span class="p">)</span>
-                               <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                               <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">all_same</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;different blocks of the AMRField have &quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;different patches of the AMRField have &quot;</span>
                                  <span class="s">&quot;different values for attribute: {0}&quot;</span>
                                  <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">ret0</span>

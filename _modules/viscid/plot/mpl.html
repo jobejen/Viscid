@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.plot.mpl &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.plot.mpl &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -189,6 +189,7 @@
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">_HAS_BASEMAP</span> <span class="o">=</span> <span class="bp">False</span>
 
+<span class="kn">import</span> <span class="nn">viscid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">pyeval</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">string_types</span>
@@ -238,15 +239,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="s">&quot;blocks&quot;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Selection &#39;{0}&#39; sliced away too many &quot;</span>
-                         <span class="s">&quot;dimensions&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">))</span>
-    <span class="n">block0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">nr_sdims</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">nr_sdims</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="s">&quot;patches&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Selection &#39;{0}&#39; sliced away too many &quot;</span>
+                        <span class="s">&quot;dimensions&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_comps</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Scalar Fields only&quot;</span><span class="p">)</span>
+
+    <span class="n">patch0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">nr_sdims</span> <span class="o">=</span> <span class="n">patch0</span><span class="o">.</span><span class="n">nr_sdims</span>
     <span class="k">if</span> <span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">plot1d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">is_spherical</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">is_spherical</span><span class="p">()</span>
+        <span class="n">is_spherical</span> <span class="o">=</span> <span class="n">patch0</span><span class="o">.</span><span class="n">is_spherical</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">is_spherical</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">plot2d_mapfield</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">plot2d_field</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -450,13 +454,13 @@
 <span class="k">def</span> <span class="nf">_plot2d_single</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">fld</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span>
                    <span class="n">masknan</span><span class="p">,</span> <span class="n">latlon</span><span class="p">,</span> <span class="n">flip_plot</span><span class="p">,</span> <span class="n">patchec</span><span class="p">,</span> <span class="n">patchlw</span><span class="p">,</span> <span class="n">patchaa</span><span class="p">,</span>
                    <span class="n">all_masked</span><span class="p">,</span> <span class="n">extra_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make a 2d plot of a single block</span>
+    <span class="sd">&quot;&quot;&quot;Make a 2d plot of a single patch</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        result of the actual matplotlib plotting command</span>
 <span class="sd">        (pcolormesh, contourf, etc.)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">==</span> <span class="mi">1</span>
 
     <span class="c"># pcolor mesh uses node coords, and cell data, if we have</span>
     <span class="c"># node data, fake it by using cell centered coords and</span>
@@ -544,8 +548,8 @@
 <span class="sd">    See Also:</span>
 <span class="sd">        * :doc:`/plot_options`: Contains a full list of plot options</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">block0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">block0</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">patch0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">patch0</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;I will only contour a 2d field&quot;</span><span class="p">)</span>
 
     <span class="c"># raise some deprecation errors</span>
@@ -630,13 +634,14 @@
         <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;clim&#39;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">vmin</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">])</span>
+            <span class="n">vmin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">vmax</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">])</span>
+            <span class="n">vmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">])</span>
 
         <span class="c"># vmin / vmax will only be nan if all values are nan</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">vmin</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">vmax</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: All-Nan encountered in Field,&quot;</span><span class="p">,</span> <span class="n">block0</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;All-Nan encountered in Field, {0}&quot;</span>
+                        <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">patch0</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
             <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1e38</span><span class="p">,</span> <span class="mf">1e38</span>
             <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
 
@@ -650,12 +655,12 @@
             <span class="k">if</span> <span class="n">norm_dict</span><span class="p">[</span><span class="s">&#39;symmetric&#39;</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Can&#39;t use symmetric color bar with logscale&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">vmax</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: Using log scale on a field with no positive &quot;</span>
-                      <span class="s">&quot;values&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Using log scale on a field with no &quot;</span>
+                            <span class="s">&quot;positive values&quot;</span><span class="p">)</span>
                 <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1e-20</span><span class="p">,</span> <span class="mf">1e-20</span>
             <span class="k">elif</span> <span class="n">vmin</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;Warning: Using log scale on a field with values &lt;= 0. &quot;</span>
-                      <span class="s">&quot;Only plotting 4 decades.&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Using log scale on a field with values &quot;</span>
+                            <span class="s">&quot;&lt;= 0. Only plotting 4 decades.&quot;</span><span class="p">)</span>
                 <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="n">vmax</span> <span class="o">/</span> <span class="mf">1e4</span><span class="p">,</span> <span class="n">vmax</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">vscale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -693,11 +698,11 @@
 
     <span class="c">##############################</span>
     <span class="c"># now actually make the plots</span>
-    <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span> <span class="c"># fld.crds.get_culled_axes()</span>
+    <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span> <span class="o">=</span> <span class="n">patch0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span> <span class="c"># fld.crds.get_culled_axes()</span>
 
     <span class="n">all_masked</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-        <span class="n">p</span><span class="p">,</span> <span class="n">all_masked</span> <span class="o">=</span> <span class="n">_plot2d_single</span><span class="p">(</span><span class="n">action_ax</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span>
+    <span class="k">for</span> <span class="n">patch</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">all_masked</span> <span class="o">=</span> <span class="n">_plot2d_single</span><span class="p">(</span><span class="n">action_ax</span><span class="p">,</span> <span class="n">patch</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span>
                                        <span class="n">namex</span><span class="p">,</span> <span class="n">namey</span><span class="p">,</span> <span class="n">mod</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">masknan</span><span class="p">,</span>
                                        <span class="n">latlon</span><span class="p">,</span> <span class="n">flip_plot</span><span class="p">,</span>
                                        <span class="n">patchec</span><span class="p">,</span> <span class="n">patchlw</span><span class="p">,</span> <span class="n">patchaa</span><span class="p">,</span>
@@ -719,10 +724,13 @@
         <span class="k">if</span> <span class="s">&quot;use_gridspec&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
             <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;use_gridspec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="k">if</span> <span class="n">vscale</span> <span class="o">==</span> <span class="s">&quot;log&quot;</span> <span class="ow">and</span> <span class="n">colorbar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
-            <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">symmetric_vlims</span> <span class="ow">and</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
-            <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s">&quot;ticks&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">colorbar</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vscale</span> <span class="o">==</span> <span class="s">&quot;log&quot;</span><span class="p">:</span>
+                <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">LogLocator</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">symmetric_vlims</span><span class="p">:</span>
+                <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">MaxNLocator</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">colorbar</span><span class="p">[</span><span class="s">&quot;ticks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">LinearLocator</span><span class="p">()</span>
 
         <span class="n">cbarfmt</span> <span class="o">=</span> <span class="n">colorbar</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;format&quot;</span><span class="p">,</span> <span class="n">mpl_extra</span><span class="o">.</span><span class="n">default_cbarfmt</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cbarfmt</span> <span class="o">==</span> <span class="s">&quot;steve&quot;</span><span class="p">:</span>
@@ -738,7 +746,7 @@
             <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="o">**</span><span class="n">colorbar</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">nolabels</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">cbarlabel</span><span class="p">:</span>
-                    <span class="n">cbarlabel</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">pretty_name</span>
+                    <span class="n">cbarlabel</span> <span class="o">=</span> <span class="n">patch0</span><span class="o">.</span><span class="n">pretty_name</span>
                 <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">cbarlabel</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cbar</span> <span class="o">=</span> <span class="bp">None</span>
@@ -788,8 +796,8 @@
 <span class="sd">    See Also:</span>
 <span class="sd">        * :doc:`/plot_options`: Contains a full list of plot options</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_mapfield doesn&#39;t do multi-block fields yet&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_mapfield doesn&#39;t do multi-patch fields yet&quot;</span><span class="p">)</span>
 
     <span class="n">_new_axis</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
@@ -956,7 +964,7 @@
 <span class="sd">    See Also:</span>
 <span class="sd">        * :doc:`/plot_options`: Contains a full list of plot options</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">block0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">patch0</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
@@ -979,20 +987,20 @@
 
     <span class="c"># 1d plot options</span>
     <span class="n">legend</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;legend&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;label&quot;</span><span class="p">,</span> <span class="n">block0</span><span class="o">.</span><span class="n">pretty_name</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;label&quot;</span><span class="p">,</span> <span class="n">patch0</span><span class="o">.</span><span class="n">pretty_name</span><span class="p">)</span>
     <span class="n">mod</span> <span class="o">=</span> <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&quot;mod&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 
     <span class="n">plot_kwargs</span><span class="p">[</span><span class="s">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
-    <span class="n">namex</span><span class="p">,</span> <span class="o">=</span> <span class="n">block0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span>
+    <span class="n">namex</span><span class="p">,</span> <span class="o">=</span> <span class="n">patch0</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span>
 
-    <span class="k">if</span> <span class="n">block0</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">block0</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">patch0</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Node&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">get_crd_nc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">patch0</span><span class="o">.</span><span class="n">iscentered</span><span class="p">(</span><span class="s">&quot;Cell&quot;</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">get_crd_cc</span><span class="p">(</span><span class="n">namex</span><span class="p">)</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;1d plots can do node or cell centered data only&quot;</span><span class="p">)</span>
 
-    <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">blocks</span><span class="p">])</span>
+    <span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">blk</span><span class="o">.</span><span class="n">data</span> <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">mod</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">*=</span> <span class="n">mod</span>
@@ -1141,43 +1149,123 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot2d_quiver">[docs]</a><span class="k">def</span> <span class="nf">plot2d_quiver</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">symdir</span><span class="p">,</span> <span class="n">downscale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plot2d_quiver"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.plot2d_quiver">[docs]</a><span class="k">def</span> <span class="nf">plot2d_quiver</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Put quivers on a 2D plot</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        fld: Vector field to plot</span>
-<span class="sd">        symdir (str): One of xyz for direction orthogonal to 2D plane</span>
-<span class="sd">        downscale (int, optional): only quiver every Nth grid cell</span>
-<span class="sd">        kwargs: passed along to :meth:`plt.quiver`</span>
+<span class="sd">    The quivers will be plotted in the 2D plane of fld, so if fld</span>
+<span class="sd">    is 3D, then one and only one dimenstion must have shape 1.</span>
 
 <span class="sd">    Note:</span>
-<span class="sd">        There are some edge cases where downscale doesn&#39;t work.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c"># FIXME: with dowscale != 1, this reveals a problem when slice and</span>
-    <span class="c"># downscaling a field; i think this is a prickley one</span>
-    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_blocks</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_quiver doesn&#39;t do multi-block fields yet&quot;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;quiver plots untested since zyx-&gt;xyz transition&quot;</span><span class="p">)</span>
+<span class="sd">        There are some edge cases where step doesn&#39;t work.</span>
 
-    <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds_cc</span><span class="p">(</span><span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
-        <span class="c"># x, y = ycc, zcc</span>
-        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span>
-    <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
-        <span class="c"># x, y = xcc, zcc</span>
-        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vz</span>
-    <span class="k">elif</span> <span class="n">symdir</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;z&quot;</span><span class="p">:</span>
-        <span class="c"># x, y = xcc, ycc</span>
-        <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span> <span class="o">=</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span>
-    <span class="n">Y</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">downscale</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
-        <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
-        <span class="n">pvx</span> <span class="o">=</span> <span class="n">pvx</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
-        <span class="n">pvy</span> <span class="o">=</span> <span class="n">pvy</span><span class="p">[::</span><span class="n">downscale</span><span class="p">]</span>
-    <span class="c"># print(X.shape, Y.shape, pvx.shape, pvy.shape)</span>
-    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">pvx</span><span class="p">,</span> <span class="n">pvy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        fld: 2.5-D Vector field to plot</span>
+<span class="sd">        step (int): only quiver every Nth grid cell. Can also</span>
+<span class="sd">            be a list of ints to specify x &amp; y downscaling separatly</span>
+<span class="sd">        **kwargs: passed to :py:func:`matplotlpb.pyplot.quiver`</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: vector field check</span>
+<span class="sd">        ValueError: 2d field check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        result of :py:func:`matplotlpb.pyplot.quiver`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_quiver doesn&#39;t do multi-patch fields yet&quot;</span><span class="p">)</span>
+
+    <span class="n">fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;2D Fields only for plot2d_quiver&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_comps</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Vector Fields only for plot2d_quiver&quot;</span><span class="p">)</span>
+
+    <span class="c"># get lm axes, ie, the axes in the plane</span>
+    <span class="n">l</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span>
+    <span class="n">lm</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+
+    <span class="c"># get stepd scalar fields for the vector components in the plane</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="s">&quot;__getitem__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">step</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">step</span><span class="p">,</span> <span class="n">step</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">first_l</span> <span class="o">=</span> <span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">first_m</span> <span class="o">=</span> <span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">vl</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">first_l</span><span class="p">::</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">first_m</span><span class="p">::</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">vm</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">first_l</span><span class="p">::</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">first_m</span><span class="p">::</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="c"># get coordinates</span>
+    <span class="n">xl</span><span class="p">,</span> <span class="n">xm</span> <span class="o">=</span> <span class="n">vl</span><span class="o">.</span><span class="n">get_crds</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">xl</span><span class="p">,</span> <span class="n">xm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">broadcast_arrays</span><span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">xm</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">quiver</span><span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">vl</span><span class="p">,</span> <span class="n">vm</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="streamplot"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.streamplot">[docs]</a><span class="k">def</span> <span class="nf">streamplot</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot 2D streamlines with :py:func:`matplotlib.pyplot.streamplot`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fld (VectorField): Some 2.5-D Vector Field</span>
+<span class="sd">        **kwargs: passed to :py:func:`matplotlib.pyplot.streamplot`</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        TypeError: vector field check</span>
+<span class="sd">        ValueError: 2d field check</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        result of :py:func:`matplotlib.pyplot.streamplot`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_patches</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;plot2d_quiver doesn&#39;t do multi-patch fields yet&quot;</span><span class="p">)</span>
+
+    <span class="n">fld</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;2D Fields only for plot2d_quiver&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fld</span><span class="o">.</span><span class="n">nr_comps</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Vector Fields only for plot2d_quiver&quot;</span><span class="p">)</span>
+
+    <span class="c"># get lm axes, ie, the axes in the plane</span>
+    <span class="n">l</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span>
+    <span class="n">lm</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+
+    <span class="c"># get scalar fields for the vector components in the plane</span>
+    <span class="n">vl</span><span class="p">,</span> <span class="n">vm</span> <span class="o">=</span> <span class="n">fld</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">fld</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+    <span class="n">xl</span><span class="p">,</span> <span class="n">xm</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">get_crds</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="c"># matplotlib&#39;s streamplot is for uniform grids only, if crds are non</span>
+    <span class="c"># uniform, then interpolate onto a new plane with uniform resolution</span>
+    <span class="c"># matching the most refined region of fld</span>
+    <span class="n">dxl</span> <span class="o">=</span> <span class="n">xl</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">xl</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dxm</span> <span class="o">=</span> <span class="n">xm</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">xm</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dxl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dxl</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">dxm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dxm</span><span class="p">):</span>
+        <span class="c"># viscid.logger.warn(&quot;Matplotlib&#39;s streamplot is for uniform grids only&quot;)</span>
+        <span class="n">nl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">xl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dxl</span><span class="p">))</span>
+        <span class="n">nm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">xm</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">xm</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dxm</span><span class="p">))</span>
+
+        <span class="n">vol</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Volume</span><span class="p">([</span><span class="n">xl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">xl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">xm</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="p">[</span><span class="n">nl</span><span class="p">,</span> <span class="n">nm</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">vl</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">viscid</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">vl</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">vm</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">viscid</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">vm</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">xl</span><span class="p">,</span> <span class="n">xm</span> <span class="o">=</span> <span class="n">vl</span><span class="o">.</span><span class="n">get_crds</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span> <span class="n">shaped</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="c"># interpolate linewidth and color too if given</span>
+        <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;linewidth&#39;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">],</span> <span class="n">viscid</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+                    <span class="n">o_fld</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">]</span>
+                    <span class="n">o_fld</span> <span class="o">=</span> <span class="n">vol</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">viscid</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">o_fld</span><span class="p">,</span> <span class="n">vol</span><span class="p">))</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">]</span> <span class="o">=</span> <span class="n">o_fld</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="c"># streamplot isn&#39;t happy if linewidth are color are Fields</span>
+    <span class="k">for</span> <span class="n">other</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;linewidth&#39;</span><span class="p">,</span> <span class="s">&#39;color&#39;</span><span class="p">]:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">],</span> <span class="n">viscid</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">other</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">streamplot</span><span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">xm</span><span class="p">,</span> <span class="n">vl</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">vm</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="scatter_3d"><a class="viewcode-back" href="../../../api/viscid.plot.mpl.html#viscid.plot.mpl.scatter_3d">[docs]</a><span class="k">def</span> <span class="nf">scatter_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">equal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot scattered points on a matplotlib 3d plot</span>
@@ -1282,11 +1370,11 @@
     <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">mpatches</span>
 
     <span class="c"># this is kind of a hacky way to</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="s">&quot;blocks&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plane_spec</span><span class="p">,</span> <span class="s">&quot;patches&quot;</span><span class="p">):</span>
         <span class="c"># this is for both Fields and AMRFields</span>
-        <span class="n">crd_system</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crd_system&quot;</span><span class="p">,</span> <span class="n">crd_system</span><span class="p">)</span>
+        <span class="n">crd_system</span> <span class="o">=</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;crd_system&quot;</span><span class="p">,</span> <span class="n">crd_system</span><span class="p">)</span>
         <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">blk</span> <span class="ow">in</span> <span class="n">plane_spec</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
             <span class="c"># take only the 1st reduced.nr_sdims... this should just work</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">plane</span><span class="p">,</span> <span class="n">_value</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">deep_meta</span><span class="p">[</span><span class="s">&quot;reduced&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>

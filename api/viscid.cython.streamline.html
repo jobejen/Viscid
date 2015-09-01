@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.cython.streamline module &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.cython.streamline module &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.cython package" href="viscid.cython.html" />
     <link rel="next" title="viscid.plot package" href="viscid.plot.html" />
     <link rel="prev" title="viscid.cython.integrate module" href="viscid.cython.integrate.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -199,7 +199,7 @@ absolutely no idea what will happen on Windows.</p>
 anything that exposes an iter_points method</li>
 <li><strong>nr_procs</strong> &#8211; how many processes for streamlines (&gt;1 only works on
 *nix systems)</li>
-<li><strong>force_parallel</strong> (<em>bool</em>) &#8211; always calc streamlines in a separate
+<li><strong>force_subprocess</strong> (<em>bool</em>) &#8211; always calc streamlines in a separate
 process, even if nr_procs == 1</li>
 <li><strong>nr_chunks_factor</strong> (<em>int</em>) &#8211; If streamlines are really unbalanced
 in length, try bumping this up</li>
@@ -280,7 +280,7 @@ bitmask with values depending on the topo_style</li>
 anything that exposes an iter_points method</li>
 <li><strong>nr_procs</strong> &#8211; how many processes for streamlines (&gt;1 only works on
 *nix systems)</li>
-<li><strong>force_parallel</strong> (<em>bool</em>) &#8211; always calc streamlines in a separate
+<li><strong>force_subprocess</strong> (<em>bool</em>) &#8211; always calc streamlines in a separate
 process, even if nr_procs == 1</li>
 <li><strong>nr_chunks_factor</strong> (<em>int</em>) &#8211; If streamlines are really unbalanced
 in length, try bumping this up</li>

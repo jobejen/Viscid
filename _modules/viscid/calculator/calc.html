@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.calc &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.calculator.calc &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -195,7 +195,13 @@
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">has_numexpr</span> <span class="o">=</span> <span class="bp">False</span>
 
-<div class="viewcode-block" id="Operation"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.Operation">[docs]</a><span class="k">class</span> <span class="nc">Operation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;add&#39;</span><span class="p">,</span> <span class="s">&#39;diff&#39;</span><span class="p">,</span> <span class="s">&#39;mul&#39;</span><span class="p">,</span> <span class="s">&#39;relative_diff&#39;</span><span class="p">,</span> <span class="s">&#39;abs_diff&#39;</span><span class="p">,</span> <span class="s">&#39;abs_val&#39;</span><span class="p">,</span>
+           <span class="s">&#39;abs_max&#39;</span><span class="p">,</span> <span class="s">&#39;abs_min&#39;</span><span class="p">,</span> <span class="s">&#39;magnitude&#39;</span><span class="p">,</span> <span class="s">&#39;dot&#39;</span><span class="p">,</span> <span class="s">&#39;cross&#39;</span><span class="p">,</span> <span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="s">&#39;curl&#39;</span><span class="p">,</span>
+           <span class="s">&#39;jacobian_at_point&#39;</span><span class="p">,</span> <span class="s">&#39;jacobian_at_ind&#39;</span><span class="p">,</span> <span class="s">&#39;jacobian_eig_at_point&#39;</span><span class="p">,</span>
+           <span class="s">&#39;jacobian_eig_at_ind&#39;</span><span class="p">,</span> <span class="s">&#39;div_at_point&#39;</span><span class="p">,</span> <span class="s">&#39;curl_at_point&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Operation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">default_backends</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;numexpr&quot;</span><span class="p">,</span> <span class="s">&quot;cython&quot;</span><span class="p">,</span> <span class="s">&quot;numpy&quot;</span><span class="p">]</span>
 
     <span class="n">_imps</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># implementations</span>
@@ -208,13 +214,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_imps</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_implementations</span><span class="p">(</span><span class="n">implementations</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Operation.add_implementation"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.Operation.add_implementation">[docs]</a>    <span class="k">def</span> <span class="nf">add_implementation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">add_implementation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_imps</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
-</div>
-<div class="viewcode-block" id="Operation.add_implementations"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.Operation.add_implementations">[docs]</a>    <span class="k">def</span> <span class="nf">add_implementations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">implementations</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">add_implementations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">implementations</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">implementations</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
-</div>
+
     <span class="k">def</span> <span class="nf">_get_imp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">preferred</span><span class="p">,</span> <span class="n">only</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">preferred</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">preferred</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -245,19 +251,19 @@
         <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_imp</span><span class="p">(</span><span class="n">preferred</span><span class="p">,</span> <span class="n">only</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-</div>
-<div class="viewcode-block" id="UnaryOperation"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.UnaryOperation">[docs]</a><span class="k">class</span> <span class="nc">UnaryOperation</span><span class="p">(</span><span class="n">Operation</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">UnaryOperation</span><span class="p">(</span><span class="n">Operation</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">UnaryOperation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;{0} {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">short_name</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
-</div>
-<div class="viewcode-block" id="BinaryOperation"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.BinaryOperation">[docs]</a><span class="k">class</span> <span class="nc">BinaryOperation</span><span class="p">(</span><span class="n">Operation</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">BinaryOperation</span><span class="p">(</span><span class="n">Operation</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">BinaryOperation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;{0} {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">short_name</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
-</div>
+
 <span class="n">add</span> <span class="o">=</span> <span class="n">BinaryOperation</span><span class="p">(</span><span class="s">&quot;add&quot;</span><span class="p">,</span> <span class="s">&quot;+&quot;</span><span class="p">)</span>
 <span class="n">diff</span> <span class="o">=</span> <span class="n">BinaryOperation</span><span class="p">(</span><span class="s">&quot;diff&quot;</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">)</span>
 <span class="n">mul</span> <span class="o">=</span> <span class="n">BinaryOperation</span><span class="p">(</span><span class="s">&quot;mul&quot;</span><span class="p">,</span> <span class="s">&quot;*&quot;</span><span class="p">)</span>
@@ -297,19 +303,19 @@
 <span class="n">abs_max</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span>
 <span class="n">abs_min</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="dot_np"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.dot_np">[docs]</a><span class="k">def</span> <span class="nf">dot_np</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_dot_np</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">nr_comp</span> <span class="o">!=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;field must have same layout (flat or interlaced)&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fld_a</span> <span class="o">*</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">)</span></div>
-<span class="n">dot</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="n">dot_np</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">fld_a</span> <span class="o">*</span> <span class="n">fld_b</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">fld_a</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">)</span>
+<span class="n">dot</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="n">_dot_np</span><span class="p">)</span>
 
-<div class="viewcode-block" id="magnitude_np"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.magnitude_np">[docs]</a><span class="k">def</span> <span class="nf">magnitude_np</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_magnitude_np</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">vx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vz</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span></div>
-<span class="n">magnitude</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="n">magnitude_np</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">vx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vz</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">magnitude</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;numpy&quot;</span><span class="p">,</span> <span class="n">_magnitude_np</span><span class="p">)</span>
 
 <span class="c"># native versions</span>
-<div class="viewcode-block" id="magnitude_native"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.magnitude_native">[docs]</a><span class="k">def</span> <span class="nf">magnitude_native</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_magnitude_native</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">fld</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span>
     <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">vx</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -318,10 +324,10 @@
                 <span class="n">mag</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">vx</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">vy</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> \
                                        <span class="n">vz</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vx</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">mag</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;{0} magnitude&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">name</span><span class="p">)})</span>
-</div>
-<span class="n">magnitude</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;native&quot;</span><span class="p">,</span> <span class="n">magnitude_native</span><span class="p">)</span>
 
-<div class="viewcode-block" id="local_vector_points"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.local_vector_points">[docs]</a><span class="k">def</span> <span class="nf">local_vector_points</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="n">magnitude</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s">&quot;native&quot;</span><span class="p">,</span> <span class="n">_magnitude_native</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">local_vector_points</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get B at 6 points surrounding X</span>
 
 <span class="sd">    X = [x, y, z] with spacing [+/-dx, +/-dy, +/-dz]</span>
@@ -364,8 +370,8 @@
     <span class="n">bs</span> <span class="o">=</span> <span class="n">cycalc</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">seed</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span>
     <span class="c"># import code; code.interact(&quot;in local_vector_points&quot;, local=locals())</span>
     <span class="k">return</span> <span class="n">bs</span><span class="p">,</span> <span class="n">pts</span><span class="p">,</span> <span class="n">dcrd</span>
-</div>
-<div class="viewcode-block" id="jacobian_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.jacobian_at_point">[docs]</a><span class="k">def</span> <span class="nf">jacobian_at_point</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="jacobian_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.jacobian_at_point">[docs]</a><span class="k">def</span> <span class="nf">jacobian_at_point</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get the Jacobian at a point</span>
 
 <span class="sd">    If dx|dy|dz == None, then their set to the grid spacing</span>
@@ -391,7 +397,7 @@
         <span class="n">gradb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bs</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">bs</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dcrd</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>  <span class="c"># d_z Bi</span>
     <span class="k">return</span> <span class="n">gradb</span>
 </div>
-<div class="viewcode-block" id="jacobian_at_ind"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.jacobian_at_ind">[docs]</a><span class="k">def</span> <span class="nf">jacobian_at_ind</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">):</span>
+<div class="viewcode-block" id="jacobian_at_ind"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.jacobian_at_ind">[docs]</a><span class="k">def</span> <span class="nf">jacobian_at_ind</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get the Jacobian at index</span>
 
 <span class="sd">    Returns:</span>
@@ -411,7 +417,7 @@
         <span class="n">gradb</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bi</span><span class="p">[</span><span class="n">ix</span>    <span class="p">,</span> <span class="n">iy</span>    <span class="p">,</span> <span class="n">iz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bi</span><span class="p">[</span><span class="n">ix</span>    <span class="p">,</span> <span class="n">iy</span>    <span class="p">,</span> <span class="n">iz</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="n">iz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">z</span><span class="p">[</span><span class="n">iz</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>  <span class="c"># d_z Bi</span>
     <span class="k">return</span> <span class="n">gradb</span>
 </div>
-<div class="viewcode-block" id="jacobian_eig_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.jacobian_eig_at_point">[docs]</a><span class="k">def</span> <span class="nf">jacobian_eig_at_point</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="jacobian_eig_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.jacobian_eig_at_point">[docs]</a><span class="k">def</span> <span class="nf">jacobian_eig_at_point</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get the eigen vals/vecs of the jacobian</span>
 
 <span class="sd">    Returns: evals, evecs (3x3 ndarray)</span>
@@ -423,7 +429,7 @@
     <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">gradb</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span>
 </div>
-<div class="viewcode-block" id="jacobian_eig_at_ind"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.jacobian_eig_at_ind">[docs]</a><span class="k">def</span> <span class="nf">jacobian_eig_at_ind</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">):</span>
+<div class="viewcode-block" id="jacobian_eig_at_ind"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.jacobian_eig_at_ind">[docs]</a><span class="k">def</span> <span class="nf">jacobian_eig_at_ind</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get the eigen vals/vecs of the jacobian</span>
 
 <span class="sd">    Returns: evals, evecs (3x3 ndarray)</span>
@@ -435,7 +441,7 @@
     <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">gradb</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span>
 </div>
-<div class="viewcode-block" id="div_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.div_at_point">[docs]</a><span class="k">def</span> <span class="nf">div_at_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="div_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.div_at_point">[docs]</a><span class="k">def</span> <span class="nf">div_at_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns divergence at a point&quot;&quot;&quot;</span>
     <span class="n">As</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dcrd</span> <span class="o">=</span> <span class="n">local_vector_points</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">)</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -443,7 +449,7 @@
         <span class="n">d</span> <span class="o">+=</span> <span class="p">(</span><span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dcrd</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">d</span>
 </div>
-<div class="viewcode-block" id="curl_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.curl_at_point">[docs]</a><span class="k">def</span> <span class="nf">curl_at_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="curl_at_point"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.curl_at_point">[docs]</a><span class="k">def</span> <span class="nf">curl_at_point</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dz</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns curl at point as ndarray with shape (3,) xyz&quot;&quot;&quot;</span>
     <span class="n">As</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dcrd</span> <span class="o">=</span> <span class="n">local_vector_points</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">)</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
@@ -457,27 +463,6 @@
     <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dcrd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span>
             <span class="p">(</span><span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">As</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">dcrd</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">c</span>
-</div>
-<div class="viewcode-block" id="closest1d_ind"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.closest1d_ind">[docs]</a><span class="k">def</span> <span class="nf">closest1d_ind</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; DEPRECATED &quot;&quot;&quot;</span>
-    <span class="c">#i = np.argmin(ne.evaluate(&quot;abs(arr - val)&quot;))</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">val</span><span class="p">))</span>
-</div>
-<div class="viewcode-block" id="closest1d_val"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.closest1d_val">[docs]</a><span class="k">def</span> <span class="nf">closest1d_val</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; DEPRECATED &quot;&quot;&quot;</span>
-    <span class="c">#i = np.argmin(ne.evaluate(&quot;abs(arr - val)&quot;))</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">val</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</div>
-<div class="viewcode-block" id="nearest_val"><a class="viewcode-back" href="../../../api/viscid.calculator.calc.html#viscid.calculator.calc.nearest_val">[docs]</a><span class="k">def</span> <span class="nf">nearest_val</span><span class="p">(</span><span class="n">fld</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; DEPRECATED</span>
-<span class="sd">    find value of field closest to point</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">point</span>
-    <span class="n">xind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">yind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">],</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">zind</span> <span class="o">=</span> <span class="n">closest1d_ind</span><span class="p">(</span><span class="n">fld</span><span class="o">.</span><span class="n">crds</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">],</span> <span class="n">z</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fld</span><span class="p">[</span><span class="n">xind</span><span class="p">,</span> <span class="n">yind</span><span class="p">,</span> <span class="n">zind</span><span class="p">]</span>
 
 <span class="c">##</span>
 <span class="c">## EOF</span>

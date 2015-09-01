@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to Viscid’s documentation! &mdash; Viscid 0.90.1 documentation</title>
+    <title>Welcome to Viscid’s documentation! &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="#" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="#" />
     <link rel="next" title="Changes" href="changes.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="#">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -190,7 +190,13 @@
 <p>Below are some simple examples to get you started with Viscid. There are some far more interesting examples in the <code class="docutils literal"><span class="pre">Viscid/tests</span></code> directory, but they are not always as straight forward or documented as the examples here.</p>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<p>I recommend using the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">anaconda</a> python distribution. It makes installing new python libraries almost enjoyable. Check <a class="reference internal" href="installation.html"><em>Installation</em></a> for the list of dependancies. To build Viscid, I recommend running <code class="docutils literal"><span class="pre">./setup.py</span> <span class="pre">build_ext</span> <span class="pre">-i</span></code> and adding the <code class="docutils literal"><span class="pre">Viscid</span></code> directory to your <code class="docutils literal"><span class="pre">PYTHONPATH</span></code> and <code class="docutils literal"><span class="pre">Viscid/scripts</span></code> to your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
+<p>I recommend using the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">anaconda</a> python distribution. It makes installing new python libraries almost enjoyable. Check <a class="reference internal" href="installation.html"><em>Installation</em></a> for the list of dependancies. To build Viscid, I recommend running:</p>
+<div class="highlight-python"><div class="highlight"><pre>./setup.py build_ext -i
+viscid_dir=$(pwd)
+export PYTHONPATH=$PYTHONPATH:${viscid_dir}
+export PATH=$PATH:${viscid_dir}/scripts
+</pre></div>
+</div>
 </div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>

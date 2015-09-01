@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.calc module &mdash; Viscid 0.90.1 documentation</title>
+    <title>viscid.calculator.calc module &mdash; Viscid 0.90.2 dev documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.90.1',
+        VERSION:     '0.90.2 dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.1 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../index.html" />
     <link rel="up" title="viscid.calculator package" href="viscid.calculator.html" />
     <link rel="next" title="viscid.calculator.evaluator module" href="viscid.calculator.evaluator.html" />
     <link rel="prev" title="viscid.calculator package" href="viscid.calculator.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.1</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -177,98 +177,6 @@
 order of preference of the backend by changing default_backends.
 TODO: this dispatch mechanism is very simple, maybe something a little more
 flexable would be useful down the line?</p>
-<dl class="class">
-<dt id="viscid.calculator.calc.BinaryOperation">
-<em class="property">class </em><code class="descclassname">viscid.calculator.calc.</code><code class="descname">BinaryOperation</code><span class="sig-paren">(</span><em>name</em>, <em>short_name</em>, <em>implementations=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#BinaryOperation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.BinaryOperation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.calculator.calc.Operation" title="viscid.calculator.calc.Operation"><code class="xref py py-class docutils literal"><span class="pre">viscid.calculator.calc.Operation</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="viscid.calculator.calc.Operation">
-<em class="property">class </em><code class="descclassname">viscid.calculator.calc.</code><code class="descname">Operation</code><span class="sig-paren">(</span><em>name</em>, <em>short_name</em>, <em>implementations=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#Operation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.Operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="viscid.calculator.calc.Operation.add_implementation">
-<code class="descname">add_implementation</code><span class="sig-paren">(</span><em>name</em>, <em>func</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#Operation.add_implementation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.Operation.add_implementation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="viscid.calculator.calc.Operation.add_implementations">
-<code class="descname">add_implementations</code><span class="sig-paren">(</span><em>implementations</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#Operation.add_implementations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.Operation.add_implementations" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="viscid.calculator.calc.Operation.default_backends">
-<code class="descname">default_backends</code><em class="property"> = ['numexpr', 'cython', 'numpy']</em><a class="headerlink" href="#viscid.calculator.calc.Operation.default_backends" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="viscid.calculator.calc.Operation.opname">
-<code class="descname">opname</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.calc.Operation.opname" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="viscid.calculator.calc.Operation.short_name">
-<code class="descname">short_name</code><em class="property"> = None</em><a class="headerlink" href="#viscid.calculator.calc.Operation.short_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="viscid.calculator.calc.UnaryOperation">
-<em class="property">class </em><code class="descclassname">viscid.calculator.calc.</code><code class="descname">UnaryOperation</code><span class="sig-paren">(</span><em>name</em>, <em>short_name</em>, <em>implementations=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#UnaryOperation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.UnaryOperation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#viscid.calculator.calc.Operation" title="viscid.calculator.calc.Operation"><code class="xref py py-class docutils literal"><span class="pre">viscid.calculator.calc.Operation</span></code></a></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.closest1d_ind">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">closest1d_ind</code><span class="sig-paren">(</span><em>arr</em>, <em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#closest1d_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.closest1d_ind" title="Permalink to this definition">¶</a></dt>
-<dd><p>DEPRECATED</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.closest1d_val">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">closest1d_val</code><span class="sig-paren">(</span><em>arr</em>, <em>val</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#closest1d_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.closest1d_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>DEPRECATED</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.curl_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">curl_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#curl_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.curl_at_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns curl at point as ndarray with shape (3,) xyz</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.div_at_point">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">div_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#div_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.div_at_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns divergence at a point</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.dot_np">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">dot_np</code><span class="sig-paren">(</span><em>fld_a</em>, <em>fld_b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#dot_np"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.dot_np" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.jacobian_at_ind">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_ind" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the Jacobian at index</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The jacobian as a 3x3 ndarray. The result is in xyz order,
-in other words:<div class="highlight-python"><div class="highlight"><pre>[ [d_x Bx, d_y Bx, d_z Bx],
-  [d_x By, d_y By, d_z By],
-  [d_x Bz, d_y Bz, d_z Bz] ]
-</pre></div>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_at_point">
 <code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_point" title="Permalink to this definition">¶</a></dt>
@@ -292,15 +200,23 @@ in other words:<div class="highlight-python"><div class="highlight"><pre>[ [d_x 
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.calculator.calc.jacobian_eig_at_ind">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_ind" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the eigen vals/vecs of the jacobian</p>
-<dl class="docutils">
-<dt>Returns: evals, evecs (3x3 ndarray)</dt>
-<dd>The evec[:, i] corresponds to evals[i].
-Eigen vectors are returned in xyz order, aka
-evec[:, 0] is [x, y, z] for the 0th eigen vector</dd>
-</dl>
+<dt id="viscid.calculator.calc.jacobian_at_ind">
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Jacobian at index</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The jacobian as a 3x3 ndarray. The result is in xyz order,
+in other words:<div class="highlight-python"><div class="highlight"><pre>[ [d_x Bx, d_y Bx, d_z Bx],
+  [d_x By, d_y By, d_z By],
+  [d_x Bz, d_y Bz, d_z Bz] ]
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -316,55 +232,27 @@ evec[:, 0] is [x, y, z] for the 0th eigen vector</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.calculator.calc.local_vector_points">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">local_vector_points</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#local_vector_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.local_vector_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get B at 6 points surrounding X</p>
-<p>X = [x, y, z] with spacing [+/-dx, +/-dy, +/-dz]</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; B field</li>
-<li><strong>x</strong> (<em>float, ndarray, list</em>) &#8211; x (single value)</li>
-<li><strong>y</strong> (<em>float, ndarray, list</em>) &#8211; y (single value)</li>
-<li><strong>z</strong> (<em>float, ndarray, list</em>) &#8211; z (single value)</li>
-<li><strong>dx</strong> (<em>float, optional</em>) &#8211; dx, one grid cell if None</li>
-<li><strong>dy</strong> (<em>float, optional</em>) &#8211; dy, one grid cell if None</li>
-<li><strong>dz</strong> (<em>float, optional</em>) &#8211; dz, one grid cell if None</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(bs, pts, dcrd)</p>
-<ul class="simple">
-<li>bs (ndarary): shape (6, 3) where 0-3 -&gt; Bx,By,Bz
-and 0-6 -&gt; X-dx, X+dx, X-dy, X+dy, X-dz, X+dz</li>
-<li>pts (ndarray): shape (6, 3); the location of the
-points of the bs, but this time, 0-3 -&gt; x,y,z</li>
-<li>dcrd (list): [dx, dy, dz]</li>
-</ul>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dt id="viscid.calculator.calc.jacobian_eig_at_ind">
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_eig_at_ind</code><span class="sig-paren">(</span><em>B</em>, <em>ix</em>, <em>iy</em>, <em>iz</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_eig_at_ind"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_eig_at_ind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the eigen vals/vecs of the jacobian</p>
+<dl class="docutils">
+<dt>Returns: evals, evecs (3x3 ndarray)</dt>
+<dd>The evec[:, i] corresponds to evals[i].
+Eigen vectors are returned in xyz order, aka
+evec[:, 0] is [x, y, z] for the 0th eigen vector</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.calculator.calc.magnitude_native">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">magnitude_native</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#magnitude_native"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.magnitude_native" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="viscid.calculator.calc.div_at_point">
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">div_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#div_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.div_at_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns divergence at a point</p>
+</dd></dl>
 
 <dl class="function">
-<dt id="viscid.calculator.calc.magnitude_np">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">magnitude_np</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#magnitude_np"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.magnitude_np" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="viscid.calculator.calc.nearest_val">
-<code class="descclassname">viscid.calculator.calc.</code><code class="descname">nearest_val</code><span class="sig-paren">(</span><em>fld</em>, <em>point</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#nearest_val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.nearest_val" title="Permalink to this definition">¶</a></dt>
-<dd><p>DEPRECATED
-find value of field closest to point</p>
+<dt id="viscid.calculator.calc.curl_at_point">
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">curl_at_point</code><span class="sig-paren">(</span><em>A</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#curl_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.curl_at_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns curl at point as ndarray with shape (3,) xyz</p>
 </dd></dl>
 
 </div>
