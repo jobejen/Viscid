@@ -103,6 +103,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -201,12 +204,22 @@
 <dd><ul class="first last simple">
 <li>Use LinearLocator for linear colorbars by default</li>
 <li>better error message when trying to mpl.plot vector fields</li>
+<li>enable ionosphere plots in mayavi, see test_mvi.py</li>
+<li>enable plotting meshes in mayavi, see test_mvi.py</li>
+</ul>
+</dd>
+<dt>Backward Incompatible Changes:</dt>
+<dd><ul class="first last simple">
+<li>Seeds now use a unified interface. If you use seeds, check out test_seed.py to see how things work now</li>
+<li>plot_lines (both matplotlib and mayavi) use a unified interface, check out test_streamline to see how things work now</li>
 </ul>
 </dd>
 <dt>Refactors:</dt>
 <dd><ul class="first last simple">
 <li>blocks -&gt; patches everywhere</li>
 <li>block -&gt; patch everywhere</li>
+<li>vlab.multiplot argument nprocs -&gt; nr_procs</li>
+<li>lots of names in <cite>viscid.plot.mvi</cite> and <cite>viscid.calculator.topology</cite></li>
 </ul>
 </dd>
 <dt>Bugfixes:</dt>

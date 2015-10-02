@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -303,11 +306,13 @@
             <span class="n">inds</span> <span class="o">=</span> <span class="n">maybe</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;selection {0} not in any patch</span><span class="se">\n</span><span class="s">@ time {1}&quot;</span>
-                               <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+            <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;selection {0} not in any patch @ time {1}&quot;</span>
+                                <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;         skeleton: xl=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xl</span><span class="p">,</span>
-                      <span class="s">&quot;xh=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xh</span><span class="p">)</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;         skeleton: xl= {0} xh = {1}&quot;</span>
+                     <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xl</span><span class="p">,</span>
+                               <span class="bp">self</span><span class="o">.</span><span class="n">skeleton</span><span class="o">.</span><span class="n">global_xh</span><span class="p">))</span>
+                <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="n">inds</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="n">flds</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -325,7 +330,7 @@
                 <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Trying to make an AMRField where 1+ patches &quot;</span>
                      <span class="s">&quot;is just a number... You probably slice_reduced &quot;</span>
                      <span class="s">&quot;a field down to a scalar value&quot;</span><span class="p">)</span>
-                <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">AMRField</span><span class="p">(</span><span class="n">fld_lst</span><span class="p">,</span> <span class="n">skeleton</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">patch_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">):</span>

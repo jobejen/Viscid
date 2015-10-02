@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -252,14 +255,14 @@
     <span class="n">_grid_type</span> <span class="o">=</span> <span class="n">PscGrid</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Opening &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+        <span class="c"># print(&quot;Opening &#39;%s&#39;&quot; % (fname))</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">PscFieldFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="PscParticles"><a class="viewcode-back" href="../../../api/viscid.readers.psc.html#viscid.readers.psc.PscParticles">[docs]</a><span class="k">class</span> <span class="nc">PscParticles</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">/prt.</span><span class="si">%06d</span><span class="s">_p</span><span class="si">%06d</span><span class="s">.h5&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Opening &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="c"># print(&quot;Opening &#39;%s&#39;&quot; % (filename))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_HAVE_H5PY</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Can&#39;t load psc particles w/o h5py&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_h5file</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>

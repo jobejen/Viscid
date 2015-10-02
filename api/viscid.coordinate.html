@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -309,6 +312,11 @@ side effects</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.as_mesh">
+<code class="descname">as_mesh</code><span class="sig-paren">(</span><em>center='none'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.as_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.as_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.axes">
 <code class="descname">axes</code><a class="headerlink" href="#viscid.coordinate.StructuredCrds.axes" title="Permalink to this definition">¶</a></dt>
@@ -495,6 +503,19 @@ axis can be crd name as string, or index, as in x==2, y==1, z==2</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.get_nr_points">
+<code class="descname">get_nr_points</code><span class="sig-paren">(</span><em>center='none'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.get_nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_nr_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the number of points in a grid defined by these crds</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="viscid.coordinate.StructuredCrds.get_points">
+<code class="descname">get_points</code><span class="sig-paren">(</span><em>center='none'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.get_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns all points in a grid defined by crds as a
+nr_dims x nr_points ndarray</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.get_slice_extent">
 <code class="descname">get_slice_extent</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.get_slice_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.get_slice_extent" title="Permalink to this definition">¶</a></dt>
 <dd><p>work in progress</p>
@@ -599,24 +620,26 @@ axes are sliced out</li>
 <code class="descname">min_dx_nc</code><a class="headerlink" href="#viscid.coordinate.StructuredCrds.min_dx_nc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="staticmethod">
+<dt id="viscid.coordinate.StructuredCrds.native_slice">
+<em class="property">static </em><code class="descname">native_slice</code><span class="sig-paren">(</span><em>crd_arr</em>, <em>slc</em>, <em>center='node'</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.native_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.native_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.nr_dims">
 <code class="descname">nr_dims</code><a class="headerlink" href="#viscid.coordinate.StructuredCrds.nr_dims" title="Permalink to this definition">¶</a></dt>
 <dd><p>number of spatial dimensions</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="attribute">
 <dt id="viscid.coordinate.StructuredCrds.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>center='none'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the number of points in a grid defined by these crds</p>
-</dd></dl>
+<code class="descname">nr_points</code><a class="headerlink" href="#viscid.coordinate.StructuredCrds.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.points">
-<code class="descname">points</code><span class="sig-paren">(</span><em>center='none'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.points" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns all points in a grid defined by crds as a
-nr_dims x nr_points ndarray</p>
-</dd></dl>
+<code class="descname">points</code><span class="sig-paren">(</span><em>center=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#StructuredCrds.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.StructuredCrds.points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.coordinate.StructuredCrds.print_tree">
@@ -789,6 +812,12 @@ changing the data, just the coordinates.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="viscid.coordinate.UniformCrds.get_nr_points">
+<code class="descname">get_nr_points</code><span class="sig-paren">(</span><em>center='none'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.get_nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.get_nr_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns the number of points in a grid defined by these crds</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="viscid.coordinate.UniformCrds.get_xh">
 <code class="descname">get_xh</code><span class="sig-paren">(</span><em>axes=None</em>, <em>center='node'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.get_xh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.get_xh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -808,11 +837,15 @@ changing the data, just the coordinates.</p>
 <code class="descname">min_dx_nc</code><em class="property"> = None</em><a class="headerlink" href="#viscid.coordinate.UniformCrds.min_dx_nc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
+<dt id="viscid.coordinate.UniformCrds.native_slice">
+<em class="property">static </em><code class="descname">native_slice</code><span class="sig-paren">(</span><em>crd_arr</em>, <em>slc</em>, <em>center='node'</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.native_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.native_slice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="viscid.coordinate.UniformCrds.nr_points">
-<code class="descname">nr_points</code><span class="sig-paren">(</span><em>center='none'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#UniformCrds.nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.UniformCrds.nr_points" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the number of points in a grid defined by these crds</p>
-</dd></dl>
+<code class="descname">nr_points</code><a class="headerlink" href="#viscid.coordinate.UniformCrds.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.coordinate.UniformCrds.shape_cc">
@@ -877,6 +910,11 @@ as crd_arrs. Should always be in xyz order.</li>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="function">
+<dt id="viscid.coordinate.lookup_crds_type">
+<code class="descclassname">viscid.coordinate.</code><code class="descname">lookup_crds_type</code><span class="sig-paren">(</span><em>type_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/coordinate.html#lookup_crds_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.coordinate.lookup_crds_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.coordinate.wrap_crds">

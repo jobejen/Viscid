@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -231,7 +234,7 @@
             <span class="n">discovered_center</span> <span class="o">=</span> <span class="s">&quot;cell&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Can&#39;t detect centering for scalar dat_arr&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">dat_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">crds</span><span class="o">.</span><span class="n">shape_nc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">discovered_type</span> <span class="o">=</span> <span class="s">&quot;vector&quot;</span>
         <span class="k">if</span> <span class="n">crds_shape_nc</span> <span class="o">==</span> <span class="n">dat_arr_shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">discovered_layout</span> <span class="o">=</span> <span class="n">LAYOUT_INTERLACED</span>
@@ -274,8 +277,8 @@
     <span class="k">elif</span> <span class="n">fldtype</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;vector&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
             <span class="n">sshape</span> <span class="o">=</span> <span class="n">dat_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_FLAT</span><span class="p">:</span>
-            <span class="n">sshape</span> <span class="o">=</span> <span class="n">dat_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">LAYOUT_INTERLACED</span><span class="p">:</span>
+            <span class="n">sshape</span> <span class="o">=</span> <span class="n">dat_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Unknown layout: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layout</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -469,7 +472,7 @@
         <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">vutil</span><span class="o">.</span><span class="n">subclass_spider</span><span class="p">(</span><span class="n">Field</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">istype</span><span class="p">(</span><span class="n">fldtype</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">cls</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Field type {0} not understood&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fldtype</span><span class="p">))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Field type {0} not understood&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fldtype</span><span class="p">))</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="wrap_field"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.wrap_field">[docs]</a><span class="k">def</span> <span class="nf">wrap_field</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">crds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;NoName&quot;</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&quot;scalar&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1079,9 +1082,9 @@
             <span class="c"># if this happens, don&#39;t ignore it even if it happens to work</span>
             <span class="c"># print(&quot;??&quot;, self, self.native_shape, self.shape, )</span>
             <span class="c"># import pdb; pdb.set_trace()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;could not detect layout for &#39;{0}&#39;: shape = {1} &quot;</span>
-                        <span class="s">&quot;target shape = {2}&quot;</span>
-                        <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dat_shape</span><span class="p">,</span> <span class="n">sshape</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;could not detect layout for &#39;{0}&#39;: shape = {1} &quot;</span>
+                         <span class="s">&quot;target shape = {2}&quot;</span>
+                         <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dat_shape</span><span class="p">,</span> <span class="n">sshape</span><span class="p">))</span>
             <span class="n">layout</span> <span class="o">=</span> <span class="n">LAYOUT_OTHER</span>
 
         <span class="k">return</span> <span class="n">layout</span>
@@ -1097,6 +1100,7 @@
                     <span class="n">sel_lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
                     <span class="n">_isstr</span> <span class="o">=</span> <span class="bp">False</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
+                    <span class="n">selection</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">selection</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
                     <span class="n">_</span> <span class="o">=</span> <span class="n">selection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
                     <span class="n">sel_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">_</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)]</span>  <span class="c"># pylint: disable=maybe-no-member</span>
                     <span class="n">_isstr</span> <span class="o">=</span> <span class="bp">True</span>
@@ -1126,11 +1130,64 @@
                             <span class="k">break</span>
                     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                         <span class="k">continue</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel_lst</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span> <span class="ow">and</span> <span class="n">comp_slc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="n">comp_slc</span> <span class="o">=</span> <span class="n">sel_lst</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comp_slc</span><span class="p">,</span> <span class="n">string_types</span><span class="p">):</span>
-                    <span class="n">comp_slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMPONENT_NAMES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">comp_slc</span><span class="p">)</span>
+                <span class="c"># figure out if there is a slice for the comonent dimension</span>
+                <span class="c"># and remove it... this is prickly b/c newaxis and Ellipsis</span>
+                <span class="c"># must be removed / expanded to see if the slice has a value</span>
+                <span class="c"># for the component dimension</span>
+                <span class="k">if</span> <span class="n">comp_slc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">cull_lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="s">&#39;none&#39;</span><span class="p">,</span> <span class="s">&#39;newaxis&#39;</span><span class="p">]</span>
+                    <span class="n">culled_selection</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">orig_ind</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sel_lst</span><span class="p">):</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                        <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cull_lst</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;...&#39;</span><span class="p">,</span> <span class="s">&#39;ellipsis&#39;</span><span class="p">]:</span>
+                                <span class="n">s</span> <span class="o">=</span> <span class="bp">Ellipsis</span>
+                            <span class="n">culled_selection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                            <span class="n">orig_ind</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">Ellipsis</span> <span class="ow">in</span> <span class="n">culled_selection</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="n">culled_selection</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="bp">Ellipsis</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+                        <span class="n">ellipsis_ind</span> <span class="o">=</span> <span class="n">culled_selection</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">Ellipsis</span><span class="p">)</span>
+                        <span class="n">culled_selection</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ellipsis_ind</span><span class="p">)</span>
+                        <span class="n">orig_ind</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ellipsis_ind</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">culled_selection</span><span class="p">)):</span>
+                            <span class="n">culled_selection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ellipsis_ind</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+                            <span class="n">orig_ind</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">ellipsis_ind</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">culled_selection</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">:</span>
+                        <span class="n">comp_val</span> <span class="o">=</span> <span class="n">culled_selection</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">]</span>
+
+                        <span class="c"># comp_slc = comp_val</span>
+                        <span class="c"># if orig_ind[self.nr_comp] &gt;= 0:</span>
+                        <span class="c">#     sel_lst.pop(orig_ind[self.nr_comp])</span>
+
+                        <span class="n">is_valid_comp</span> <span class="o">=</span> <span class="bp">False</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">comp_val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMPONENT_NAMES</span><span class="p">:</span>
+                                <span class="n">is_valid_comp</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">TypeError</span>
+                        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">comp_val</span><span class="p">)</span>
+                                <span class="n">is_valid_comp</span> <span class="o">=</span> <span class="bp">True</span>
+                            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                                <span class="k">pass</span>
+                        <span class="k">if</span> <span class="n">is_valid_comp</span><span class="p">:</span>
+                            <span class="n">comp_slc</span> <span class="o">=</span> <span class="n">comp_val</span>
+                            <span class="k">if</span> <span class="n">orig_ind</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">sel_lst</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">orig_ind</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">])</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">comp_slc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMPONENT_NAMES</span><span class="p">:</span>
+                        <span class="n">comp_slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_COMPONENT_NAMES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">comp_slc</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
                 <span class="k">if</span> <span class="n">_isstr</span><span class="p">:</span>
                     <span class="n">selection</span> <span class="o">=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sel_lst</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -1140,6 +1197,7 @@
 
         <span class="k">if</span> <span class="n">comp_slc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">comp_slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">comp_slc</span> <span class="o">=</span> <span class="n">vutil</span><span class="o">.</span><span class="n">to_slice</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">selection</span><span class="p">,</span> <span class="n">comp_slc</span>
 
@@ -1224,11 +1282,12 @@
             <span class="c"># now put component slice back in</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">nr_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span>
-                <span class="n">first_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
-                <span class="n">native_first_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
+                <span class="n">nr_comp</span> <span class="o">+=</span> <span class="n">first_slc</span><span class="p">[:</span><span class="n">nr_comp</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">)</span>
+                <span class="n">first_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
+                <span class="n">native_first_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">single_comp_slc</span><span class="p">:</span>
-                    <span class="n">second_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
-                    <span class="n">native_second_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+                    <span class="n">second_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+                    <span class="n">native_second_slc</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="n">nr_comp</span> <span class="o">=</span> <span class="bp">None</span>
 
@@ -1274,7 +1333,9 @@
         <span class="c"># fallback: either not hypersliceable, or the shapes didn&#39;t match up</span>
         <span class="k">if</span> <span class="n">slced_dat</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">slices</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
+                <span class="n">nr_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span>
+                <span class="n">nr_comp</span> <span class="o">+=</span> <span class="n">slices</span><span class="p">[:</span><span class="n">nr_comp</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">)</span>
+                <span class="n">slices</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="c"># use xyz slices cause self.data is guarenteed to be xyz</span>
@@ -1359,7 +1420,9 @@
         <span class="n">selection</span><span class="p">,</span> <span class="n">comp_slc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span>
         <span class="n">slices</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">make_slice</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">cc</span><span class="o">=</span><span class="n">cc</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">slices</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
+            <span class="n">nr_comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nr_comp</span>
+            <span class="n">nr_comp</span> <span class="o">+=</span> <span class="n">slices</span><span class="p">[:</span><span class="n">nr_comp</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">)</span>
+            <span class="n">slices</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">nr_comp</span><span class="p">,</span> <span class="n">comp_slc</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slices</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
@@ -1373,12 +1436,29 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="n">center_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Field.to_seeds"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.to_seeds">[docs]</a>    <span class="k">def</span> <span class="nf">to_seeds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">viscid</span><span class="o">.</span><span class="n">to_seeds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">viscid</span><span class="o">.</span><span class="n">to_seeds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_points</span><span class="p">())</span>
 </div>
-<div class="viewcode-block" id="Field.points"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.points">[docs]</a>    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nr_points</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Field.get_nr_points"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.get_nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
         <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_nr_points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Field.points"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.points">[docs]</a>    <span class="k">def</span> <span class="nf">points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Field.get_points"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.get_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
+        <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">get_points</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Field.as_mesh"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.as_mesh">[docs]</a>    <span class="k">def</span> <span class="nf">as_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c"># pylint: disable=unused-argument</span>
+        <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">center</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_src_crds</span><span class="o">.</span><span class="n">as_mesh</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Field.iter_points"><a class="viewcode-back" href="../../api/viscid.field.html#viscid.Field.iter_points">[docs]</a>    <span class="k">def</span> <span class="nf">iter_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c">#pylint: disable=W0613</span>
         <span class="k">if</span> <span class="n">center</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>

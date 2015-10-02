@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -254,6 +257,21 @@
     <span class="n">prody</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;-ax * bz + az * bx&quot;</span><span class="p">)</span>
     <span class="n">prodz</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;ax * by - ay * bx&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">wrap</span><span class="p">([</span><span class="n">prodx</span><span class="p">,</span> <span class="n">prody</span><span class="p">,</span> <span class="n">prodz</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="project"><a class="viewcode-back" href="../../../api/viscid.calculator.necalc.html#viscid.calculator.necalc.project">[docs]</a><span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">fld_a</span><span class="p">,</span> <span class="n">fld_b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; project a along b (a dot b / magnitude(b)) &quot;&quot;&quot;</span>
+    <span class="c"># ax, ay, az = fld_a.component_views() #pylint: disable=W0612</span>
+    <span class="c"># bx, by, bz = fld_b.component_views() #pylint: disable=W0612</span>
+    <span class="c"># prod = ne.evaluate(&quot;(ax * bx) + (ay * by) + (az * bz)&quot;)</span>
+    <span class="c"># mag = ne.evaluate(&quot;sqrt(bx**2 + by**2 + bz**2)&quot;)</span>
+    <span class="c"># prod = prod / mag</span>
+    <span class="c"># return fld_a.wrap(prod, fldtype=&quot;Scalar&quot;)</span>
+
+    <span class="n">ax</span><span class="p">,</span> <span class="n">ay</span><span class="p">,</span> <span class="n">az</span> <span class="o">=</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="n">bx</span><span class="p">,</span> <span class="n">by</span><span class="p">,</span> <span class="n">bz</span> <span class="o">=</span> <span class="n">fld_b</span><span class="o">.</span><span class="n">component_views</span><span class="p">()</span> <span class="c">#pylint: disable=W0612</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s">&quot;((ax * bx) + (ay * by) + (az * bz)) / &quot;</span>
+                             <span class="s">&quot;sqrt((bx**2) + (by**2) + (bz**2))&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fld_a</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">projection</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&quot;Scalar&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="div"><a class="viewcode-back" href="../../../api/viscid.calculator.necalc.html#viscid.calculator.necalc.div">[docs]</a><span class="k">def</span> <span class="nf">div</span><span class="p">(</span><span class="n">fld</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; first order &quot;&quot;&quot;</span>

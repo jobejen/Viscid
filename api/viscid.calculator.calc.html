@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -177,6 +180,28 @@
 order of preference of the backend by changing default_backends.
 TODO: this dispatch mechanism is very simple, maybe something a little more
 flexable would be useful down the line?</p>
+<dl class="function">
+<dt id="viscid.calculator.calc.integrate_along_lines">
+<code class="descclassname">viscid.calculator.calc.</code><code class="descname">integrate_along_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#integrate_along_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.integrate_along_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Integrate the value of fld along a list of lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; list of 3xN ndarrays, N needs not be the same for
+all lines</li>
+<li><strong>fld</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><em>Field</em></a>) &#8211; Field to interpolate / integrate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">ndarray with shape (len(lines), )</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
 <dt id="viscid.calculator.calc.jacobian_at_point">
 <code class="descclassname">viscid.calculator.calc.</code><code class="descname">jacobian_at_point</code><span class="sig-paren">(</span><em>B</em>, <em>x</em>, <em>y</em>, <em>z</em>, <em>dx=None</em>, <em>dy=None</em>, <em>dz=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/calc.html#jacobian_at_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.calc.jacobian_at_point" title="Permalink to this definition">¶</a></dt>

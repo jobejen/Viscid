@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -270,6 +273,11 @@ is the same as self (including the state of cachedness)</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="viscid.field.Field.as_mesh">
+<code class="descname">as_mesh</code><span class="sig-paren">(</span><em>center=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.as_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.as_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.field.Field.as_node_centered">
 <code class="descname">as_node_centered</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.as_node_centered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.as_node_centered" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert field to node centered field without discarding
@@ -423,6 +431,16 @@ shaped==False, or shaped if shaped==True</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="viscid.field.Field.get_nr_points">
+<code class="descname">get_nr_points</code><span class="sig-paren">(</span><em>center=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.get_nr_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.get_nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="viscid.field.Field.get_points">
+<code class="descname">get_points</code><span class="sig-paren">(</span><em>center=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.get_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.get_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="viscid.field.Field.get_slice_extent">
 <code class="descname">get_slice_extent</code><span class="sig-paren">(</span><em>selection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.get_slice_extent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.get_slice_extent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -533,6 +551,11 @@ done here</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="viscid.field.Field.nr_points">
+<code class="descname">nr_points</code><a class="headerlink" href="#viscid.field.Field.nr_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="viscid.field.Field.nr_sdims">
 <code class="descname">nr_sdims</code><a class="headerlink" href="#viscid.field.Field.nr_sdims" title="Permalink to this definition">¶</a></dt>
 <dd><p>number of spatial dims, same as crds.nr_dims, does not
@@ -551,7 +574,7 @@ explicitly load the data</p>
 
 <dl class="method">
 <dt id="viscid.field.Field.points">
-<code class="descname">points</code><span class="sig-paren">(</span><em>center=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.points" title="Permalink to this definition">¶</a></dt>
+<code class="descname">points</code><span class="sig-paren">(</span><em>center=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/field.html#Field.points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.field.Field.points" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">

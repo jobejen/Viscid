@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -169,6 +172,8 @@
   <h1>Source code for viscid.vutil</h1><div class="highlight"><pre>
 <span class="c">#!/usr/bin/env python</span>
 
+<span class="c"># FIXME: this module is way too long and disorganized</span>
+
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
@@ -183,6 +188,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">timeit</span> <span class="kn">import</span> <span class="n">default_timer</span> <span class="k">as</span> <span class="n">time</span>
 
+<span class="kn">import</span> <span class="nn">viscid</span>
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">viscid.compat</span> <span class="kn">import</span> <span class="n">izip</span><span class="p">,</span> <span class="n">string_types</span>
 
@@ -704,6 +710,14 @@
             <span class="n">sss</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">__index__</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">sss</span>
 </div>
+<span class="k">def</span> <span class="nf">_expand_newaxis</span><span class="p">(</span><span class="n">arrs</span><span class="p">,</span> <span class="n">slices</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sl</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="s">&quot;None&quot;</span><span class="p">,</span> <span class="s">&quot;newaxis&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arrs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
+                <span class="n">arrs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="n">slices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span>
+    <span class="k">return</span> <span class="n">arrs</span><span class="p">,</span> <span class="n">slices</span>
+
 <div class="viewcode-block" id="to_slices"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.to_slices">[docs]</a><span class="k">def</span> <span class="nf">to_slices</span><span class="p">(</span><span class="n">arrs</span><span class="p">,</span> <span class="n">slices</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Wraps :py:func:`to_slice` for multiple arrays / slices</span>
 
@@ -734,7 +748,10 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;To wrap a single slice use vutil.to_slice(...)&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">arrs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">()</span>
+        <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">)</span>
+
+    <span class="n">arrs</span><span class="p">,</span> <span class="n">slices</span> <span class="o">=</span> <span class="n">_expand_newaxis</span><span class="p">(</span><span class="n">arrs</span><span class="p">,</span> <span class="n">slices</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arrs</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;len(arrs) must == len(slices):: {0} {1}&quot;</span>
                          <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arrs</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">slices</span><span class="p">)))</span>
@@ -770,8 +787,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="bp">None</span>
 
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c"># kill whitespace</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&quot;__index__&quot;</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="k">elif</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&quot;newaxis&quot;</span><span class="p">,</span> <span class="s">&quot;None&quot;</span><span class="p">]:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">slclst</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">step</span><span class="p">]</span>
@@ -791,7 +816,12 @@
                              <span class="s">&quot;{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
         <span class="c"># sss -&gt; start step step</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slclst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">slclst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">slclst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="bp">None</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">slclst</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">slclst</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">_closest_index</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">slclst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">sss</span> <span class="o">=</span> <span class="n">extract_index</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">*</span><span class="n">slclst</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="n">endpoint</span><span class="p">,</span>
@@ -866,8 +896,8 @@
     <span class="n">n_slices</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">slc_re</span><span class="p">,</span> <span class="n">glob_pattern</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">n_slices</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Multiple filename slices found, only using the first.&quot;</span><span class="p">,</span>
-              <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Multiple filename slices found, only using the &quot;</span>
+                           <span class="s">&quot;first.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">n_slices</span><span class="p">:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">slc_re</span><span class="p">,</span> <span class="n">glob_pattern</span><span class="p">)</span>
@@ -913,12 +943,168 @@
 <div class="viewcode-block" id="convert_deprecated_floats"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.convert_deprecated_floats">[docs]</a><span class="k">def</span> <span class="nf">convert_deprecated_floats</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">varname</span><span class="o">=</span><span class="s">&quot;value&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">value_is_float_not_int</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="c"># TODO: eventually, a ValueError should be raised here</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Deprecation Warning!</span><span class="se">\n</span><span class="s">&quot;</span>
-              <span class="s">&quot;  Slicing by float is deprecated. The slice by value syntax is </span><span class="se">\n</span><span class="s">&quot;</span>
-              <span class="s">&quot;  now a string that has a trailing &#39;f&#39;, as in &#39;x=0f&#39; [{0} = {1}]&quot;</span>
-              <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;DEPRECATION...</span><span class="se">\n</span><span class="s">&quot;</span>
+             <span class="s">&quot;Slicing by float is deprecated. The slice by value syntax is </span><span class="se">\n</span><span class="s">&quot;</span>
+             <span class="s">&quot;now a string that has a trailing &#39;f&#39;, as in &#39;x=0f&#39; [{0} = {1}]&quot;</span>
+             <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="s">&quot;{0}f&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="prepare_lines"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.prepare_lines">[docs]</a><span class="k">def</span> <span class="nf">prepare_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">scalars</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">do_connections</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Concatenate and standardize a list of lines</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lines (list): Must be a list of 3xN or 4xN ndarrays of xyz(s)</span>
+<span class="sd">            data for N points along the line. N need not be the same</span>
+<span class="sd">            for all lines. Can alse be 6xN such that lines[:][3:, :]</span>
+<span class="sd">            are interpreted as rgb colors</span>
+<span class="sd">        scalars (ndarray, list): Can have shape 1xN for a single scalar</span>
+<span class="sd">            or 3xN for an rgb color for each point. If the shape is</span>
+<span class="sd">            1xNlines, the scalar is broadcast so the whole line gets</span>
+<span class="sd">            the same value, and likewise for 3xNlines and rgb colors.</span>
+<span class="sd">            Can also be a list of hex color (#ffffff) strings.</span>
+<span class="sd">            Otherwise, scalars is reshaped to -1xN.</span>
+<span class="sd">        do_connections (bool): Whether or not to make connections array</span>
+<span class="sd">        other (dict): a dictionary of other arrays that should be</span>
+<span class="sd">            reshaped and the like the same way scalars is</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (vertices, scalars, connections, other)</span>
+
+<span class="sd">        * vertices (ndarray): 3xN array of N xyz points. N is the sum</span>
+<span class="sd">            of the lengths of all the lines</span>
+<span class="sd">        * scalars (ndarray): N array of scalars, 3xN array of uint8</span>
+<span class="sd">            rgb values, or None</span>
+<span class="sd">        * connections (ndarray): Nx2 array of ints (indices along</span>
+<span class="sd">            axis 1 of vertices) describing the forward and backward</span>
+<span class="sd">            connectedness of the lines, or None</span>
+<span class="sd">        * other (dict): a dict of N length arrays</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If rgb data is not in a valid range or the shape</span>
+<span class="sd">            of scalars is not understood</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="n">npts</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+    <span class="n">first_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">npts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">scalars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Overriding line scalars with scalars kwarg&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">:,</span> <span class="p">:]</span>
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">scalars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="n">viscid</span><span class="o">.</span><span class="n">field</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">scalars</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Scalars was not a scalar field&quot;</span><span class="p">)</span>
+
+        <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nlines</span><span class="p">)</span> <span class="ow">or</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">nlines</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c"># one scalar for each line, so broadcast it</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nlines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="p">[</span><span class="n">scalars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">ni</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">npts</span><span class="p">)]</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+            <span class="c"># catch these so they&#39;re not interpreted as colors if</span>
+            <span class="c"># nlines == 1 and N == 3; ie. 1 line with 3 points</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nlines</span><span class="p">)</span> <span class="ow">or</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">nlines</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="c"># one rgb color for each line, so broadcast it</span>
+            <span class="k">if</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nlines</span><span class="p">):</span>
+                <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">scalars</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">ni</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">scalars</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s">&#39;S&#39;</span><span class="p">:</span>
+            <span class="c"># translate hex colors (#ff00ff) into rgb values</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="s">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;S6&#39;</span><span class="p">)</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">scalars</span><span class="p">,</span> <span class="s">&#39;hex&#39;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;u1&#39;</span><span class="p">)</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># normal scalars</span>
+            <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">scalars</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c"># The scalars encode rgb data, standardize the result to a</span>
+            <span class="c"># 3xN ndarray of 1 byte unsigned ints (chars)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">scalars</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">scalars</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">scalars</span> <span class="o">=</span> <span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">scalars</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;u1&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">scalars</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">scalars</span> <span class="o">&lt;</span> <span class="mi">256</span><span class="p">):</span>
+                <span class="n">scalars</span> <span class="o">=</span> <span class="n">scalars</span><span class="o">.</span><span class="n">round</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;u1&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Rgb data should be in range [0, 1] or &quot;</span>
+                                 <span class="s">&quot;[0, 255], range given is [{0}, {1}]&quot;</span>
+                                 <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">scalars</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scalars</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Scalars should either be a number, or set of &quot;</span>
+                             <span class="s">&quot;rgb values, shape is {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scalars</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="c"># broadcast / reshape additional arrays given in other</span>
+    <span class="k">if</span> <span class="n">other</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">arr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nlines</span><span class="p">)</span> <span class="ow">or</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">nlines</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nlines</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">ni</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">npts</span><span class="p">)]</span>
+                <span class="n">other</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">other</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">viscid</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Unknown dimension, dropping array {0}&quot;</span>
+                                       <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">do_connections</span><span class="p">:</span>
+        <span class="n">connections</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">nlines</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ni</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">npts</span><span class="p">):</span>
+            <span class="c"># i0 is the index of the first point of the i&#39;th line in lines</span>
+            <span class="n">i0</span> <span class="o">=</span> <span class="n">first_idx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">connections</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i0</span><span class="p">,</span> <span class="n">i0</span> <span class="o">+</span> <span class="n">ni</span> <span class="o">-</span> <span class="mf">1.5</span><span class="p">),</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i0</span> <span class="o">+</span> <span class="n">ni</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">connections</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">connections</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">connections</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">return</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">scalars</span><span class="p">,</span> <span class="n">connections</span><span class="p">,</span> <span class="n">other</span>
+</div>
+<div class="viewcode-block" id="meshlab_convert"><a class="viewcode-back" href="../../api/viscid.vutil.html#viscid.vutil.meshlab_convert">[docs]</a><span class="k">def</span> <span class="nf">meshlab_convert</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">&quot;dae&quot;</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run meshlabserver to convert 3D mesh files</span>
+
+<span class="sd">    Uses `MeshLab &lt;http://meshlab.sourceforge.net/&gt;`_, which is a great</span>
+<span class="sd">    little program for playing with 3D meshes. The best part is that</span>
+<span class="sd">    OS X&#39;s Preview can open the COLLADA (`*.dae`) format. How cool is</span>
+<span class="sd">    that?</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fname (str): file to convert</span>
+<span class="sd">        fmt (str): extension of result, defaults to COLLADA format</span>
+<span class="sd">        quiet (bool): redirect output to :py:attr:`os.devnull`</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">iname</span> <span class="o">=</span> <span class="n">fname</span>
+    <span class="n">oname</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;.&quot;</span> <span class="o">+</span> <span class="n">fmt</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">redirect</span> <span class="o">=</span> <span class="s">&quot;&amp;&gt; {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">)</span> <span class="k">if</span> <span class="n">quiet</span> <span class="k">else</span> <span class="s">&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;meshlabserver -i {0} -o {1} -om vc vn fc fn {2}&quot;</span>
+           <span class="s">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iname</span><span class="p">,</span> <span class="n">oname</span><span class="p">,</span> <span class="n">redirect</span><span class="p">))</span>
+    <span class="n">sub</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 
 <span class="c">##</span>
 <span class="c">## EOF</span>

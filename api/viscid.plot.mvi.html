@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -179,8 +182,84 @@
 <p class="last">You can&#8217;t set rc parameters for this module!</p>
 </div>
 <dl class="function">
+<dt id="viscid.plot.mvi.add_field">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">add_field</code><span class="sig-paren">(</span><em>fld</em>, <em>figure=None</em>, <em>center=''</em>, <em>name=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a Viscid Field to a mayavi figure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fld</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><em>Field</em></a>) &#8211; Some Viscid Field</li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+<li><strong>center</strong> (<em>str</em>) &#8211; &#8216;cell&#8217; or &#8216;node&#8217;, leave blank to use fld.center</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; name of vtk object, leave black for fld.name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">class:<cite>mayavi.sources.vtk_data_source.VTKDataSource</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.add_lines">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">add_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>scalars=None</em>, <em>figure=None</em>, <em>name='NoName'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#add_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.add_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add list of lines to a figure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; See <a class="reference internal" href="#viscid.plot.mvi.lines2source" title="viscid.plot.mvi.lines2source"><code class="xref py py-func docutils literal"><span class="pre">lines2source()</span></code></a></li>
+<li><strong>scalars</strong> (<em>ndarray</em>) &#8211; See <a class="reference internal" href="#viscid.plot.mvi.lines2source" title="viscid.plot.mvi.lines2source"><code class="xref py py-func docutils literal"><span class="pre">lines2source()</span></code></a></li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+<li><strong>name</strong> (<em>str</em>) &#8211; name of vtk object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">class:<cite>mayavi.sources.vtk_data_source.VTKDataSource</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.add_source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">add_source</code><span class="sig-paren">(</span><em>src</em>, <em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#add_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.add_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a vtk data source to a figure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>src</strong> (<em>VTKDataSource</em>) &#8211; Description</li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="viscid.plot.mvi.clear_data">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clear_data</code><span class="sig-paren">(</span><em>scenes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clear_data</code><span class="sig-paren">(</span><em>figures=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clear_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clear_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Workaround for Mayavi / VTK memory leak</p>
 <p>This is needed when Mayavi/VTK keeps a reference to source data
 when you would expect it to be freed like on a call to <cite>mlab.clf()</cite>
@@ -199,10 +278,10 @@ before a call to <cite>mlab.clf()</cite>, etc.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scene</strong> (<em>None, mayavi.core.scene.Scene, or &#8216;all&#8217;</em>) &#8211; if None, gets
-current scene; if Scene object, just that one; if &#8216;all&#8217;,
-act on all scenes in the current engine. Can also be a list
-of Scene objects</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>figures</strong> (<em>None, mayavi.core.scene.Scene, or &#8216;all&#8217;</em>) &#8211; if None,
+gets current scene; if Scene object, just that one; if
+&#8216;all&#8217;, act on all scenes in the current engine. Can also be
+a list of Scene objects</td>
 </tr>
 </tbody>
 </table>
@@ -210,56 +289,75 @@ of Scene objects</td>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.clf">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">clf</code><span class="sig-paren">(</span><em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#clf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.clf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clear source data, then clear figure</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="viscid.plot.mvi.field_to_cell_source">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_cell_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_cell_source" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a field to a mayavi cell source</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi cell source</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.plot.mvi.field_to_point_source">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_point_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_point_source" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a field to a mayavi source</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi point source</td>
-</tr>
-</tbody>
-</table>
+<dt id="viscid.plot.mvi.field2cell_source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field2cell_source</code><span class="sig-paren">(</span><em>fld</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field2cell_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field2cell_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a vtk cell data source</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.plot.mvi.field_to_source">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field_to_source</code><span class="sig-paren">(</span><em>fld</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field_to_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field_to_source" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a field to a mayavi source</p>
-<p>This dispatches to either <a class="reference internal" href="#viscid.plot.mvi.field_to_point_source" title="viscid.plot.mvi.field_to_point_source"><code class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></code></a> or
-<a class="reference internal" href="#viscid.plot.mvi.field_to_cell_source" title="viscid.plot.mvi.field_to_cell_source"><code class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></code></a> depending on the centering of
+<dt id="viscid.plot.mvi.field2point_source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field2point_source</code><span class="sig-paren">(</span><em>fld</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field2point_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field2point_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a vtk point data source</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.field2source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">field2source</code><span class="sig-paren">(</span><em>fld</em>, <em>center=None</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#field2source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.field2source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a field to a vtk data source</p>
+<p>This dispatches to either <code class="xref py py-meth docutils literal"><span class="pre">field_to_point_source()</span></code> or
+<code class="xref py py-meth docutils literal"><span class="pre">field_to_cell_source()</span></code> depending on the centering of
 <cite>fld</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fld</strong> &#8211; field to convert</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fld</strong> &#8211; field to convert</li>
+<li><strong>center</strong> (<em>str</em>) &#8211; Either &#8220;cell&#8221;, &#8220;node&#8221;, or &#8220;&#8221; to use the
+same centering as fld</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; Add specific name. Leave as &#8220;&#8221; to use fld.name</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">mayavi source</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mayavi source</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">NotImplementedError</span></code> &#8211;
+If center (or fld.center) is not
+recognized</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.insert_filter">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">insert_filter</code><span class="sig-paren">(</span><em>filtr</em>, <em>module_manager</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#insert_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.insert_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a filter above an existing module_manager</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filter</strong> (<em>TYPE</em>) &#8211; Description</li>
+<li><strong>module_manager</strong> (<em>TYPE</em>) &#8211; Description</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -283,16 +381,55 @@ session. Usually you want <code class="docutils literal"><span class="pre">inter
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.plot.mvi.mlab_earth">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">mlab_earth</code><span class="sig-paren">(</span><em>pipeline=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>res=15</em>, <em>crd_system='mhd'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#mlab_earth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.mlab_earth" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.plot.mvi.lines2source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">lines2source</code><span class="sig-paren">(</span><em>lines</em>, <em>scalars=None</em>, <em>name='NoName'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#lines2source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.lines2source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn a list of lines as ndarrays into vtk data source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; List of 3xN, 4xN, 6xN ndarrays of xyz, xyzs, or
+xyzrgb data for N points along the line. N need not be the
+same for all lines.</li>
+<li><strong>scalars</strong> (<em>ndarray, list</em>) &#8211; Scalars for each point, or each line.
+See <a class="reference internal" href="viscid.vutil.html#viscid.vutil.prepare_lines" title="viscid.vutil.prepare_lines"><code class="xref py py-func docutils literal"><span class="pre">viscid.vutil.prepare_lines()</span></code></a> for more details</li>
+<li><strong>name</strong> (<em>str</em>) &#8211; name of vtk object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">class:<cite>mayavi.sources.vtk_data_source.VTKDataSource</cite></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:py</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<ul class="last simple">
+<li><a class="reference internal" href="viscid.vutil.html#viscid.vutil.prepare_lines" title="viscid.vutil.prepare_lines"><code class="xref py py-func docutils literal"><span class="pre">viscid.vutil.prepare_lines()</span></code></a></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.plot_blue_marble">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_blue_marble</code><span class="sig-paren">(</span><em>r=1.0</em>, <em>orientation=None</em>, <em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_blue_marble"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_blue_marble" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.plot_earth_3d">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_earth_3d</code><span class="sig-paren">(</span><em>figure=None</em>, <em>daycol=(1</em>, <em>1</em>, <em>1)</em>, <em>nightcol=(0</em>, <em>0</em>, <em>0)</em>, <em>radius=1.0</em>, <em>res=24</em>, <em>crd_system='mhd'</em>, <em>night_only=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_earth_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_earth_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a black and white sphere (Earth) showing sunward direction</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>pipeline</strong> (<em>optional</em>) &#8211; Use if you want to plot using an existing
-pipeline</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
 <li><strong>daycol</strong> (<em>tuple, optional</em>) &#8211; color of dayside (RGB)</li>
 <li><strong>nightcol</strong> (<em>tuple, optional</em>) &#8211; color of nightside (RGB)</li>
 <li><strong>res</strong> (<em>optional</em>) &#8211; rosolution of teh sphere</li>
@@ -301,30 +438,102 @@ an openggcm field using <code class="docutils literal"><span class="pre">fld.met
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Tuple (day, night) as vtk sources</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.plot_ionosphere">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_ionosphere</code><span class="sig-paren">(</span><em>fld</em>, <em>radius=1.063</em>, <em>crd_system='mhd'</em>, <em>figure=None</em>, <em>bounding_lat=0.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_ionosphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_ionosphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an ionospheric field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fld</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.Field" title="viscid.field.Field"><em>Field</em></a>) &#8211; Some spherical (phi, theta) / (lot, lat) field</li>
+<li><strong>radius</strong> (<em>float</em>) &#8211; Defaults to 1Re + 400km == 1.063Re</li>
+<li><strong>crd_system</strong> (<em>str</em>) &#8211; Either &#8216;gse&#8217; or &#8216;mhd&#8217;</li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+<li><strong>bounding_lat</strong> (<em>float</em>) &#8211; Description</li>
+<li><strong>**kwargs</strong> &#8211; passed to <code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.mesh()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
+Description</p>
+</td>
+</tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.plot_lines">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>topology=None</em>, <em>scalar=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>scalars=None</em>, <em>style='tube'</em>, <em>figure=None</em>, <em>name='Lines'</em>, <em>tube_radius=0.05</em>, <em>tube_sides=6</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make 3D mayavi plot of lines</p>
+<p>Scalars can be a bunch of single values, or a bunch of rgb data
+to set the color of each line / vertex explicitly. This is
+explained in <a class="reference internal" href="#viscid.plot.mvi.lines2source" title="viscid.plot.mvi.lines2source"><code class="xref py py-func docutils literal"><span class="pre">lines2source()</span></code></a>.</p>
+<p class="rubric">Example</p>
+<p>A common use case of setting the line color from a topology
+will want to use <a class="reference internal" href="viscid.html#viscid.topology2color" title="viscid.topology2color"><code class="xref py py-func docutils literal"><span class="pre">viscid.topology2color()</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">viscid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mvi</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">vlab</span><span class="o">.</span><span class="n">get_dipole</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seeds</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Line</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span><span class="p">,</span> <span class="n">topology</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">calc_streamlines</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">seeds</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                          <span class="n">ibound</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scalars</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">topology2color</span><span class="p">(</span><span class="n">topology</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">plot_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">scalars</span><span class="p">,</span> <span class="n">tube_radius</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;dipole.x3d&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">viscid</span><span class="o">.</span><span class="n">vutil</span><span class="o">.</span><span class="n">meshlab_convert</span><span class="p">(</span><span class="s">&quot;dipole.x3d&quot;</span><span class="p">,</span> <span class="s">&quot;dae&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> &#8211; list of lines. Each line should have shape 3xP for 3
-spatial dimensions and P points along the line</li>
-<li><strong>topology</strong> (<em>optional</em>) &#8211; an array of values that describe how to
-color the line.</li>
-<li><strong>kwargs</strong> &#8211; forwarded to <code class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.plot3d()</span></code></li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; See <a class="reference internal" href="#viscid.plot.mvi.lines2source" title="viscid.plot.mvi.lines2source"><code class="xref py py-func docutils literal"><span class="pre">lines2source()</span></code></a></li>
+<li><strong>scalar</strong> (<em>ndarray</em>) &#8211; See <a class="reference internal" href="#viscid.plot.mvi.lines2source" title="viscid.plot.mvi.lines2source"><code class="xref py py-func docutils literal"><span class="pre">lines2source()</span></code></a></li>
+<li><strong>style</strong> (<em>str</em>) &#8211; &#8216;strip&#8217; or &#8216;tube&#8217;</li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+<li><strong>name</strong> (<em>str</em>) &#8211; Description</li>
+<li><strong>tube_radius</strong> (<em>float</em>) &#8211; Radius if style == &#8216;tube&#8217;</li>
+<li><strong>tube_sides</strong> (<em>int</em>) &#8211; Angular resolution if style == &#8216;tube&#8217;</li>
+<li><strong>**kwargs</strong> &#8211; passed to <code class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.pipeline.surface()</span></code>. This
+is useful for setting a colormap among other things.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Mayavi surface module</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
+if style is neither tube nor strip</p>
 </td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.plot_mesh">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">plot_mesh</code><span class="sig-paren">(</span><em>vertices</em>, <em>scalars=None</em>, <em>color=None</em>, <em>name='NoName'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#plot_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.plot_mesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="viscid.plot.mvi.points2source">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">points2source</code><span class="sig-paren">(</span><em>vertices</em>, <em>scalars=None</em>, <em>name='NoName'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#points2source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.points2source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.remove_source">
@@ -341,13 +550,30 @@ color the line.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="viscid.plot.mvi.resize_window">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">resize_window</code><span class="sig-paren">(</span><em>size</em>, <em>fig=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#resize_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.resize_window" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="viscid.plot.mvi.resize">
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">resize</code><span class="sig-paren">(</span><em>size</em>, <em>figure=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>size</strong> (<em>tuple</em>) &#8211; width, height in pixels</li>
+<li><strong>figure</strong> (<em>mayavi.core.scene.Scene</em>) &#8211; specific figure, or
+<code class="xref py py-func docutils literal"><span class="pre">mayavi.mlab.gcf()</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="viscid.plot.mvi.show">
-<code class="descclassname">viscid.plot.mvi.</code><code class="descname">show</code><span class="sig-paren">(</span><em>stop=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.show" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">viscid.plot.mvi.</code><code class="descname">show</code><span class="sig-paren">(</span><em>stop=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/plot/mvi.html#show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.plot.mvi.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls <code class="xref py py-meth docutils literal"><span class="pre">mayavi.mlab.show(stop=stop)()</span></code></p>
 </dd></dl>
 

@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -175,31 +178,6 @@
 <span id="viscid-calculator-plasma-module"></span><h1>viscid.calculator.plasma module<a class="headerlink" href="#module-viscid.calculator.plasma" title="Permalink to this headline">¶</a></h1>
 <p>some equations that are useful for plasmas</p>
 <dl class="function">
-<dt id="viscid.calculator.plasma.calc_beta">
-<code class="descclassname">viscid.calculator.plasma.</code><code class="descname">calc_beta</code><span class="sig-paren">(</span><em>pp</em>, <em>B</em>, <em>scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_beta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calc plasma beta (2*p/B^2)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pp</strong> (<em>ScalarField or ndarray</em>) &#8211; pressure</li>
-<li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; magnetic field</li>
-<li><strong>scale</strong> (<em>float, optional</em>) &#8211; overall scale factor</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plasma beta</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="viscid.field.html#viscid.field.ScalarField" title="viscid.field.ScalarField">ScalarField</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="viscid.calculator.plasma.calc_psi">
 <code class="descclassname">viscid.calculator.plasma.</code><code class="descname">calc_psi</code><span class="sig-paren">(</span><em>B</em>, <em>reversed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_psi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_psi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc Flux function (only valid in 2d)</p>
@@ -225,6 +203,31 @@ integrating from the opposite corner.</li>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
 If B has &lt;&gt; 2 spatial dimensions</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.calculator.plasma.calc_beta">
+<code class="descclassname">viscid.calculator.plasma.</code><code class="descname">calc_beta</code><span class="sig-paren">(</span><em>pp</em>, <em>B</em>, <em>scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calc plasma beta (2*p/B^2)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pp</strong> (<em>ScalarField or ndarray</em>) &#8211; pressure</li>
+<li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; magnetic field</li>
+<li><strong>scale</strong> (<em>float, optional</em>) &#8211; overall scale factor</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plasma beta</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="viscid.field.html#viscid.field.ScalarField" title="viscid.field.ScalarField">ScalarField</a></p>
 </td>
 </tr>
 </tbody>

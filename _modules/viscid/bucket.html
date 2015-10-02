@@ -102,6 +102,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -259,15 +262,15 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="nb">hash</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;A bucket says handle &#39;{0}&#39; is not hashable, &quot;</span>
-                            <span class="s">&quot;ignoring it&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;A bucket says handle &#39;{0}&#39; is not hashable, &quot;</span>
+                             <span class="s">&quot;ignoring it&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
                 <span class="k">continue</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">item</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">h</span><span class="p">]):</span>
                 <span class="k">continue</span>
             <span class="k">elif</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The handle &#39;{0}&#39; is being hijacked! Memory leak &quot;</span>
-                            <span class="s">&quot;could ensue.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;The handle &#39;{0}&#39; is being hijacked! Memory leak &quot;</span>
+                             <span class="s">&quot;could ensue.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
                 <span class="c"># romove handle from old item, since this check is here,</span>
                 <span class="c"># there sholdn&#39;t be 2 items with the same handle in the</span>
                 <span class="c"># items dict</span>
@@ -285,8 +288,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_ref_count</span><span class="p">[</span><span class="n">hashable_item</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">handles_added</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;No valid handles given, item &#39;{0}&#39; not added to &quot;</span>
-                            <span class="s">&quot;bucket&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hashable_item</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;No valid handles given, item &#39;{0}&#39; not added to &quot;</span>
+                             <span class="s">&quot;bucket&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hashable_item</span><span class="p">))</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_handles</span><span class="p">[</span><span class="n">hashable_item</span><span class="p">]</span> <span class="o">=</span> <span class="n">handles_added</span>

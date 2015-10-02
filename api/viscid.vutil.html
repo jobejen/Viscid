@@ -103,6 +103,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -418,6 +421,93 @@ True</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(start, stop, step) To be given to slice()</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.meshlab_convert">
+<code class="descclassname">viscid.vutil.</code><code class="descname">meshlab_convert</code><span class="sig-paren">(</span><em>fname</em>, <em>fmt='dae'</em>, <em>quiet=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#meshlab_convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.meshlab_convert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run meshlabserver to convert 3D mesh files</p>
+<p>Uses <a class="reference external" href="http://meshlab.sourceforge.net/">MeshLab</a>, which is a great
+little program for playing with 3D meshes. The best part is that
+OS X&#8217;s Preview can open the COLLADA (<cite>*.dae</cite>) format. How cool is
+that?</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fname</strong> (<em>str</em>) &#8211; file to convert</li>
+<li><strong>fmt</strong> (<em>str</em>) &#8211; extension of result, defaults to COLLADA format</li>
+<li><strong>quiet</strong> (<em>bool</em>) &#8211; redirect output to <code class="xref py py-attr docutils literal"><span class="pre">os.devnull</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="viscid.vutil.prepare_lines">
+<code class="descclassname">viscid.vutil.</code><code class="descname">prepare_lines</code><span class="sig-paren">(</span><em>lines</em>, <em>scalars=None</em>, <em>do_connections=False</em>, <em>other=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/vutil.html#prepare_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.vutil.prepare_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate and standardize a list of lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>lines</strong> (<em>list</em>) &#8211; Must be a list of 3xN or 4xN ndarrays of xyz(s)
+data for N points along the line. N need not be the same
+for all lines. Can alse be 6xN such that lines[:][3:, :]
+are interpreted as rgb colors</li>
+<li><strong>scalars</strong> (<em>ndarray, list</em>) &#8211; Can have shape 1xN for a single scalar
+or 3xN for an rgb color for each point. If the shape is
+1xNlines, the scalar is broadcast so the whole line gets
+the same value, and likewise for 3xNlines and rgb colors.
+Can also be a list of hex color (#ffffff) strings.
+Otherwise, scalars is reshaped to -1xN.</li>
+<li><strong>do_connections</strong> (<em>bool</em>) &#8211; Whether or not to make connections array</li>
+<li><strong>other</strong> (<em>dict</em>) &#8211; a dictionary of other arrays that should be
+reshaped and the like the same way scalars is</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>(vertices, scalars, connections, other)</p>
+<ul>
+<li><dl class="first docutils">
+<dt>vertices (ndarray): 3xN array of N xyz points. N is the sum</dt>
+<dd><p class="first last">of the lengths of all the lines</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>scalars (ndarray): N array of scalars, 3xN array of uint8</dt>
+<dd><p class="first last">rgb values, or None</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>connections (ndarray): Nx2 array of ints (indices along</dt>
+<dd><p class="first last">axis 1 of vertices) describing the forward and backward
+connectedness of the lines, or None</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">other (dict): a dict of N length arrays</p>
+</li>
+</ul>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
+If rgb data is not in a valid range or the shape
+of scalars is not understood</p>
 </td>
 </tr>
 </tbody>

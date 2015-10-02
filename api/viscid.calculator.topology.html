@@ -104,6 +104,9 @@
           <li class="toctree-l1">
             <a class="reference internal", href="../examples/openggcm.html">OpenGGCM</a>
           </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../mayavi_plotting.html">3D Plots</a>
+          </li>
       </ul>
     </li>
 
@@ -177,32 +180,28 @@
 TOPOLOGY_* is copied here so that one can import this module
 without needing to have built the cython module streamline.pyx</p>
 <dl class="function">
-<dt id="viscid.calculator.topology.color_from_topology">
-<code class="descclassname">viscid.calculator.topology.</code><code class="descname">color_from_topology</code><span class="sig-paren">(</span><em>topology</em>, <em>topo_style='msphere'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/topology.html#color_from_topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.topology.color_from_topology" title="Permalink to this definition">¶</a></dt>
+<dt id="viscid.calculator.topology.topology2color">
+<code class="descclassname">viscid.calculator.topology.</code><code class="descname">topology2color</code><span class="sig-paren">(</span><em>topology</em>, <em>topo_style='msphere'</em>, <em>bad_color=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/topology.html#topology2color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.topology.topology2color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine RGB from topology value</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>topology</strong> (<em>int</em>) &#8211; some value in
+<li><strong>topology</strong> (<em>int, list, ndarray</em>) &#8211; some value in
 <code class="docutils literal"><span class="pre">calculator.streamline.TOPOLOGY_*</span></code></li>
 <li><strong>topo_style</strong> (<em>string</em>) &#8211; msphere, or a dict with its own
 mapping</li>
+<li><strong>bad_color</strong> (<em>tuple</em>) &#8211; rgb color for invalid topologies</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">(R, G, B)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nx3 array of rgb data or (R, G, B) tuple if topology is a
+single value</p>
 </td>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>to override this color scheme, just set</p>
-<blockquote class="last">
-<div>topoloy.color_from_topology = some_function</div></blockquote>
-</div>
 </dd></dl>
 
 </div>
