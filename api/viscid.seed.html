@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed module &mdash; Viscid 0.91.0 documentation</title>
+    <title>viscid.seed module &mdash; Viscid 0.91.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.0',
+        VERSION:     '0.91.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.0 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.tree module" href="viscid.tree.html" />
     <link rel="prev" title="viscid.pyeval module" href="viscid.pyeval.html" />
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -577,14 +577,22 @@ not done with the rotation.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">viscid</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c"># p0 is the origin of the plane</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                     <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn_to_xyz</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_lmn_transform</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">p0</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">pN</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">pL</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">len_l</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">len_m</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn_to_xyz</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">()</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c"># make 10 random points in lmn coorinates</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lmn</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span> <span class="o">=</span> <span class="n">p0</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">lmn_to_xyz</span><span class="p">,</span> <span class="n">lmn</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mvi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verts</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">as_mesh</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">verts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">points3d</span><span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Transform vector compenents from xyz to lmn</span>
@@ -598,11 +606,32 @@ not done with the rotation.</p>
 <span class="gp">&gt;&gt;&gt; </span>                    <span class="n">nr_comps</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s">&quot;interlaced&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Bxyz</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>                     <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz_to_lmn</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_lmn_transform</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plane</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">Plane</span><span class="p">(</span><span class="n">p0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pN</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">pL</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                     <span class="n">len_l</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">len_m</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vals</span> <span class="o">=</span> <span class="n">viscid</span><span class="o">.</span><span class="n">interp_trilin</span><span class="p">(</span><span class="n">Bxyz</span><span class="p">,</span> <span class="n">plane</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B_interp</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">fldtype</span><span class="o">=</span><span class="s">&#39;vector&#39;</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                            <span class="n">layout</span><span class="o">=</span><span class="s">&#39;interlaced&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz_to_lmn</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Blmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&quot;ij,lmj-&gt;lmi&quot;</span><span class="p">,</span> <span class="n">xyz_to_lmn</span><span class="p">,</span> <span class="n">B_interp</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Blmn</span> <span class="o">=</span> <span class="n">B_interp</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">Blmn</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Blmn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&quot;ij,lmj-&gt;lmi&quot;</span><span class="p">,</span> <span class="n">xyz_to_lmn</span><span class="p">,</span> <span class="n">Bxyz</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># use xyz to show in 3d via mayavi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mvi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verts</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">wrap_mesh</span><span class="p">(</span><span class="n">Blmn</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">mesh</span><span class="p">(</span><span class="n">verts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">scalars</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">verts</span><span class="p">,</span> <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span> <span class="o">=</span> <span class="n">plane</span><span class="o">.</span><span class="n">wrap_mesh</span><span class="p">(</span><span class="n">B_interp</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">B_interp</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">B_interp</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">mlab</span><span class="o">.</span><span class="n">quiver3d</span><span class="p">(</span><span class="n">verts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">verts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">vx</span><span class="p">,</span> <span class="n">vy</span><span class="p">,</span> <span class="n">vz</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mvi</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># use lmn to show in-plane / out-of-plane</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">viscid.plot</span> <span class="kn">import</span> <span class="n">mpl</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Blmn</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span>  <span class="c"># z means n here</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpl</span><span class="o">.</span><span class="n">plot2d_quiver</span><span class="p">(</span><span class="n">Blmn</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpl</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>

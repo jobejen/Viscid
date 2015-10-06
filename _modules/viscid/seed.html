@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed &mdash; Viscid 0.91.0 documentation</title>
+    <title>viscid.seed &mdash; Viscid 0.91.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.91.0',
+        VERSION:     '0.91.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.0 documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.91.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -659,14 +659,22 @@
 <span class="sd">            &gt;&gt;&gt; import viscid</span>
 <span class="sd">            &gt;&gt;&gt;</span>
 <span class="sd">            &gt;&gt;&gt; # p0 is the origin of the plane</span>
-<span class="sd">            &gt;&gt;&gt; p0 = np.array([0, 0, 0])</span>
-<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane(p0, [1, 1, 0], [1, -1, 0],</span>
-<span class="sd">            &gt;&gt;&gt;                      0.5, 0.5)</span>
-<span class="sd">            &gt;&gt;&gt; lmn_to_xyz = plane.get_lmn_transform()</span>
+<span class="sd">            &gt;&gt;&gt; p0 = np.array([0, 0, 0]).reshape(-1, 1)</span>
+<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane(p0=p0, pN=(1, 1, 0),</span>
+<span class="sd">            &gt;&gt;&gt;                      pL=(1, -1, 0),</span>
+<span class="sd">            &gt;&gt;&gt;                      len_l=2.0, len_m=2.0)</span>
+<span class="sd">            &gt;&gt;&gt; lmn_to_xyz = plane.get_rotation()</span>
 <span class="sd">            &gt;&gt;&gt;</span>
 <span class="sd">            &gt;&gt;&gt; # make 10 random points in lmn coorinates</span>
-<span class="sd">            &gt;&gt;&gt; lmn = np.random(3, 10)</span>
+<span class="sd">            &gt;&gt;&gt; lmn = 2 * np.random.rand(3, 10) - 1</span>
+<span class="sd">            &gt;&gt;&gt; lmn[2] = 0.0</span>
 <span class="sd">            &gt;&gt;&gt; xyz = p0 + np.dot(lmn_to_xyz, lmn)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; from viscid.plot import mvi</span>
+<span class="sd">            &gt;&gt;&gt; verts = plane.as_mesh()</span>
+<span class="sd">            &gt;&gt;&gt; mvi.mlab.mesh(verts[0], verts[1], verts[2])</span>
+<span class="sd">            &gt;&gt;&gt; mvi.mlab.points3d(xyz[0], xyz[1], xyz[2])</span>
+<span class="sd">            &gt;&gt;&gt; mvi.show()</span>
 
 <span class="sd">            &gt;&gt;&gt; # Transform vector compenents from xyz to lmn</span>
 <span class="sd">            &gt;&gt;&gt; import numpy as np</span>
@@ -679,11 +687,32 @@
 <span class="sd">            &gt;&gt;&gt;                     nr_comps=3, layout=&quot;interlaced&quot;)</span>
 <span class="sd">            &gt;&gt;&gt; Bxyz[&#39;x&#39;] = 1.0</span>
 <span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane([0, 0, 0], [1, 1, 0], [1, -1, 0],</span>
-<span class="sd">            &gt;&gt;&gt;                      0.5, 0.5)</span>
-<span class="sd">            &gt;&gt;&gt; xyz_to_lmn = plane.get_lmn_transform().T</span>
+<span class="sd">            &gt;&gt;&gt; plane = viscid.Plane(p0=[0, 0, 0], pN=[1, 1, 0],</span>
+<span class="sd">            &gt;&gt;&gt;                      pL=[1, -1, 1],</span>
+<span class="sd">            &gt;&gt;&gt;                      len_l=0.5, len_m=0.5)</span>
+<span class="sd">            &gt;&gt;&gt; vals = viscid.interp_trilin(Bxyz, plane)</span>
+<span class="sd">            &gt;&gt;&gt; B_interp = plane.wrap_field(vals, fldtype=&#39;vector&#39;,</span>
+<span class="sd">            &gt;&gt;&gt;                             layout=&#39;interlaced&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; xyz_to_lmn = plane.get_rotation().T</span>
+<span class="sd">            &gt;&gt;&gt; Blmn = np.einsum(&quot;ij,lmj-&gt;lmi&quot;, xyz_to_lmn, B_interp)</span>
+<span class="sd">            &gt;&gt;&gt; Blmn = B_interp.wrap(Blmn)</span>
 <span class="sd">            &gt;&gt;&gt;</span>
-<span class="sd">            &gt;&gt;&gt; Blmn = np.einsum(&quot;ij,lmj-&gt;lmi&quot;, xyz_to_lmn, Bxyz)</span>
+<span class="sd">            &gt;&gt;&gt; # use xyz to show in 3d via mayavi</span>
+<span class="sd">            &gt;&gt;&gt; from viscid.plot import mvi</span>
+<span class="sd">            &gt;&gt;&gt; verts, s = plane.wrap_mesh(Blmn[&#39;z&#39;].data)</span>
+<span class="sd">            &gt;&gt;&gt; mvi.mlab.mesh(verts[0], verts[1], verts[2], scalars=s)</span>
+<span class="sd">            &gt;&gt;&gt; verts, vx, vy, vz = plane.wrap_mesh(B_interp[&#39;x&#39;].data,</span>
+<span class="sd">            &gt;&gt;&gt;                                     B_interp[&#39;y&#39;].data,</span>
+<span class="sd">            &gt;&gt;&gt;                                     B_interp[&#39;z&#39;].data)</span>
+<span class="sd">            &gt;&gt;&gt; mvi.mlab.quiver3d(verts[0], verts[1], verts[2],</span>
+<span class="sd">            &gt;&gt;&gt;                   vx, vy, vz)</span>
+<span class="sd">            &gt;&gt;&gt; mvi.show()</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # use lmn to show in-plane / out-of-plane</span>
+<span class="sd">            &gt;&gt;&gt; from viscid.plot import mpl</span>
+<span class="sd">            &gt;&gt;&gt; mpl.plot(Blmn[&#39;z&#39;])  # z means n here</span>
+<span class="sd">            &gt;&gt;&gt; mpl.plot2d_quiver(Blmn)</span>
+<span class="sd">            &gt;&gt;&gt; mpl.plt.show()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">Ldir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Mdir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ndir</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 </div>
