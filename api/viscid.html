@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid package &mdash; Viscid 0.90.2 dev documentation</title>
+    <title>viscid package &mdash; Viscid 0.91.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.90.2 dev',
+        VERSION:     '0.91.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.0 documentation" href="../index.html" />
     <link rel="next" title="viscid.calculator package" href="viscid.calculator.html" />
     <link rel="prev" title="3D Plots (Mayavi)" href="../examples/mayavi_plotting.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,6 +71,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../functions.html">Useful Functions</a>
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../plot_options.html">Plot Options</a>
@@ -125,6 +128,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../functions.html">Useful Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line.html">Command Line Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../extending_readers.html">Extending Readers</a></li>
@@ -1066,7 +1070,7 @@ indices of an array, but only if the array already exists.</p>
 
 <dl class="class">
 <dt id="viscid.Line">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>n=20</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Line" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>p1=(1</em>, <em>0</em>, <em>0)</em>, <em>n=20</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
 <p>A line of seed points</p>
 <dl class="method">
@@ -1103,7 +1107,7 @@ indices of an array, but only if the array already exists.</p>
 
 <dl class="class">
 <dt id="viscid.Plane">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Plane</code><span class="sig-paren">(</span><em>p0</em>, <em>pN</em>, <em>pL</em>, <em>len_l</em>, <em>len_m</em>, <em>nl=20</em>, <em>nm=20</em>, <em>NL_are_vectors=True</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Plane" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Plane</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>pN=(0</em>, <em>0</em>, <em>1)</em>, <em>pL=(1</em>, <em>0</em>, <em>0)</em>, <em>len_l=2</em>, <em>len_m=2</em>, <em>nl=20</em>, <em>nm=20</em>, <em>NL_are_vectors=True</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Plane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
 <p>A plane of seed points</p>
 <dl class="method">
@@ -1200,7 +1204,7 @@ not done with the rotation.</p>
 
 <dl class="class">
 <dt id="viscid.Volume">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Volume</code><span class="sig-paren">(</span><em>xl</em>, <em>xh</em>, <em>n=None</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Volume" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Volume</code><span class="sig-paren">(</span><em>xl=(-1</em>, <em>-1</em>, <em>-1)</em>, <em>xh=(1</em>, <em>1</em>, <em>1)</em>, <em>n=(20</em>, <em>20</em>, <em>20)</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Volume" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
 <p>A volume of seed points</p>
 <p>Defined by two opposite corners of a box in 3D</p>
@@ -1248,7 +1252,7 @@ not done with the rotation.</p>
 
 <dl class="class">
 <dt id="viscid.Sphere">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Sphere</code><span class="sig-paren">(</span><em>p0</em>, <em>r=0.0</em>, <em>pole=None</em>, <em>ntheta=20</em>, <em>nphi=20</em>, <em>pole_is_vector=True</em>, <em>theta_phi=False</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Sphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Sphere" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Sphere</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>r=0.0</em>, <em>pole=(0</em>, <em>0</em>, <em>1)</em>, <em>ntheta=20</em>, <em>nphi=20</em>, <em>pole_is_vector=True</em>, <em>theta_phi=False</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Sphere"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Sphere" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
 <p>Make seeds on the surface of a sphere</p>
 <dl class="method">
@@ -1295,7 +1299,7 @@ not done with the rotation.</p>
 
 <dl class="class">
 <dt id="viscid.SphericalCap">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">SphericalCap</code><span class="sig-paren">(</span><em>p0</em>, <em>r=0.0</em>, <em>pole=None</em>, <em>angle=90.0</em>, <em>ntheta=20</em>, <em>nphi=20</em>, <em>pole_is_vector=True</em>, <em>theta_phi=False</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#SphericalCap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.SphericalCap" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">SphericalCap</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>r=0.0</em>, <em>pole=(0</em>, <em>0</em>, <em>1)</em>, <em>angle=90.0</em>, <em>ntheta=20</em>, <em>nphi=20</em>, <em>pole_is_vector=True</em>, <em>theta_phi=False</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#SphericalCap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.SphericalCap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.Sphere" title="viscid.seed.Sphere"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.Sphere</span></code></a></p>
 <p>A spherical cone or cap of seeds</p>
 <p>Defined by a center, and a point indicating the direction of the
@@ -1319,7 +1323,7 @@ cone, and the half angle of the cone.</p>
 
 <dl class="class">
 <dt id="viscid.Circle">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>p0</em>, <em>pole</em>, <em>n=20</em>, <em>r=None</em>, <em>pole_is_vector=True</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Circle" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>pole=(0</em>, <em>0</em>, <em>1)</em>, <em>n=20</em>, <em>r=None</em>, <em>pole_is_vector=True</em>, <em>roll=0.0</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#Circle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.Circle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SphericalCap" title="viscid.seed.SphericalCap"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SphericalCap</span></code></a></p>
 <p>A circle of seeds</p>
 <p>Defined by a center and a point normal to the plane of the circle</p>
@@ -1332,7 +1336,7 @@ cone, and the half angle of the cone.</p>
 
 <dl class="class">
 <dt id="viscid.SphericalPatch">
-<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">SphericalPatch</code><span class="sig-paren">(</span><em>p0</em>, <em>p1</em>, <em>max_alpha</em>, <em>max_beta</em>, <em>nalpha=20</em>, <em>nbeta=20</em>, <em>roll=0.0</em>, <em>r=0.0</em>, <em>p1_is_vector=True</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#SphericalPatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.SphericalPatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">viscid.</code><code class="descname">SphericalPatch</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0</em>, <em>0)</em>, <em>p1=(0</em>, <em>0</em>, <em>1)</em>, <em>max_alpha=45</em>, <em>max_beta=45</em>, <em>nalpha=20</em>, <em>nbeta=20</em>, <em>roll=0.0</em>, <em>r=0.0</em>, <em>p1_is_vector=True</em>, <em>cache=False</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/seed.html#SphericalPatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.SphericalPatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="viscid.seed.html#viscid.seed.SeedGen" title="viscid.seed.SeedGen"><code class="xref py py-class docutils literal"><span class="pre">viscid.seed.SeedGen</span></code></a></p>
 <p>Make a rectangular (in theta and phi) patch on a sphere</p>
 <dl class="method">

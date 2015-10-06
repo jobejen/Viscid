@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.seed &mdash; Viscid 0.90.2 dev documentation</title>
+    <title>viscid.seed &mdash; Viscid 0.91.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.90.2 dev',
+        VERSION:     '0.91.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.90.2 dev documentation" href="../../index.html" />
+    <link rel="top" title="Viscid 0.91.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.90.2 dev</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,6 +70,9 @@
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../../custom_behavior.html">RC file</a>
+          </li>
+          <li class="toctree-l1">
+            <a class="reference internal", href="../../functions.html">Useful Functions</a>
           </li>
           <li class="toctree-l1">
             <a class="reference internal", href="../../plot_options.html">Plot Options</a>
@@ -124,6 +127,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../philosophy.html">Philosophy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../custom_behavior.html">Custom Behavior (rc file)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../functions.html">Useful Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../plot_options.html">Plot Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line.html">Command Line Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../extending_readers.html">Extending Readers</a></li>
@@ -488,7 +492,8 @@
 </div>
 <div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Line">[docs]</a><span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A line of seed points&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">p1</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;p0 &amp; p1 are `(x, y, z)` points as</span>
 
 <span class="sd">        Args:</span>
@@ -537,8 +542,9 @@
 <div class="viewcode-block" id="Plane"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Plane">[docs]</a><span class="k">class</span> <span class="nc">Plane</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A plane of seed points&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">pN</span><span class="p">,</span> <span class="n">pL</span><span class="p">,</span> <span class="n">len_l</span><span class="p">,</span> <span class="n">len_m</span><span class="p">,</span> <span class="n">nl</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nm</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                 <span class="n">NL_are_vectors</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">pN</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">pL</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                 <span class="n">len_l</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">len_m</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nl</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nm</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">NL_are_vectors</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a plane in L,M,N coordinates.</span>
 
 <span class="sd">        Args:</span>
@@ -698,7 +704,8 @@
 
 <span class="sd">    Defined by two opposite corners of a box in 3D</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xl</span><span class="p">,</span> <span class="n">xh</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xl</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">xh</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make a volume</span>
 
 <span class="sd">        Args:</span>
@@ -711,11 +718,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">xl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xh</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xl</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xl</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;i&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">n</span>
 
 <div class="viewcode-block" id="Volume.get_nr_points"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Volume.get_nr_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_nr_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
@@ -772,9 +776,9 @@
 <div class="viewcode-block" id="Sphere"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.Sphere">[docs]</a><span class="k">class</span> <span class="nc">Sphere</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make seeds on the surface of a sphere&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pole</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ntheta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                 <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">theta_phi</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pole</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ntheta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                 <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">theta_phi</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Make seeds on the surface of a sphere</span>
 
 <span class="sd">        Args:</span>
@@ -795,8 +799,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">pole_is_vector</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">pole</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">pole</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pole</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pole</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -925,9 +927,9 @@
 <span class="sd">    Defined by a center, and a point indicating the direction of the</span>
 <span class="sd">    cone, and the half angle of the cone.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pole</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span> <span class="n">ntheta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                 <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">theta_phi</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pole</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">angle</span><span class="o">=</span><span class="mf">90.0</span><span class="p">,</span>
+                 <span class="n">ntheta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nphi</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">theta_phi</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Summary</span>
 
 <span class="sd">        Args:</span>
@@ -988,8 +990,8 @@
 
 <span class="sd">    Defined by a center and a point normal to the plane of the circle</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">pole</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">pole</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">pole_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Summary</span>
 
 <span class="sd">        Args:</span>
@@ -1012,9 +1014,9 @@
 </div></div>
 <div class="viewcode-block" id="SphericalPatch"><a class="viewcode-back" href="../../api/viscid.seed.html#viscid.SphericalPatch">[docs]</a><span class="k">class</span> <span class="nc">SphericalPatch</span><span class="p">(</span><span class="n">SeedGen</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make a rectangular (in theta and phi) patch on a sphere&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">max_alpha</span><span class="p">,</span> <span class="n">max_beta</span><span class="p">,</span> <span class="n">nalpha</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nbeta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-                 <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">p1_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                 <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">p1</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">max_alpha</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">max_beta</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
+                 <span class="n">nalpha</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nbeta</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">p1_is_vector</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SphericalPatch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="n">max_alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_alpha</span>
