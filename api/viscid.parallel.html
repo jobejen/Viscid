@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.parallel module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.parallel module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.pyeval module" href="viscid.pyeval.html" />
     <link rel="prev" title="viscid.grid module" href="viscid.grid.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -183,26 +183,26 @@
 <p>common tools for parallel processing</p>
 <dl class="class">
 <dt id="viscid.parallel.NoDaemonPool">
-<em class="property">class </em><code class="descclassname">viscid.parallel.</code><code class="descname">NoDaemonPool</code><span class="sig-paren">(</span><em>processes=None</em>, <em>initializer=None</em>, <em>initargs=()</em>, <em>maxtasksperchild=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#NoDaemonPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonPool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">multiprocessing.pool.Pool</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonPool</tt><big>(</big><em>processes=None</em>, <em>initializer=None</em>, <em>initargs=()</em>, <em>maxtasksperchild=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#NoDaemonPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.pool.Pool</span></tt></p>
 <p>I am vulnerable to armies of undead worker processes, chances
 are you don&#8217;t actually want to use me</p>
 <dl class="attribute">
 <dt id="viscid.parallel.NoDaemonPool.Process">
-<code class="descname">Process</code><a class="headerlink" href="#viscid.parallel.NoDaemonPool.Process" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#viscid.parallel.NoDaemonProcess" title="viscid.parallel.NoDaemonProcess"><code class="xref py py-class docutils literal"><span class="pre">NoDaemonProcess</span></code></a></p>
+<tt class="descname">Process</tt><a class="headerlink" href="#viscid.parallel.NoDaemonPool.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#viscid.parallel.NoDaemonProcess" title="viscid.parallel.NoDaemonProcess"><tt class="xref py py-class docutils literal"><span class="pre">NoDaemonProcess</span></tt></a></p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.parallel.NoDaemonProcess">
-<em class="property">class </em><code class="descclassname">viscid.parallel.</code><code class="descname">NoDaemonProcess</code><span class="sig-paren">(</span><em>group=None</em>, <em>target=None</em>, <em>name=None</em>, <em>args=()</em>, <em>kwargs={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#NoDaemonProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonProcess" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.parallel.</tt><tt class="descname">NoDaemonProcess</tt><big>(</big><em>group=None</em>, <em>target=None</em>, <em>name=None</em>, <em>args=()</em>, <em>kwargs={}</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#NoDaemonProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.NoDaemonProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">multiprocessing.process.Process</span></tt></p>
 <p>Using this is probably a bad idea</p>
 <dl class="attribute">
 <dt id="viscid.parallel.NoDaemonProcess.daemon">
-<code class="descname">daemon</code><a class="headerlink" href="#viscid.parallel.NoDaemonProcess.daemon" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">daemon</tt><a class="headerlink" href="#viscid.parallel.NoDaemonProcess.daemon" title="Permalink to this definition">¶</a></dt>
 <dd><p>staticmethod(function) -&gt; method</p>
 <p>Convert a function to be a static method.</p>
 <p>A static method does not receive an implicit first argument.
@@ -221,7 +221,7 @@ For a more advanced concept, see the classmethod builtin.</p>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_interslices">
-<code class="descclassname">viscid.parallel.</code><code class="descname">chunk_interslices</code><span class="sig-paren">(</span><em>nchunks</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_interslices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_interslices" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_interslices</tt><big>(</big><em>nchunks</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_interslices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_interslices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make staggered chunks</p>
 <p>Similar to chunk_slices, but pick every nth element instead of
 getting a contiguous patch for each chunk</p>
@@ -244,11 +244,11 @@ getting a contiguous patch for each chunk</p>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_list">
-<code class="descclassname">viscid.parallel.</code><code class="descname">chunk_list</code><span class="sig-paren">(</span><em>seq</em>, <em>nchunks</em>, <em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_list</tt><big>(</big><em>seq</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Chunk a list</p>
 <p>slice seq into chunks of nchunks size, seq can be a anything
 sliceable such as lists, numpy arrays, etc. These chunks will be
-&#8216;contiguous&#8217;, see <code class="xref py py-meth docutils literal"><span class="pre">chunk_interslice()</span></code> for picking every nth
+&#8216;contiguous&#8217;, see <tt class="xref py py-meth docutils literal"><span class="pre">chunk_interslice()</span></tt> for picking every nth
 element.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -263,7 +263,7 @@ elements</td>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last">Use <code class="xref py py-meth docutils literal"><span class="pre">chunk_iterator()</span></code> to chunk up iterators</p>
+<p class="last">Use <tt class="xref py py-meth docutils literal"><span class="pre">chunk_iterator()</span></tt> to chunk up iterators</p>
 </div>
 <p class="rubric">Example</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">it1</span><span class="p">,</span> <span class="n">it2</span><span class="p">,</span> <span class="n">it3</span> <span class="o">=</span> <span class="n">chunk_list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
@@ -279,7 +279,7 @@ elements</td>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_sizes">
-<code class="descclassname">viscid.parallel.</code><code class="descname">chunk_sizes</code><span class="sig-paren">(</span><em>nel</em>, <em>nchunks</em>, <em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_sizes" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_sizes</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_sizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>For chunking up lists, how big is each chunk</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -312,7 +312,7 @@ chunk_interslices</p>
 
 <dl class="function">
 <dt id="viscid.parallel.chunk_slices">
-<code class="descclassname">viscid.parallel.</code><code class="descname">chunk_slices</code><span class="sig-paren">(</span><em>nel</em>, <em>nchunks</em>, <em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_slices" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">chunk_slices</tt><big>(</big><em>nel</em>, <em>nchunks</em>, <em>size=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#chunk_slices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.chunk_slices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make continuous chunks</p>
 <p>Get the slice info (can be unpacked and passed to the slice builtin
 as in slice(*ret[i])) for nchunks contiguous chunks in a list with
@@ -346,16 +346,16 @@ elements</li>
 
 <dl class="function">
 <dt id="viscid.parallel.map">
-<code class="descclassname">viscid.parallel.</code><code class="descname">map</code><span class="sig-paren">(</span><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>timeout=100000000.0</em>, <em>daemonic=True</em>, <em>pool=None</em>, <em>force_subprocess=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map" title="Permalink to this definition">¶</a></dt>
-<dd><p>Just like <code class="docutils literal"><span class="pre">subprocessing.map</span></code>?</p>
-<p>same as <a class="reference internal" href="#viscid.parallel.map_async" title="viscid.parallel.map_async"><code class="xref py py-meth docutils literal"><span class="pre">map_async()</span></code></a>, except it waits for the result to
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">map</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>timeout=100000000.0</em>, <em>daemonic=True</em>, <em>pool=None</em>, <em>force_subprocess=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just like <tt class="docutils literal"><span class="pre">subprocessing.map</span></tt>?</p>
+<p>same as <a class="reference internal" href="#viscid.parallel.map_async" title="viscid.parallel.map_async"><tt class="xref py py-meth docutils literal"><span class="pre">map_async()</span></tt></a>, except it waits for the result to
 be ready and returns it</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.parallel.map_async">
-<code class="descclassname">viscid.parallel.</code><code class="descname">map_async</code><span class="sig-paren">(</span><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>daemonic=True</em>, <em>pool=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/parallel.html#map_async"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map_async" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrap python&#8217;s <code class="docutils literal"><span class="pre">map_async</span></code></p>
+<tt class="descclassname">viscid.parallel.</tt><tt class="descname">map_async</tt><big>(</big><em>nr_procs</em>, <em>func</em>, <em>args_iter</em>, <em>args_kw=None</em>, <em>daemonic=True</em>, <em>pool=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/parallel.html#map_async"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.parallel.map_async" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap python&#8217;s <tt class="docutils literal"><span class="pre">map_async</span></tt></p>
 <p>This has some utility stuff like star passthrough</p>
 <p>Run func on nr_procs with arguments given by args_iter. args_iter
 should be an iterable of the list of arguments that can be unpacked
@@ -409,7 +409,7 @@ really really need it, and know what you&#8217;re doing</dd>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

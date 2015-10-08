@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.amr_grid module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.amr_grid module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.bucket module" href="viscid.bucket.html" />
     <link rel="prev" title="viscid.amr_field module" href="viscid.amr_field.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -183,157 +183,157 @@
 <p>AMR tools</p>
 <dl class="class">
 <dt id="viscid.amr_grid.AMRGrid">
-<em class="property">class </em><code class="descclassname">viscid.amr_grid.</code><code class="descname">AMRGrid</code><span class="sig-paren">(</span><em>dset</em>, <em>skeleton=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></code></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRGrid</tt><big>(</big><em>dset</em>, <em>skeleton=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.grid.html#viscid.grid.Grid" title="viscid.grid.Grid"><tt class="xref py py-class docutils literal"><span class="pre">viscid.grid.Grid</span></tt></a></p>
 <p>The AMRGrid contains a list of patches</p>
 <dl class="method">
 <dt id="viscid.amr_grid.AMRGrid.get_field">
-<code class="descname">get_field</code><span class="sig-paren">(</span><em>fldname</em>, <em>time=None</em>, <em>force_longterm_caches=False</em>, <em>slc=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.get_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_field</tt><big>(</big><em>fldname</em>, <em>time=None</em>, <em>force_longterm_caches=False</em>, <em>slc=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.get_field" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRGrid.skeleton">
-<code class="descname">skeleton</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRGrid.skeleton" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">skeleton</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRGrid.skeleton" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRGrid.xh_cc">
-<code class="descname">xh_cc</code><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xh_cc" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xh_cc</tt><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.xh_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xh_cc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRGrid.xh_nc">
-<code class="descname">xh_nc</code><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xh_nc" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xh_nc</tt><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.xh_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xh_nc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRGrid.xl_cc">
-<code class="descname">xl_cc</code><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xl_cc" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xl_cc</tt><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.xl_cc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xl_cc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRGrid.xl_nc">
-<code class="descname">xl_nc</code><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xl_nc" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xl_nc</tt><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRGrid.xl_nc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRGrid.xl_nc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.amr_grid.AMRPatch">
-<em class="property">class </em><code class="descclassname">viscid.amr_grid.</code><code class="descname">AMRPatch</code><span class="sig-paren">(</span><em>crds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRPatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRPatch</tt><big>(</big><em>crds</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRPatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRPatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.L">
-<code class="descname">L</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.L" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">L</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.L" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.all_neighbors">
-<code class="descname">all_neighbors</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.all_neighbors" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">all_neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.all_neighbors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.n">
-<code class="descname">n</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.n" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">n</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.n" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.neighbors">
-<code class="descname">neighbors</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.neighbors" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.neighbors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.xh">
-<code class="descname">xh</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xh" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.xl">
-<code class="descname">xl</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xl" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRPatch.xm">
-<code class="descname">xm</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xm" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xm</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRPatch.xm" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.amr_grid.AMRSkeleton">
-<em class="property">class </em><code class="descclassname">viscid.amr_grid.</code><code class="descname">AMRSkeleton</code><span class="sig-paren">(</span><em>dset</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRSkeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">AMRSkeleton</tt><big>(</big><em>dset</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRSkeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Organizes the neighbor relationships of AMR grids</p>
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.L">
-<code class="descname">L</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.L" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">L</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.L" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.amr_grid.AMRSkeleton.compatable_with">
-<code class="descname">compatable_with</code><span class="sig-paren">(</span><em>dset</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRSkeleton.compatable_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.compatable_with" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">compatable_with</tt><big>(</big><em>dset</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#AMRSkeleton.compatable_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.compatable_with" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.global_xh">
-<code class="descname">global_xh</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xh" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">global_xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.global_xl">
-<code class="descname">global_xl</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xl" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">global_xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.global_xl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.neighbor_mask">
-<code class="descname">neighbor_mask</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.neighbor_mask" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">neighbor_mask</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.neighbor_mask" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.neighbors">
-<code class="descname">neighbors</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.neighbors" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.neighbors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.nr_neighbors">
-<code class="descname">nr_neighbors</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.nr_neighbors" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">nr_neighbors</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.nr_neighbors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.patches">
-<code class="descname">patches</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.patches" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">patches</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.patches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.xh">
-<code class="descname">xh</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xh" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xh</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xh" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.xl">
-<code class="descname">xl</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xl" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xl</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.amr_grid.AMRSkeleton.xm">
-<code class="descname">xm</code><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xm" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">xm</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.amr_grid.AMRSkeleton.xm" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="viscid.amr_grid.dataset_to_amr_grid">
-<code class="descclassname">viscid.amr_grid.</code><code class="descname">dataset_to_amr_grid</code><span class="sig-paren">(</span><em>dset</em>, <em>template_skeleton=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/amr_grid.html#dataset_to_amr_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.dataset_to_amr_grid" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.amr_grid.</tt><tt class="descname">dataset_to_amr_grid</tt><big>(</big><em>dset</em>, <em>template_skeleton=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/amr_grid.html#dataset_to_amr_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.amr_grid.dataset_to_amr_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to divine AMR-ness from a Dataset</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dset</strong> (<a class="reference internal" href="viscid.dataset.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><code class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></code></a>) &#8211; Should be a
+<li><strong>dset</strong> (<a class="reference internal" href="viscid.dataset.html#viscid.dataset.Dataset" title="viscid.dataset.Dataset"><tt class="xref py py-class docutils literal"><span class="pre">viscid.dataset.Dataset</span></tt></a>) &#8211; Should be a
 collection of grids that could represet a series of
 patches in an AMR hierarchy.</li>
-<li><strong>patch_list</strong> (<code class="xref py py-class docutils literal"><span class="pre">AMRTemplate</span></code>) &#8211; a guess at how patches
+<li><strong>patch_list</strong> (<tt class="xref py py-class docutils literal"><span class="pre">AMRTemplate</span></tt>) &#8211; a guess at how patches
 are arranged for speedup. Allows us not to have to re-build
 the neighbor relationships if we&#8217;ve seen this patch
 layout before</li>
@@ -370,7 +370,7 @@ otherwise</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.calculator.plasma module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.calculator.plasma module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid.calculator package" href="viscid.calculator.html" />
     <link rel="next" title="viscid.calculator.topology module" href="viscid.calculator.topology.html" />
     <link rel="prev" title="viscid.calculator.necalc module" href="viscid.calculator.necalc.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -183,14 +183,14 @@
 <p>some equations that are useful for plasmas</p>
 <dl class="function">
 <dt id="viscid.calculator.plasma.calc_psi">
-<code class="descclassname">viscid.calculator.plasma.</code><code class="descname">calc_psi</code><span class="sig-paren">(</span><em>B</em>, <em>reversed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_psi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_psi" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.calculator.plasma.</tt><tt class="descname">calc_psi</tt><big>(</big><em>B</em>, <em>reversed=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_psi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_psi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc Flux function (only valid in 2d)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; magnetic field, should only have two
+<li><strong>B</strong> (<em>VectorField</em>) &#8211; magnetic field, should only have two
 spatial dimensions so we can infer the symmetry dimension</li>
 <li><strong>reversed</strong> (<em>bool</em>) &#8211; since this integration doesn&#8217;t like going
 through undefined regions (like within 1 earth radius of
@@ -202,11 +202,10 @@ integrating from the opposite corner.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">2-D scalar flux function</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="viscid.field.html#viscid.field.ScalarField" title="viscid.field.ScalarField">ScalarField</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">ScalarField</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211;
-If B has &lt;&gt; 2 spatial dimensions</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><tt class="xref py py-exc docutils literal"><span class="pre">ValueError</span></tt> &#8211; If B has &lt;&gt; 2 spatial dimensions</p>
 </td>
 </tr>
 </tbody>
@@ -215,7 +214,7 @@ If B has &lt;&gt; 2 spatial dimensions</p>
 
 <dl class="function">
 <dt id="viscid.calculator.plasma.calc_beta">
-<code class="descclassname">viscid.calculator.plasma.</code><code class="descname">calc_beta</code><span class="sig-paren">(</span><em>pp</em>, <em>B</em>, <em>scale=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_beta" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.calculator.plasma.</tt><tt class="descname">calc_beta</tt><big>(</big><em>pp</em>, <em>B</em>, <em>scale=1.0</em><big>)</big><a class="reference internal" href="../_modules/viscid/calculator/plasma.html#calc_beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.calculator.plasma.calc_beta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calc plasma beta (2*p/B^2)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -223,7 +222,7 @@ If B has &lt;&gt; 2 spatial dimensions</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>pp</strong> (<em>ScalarField or ndarray</em>) &#8211; pressure</li>
-<li><strong>B</strong> (<a class="reference internal" href="viscid.field.html#viscid.field.VectorField" title="viscid.field.VectorField"><em>VectorField</em></a>) &#8211; magnetic field</li>
+<li><strong>B</strong> (<em>VectorField</em>) &#8211; magnetic field</li>
 <li><strong>scale</strong> (<em>float, optional</em>) &#8211; overall scale factor</li>
 </ul>
 </td>
@@ -231,7 +230,7 @@ If B has &lt;&gt; 2 spatial dimensions</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Plasma beta</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="viscid.field.html#viscid.field.ScalarField" title="viscid.field.ScalarField">ScalarField</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ScalarField</p>
 </td>
 </tr>
 </tbody>
@@ -260,7 +259,7 @@ If B has &lt;&gt; 2 spatial dimensions</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

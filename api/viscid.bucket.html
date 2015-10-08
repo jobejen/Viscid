@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.bucket module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.bucket module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid package" href="viscid.html" />
     <link rel="next" title="viscid.coordinate module" href="viscid.coordinate.html" />
     <link rel="prev" title="viscid.amr_grid module" href="viscid.amr_grid.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -182,8 +182,8 @@
 <span id="viscid-bucket-module"></span><h1>viscid.bucket module<a class="headerlink" href="#module-viscid.bucket" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.bucket.Bucket">
-<em class="property">class </em><code class="descclassname">viscid.bucket.</code><code class="descname">Bucket</code><span class="sig-paren">(</span><em>ordered=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.bucket.</tt><tt class="descname">Bucket</tt><big>(</big><em>ordered=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>This is basically a glorified dict</p>
 <p>It&#8217;s a convenient dict-like object if you want lots of
 keys for a given value.</p>
@@ -197,78 +197,78 @@ it should be fairly transparent.</p>
 </div>
 <dl class="method">
 <dt id="viscid.bucket.Bucket.contains_handle">
-<code class="descname">contains_handle</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.contains_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.contains_handle" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">contains_handle</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.contains_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.contains_handle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.contains_item">
-<code class="descname">contains_item</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.contains_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.contains_item" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">contains_item</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.contains_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.contains_item" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.get_primary_handles">
-<code class="descname">get_primary_handles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.get_primary_handles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.get_primary_handles" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_primary_handles</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.get_primary_handles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.get_primary_handles" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of the first handles for all items</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.handle_string">
-<code class="descname">handle_string</code><span class="sig-paren">(</span><em>prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.handle_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.handle_string" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">handle_string</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.handle_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.handle_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>return string representation of handles and items</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.items">
-<code class="descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.items" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.items" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.items_as_list">
-<code class="descname">items_as_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.items_as_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.items_as_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">items_as_list</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.items_as_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.items_as_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.keys">
-<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.keys" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.print_tree">
-<code class="descname">print_tree</code><span class="sig-paren">(</span><em>prefix=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.print_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">print_tree</tt><big>(</big><em>prefix=''</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.print_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.print_tree" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.remove_all_items">
-<code class="descname">remove_all_items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_all_items</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_all_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_all_items" title="Permalink to this definition">¶</a></dt>
 <dd><p>unload all items</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.remove_item">
-<code class="descname">remove_item</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_item</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.remove_item_by_handle">
-<code class="descname">remove_item_by_handle</code><span class="sig-paren">(</span><em>handle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_item_by_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_by_handle" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_item_by_handle</tt><big>(</big><em>handle</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_item_by_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_item_by_handle" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove item by handle, raises KeyError if handle is not found</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.remove_reference">
-<code class="descname">remove_reference</code><span class="sig-paren">(</span><em>item</em>, <em>_ref_count=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_reference" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">remove_reference</tt><big>(</big><em>item</em>, <em>_ref_count=1</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.remove_reference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.remove_reference" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.set_item">
-<code class="descname">set_item</code><span class="sig-paren">(</span><em>handles</em>, <em>item</em>, <em>index_handle=True</em>, <em>_add_ref=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.set_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.set_item" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_item</tt><big>(</big><em>handles</em>, <em>item</em>, <em>index_handle=True</em>, <em>_add_ref=False</em><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.set_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.set_item" title="Permalink to this definition">¶</a></dt>
 <dd><p>if index_handle is true then the index of item will be included as
 a handle making the bucket indexable like a list</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.bucket.Bucket.values">
-<code class="descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.values" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">values</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/bucket.html#Bucket.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.bucket.Bucket.values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -295,7 +295,7 @@ a handle making the bucket indexable like a list</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

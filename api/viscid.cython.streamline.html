@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.cython.streamline module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.cython.streamline module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid.cython package" href="viscid.cython.html" />
     <link rel="next" title="viscid.plot package" href="viscid.plot.html" />
     <link rel="prev" title="viscid.cython.integrate module" href="viscid.cython.integrate.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -182,7 +182,7 @@
 <span id="viscid-cython-streamline-module"></span><h1>viscid.cython.streamline module<a class="headerlink" href="#module-viscid.cython.streamline" title="Permalink to this headline">¶</a></h1>
 <p>All streamlines all the time</p>
 <p>Calculate streamlines of a vector field on as many processors as your
-heart desires. The only function you need here is <a class="reference internal" href="#viscid.cython.streamline.streamlines" title="viscid.cython.streamline.streamlines"><code class="xref py py-meth docutils literal"><span class="pre">streamlines()</span></code></a>;
+heart desires. The only function you need here is <a class="reference internal" href="#viscid.cython.streamline.streamlines" title="viscid.cython.streamline.streamlines"><tt class="xref py py-meth docutils literal"><span class="pre">streamlines()</span></tt></a>;
 everything else is for fused types (templates) or other cython
 performance considerations.</p>
 <div class="admonition note">
@@ -194,7 +194,7 @@ absolutely no idea what will happen on Windows.</p>
 </div>
 <dl class="function">
 <dt id="viscid.cython.streamline.calc_streamlines">
-<code class="descclassname">viscid.cython.streamline.</code><code class="descname">calc_streamlines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#viscid.cython.streamline.calc_streamlines" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.cython.streamline.</tt><tt class="descname">calc_streamlines</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.cython.streamline.calc_streamlines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trace streamlines</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -216,49 +216,33 @@ in length, try bumping this up</li>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
-<li><strong>ds0</strong> (<em>float</em>) &#8211;
-initial spatial step for streamlines (if 0.0, it
+<li><strong>ds0</strong> (<em>float</em>) &#8211; initial spatial step for streamlines (if 0.0, it
 will be half the minimum d[xyz])</li>
-<li><strong>ibound</strong> (<em>float</em>) &#8211;
-Inner boundary as distance from (0, 0, 0)</li>
-<li><strong>obound0</strong> (<em>array-like</em>) &#8211;
-lower corner of outer boundary (x, y, z)</li>
-<li><strong>obound1</strong> (<em>array-like</em>) &#8211;
-upper corner of outer boundary (x, y, z)</li>
-<li><strong>maxit</strong> (<em>int</em>) &#8211;
-maximum number of line segments</li>
-<li><strong>max_length</strong> (<em>float</em>) &#8211;
-maximum streamline length</li>
-<li><strong>stream_dir</strong> (<em>int</em>) &#8211;
-one of DIR_FORWARD, DIR_BACKWARD, DIR_BOTH</li>
-<li><strong>output</strong> (<em>int</em>) &#8211;
-which output to provide, one of
+<li><strong>ibound</strong> (<em>float</em>) &#8211; Inner boundary as distance from (0, 0, 0)</li>
+<li><strong>obound0</strong> (<em>array-like</em>) &#8211; lower corner of outer boundary (x, y, z)</li>
+<li><strong>obound1</strong> (<em>array-like</em>) &#8211; upper corner of outer boundary (x, y, z)</li>
+<li><strong>maxit</strong> (<em>int</em>) &#8211; maximum number of line segments</li>
+<li><strong>max_length</strong> (<em>float</em>) &#8211; maximum streamline length</li>
+<li><strong>stream_dir</strong> (<em>int</em>) &#8211; one of DIR_FORWARD, DIR_BACKWARD, DIR_BOTH</li>
+<li><strong>output</strong> (<em>int</em>) &#8211; which output to provide, one of
 OUTPUT_STREAMLINE, OUTPUT_TOPOLOGY, or OUTPUT_BOTH</li>
-<li><strong>method</strong> (<em>int</em>) &#8211;
-integrator, one of EULER1, EULER1a (adaptive),
+<li><strong>method</strong> (<em>int</em>) &#8211; integrator, one of EULER1, EULER1a (adaptive),
 RK2, RK12 (adaptive)</li>
-<li><strong>tol_lo</strong> (<em>float</em>) &#8211;
-lower acuracy tolerance for adaptive
+<li><strong>tol_lo</strong> (<em>float</em>) &#8211; lower acuracy tolerance for adaptive
 integrators. More acurate than this, ds goes up.</li>
-<li><strong>tol_hi</strong> (<em>float</em>) &#8211;
-upper acuracy tolerance for adaptive
+<li><strong>tol_hi</strong> (<em>float</em>) &#8211; upper acuracy tolerance for adaptive
 integrators. Less acurate than this, ds goes down.</li>
-<li><strong>fac_refine</strong> (<em>float</em>) &#8211;
-When refining ds *= fac_refine</li>
-<li><strong>fac_coarsen</strong> (<em>float</em>) &#8211;
-When coarsening ds *= fac_coarsen</li>
-<li><strong>smallest_step</strong> (<em>float</em>) &#8211;
-smallest spatial step</li>
-<li><strong>largest_step</strong> (<em>float</em>) &#8211;
-largest spatial step</li>
-<li><strong>topo_style</strong> (<em>str</em>) &#8211;
-how to map end point bitmask to a topology.
-&#8216;msphere&#8217; means map to <code class="docutils literal"><span class="pre">TOPOLOGY_MS_*</span></code> and &#8216;generic&#8217;
-means leave topology as a bitmask of <code class="docutils literal"><span class="pre">END_*</span></code></li>
+<li><strong>fac_refine</strong> (<em>float</em>) &#8211; When refining ds *= fac_refine</li>
+<li><strong>fac_coarsen</strong> (<em>float</em>) &#8211; When coarsening ds *= fac_coarsen</li>
+<li><strong>smallest_step</strong> (<em>float</em>) &#8211; smallest spatial step</li>
+<li><strong>largest_step</strong> (<em>float</em>) &#8211; largest spatial step</li>
+<li><strong>topo_style</strong> (<em>str</em>) &#8211; how to map end point bitmask to a topology.
+&#8216;msphere&#8217; means map to <tt class="docutils literal"><span class="pre">TOPOLOGY_MS_*</span></tt> and &#8216;generic&#8217;
+means leave topology as a bitmask of <tt class="docutils literal"><span class="pre">END_*</span></tt></li>
 </ul>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(lines, topo), either can be <code class="docutils literal"><span class="pre">None</span></code> depending on <code class="docutils literal"><span class="pre">output</span></code></p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(lines, topo), either can be <tt class="docutils literal"><span class="pre">None</span></tt> depending on <tt class="docutils literal"><span class="pre">output</span></tt></p>
 <ul class="simple">
 <li><cite>lines</cite>: list of nr_streams ndarrays, each ndarray has shape
 (3, nr_points_in_stream). The nr_points_in_stream can be
@@ -275,7 +259,7 @@ bitmask with values depending on the topo_style</li>
 
 <dl class="function">
 <dt id="viscid.cython.streamline.streamlines">
-<code class="descclassname">viscid.cython.streamline.</code><code class="descname">streamlines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#viscid.cython.streamline.streamlines" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">viscid.cython.streamline.</tt><tt class="descname">streamlines</tt><big>(</big><big>)</big><a class="headerlink" href="#viscid.cython.streamline.streamlines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trace streamlines</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -297,49 +281,33 @@ in length, try bumping this up</li>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Keyword Arguments:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
-<li><strong>ds0</strong> (<em>float</em>) &#8211;
-initial spatial step for streamlines (if 0.0, it
+<li><strong>ds0</strong> (<em>float</em>) &#8211; initial spatial step for streamlines (if 0.0, it
 will be half the minimum d[xyz])</li>
-<li><strong>ibound</strong> (<em>float</em>) &#8211;
-Inner boundary as distance from (0, 0, 0)</li>
-<li><strong>obound0</strong> (<em>array-like</em>) &#8211;
-lower corner of outer boundary (x, y, z)</li>
-<li><strong>obound1</strong> (<em>array-like</em>) &#8211;
-upper corner of outer boundary (x, y, z)</li>
-<li><strong>maxit</strong> (<em>int</em>) &#8211;
-maximum number of line segments</li>
-<li><strong>max_length</strong> (<em>float</em>) &#8211;
-maximum streamline length</li>
-<li><strong>stream_dir</strong> (<em>int</em>) &#8211;
-one of DIR_FORWARD, DIR_BACKWARD, DIR_BOTH</li>
-<li><strong>output</strong> (<em>int</em>) &#8211;
-which output to provide, one of
+<li><strong>ibound</strong> (<em>float</em>) &#8211; Inner boundary as distance from (0, 0, 0)</li>
+<li><strong>obound0</strong> (<em>array-like</em>) &#8211; lower corner of outer boundary (x, y, z)</li>
+<li><strong>obound1</strong> (<em>array-like</em>) &#8211; upper corner of outer boundary (x, y, z)</li>
+<li><strong>maxit</strong> (<em>int</em>) &#8211; maximum number of line segments</li>
+<li><strong>max_length</strong> (<em>float</em>) &#8211; maximum streamline length</li>
+<li><strong>stream_dir</strong> (<em>int</em>) &#8211; one of DIR_FORWARD, DIR_BACKWARD, DIR_BOTH</li>
+<li><strong>output</strong> (<em>int</em>) &#8211; which output to provide, one of
 OUTPUT_STREAMLINE, OUTPUT_TOPOLOGY, or OUTPUT_BOTH</li>
-<li><strong>method</strong> (<em>int</em>) &#8211;
-integrator, one of EULER1, EULER1a (adaptive),
+<li><strong>method</strong> (<em>int</em>) &#8211; integrator, one of EULER1, EULER1a (adaptive),
 RK2, RK12 (adaptive)</li>
-<li><strong>tol_lo</strong> (<em>float</em>) &#8211;
-lower acuracy tolerance for adaptive
+<li><strong>tol_lo</strong> (<em>float</em>) &#8211; lower acuracy tolerance for adaptive
 integrators. More acurate than this, ds goes up.</li>
-<li><strong>tol_hi</strong> (<em>float</em>) &#8211;
-upper acuracy tolerance for adaptive
+<li><strong>tol_hi</strong> (<em>float</em>) &#8211; upper acuracy tolerance for adaptive
 integrators. Less acurate than this, ds goes down.</li>
-<li><strong>fac_refine</strong> (<em>float</em>) &#8211;
-When refining ds *= fac_refine</li>
-<li><strong>fac_coarsen</strong> (<em>float</em>) &#8211;
-When coarsening ds *= fac_coarsen</li>
-<li><strong>smallest_step</strong> (<em>float</em>) &#8211;
-smallest spatial step</li>
-<li><strong>largest_step</strong> (<em>float</em>) &#8211;
-largest spatial step</li>
-<li><strong>topo_style</strong> (<em>str</em>) &#8211;
-how to map end point bitmask to a topology.
-&#8216;msphere&#8217; means map to <code class="docutils literal"><span class="pre">TOPOLOGY_MS_*</span></code> and &#8216;generic&#8217;
-means leave topology as a bitmask of <code class="docutils literal"><span class="pre">END_*</span></code></li>
+<li><strong>fac_refine</strong> (<em>float</em>) &#8211; When refining ds *= fac_refine</li>
+<li><strong>fac_coarsen</strong> (<em>float</em>) &#8211; When coarsening ds *= fac_coarsen</li>
+<li><strong>smallest_step</strong> (<em>float</em>) &#8211; smallest spatial step</li>
+<li><strong>largest_step</strong> (<em>float</em>) &#8211; largest spatial step</li>
+<li><strong>topo_style</strong> (<em>str</em>) &#8211; how to map end point bitmask to a topology.
+&#8216;msphere&#8217; means map to <tt class="docutils literal"><span class="pre">TOPOLOGY_MS_*</span></tt> and &#8216;generic&#8217;
+means leave topology as a bitmask of <tt class="docutils literal"><span class="pre">END_*</span></tt></li>
 </ul>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(lines, topo), either can be <code class="docutils literal"><span class="pre">None</span></code> depending on <code class="docutils literal"><span class="pre">output</span></code></p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>(lines, topo), either can be <tt class="docutils literal"><span class="pre">None</span></tt> depending on <tt class="docutils literal"><span class="pre">output</span></tt></p>
 <ul class="simple">
 <li><cite>lines</cite>: list of nr_streams ndarrays, each ndarray has shape
 (3, nr_points_in_stream). The nr_points_in_stream can be
@@ -376,7 +344,7 @@ bitmask with values depending on the topo_style</li>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

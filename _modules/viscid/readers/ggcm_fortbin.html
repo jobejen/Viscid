@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.readers.ggcm_fortbin &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../../../index.html" />
     <link rel="up" title="viscid.readers" href="../readers.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -37,7 +37,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -313,13 +313,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">file_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.file_meta"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.file_meta">[docs]</a>    <span class="k">def</span> <span class="nf">file_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="bp">self</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                 <span class="c"># just opening the file makes it read the meta data</span>
                 <span class="k">pass</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file_meta</span>
-
+</div>
 <div class="viewcode-block" id="GGCMFortbinFileWrapper.read_field"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.read_field">[docs]</a>    <span class="k">def</span> <span class="nf">read_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fld_name</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Read a field given a seekable location</span>
 
@@ -421,9 +421,9 @@
                 <span class="k">raise</span> <span class="n">e</span>
 </div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GGCMFortbinFileWrapper.isopen"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.isopen">[docs]</a>    <span class="k">def</span> <span class="nf">isopen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
-
+</div>
 <div class="viewcode-block" id="GGCMFortbinFileWrapper.close"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.GGCMFortbinFileWrapper.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span>
@@ -517,17 +517,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">file_position</span> <span class="o">=</span> <span class="n">file_position</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.shape"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.shape">[docs]</a>    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            zyx shape since that&#39;s the shape __array__ returns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">expected_shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-
+</div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FortbinDataWrapper.dtype"><a class="viewcode-back" href="../../../api/viscid.readers.ggcm_fortbin.html#viscid.readers.ggcm_fortbin.FortbinDataWrapper.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s">&quot;float32&quot;</span><span class="p">)</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_wrapper</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="c"># fld_name, meta, arr = f.read_field_at(self.loc, ndim)</span>
@@ -585,7 +585,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

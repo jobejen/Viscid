@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.readers.athena_bin module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.readers.athena_bin module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid.readers package" href="viscid.readers.html" />
     <link rel="next" title="viscid.readers.athena_hst module" href="viscid.readers.athena_hst.html" />
     <link rel="prev" title="viscid.readers.athena module" href="viscid.readers.athena.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -185,181 +185,173 @@
 files. The Athena custom Grid has methods to do vx = M1 / d, etc.</p>
 <dl class="class">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper">
-<em class="property">class </em><code class="descclassname">viscid.readers.athena_bin.</code><code class="descname">AthenaBinDataWrapper</code><span class="sig-paren">(</span><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em>, <em>fld_number</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></code></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.athena_bin.</tt><tt class="descname">AthenaBinDataWrapper</tt><big>(</big><em>file_wrapper</em>, <em>fld_name</em>, <em>expected_shape</em>, <em>fld_number</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.vfile.html#viscid.readers.vfile.DataWrapper" title="viscid.readers.vfile.DataWrapper"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile.DataWrapper</span></tt></a></p>
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.dtype">
-<code class="descname">dtype</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">dtype</tt><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.dtype" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.expected_shape">
-<code class="descname">expected_shape</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">expected_shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.expected_shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.file_wrapper">
-<code class="descname">file_wrapper</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">file_wrapper</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.file_wrapper" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.filename">
-<code class="descname">filename</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.filename" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.fld_name">
-<code class="descname">fld_name</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fld_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.fld_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.fld_number">
-<code class="descname">fld_number</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.fld_number" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fld_number</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.fld_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.len">
-<code class="descname">len</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.len" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">len</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.len" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.read_direct">
-<code class="descname">read_direct</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">read_direct</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.read_direct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.read_direct" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinDataWrapper.shape">
-<code class="descname">shape</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">zyx shape since that&#8217;s the shape __array__ returns</td>
-</tr>
-</tbody>
-</table>
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinDataWrapper.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinDataWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Returns</em> &#8211; zyx shape since that&#8217;s the shape __array__ returns</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.athena_bin.AthenaBinFile">
-<em class="property">class </em><code class="descclassname">viscid.readers.athena_bin.</code><code class="descname">AthenaBinFile</code><span class="sig-paren">(</span><em>fname</em>, <em>crds=None</em>, <em>float_type_name=None</em>, <em>var_type=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="viscid.readers.athena.html#viscid.readers.athena.AthenaFile" title="viscid.readers.athena.AthenaFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.athena.AthenaFile</span></code></a>, <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><code class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></code></a></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.athena_bin.</tt><tt class="descname">AthenaBinFile</tt><big>(</big><em>fname</em>, <em>crds=None</em>, <em>float_type_name=None</em>, <em>var_type=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="viscid.readers.athena.html#viscid.readers.athena.AthenaFile" title="viscid.readers.athena.AthenaFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.athena.AthenaFile</span></tt></a>, <a class="reference internal" href="viscid.readers.vfile_bucket.html#viscid.readers.vfile_bucket.ContainerFile" title="viscid.readers.vfile_bucket.ContainerFile"><tt class="xref py py-class docutils literal"><span class="pre">viscid.readers.vfile_bucket.ContainerFile</span></tt></a></p>
 <p>An Athena binary file reader</p>
 <dl class="classmethod">
 <dt id="viscid.readers.athena_bin.AthenaBinFile.collective_name_from_group">
-<em class="property">classmethod </em><code class="descname">collective_name_from_group</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">collective_name_from_group</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.collective_name_from_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.collective_name_from_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFile.float_type_name">
-<code class="descname">float_type_name</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.float_type_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">float_type_name</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.float_type_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.readers.athena_bin.AthenaBinFile.group_fnames">
-<em class="property">classmethod </em><code class="descname">group_fnames</code><span class="sig-paren">(</span><em>fnames</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.group_fnames" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">group_fnames</tt><big>(</big><em>fnames</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.group_fnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.group_fnames" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinFile.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.load" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">load</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFile.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.load" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFile.var_type">
-<code class="descname">var_type</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.var_type" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">var_type</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFile.var_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper">
-<em class="property">class </em><code class="descclassname">viscid.readers.athena_bin.</code><code class="descname">AthenaBinFileWrapper</code><span class="sig-paren">(</span><em>filename</em>, <em>keep_crd_clist=False</em>, <em>float_type_name=None</em>, <em>var_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.readers.athena_bin.</tt><tt class="descname">AthenaBinFileWrapper</tt><big>(</big><em>filename</em>, <em>keep_crd_clist=False</em>, <em>float_type_name=None</em>, <em>var_type=None</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>A File-like object for interfacing with Athena binary files</p>
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.float_type_name">
-<code class="descname">float_type_name</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.float_type_name" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str</em></p>
-<p>default float data type, should be
+<tt class="descname">float_type_name</tt><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.float_type_name" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> &#8211; default float data type, should be
 &#8216;f4&#8217; or &#8216;f8&#8217;; deufaults to double (&#8216;f8&#8217;)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.close" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.count">
-<code class="descname">count</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.count" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">count</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.count" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.crd_clist">
-<code class="descname">crd_clist</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.crd_clist" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">crd_clist</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.crd_clist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.dt">
-<code class="descname">dt</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.dt" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">dt</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.dt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.field_names">
-<code class="descname">field_names</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.field_names" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">field_names</tt><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.field_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.field_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.filename">
-<code class="descname">filename</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.filename" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">filename</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.filename" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.fld_names">
-<code class="descname">fld_names</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.fld_names" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fld_names</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.fld_names" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.float_dtype">
-<code class="descname">float_dtype</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.float_dtype" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">float_dtype</tt><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.float_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.float_dtype" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt>
-<code class="descname">float_type_name</code><em class="property"> = 'f8'</em></dt>
+<tt class="descname">float_type_name</tt><em class="property"> = 'f8'</em></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.isopen">
-<code class="descname">isopen</code><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.isopen" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">isopen</tt><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.isopen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.isopen" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.keep_crd_clist">
-<code class="descname">keep_crd_clist</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.keep_crd_clist" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">keep_crd_clist</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.keep_crd_clist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.nscalars">
-<code class="descname">nscalars</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.nscalars" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">nscalars</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.nscalars" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.nvars">
-<code class="descname">nvars</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.nvars" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">nvars</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.nvars" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.open">
-<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.open" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">open</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.open" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.read_field">
-<code class="descname">read_field</code><span class="sig-paren">(</span><em>fld_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">read_field</tt><big>(</big><em>fld_id</em><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.read_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.read_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a field given a seekable location</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -375,22 +367,22 @@ files. The Athena custom Grid has methods to do vx = M1 / d, etc.</p>
 
 <dl class="method">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.read_header">
-<code class="descname">read_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.read_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.read_header" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">read_header</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/readers/athena_bin.html#AthenaBinFileWrapper.read_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.read_header" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.shape">
-<code class="descname">shape</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.shape" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">shape</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.shape" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.time">
-<code class="descname">time</code><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.time" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">time</tt><em class="property"> = None</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="viscid.readers.athena_bin.AthenaBinFileWrapper.var_type">
-<code class="descname">var_type</code><em class="property"> = 'cons'</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.var_type" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">var_type</tt><em class="property"> = 'cons'</em><a class="headerlink" href="#viscid.readers.athena_bin.AthenaBinFileWrapper.var_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -417,7 +409,7 @@ files. The Athena custom Grid has methods to do vx = M1 / d, etc.</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>

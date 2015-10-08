@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>viscid.compat.ordered_dict_backport module &mdash; Viscid 0.91.2 documentation</title>
+    <title>viscid.compat.ordered_dict_backport module &mdash; Viscid 0.91.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.91.2',
+        VERSION:     '0.91.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="Viscid 0.91.2 documentation" href="../index.html" />
+    <link rel="top" title="Viscid 0.91.3 documentation" href="../index.html" />
     <link rel="up" title="viscid.compat package" href="viscid.compat.html" />
     <link rel="next" title="viscid.cython package" href="viscid.cython.html" />
     <link rel="prev" title="viscid.compat.element_tree module" href="viscid.compat.element_tree.html" />
@@ -39,7 +39,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body role="document">
+  <body>
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -52,7 +52,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           Viscid</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.91.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.91.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -182,112 +182,112 @@
 <span id="viscid-compat-ordered-dict-backport-module"></span><h1>viscid.compat.ordered_dict_backport module<a class="headerlink" href="#module-viscid.compat.ordered_dict_backport" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict">
-<em class="property">class </em><code class="descclassname">viscid.compat.ordered_dict_backport.</code><code class="descname">OrderedDict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></p>
+<em class="property">class </em><tt class="descclassname">viscid.compat.ordered_dict_backport.</tt><tt class="descname">OrderedDict</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">dict</span></tt></p>
 <p>Dictionary that remembers insertion order</p>
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__delitem__">
-<code class="descname">__delitem__</code><span class="sig-paren">(</span><em>key</em>, <em>dict_delitem=&lt;slot wrapper '__delitem__' of 'dict' objects&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__delitem__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__delitem__</tt><big>(</big><em>key</em>, <em>dict_delitem=&lt;slot wrapper '__delitem__' of 'dict' objects&gt;</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__delitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__delitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>od.__delitem__(y) &lt;==&gt; del od[y]</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__eq__">
-<code class="descname">__eq__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__eq__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__eq__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd><p>od.__eq__(y) &lt;==&gt; od==y.  Comparison to another OD is order-sensitive
 while comparison to a regular mapping is order-insensitive.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__iter__">
-<code class="descname">__iter__</code><span class="sig-paren">(</span><em>) &lt;==&gt; iter(od</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__iter__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__iter__</tt><big>(</big><em>) &lt;==&gt; iter(od</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__reduce__">
-<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reduce__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reduce__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__reduce__</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reduce__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reduce__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return state information for pickling</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__repr__">
-<code class="descname">__repr__</code><span class="sig-paren">(</span><em>) &lt;==&gt; repr(od</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__repr__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__repr__</tt><big>(</big><em>) &lt;==&gt; repr(od</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__reversed__">
-<code class="descname">__reversed__</code><span class="sig-paren">(</span><em>) &lt;==&gt; reversed(od</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reversed__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__reversed__</tt><big>(</big><em>) &lt;==&gt; reversed(od</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__reversed__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__reversed__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.__setitem__">
-<code class="descname">__setitem__</code><span class="sig-paren">(</span><em>key</em>, <em>value</em>, <em>dict_setitem=&lt;slot wrapper '__setitem__' of 'dict' objects&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__setitem__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__setitem__</tt><big>(</big><em>key</em>, <em>value</em>, <em>dict_setitem=&lt;slot wrapper '__setitem__' of 'dict' objects&gt;</em><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.__setitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.__setitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>od.__setitem__(i, y) &lt;==&gt; od[i]=y</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.clear">
-<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; None.  Remove all items from od.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.clear" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">clear</tt><big>(</big><big>)</big> &rarr; None.  Remove all items from od.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.clear" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; a shallow copy of od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.copy" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">copy</tt><big>(</big><big>)</big> &rarr; a shallow copy of od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.copy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="classmethod">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.fromkeys">
-<em class="property">classmethod </em><code class="descname">fromkeys</code><span class="sig-paren">(</span><em>S</em><span class="optional">[</span>, <em>v</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; New ordered dictionary with keys from S<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.fromkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.fromkeys" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">fromkeys</tt><big>(</big><em>S</em><span class="optional">[</span>, <em>v</em><span class="optional">]</span><big>)</big> &rarr; New ordered dictionary with keys from S<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.fromkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.fromkeys" title="Permalink to this definition">¶</a></dt>
 <dd><p>and values equal to v (which defaults to None).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.items">
-<code class="descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; list of (key, value) pairs in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.items" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">items</tt><big>(</big><big>)</big> &rarr; list of (key, value) pairs in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.items" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.iteritems">
-<code class="descname">iteritems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iteritems" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iteritems</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iteritems" title="Permalink to this definition">¶</a></dt>
 <dd><p>od.iteritems -&gt; an iterator over the (key, value) items in od</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.iterkeys">
-<code class="descname">iterkeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; an iterator over the keys in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iterkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iterkeys" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterkeys</tt><big>(</big><big>)</big> &rarr; an iterator over the keys in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.iterkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.iterkeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.itervalues">
-<code class="descname">itervalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.itervalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.itervalues" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">itervalues</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.itervalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.itervalues" title="Permalink to this definition">¶</a></dt>
 <dd><p>od.itervalues -&gt; an iterator over the values in od</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.keys">
-<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; list of keys in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.keys" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">keys</tt><big>(</big><big>)</big> &rarr; list of keys in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.pop">
-<code class="descname">pop</code><span class="sig-paren">(</span><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; v, remove specified key and return the corresponding value.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.pop" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pop</tt><big>(</big><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><big>)</big> &rarr; v, remove specified key and return the corresponding value.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>If key is not found, d is returned if given, otherwise KeyError is raised.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.popitem">
-<code class="descname">popitem</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; (k, v), return and remove a (key, value) pair.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.popitem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.popitem" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">popitem</tt><big>(</big><big>)</big> &rarr; (k, v), return and remove a (key, value) pair.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.popitem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.popitem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pairs are returned in LIFO order if last is true or FIFO order if false.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.setdefault">
-<code class="descname">setdefault</code><span class="sig-paren">(</span><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><span class="sig-paren">)</span> &rarr; od.get(k,d), also set od[k]=d if k not in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.setdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.setdefault" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">setdefault</tt><big>(</big><em>k</em><span class="optional">[</span>, <em>d</em><span class="optional">]</span><big>)</big> &rarr; od.get(k,d), also set od[k]=d if k not in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.setdefault"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.setdefault" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>E</em>, <em>**F</em><span class="sig-paren">)</span> &rarr; None.  Update od from dict/iterable E and F.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.update" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">update</tt><big>(</big><em>E</em>, <em>**F</em><big>)</big> &rarr; None.  Update od from dict/iterable E and F.<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>If E is a dict instance, does:           for k in E: od[k] = E[k]
 If E has a .keys() method, does:         for k in E.keys(): od[k] = E[k]
 Or if E is an iterable of items, does:   for k, v in E: od[k] = v
@@ -296,22 +296,22 @@ In either case, this is followed by:     for k, v in F.items(): od[k] = v</p>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.values">
-<code class="descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; list of values in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.values" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">values</tt><big>(</big><big>)</big> &rarr; list of values in od<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewitems">
-<code class="descname">viewitems</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; a set-like object providing a view on od's items<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewitems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewitems" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">viewitems</tt><big>(</big><big>)</big> &rarr; a set-like object providing a view on od's items<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewitems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewitems" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewkeys">
-<code class="descname">viewkeys</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; a set-like object providing a view on od's keys<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewkeys" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">viewkeys</tt><big>(</big><big>)</big> &rarr; a set-like object providing a view on od's keys<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewkeys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewkeys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="viscid.compat.ordered_dict_backport.OrderedDict.viewvalues">
-<code class="descname">viewvalues</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; an object providing a view on od's values<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewvalues" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">viewvalues</tt><big>(</big><big>)</big> &rarr; an object providing a view on od's values<a class="reference internal" href="../_modules/viscid/compat/ordered_dict_backport.html#OrderedDict.viewvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#viscid.compat.ordered_dict_backport.OrderedDict.viewvalues" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -338,7 +338,7 @@ In either case, this is followed by:     for k, v in F.items(): od[k] = v</p>
     </p>
     <p>
         &copy; Copyright 2015, Kristofor Maynard.<br/>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.<br/>
     </p>
   </div>
 </footer>
