@@ -416,6 +416,7 @@ class StructuredCrds(Coordinates):
         float_err_msg = ("Can only get the extent of slices by location, aka "
                          "'x = 0f' or field['0f']")
         axes, selection = self._parse_slice(selection)
+        # FIXME: this is a rediculous use of NaN
         extent = np.nan * np.empty((2, self.nr_dims), dtype='f')
 
         for i, slc in enumerate(selection):
@@ -427,7 +428,10 @@ class StructuredCrds(Coordinates):
 
                 split_slc = slc.split(":")
                 for j, s in enumerate(split_slc):
-                    if s[-1] == 'f':
+                    if not s:
+                        # FIXME: this is a rediculous use of NaN
+                        split_slc[j] = np.nan
+                    elif s[-1] == 'f':
                         split_slc[j] = float(s[:-1])
                     else:
                         raise ValueError(float_err_msg + ":: {0}".format(s))
