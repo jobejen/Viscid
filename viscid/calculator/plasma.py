@@ -11,6 +11,7 @@ except ImportError:
     _HAS_NUMEXPR = False
 
 from viscid import field
+from viscid import logger
 # from viscid.calculator import calc
 
 __all__ = ["calc_psi", "calc_beta"]
@@ -40,8 +41,32 @@ def calc_psi(B, reversed=False):
     # numpy type thing
 
     B = B.slice_reduce(":")
+
+    # try to guess if a dim of a 3D field is invariant
+    reduced_axes = []
+    if B.nr_sdims > 2:
+        slcs = [slice(None)] * B.nr_sdims
+        for i, nxi in enumerate(B.sshape):
+            if nxi <= 2:
+                slcs[i] = 0
+                reduced_axes.append(B.crds.axes[i])
+        slcs.insert(B.nr_comp, slice(None))
+        B = B[slcs]
+
+    # ok, so the above didn't work... just nip out the smallest dim?
+    if B.nr_sdims == 3:
+        slcs = [slice(None)] * B.nr_sdims
+        i = np.argmin(B.sshape)
+        slcs[i] = 0
+        reduced_axes.append(B.crds.axes[i])
+        logger.warning("Tried to get the flux function of a 3D field. "
+                       "I can't do that, so I'm\njust ignoring the {0} "
+                       "dimension".format(reduced_axes[-1]))
+        slcs.insert(B.nr_comp, slice(None))
+        B = B[slcs]
+
     if B.nr_sdims != 2:
-        raise ValueError("flux function implemented for 2D fields")
+        raise ValueError("flux function only implemented for 2D fields")
 
     comps = ""
     for comp in "xyz":
@@ -78,8 +103,12 @@ def calc_psi(B, reversed=False):
         for j in range(1, nz):
             A[:, j] = A[:, j - 1] - dz[j - 1] * 0.5 * (hy[:, j - 1] + hy[:, j])
 
-    return field.wrap_field(A, B.crds, name="psi", center=B.center,
-                            pretty_name=r"$\psi$", parents=[B])
+    psi = field.wrap_field(A, B.crds, name="psi", center=B.center,
+                           pretty_name=r"$\psi$", parents=[B])
+    if reduced_axes:
+        slc = "..., " + ", ".join("{0}=None".format(ax) for ax in reduced_axes)
+        psi = psi[slc]
+    return psi
 
 def calc_beta(pp, B, scale=1.0):
     """Calc plasma beta (2*p/B^2)

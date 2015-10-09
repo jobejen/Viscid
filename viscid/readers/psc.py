@@ -67,15 +67,7 @@ class PscGrid(grid.Grid):
                                      pretty_name="J")
 
     def _get_psi(self):
-        B = self['b']
-        # try to guess if a dim of a 3D field is invariant
-        if B.nr_sdims > 2:
-            slcs = [slice(None)] * B.nr_sdims
-            for i, nxi in enumerate(B.sshape):
-                if nxi <= 2:
-                    slcs[i] = 0
-            B = B[slcs]
-        return plasma.calc_psi(B)
+        return plasma.calc_psi(self['b'])
 
 
 class PscFieldFile(xdmf.FileXDMF):  # pylint: disable=W0223

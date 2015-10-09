@@ -374,13 +374,6 @@ class GGCMGrid(grid.Grid):
 
     def _get_psi(self):
         B = self['b']
-        # try to guess if a dim of a 3D field is invariant
-        if B.nr_sdims > 2:
-            slcs = [slice(None)] * B.nr_sdims
-            for i, nxi in enumerate(B.sshape):
-                if nxi <= 2:
-                    slcs[i] = 0
-            B = B[slcs]
 
         rev = True if B.meta["crd_system"] == "gse" else False
         psi = plasma.calc_psi(B, reversed=rev)
