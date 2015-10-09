@@ -1001,8 +1001,14 @@ class Field(tree.Leaf):
                                 raise TypeError
                         except TypeError:
                             try:
-                                _ = int(comp_val)
-                                is_valid_comp = True
+                                if isinstance(comp_val, slice):
+                                    is_valid_comp = True
+                                elif comp_val == ":":
+                                    comp_val = slice(None)
+                                    is_valid_comp = True
+                                else:
+                                    _ = int(comp_val)
+                                    is_valid_comp = True
                             except ValueError:
                                 pass
                         if is_valid_comp:
