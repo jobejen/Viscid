@@ -224,13 +224,18 @@ cdef real_t _c_interp_nearest(FusedField fld, int m, real_t x[3]):
 cdef inline int closest_preceeding_ind(FusedField fld, int d, real_t value):
     """Index of the element closest (and to the left) of x = value
 
+    Note:
+        The index is limited to at most `fld.n[d] - 2` such that the
+        return value, `i`, AND `i + 1` are both valid indices of
+        `fld.data` along axis `d`.
+
     Parameters:
         fld (FusedField): field
         d (int): dimension [0..2]
         value (real_t): get index closest to fld.data['d=value']
 
     Returns:
-        int: closest indext preceeding value in the coordinate array d
+        int: closest index preceeding value in the coordinate array d
     """
     cdef real_t frac
     cdef int i, ind, found_ind
@@ -242,7 +247,7 @@ cdef inline int closest_preceeding_ind(FusedField fld, int d, real_t value):
     elif fld.uniform_crds:
         frac = (value - fld.xl[d]) / (fld.L[d])
         i = <int> floor((fld.nm1[d]) * frac)
-        ind = int_min(int_max(i, 0), fld.nm1[d])
+        ind = int_min(int_max(i, 0), fld.nm2[d])
     else:
         found_ind = 0
         if fld.crds[d, startind] <= value:
