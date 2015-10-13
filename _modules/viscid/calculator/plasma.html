@@ -187,6 +187,7 @@
     <span class="n">_HAS_NUMEXPR</span> <span class="o">=</span> <span class="bp">False</span>
 
 <span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">viscid</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="c"># from viscid.calculator import calc</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;calc_psi&quot;</span><span class="p">,</span> <span class="s">&quot;calc_beta&quot;</span><span class="p">]</span>
@@ -216,8 +217,32 @@
     <span class="c"># numpy type thing</span>
 
     <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">slice_reduce</span><span class="p">(</span><span class="s">&quot;:&quot;</span><span class="p">)</span>
+
+    <span class="c"># try to guess if a dim of a 3D field is invariant</span>
+    <span class="n">reduced_axes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">slcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nxi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">sshape</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">nxi</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">slcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">reduced_axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">slcs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">slcs</span><span class="p">]</span>
+
+    <span class="c"># ok, so the above didn&#39;t work... just nip out the smallest dim?</span>
+    <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">slcs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">sshape</span><span class="p">)</span>
+        <span class="n">slcs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">reduced_axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">crds</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Tried to get the flux function of a 3D field. &quot;</span>
+                       <span class="s">&quot;I can&#39;t do that, so I&#39;m</span><span class="se">\n</span><span class="s">just ignoring the {0} &quot;</span>
+                       <span class="s">&quot;dimension&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reduced_axes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">slcs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">nr_comp</span><span class="p">,</span> <span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">slcs</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="n">B</span><span class="o">.</span><span class="n">nr_sdims</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;flux function implemented for 2D fields&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;flux function only implemented for 2D fields&quot;</span><span class="p">)</span>
 
     <span class="n">comps</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
     <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="s">&quot;xyz&quot;</span><span class="p">:</span>
@@ -254,8 +279,12 @@
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nz</span><span class="p">):</span>
             <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dz</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">hy</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">hy</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;psi&quot;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">B</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
-                            <span class="n">pretty_name</span><span class="o">=</span><span class="s">r&quot;$\psi$&quot;</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">])</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">wrap_field</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">crds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;psi&quot;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">B</span><span class="o">.</span><span class="n">center</span><span class="p">,</span>
+                           <span class="n">pretty_name</span><span class="o">=</span><span class="s">r&quot;$\psi$&quot;</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">B</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">reduced_axes</span><span class="p">:</span>
+        <span class="n">slc</span> <span class="o">=</span> <span class="s">&quot;..., &quot;</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;{0}=None&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">reduced_axes</span><span class="p">)</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">psi</span>
 </div>
 <div class="viewcode-block" id="calc_beta"><a class="viewcode-back" href="../../../api/viscid.calculator.plasma.html#viscid.calculator.plasma.calc_beta">[docs]</a><span class="k">def</span> <span class="nf">calc_beta</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calc plasma beta (2*p/B^2)</span>
