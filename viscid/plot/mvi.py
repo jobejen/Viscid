@@ -178,7 +178,7 @@ def field2cell_source(fld, name=None):
     dat_target = grid.cell_data
 
     if fld.iscentered("Cell"):
-        grid.dimensions = tuple(fld.crds.shape_cc)
+        grid.dimensions = tuple(fld.crds.shape_nc)
         grid.x_coordinates = fld.get_crd_nc('x')
         grid.y_coordinates = fld.get_crd_nc('y')
         grid.z_coordinates = fld.get_crd_nc('z')
