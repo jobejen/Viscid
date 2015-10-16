@@ -1193,6 +1193,8 @@ def mplshow():
     # can't think of anything at this point...
     plt.show()
 
+show = mplshow
+
 def tighten(**kwargs):
     """Calls `matplotlib.pyplot.tight_layout(**kwargs)`"""
     try:
