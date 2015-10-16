@@ -156,14 +156,14 @@ def field2point_source(fld, name=None):
 
     if fld.iscentered("Cell"):
         grid.dimensions = tuple(fld.crds.shape_cc)
-        grid.x_coordinates = fld.get_crd_cc('x')
-        grid.y_coordinates = fld.get_crd_cc('y')
-        grid.z_coordinates = fld.get_crd_cc('z')
+        grid.x_coordinates = fld.get_crd_cc(0)  # ('x')
+        grid.y_coordinates = fld.get_crd_cc(1)  # ('y')
+        grid.z_coordinates = fld.get_crd_cc(2)  # ('z')
     elif fld.iscentered("Node"):
         grid.dimensions = tuple(fld.crds.shape_nc)
-        grid.x_coordinates = fld.get_crd_nc('x')
-        grid.y_coordinates = fld.get_crd_nc('y')
-        grid.z_coordinates = fld.get_crd_nc('z')
+        grid.x_coordinates = fld.get_crd_nc(0)  # ('x')
+        grid.y_coordinates = fld.get_crd_nc(1)  # ('y')
+        grid.z_coordinates = fld.get_crd_nc(2)  # ('z')
     else:
         raise ValueError("cell or node only please")
 
@@ -179,9 +179,9 @@ def field2cell_source(fld, name=None):
 
     if fld.iscentered("Cell"):
         grid.dimensions = tuple(fld.crds.shape_nc)
-        grid.x_coordinates = fld.get_crd_nc('x')
-        grid.y_coordinates = fld.get_crd_nc('y')
-        grid.z_coordinates = fld.get_crd_nc('z')
+        grid.x_coordinates = fld.get_crd_nc(0)  # ('x')
+        grid.y_coordinates = fld.get_crd_nc(1)  # ('y')
+        grid.z_coordinates = fld.get_crd_nc(2)  # ('z')
     elif fld.iscentered("Node"):
         raise NotImplementedError("can't do lossless cell data from nodes yet")
     else:
