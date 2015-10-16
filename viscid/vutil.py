@@ -307,12 +307,17 @@ def make_fwd_slice(shape, slices, reverse=None, cull_second=True):
     if not isinstance(reverse, (list, tuple)):
         reverse = [reverse]
 
+    newax_inds = [i for i, x in enumerate(slices) if x == np.newaxis]
+    shape = list(shape)
+    for i in newax_inds:
+        shape.insert(i, 1)
+
     # ya know, lets just go through all the dimensions in shape
     # just to be safe and default to an empty slice / no reverse
     slices = slices + [slice(None)] * (len(shape) - len(slices))
     reverse = reverse + [False] * (len(slices) - len(reverse))
 
-    first_slc = [slice(None)] * len(shape)
+    first_slc = [slice(None)] * len(slices)
     second_slc = [slice(None, None, 1)] * len(first_slc)
 
     for i, slc, L, rev in izip(count(), slices, shape, reverse):
@@ -380,10 +385,15 @@ def make_fwd_slice(shape, slices, reverse=None, cull_second=True):
             if rev:
                 slc = (L - 1) - slc
 
+        elif slc == np.newaxis:
+            second_slc[i] = "NEWAXIS"
+
         first_slc[i] = slc
 
+    first_slc = [s for s in first_slc if s is not np.newaxis]
     if cull_second:
         second_slc = [s for s in second_slc if s is not None]
+    second_slc = [np.newaxis if s == "NEWAXIS" else s for s in second_slc]
     return first_slc, second_slc
 
 def _closest_index(arr, value):

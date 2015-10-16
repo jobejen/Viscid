@@ -285,7 +285,7 @@ class StructuredCrds(Coordinates):
 
     def reflect_slices(self, slices, cc=False, cull_second=True):
         """This is tricky, only use if you know what's going on"""
-        assert len(slices) == len(self._axes)
+        # assert len(slices) == len(self._axes)
 
         rev = [True if ax in self.reflect_axes else False for ax in self._axes]
         if cc:
