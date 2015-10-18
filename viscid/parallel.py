@@ -166,7 +166,7 @@ def _star_passthrough(args):
     return args[0](*(args[1]), **(args[2]))
 
 def map(nr_procs, func, args_iter, args_kw=None, timeout=1e8,
-        daemonic=True, pool=None, force_subprocess=False):
+        daemonic=True, threads=False, pool=None, force_subprocess=False):
     """Just like ``subprocessing.map``?
 
     same as :meth:`map_async`, except it waits for the result to
@@ -181,7 +181,7 @@ def map(nr_procs, func, args_iter, args_kw=None, timeout=1e8,
         return [_star_passthrough(args) for args in args_iter]
     else:
         p, r = map_async(nr_procs, func, args_iter, args_kw=args_kw,
-                         daemonic=daemonic, pool=pool)
+                         daemonic=daemonic, threads=threads, pool=pool)
         ret = r.get(int(timeout))
         # in principle this join should return almost immediately since
         # we already called r.get
@@ -189,7 +189,7 @@ def map(nr_procs, func, args_iter, args_kw=None, timeout=1e8,
         return ret
 
 def map_async(nr_procs, func, args_iter, args_kw=None, daemonic=True,
-              pool=None):
+              threads=False, pool=None):
     """Wrap python's ``map_async``
 
     This has some utility stuff like star passthrough
@@ -216,8 +216,8 @@ def map_async(nr_procs, func, args_iter, args_kw=None, daemonic=True,
         1 b
         2 c
     """
-    if sys.platform == 'darwin' and ("mayavi.mlab" in sys.modules or
-                                     "mayavi" in sys.modules):
+    if not threads and sys.platform == 'darwin' and ("mayavi.mlab" in sys.modules or
+                                                     "mayavi" in sys.modules):
         import mayavi
         if mayavi.ETSConfig.toolkit == 'qt4':
             viscid.logger.critical("Using multiprocessing with Mayavi + Qt4 "
@@ -233,7 +233,9 @@ def map_async(nr_procs, func, args_iter, args_kw=None, daemonic=True,
     if pool is not None:
         return pool, pool.map_async(_star_passthrough, args_iter)
     else:
-        if daemonic:
+        if threads:
+            pool = mp.pool.ThreadPool(nr_procs)
+        elif daemonic:
             pool = mp.Pool(nr_procs)
         else:
             pool = NoDaemonPool(nr_procs)
