@@ -132,7 +132,10 @@ def timeit(f, *args, **kwargs):
     ret = f(*args, **kwargs)
     t1 = time()
 
-    print("Took {0:.03g} secs.".format(t1 - t0))
+    s = "{0:.03g}".format(t1 - t0)
+    secs = "second" if s == "1" else "seconds"
+    print(f.__name__, "took", s, secs)
+
     return ret
 
 def str_to_value(s):
