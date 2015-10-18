@@ -16,7 +16,7 @@ cdef int _c_euler1(FusedField fld, real_t x[3], real_t *ds,
                    real_t tol_lo, real_t tol_hi,
                    real_t fac_refine, real_t fac_coarsen,
                    real_t smallest_step, real_t largest_step,
-                   real_t vscale[3]) except -1:
+                   real_t vscale[3]) nogil except -1:
     """Simplest 1st order euler integration"""
     cdef real_t v[3]
     cdef real_t vmag
@@ -37,7 +37,7 @@ cdef int _c_rk2(FusedField fld, real_t x[3], real_t *ds,
                 real_t tol_lo, real_t tol_hi,
                 real_t fac_refine, real_t fac_coarsen,
                 real_t smallest_step, real_t largest_step,
-                real_t vscale[3]) except -1:
+                real_t vscale[3]) nogil except -1:
     """Runge-Kutta 2nd order integrator"""
     cdef real_t x1[3]
     cdef real_t v0[3]
@@ -73,7 +73,7 @@ cdef int _c_rk12(FusedField fld, real_t x[3], real_t *ds,
                  real_t tol_lo, real_t tol_hi,
                  real_t fac_refine, real_t fac_coarsen,
                  real_t smallest_step, real_t largest_step,
-                 real_t vscale[3]) except -1:
+                 real_t vscale[3]) nogil except -1:
     """Runge-Kutta 2nd order integrator with adaptive step based on
     difference from 1st order euler
     """
@@ -150,7 +150,7 @@ cdef int _c_euler1a(FusedField fld, real_t x[3], real_t *ds,
                     real_t tol_lo, real_t tol_hi,
                     real_t fac_refine, real_t fac_coarsen,
                     real_t smallest_step, real_t largest_step,
-                    real_t vscale[3]) except -1:
+                    real_t vscale[3]) nogil except -1:
     """1st order euler with adaptive step based on going backward to
     see how close we get to our starting point
     """

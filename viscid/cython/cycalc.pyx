@@ -122,7 +122,7 @@ def _py_interp_trilin_amr(FusedAMRField amrfld, points, real_t[:, ::1] result):
             result[i, m] = _c_interp_trilin(amrfld.active_patch, m, x)
         i += 1
 
-cdef real_t _c_interp_trilin(FusedField fld, int m, real_t x[3]):
+cdef real_t _c_interp_trilin(FusedField fld, int m, real_t x[3]) nogil:
     cdef int d, ind
     cdef int ix[3]
     cdef int p[3]  # increment, used for 2d fields
@@ -212,7 +212,7 @@ def _py_interp_nearest_amr(FusedAMRField amrfld, points, real_t[:, ::1] result):
             result[i, m] = _c_interp_nearest(amrfld.active_patch, m, x)
         i += 1
 
-cdef real_t _c_interp_nearest(FusedField fld, int m, real_t x[3]):
+cdef real_t _c_interp_nearest(FusedField fld, int m, real_t x[3]) nogil:
     cdef int ind[3]
     cdef int d
 
@@ -221,7 +221,7 @@ cdef real_t _c_interp_nearest(FusedField fld, int m, real_t x[3]):
     return fld.data[ind[0], ind[1], ind[2], m]
 
 
-cdef inline int closest_preceeding_ind(FusedField fld, int d, real_t value):
+cdef inline int closest_preceeding_ind(FusedField fld, int d, real_t value) nogil:
     """Index of the element closest (and to the left) of x = value
 
     Note:
@@ -271,7 +271,7 @@ cdef inline int closest_preceeding_ind(FusedField fld, int d, real_t value):
     fld.cached_ind[d] = ind
     return ind
 
-cdef inline int closest_ind(FusedField fld, int d, real_t value):
+cdef inline int closest_ind(FusedField fld, int d, real_t value) nogil:
     cdef double d1, d2
     cdef int preceeding_ind = closest_preceeding_ind(fld, d, value)
     if preceeding_ind == fld.n[d] - 1:

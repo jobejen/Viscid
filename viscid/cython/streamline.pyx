@@ -125,7 +125,7 @@ _global_fld = None
 #####################
 # now the good stuff
 def calc_streamlines(vfield, seed, nr_procs=1, force_subprocess=False,
-                     nr_chunks_factor=1, **kwargs):
+                     threads=False, nr_chunks_factor=1, **kwargs):
     r"""Trace streamlines
 
     Args:
@@ -201,8 +201,8 @@ def calc_streamlines(vfield, seed, nr_procs=1, force_subprocess=False,
                            "global memory space")
     _global_fld = fld
     grid_iter = izip(chunk_sizes, repeat(seed), seed_slices)
-    r = parallel.map(nr_procs, _do_streamline_star, grid_iter,
-                     args_kw=kwargs, force_subprocess=force_subprocess)
+    r = parallel.map(nr_procs, _do_streamline_star, grid_iter, args_kw=kwargs,
+                     threads=threads, force_subprocess=force_subprocess)
     _global_fld = None
 
     # rearrange the output to be the exact same as if we just called
@@ -294,7 +294,7 @@ def _py_streamline(FusedAMRField amrfld, FusedField active_patch,
                               real_t tol_lo, real_t tol_hi,
                               real_t fac_refine, real_t fac_coarsen,
                               real_t smallest_step, real_t largest_step,
-                              real_t vscale[3]) except -1
+                              real_t vscale[3]) nogil except -1
         int (*end_flags_to_topology)(int _end_flags)
 
         int i, j, it
@@ -496,7 +496,7 @@ def _py_streamline(FusedAMRField amrfld, FusedField active_patch,
 
 cdef inline int classify_endpoint(real_t pt[3], real_t length, real_t ibound,
                            real_t obound0[3], real_t obound1[3],
-                           real_t max_length, real_t ds, real_t pt0[3]):
+                           real_t max_length, real_t ds, real_t pt0[3]) nogil:
     cdef int done = _C_END_NONE
     cdef real_t rsq = pt[0]**2 + pt[1]**2 + pt[2]**2
 
@@ -531,7 +531,7 @@ cdef inline int classify_endpoint(real_t pt[3], real_t length, real_t ibound,
 
     return done
 
-cdef int end_flags_to_topology_msphere(int end_flags):
+cdef int end_flags_to_topology_msphere(int end_flags) nogil:
     cdef int topo = 0
     cdef int mask_open_north = _C_END_IBOUND_NORTH | _C_END_OBOUND
     cdef int mask_open_south = _C_END_IBOUND_SOUTH | _C_END_OBOUND
@@ -552,7 +552,7 @@ cdef int end_flags_to_topology_msphere(int end_flags):
 
     return topo
 
-cdef int end_flags_to_topology_generic(int end_flags):
+cdef int end_flags_to_topology_generic(int end_flags) nogil:
     return end_flags
 
 ##
